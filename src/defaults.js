@@ -20,13 +20,11 @@ export default {
      */
     classes: {
         root: 'courier',
-        container: 'courier__container',
+        widget: 'courier__widget',
         chat: 'courier__chat',
     },
 
-    modifierClasses: {
-        container: 'courier__bounce-in-left',
-    },
+    modifierClasses: {},
 
     /**
      * Collection of text used in components.

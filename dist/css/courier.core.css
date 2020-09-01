@@ -18,11 +18,13 @@
   --animate-delay: 1s;
   --animate-repeat: 1; }
 
-.courier__bounce-in-left {
+.courier__bounce-in-left, .courier__appear-bottom {
   animation-duration: var(--animate-duration);
   animation-fill-mode: both; }
 
-/* Bounce in left */
+/*
+ * Bounce in from the left side
+ */
 @keyframes bounceInLeft {
   from,
   60%,
@@ -46,6 +48,24 @@
 
 .courier__bounce-in-left {
   animation-name: bounceInLeft; }
+
+/*
+ * Appear from the bottom
+ */
+@keyframes appearBottom {
+  from,
+  to {
+    animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1); }
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 100%, 0) scale(0.8, 0.8); }
+  to {
+    opacity: 1;
+    -webkit-transform: translate3d(0, 0, 0) scale(1, 1);
+    transform: translate3d(0, 0, 0) scale(1, 1); } }
+
+.courier__appear-bottom {
+  animation-name: appearBottom; }
 
 /* ------------------------------------------
  *  Libraries - normalize element appearance
@@ -346,6 +366,7 @@
   font-family: 'Asap', sans-serif;
   font-size: 16px;
   color: #f4f8f7;
+  z-index: 1040;
   /* antialias font */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -361,6 +382,77 @@
       font-size: 12.8px; } }
   .courier * {
     box-sizing: border-box; }
+  .courier .courier__widget-bubble {
+    position: fixed;
+    bottom: 1em;
+    right: 1em;
+    display: flex;
+    align-items: center;
+    padding: 0.5em 1em;
+    background: #6874e8;
+    color: #fff;
+    border-radius: 4px;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+    transition: background-color cubic-bezier(0.1, 1, 0.6, 1) 0.3s, transform cubic-bezier(0.1, 1, 0.6, 1) 0.3s; }
+    .courier .courier__widget-bubble:hover {
+      cursor: pointer; }
+    .courier .courier__widget-bubble:hover, .courier .courier__widget-bubble:focus {
+      background-color: #7e88eb;
+      transform: scale(1.1, 1.1); }
+  .courier .courier__widget-img {
+    display: block; }
+    .courier .courier__widget-img > img,
+    .courier .courier__widget-img > svg {
+      display: block;
+      width: 2em;
+      height: 2em;
+      margin-right: 1em; }
+  .courier .courier__chat {
+    position: fixed;
+    bottom: 0;
+    right: 1em; }
+    .courier .courier__chat-wall {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      width: 300px;
+      max-width: 100%;
+      height: 600px;
+      max-height: 100%;
+      background: #fff;
+      border-top-left-radius: 4px;
+      border-top-right-radius: 4px;
+      box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+      overflow: auto; }
+    .courier .courier__chat-work-area {
+      height: 100%; }
+    .courier .courier__chat-interactions {
+      display: flex;
+      justify-content: space-between;
+      padding: 1em; }
+    .courier .courier__chat-message-box {
+      width: 100%;
+      padding: 0.5em 1em;
+      background: #f7f7f7;
+      border-radius: 8px; }
+    .courier .courier__chat-send-msg-btn {
+      margin-left: 0.5em;
+      padding: 0.5em;
+      background: transparent;
+      border-radius: 8px; }
+      .courier .courier__chat-send-msg-btn:hover {
+        cursor: pointer; }
+      .courier .courier__chat-send-msg-btn > img,
+      .courier .courier__chat-send-msg-btn > svg {
+        display: block;
+        width: 2em;
+        height: 2em; }
+      .courier .courier__chat-send-msg-btn > svg {
+        transition: fill cubic-bezier(0.1, 1, 0.6, 1) 0.3s; }
+      .courier .courier__chat-send-msg-btn:disabled > svg path:nth-child(1) {
+        fill: #bdbdbd; }
+      .courier .courier__chat-send-msg-btn:disabled > svg path:nth-child(2) {
+        fill: #ddd; }
   .courier .tx-center {
     text-align: center; }
   .courier .tx-bold {

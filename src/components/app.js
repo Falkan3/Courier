@@ -16,7 +16,7 @@ export default function (Courier, Components, Events) {
         mount() {
             Events.emit('app.mount.before');
             this.initialize();
-            this.render();
+            this.bind();
             Events.emit('app.mount.after');
         },
 
@@ -24,14 +24,14 @@ export default function (Courier, Components, Events) {
          * Adds click events.
          */
         bind() {
-            Binder.on('click', document, event => this.click(event));
+            Binder.on('click', Components.App.refs.app.elem, event => this.click(event));
         },
 
         /**
          * Removes click events.
          */
         unbind() {
-            Binder.off('click', document);
+            Binder.off('click', Components.App.refs.app.elem);
         },
 
         /**
@@ -47,14 +47,13 @@ export default function (Courier, Components, Events) {
          * Initialize the app wrapper.
          */
         initialize() {
-            this.refs.app = new Reef(Courier.rootElement, {
-                data: {
-                    test: 'Test!',
-                },
+            App.refs.app = new Reef(Courier.rootElement, {
+                data: {},
                 template: props => `
-                    <div id="test">
-                        <p>${props.test}</p>
-                    </div>`,
+                <div id="courierRoot" class="${Courier.settings.classes.root}">
+                    <div id="courierChat" class="${Courier.settings.classes.chat}"></div>
+                    <div id="courierWidget" class="${Courier.settings.classes.widget}"></div>
+                </div>`,
             });
         },
 
@@ -62,9 +61,19 @@ export default function (Courier, Components, Events) {
          * Render components
          */
         render() {
-            this.refs.app.render();
+            App.refs.app.render();
         },
     };
+
+    /**
+     * Destroy elements:
+     * - on destroy to remove rendered elements
+     * - on app.mount.before to rerender elements and apply changes
+     */
+    Events.on('mount.after', () => {
+        App.render();
+        Events.emit('app.rendered');
+    });
 
     /**
      * Remove bindings from click:
@@ -97,7 +106,7 @@ export default function (Courier, Components, Events) {
      * - on app.mount.before to rerender elements and apply changes
      */
     Events.on(['destroy', 'app.mount.before'], () => {
-        this.refs = [];
+        App.refs = {};
     });
 
     return App;

@@ -1,3 +1,5 @@
+import { isUndefined } from './types';
+
 /**
  * Defines getter and setter property on the specified object.
  *

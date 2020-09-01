@@ -25,6 +25,7 @@
   font-family: 'Asap', sans-serif;
   font-size: #{get-font-size-core('px')};
   color: #{get-palette-hue('foreground', 100)};
+  z-index: 1040;
 
   @include medium-devices {
     font-size: #{decimal-floor(get-font-size-core-raw() * 0.9) + 'px'};
@@ -44,7 +45,8 @@
   text-rendering: optimizeLegibility;
 
   /* elements */
-  // @import 'core/elements/overlay';
+  @import 'core/elements/widget';
+  @import 'core/elements/chat';
 
   /* modifiers */
   @import 'core/modifiers';

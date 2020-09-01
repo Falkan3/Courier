@@ -1,33 +1,39 @@
 {
-  "extends": "airbnb",
-  "parser": "babel-eslint",
-  "parserOptions": {
-    "ecmaVersion": 6,
-    "sourceType": "module"
-  },
-  "env": {
-    "mocha": true,
-    "browser": true
-  },
-  "rules": {
-    "comma-dangle": [
-      "error",
-      "only-multiline"
-    ],
-    "linebreak-style": [
-      "error",
-      "windows"
-    ],
-    "indent": [
-      1,
-      4
-    ],
-    "semi": [
-      1,
-      "always"
-    ],
-    "no-param-reassign": "warn",
-    "no-plusplus": "off",
-    "no-underscore-dangle": ["warn", {"allowAfterThis":  true}]
-  }
+    "extends": "airbnb",
+    "parser": "babel-eslint",
+    "parserOptions": {
+        "ecmaVersion": 6,
+        "sourceType": "module"
+    },
+    "env": {
+        "mocha": true,
+        "browser": true
+    },
+    "rules": {
+        "comma-dangle": [
+            "error",
+            "only-multiline"
+        ],
+        "linebreak-style": [
+            "error",
+            "windows"
+        ],
+        "indent": [
+            1,
+            4
+        ],
+        "semi": [
+            1,
+            "always"
+        ],
+        "no-param-reassign": "warn",
+        "no-plusplus": "off",
+        "no-underscore-dangle": [
+            "warn",
+            {
+                "allowAfterThis": true
+            }
+        ],
+        "no-unused-vars": "warn"
+    }
 }

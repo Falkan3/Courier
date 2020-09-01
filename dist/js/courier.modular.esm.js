@@ -191,12 +191,10 @@ var defaults = {
    */
   classes: {
     root: 'courier',
-    container: 'courier__container',
+    widget: 'courier__widget',
     chat: 'courier__chat'
   },
-  modifierClasses: {
-    container: 'courier__bounce-in-left'
-  },
+  modifierClasses: {},
 
   /**
    * Collection of text used in components.
@@ -261,16 +259,6 @@ function isObject(value) {
 
 function isFunction(value) {
   return typeof value === 'function';
-}
-/**
- * Indicates whether the specified value is undefined.
- *
- * @param  {*} value
- * @return {Boolean}
- */
-
-function isUndefined(value) {
-  return typeof value === 'undefined';
 }
 /**
  * Indicates whether the specified value is an array.
@@ -1426,7 +1414,7 @@ var EventsBinder = /*#__PURE__*/function () {
    * Adds event listeners to element.
    *
    * @param  {String|Array} events
-   * @param  {Element|Window|Document} el
+   * @param  {Element|Node|Window|Document} el
    * @param  {Function} fn
    * @param  {Boolean|Object} capture
    */
@@ -1450,7 +1438,7 @@ var EventsBinder = /*#__PURE__*/function () {
      * Removes event listeners from element.
      *
      * @param  {String|Array} events
-     * @param  {Element|Window|Document} el
+     * @param  {Element|Node|Window|Document} el
      * @param  {Boolean|Object} capture
      */
 
@@ -1482,8 +1470,6 @@ var EventsBinder = /*#__PURE__*/function () {
 }();
 
 function App (Courier, Components, Events) {
-  var _this2 = this;
-
   /**
    * Instance of the binder for DOM Events.
    *
@@ -1495,7 +1481,7 @@ function App (Courier, Components, Events) {
     mount: function mount() {
       Events.emit('app.mount.before');
       this.initialize();
-      this.render();
+      this.bind();
       Events.emit('app.mount.after');
     },
 
@@ -1505,7 +1491,7 @@ function App (Courier, Components, Events) {
     bind: function bind() {
       var _this = this;
 
-      Binder.on('click', document, function (event) {
+      Binder.on('click', Components.App.refs.app.elem, function (event) {
         return _this.click(event);
       });
     },
@@ -1514,7 +1500,7 @@ function App (Courier, Components, Events) {
      * Removes click events.
      */
     unbind: function unbind() {
-      Binder.off('click', document);
+      Binder.off('click', Components.App.refs.app.elem);
     },
 
     /**
@@ -1530,12 +1516,10 @@ function App (Courier, Components, Events) {
      * Initialize the app wrapper.
      */
     initialize: function initialize() {
-      this.refs.app = new Reef(Courier.rootElement, {
-        data: {
-          test: 'Test!'
-        },
+      App.refs.app = new Reef(Courier.rootElement, {
+        data: {},
         template: function template(props) {
-          return "\n                    <div id=\"test\">\n                        <p>".concat(props.test, "</p>\n                    </div>");
+          return "\n                <div id=\"courierRoot\" class=\"".concat(Courier.settings.classes.root, "\">\n                    <div id=\"courierChat\" class=\"").concat(Courier.settings.classes.chat, "\"></div>\n                    <div id=\"courierWidget\" class=\"").concat(Courier.settings.classes.widget, "\"></div>\n                </div>");
         }
       });
     },
@@ -1544,9 +1528,19 @@ function App (Courier, Components, Events) {
      * Render components
      */
     render: function render() {
-      this.refs.app.render();
+      App.refs.app.render();
     }
   };
+  /**
+   * Destroy elements:
+   * - on destroy to remove rendered elements
+   * - on app.mount.before to rerender elements and apply changes
+   */
+
+  Events.on('mount.after', function () {
+    App.render();
+    Events.emit('app.rendered');
+  });
   /**
    * Remove bindings from click:
    * - on destroying to remove added events
@@ -1579,9 +1573,159 @@ function App (Courier, Components, Events) {
    */
 
   Events.on(['destroy', 'app.mount.before'], function () {
-    _this2.refs = [];
+    App.refs = {};
   });
   return App;
+}
+
+function Widget (Courier, Components, Events) {
+  /**
+   * Instance of the binder for DOM Events.
+   *
+   * @type {EventsBinder}
+   */
+  var Binder = new EventsBinder();
+  var Widget = {
+    refs: {},
+    mount: function mount() {
+      Events.emit('widget.mount.before');
+      this.initialize();
+      Events.emit('widget.mount.after');
+    },
+
+    /**
+     * Adds click events.
+     */
+    bind: function bind() {
+      var _this = this;
+
+      Binder.on('click', Components.App.refs.app.elem, function (event) {
+        return _this.click(event);
+      });
+    },
+
+    /**
+     * Removes click events.
+     */
+    unbind: function unbind() {
+      Binder.off('click', Components.App.refs.app.elem);
+    },
+
+    /**
+     * Handles click events.
+     *
+     * @param  {Object} event
+     */
+    click: function click(event) {
+      if (event.target.matches('#courierWidgetButton') || document.querySelector('#courierWidgetButton').contains(event.target)) {
+        Components.Chat.open();
+      }
+
+      return event;
+    },
+    close: function close() {
+      this.refs.widget.data.active = false;
+      Events.emit('widget.close');
+    },
+    open: function open() {
+      this.refs.widget.data.active = true;
+      Events.emit('widget.open');
+    },
+
+    /**
+     * Initialize the widget.
+     */
+    initialize: function initialize() {
+      Widget.refs.widget = new Reef('#courierWidget', {
+        data: {
+          active: true,
+          text: 'Hello!'
+        },
+        template: function template(props) {
+          if (!props.active) {
+            return '';
+          }
+
+          return "\n                    <button id=\"courierWidgetButton\" class=\"".concat(Courier.settings.classes.widget, "-bubble ").concat(Courier.settings.classes.root, "__appear-bottom\" type=\"button\" aria-label=\"Open widget\">\n                        <div class=\"").concat(Courier.settings.classes.widget, "-img\" aria-hidden=\"true\">\n                            <img src=\"https://image.flaticon.com/icons/svg/209/209999.svg\" alt=\"Chat bubbles\" />\n                        </div>\n                        <p>").concat(props.text, "</p>\n                    </button>");
+        },
+        attachTo: Components.App.refs.app
+      });
+    },
+
+    /**
+     * Render window outer elements.
+     */
+    render: function render() {
+      Widget.refs.widget.render();
+    }
+  };
+  /**
+   * Bind event listeners after App has been rendered
+   */
+
+  Events.on('app.rendered', function () {
+    Widget.bind();
+  });
+  /**
+   * Close the widget when the chat opens
+   */
+
+  Events.on('chat.open', function () {
+    Widget.close();
+  });
+  /**
+   * Open the widget when the chat closes
+   */
+
+  Events.on('chat.close', function () {
+    Widget.open();
+  });
+  /**
+   * Remove bindings from click:
+   * - on destroying to remove added events
+   * - on updating to remove events before remounting
+   */
+
+  Events.on(['destroy', 'update'], function () {
+    Widget.unbind();
+  });
+  /**
+   * Remount component
+   * - on updating to reflect potential changes in settings
+   */
+
+  Events.on('update', function () {
+    Widget.mount();
+  });
+  /**
+   * Destroy binder:
+   * - on destroying to remove listeners
+   */
+
+  Events.on(['destroy'], function () {
+    Binder.destroy();
+  });
+  /**
+   * Destroy elements:
+   * - on destroy to remove rendered elements
+   * - on widget.mount.before to rerender elements and apply changes
+   */
+
+  Events.on(['destroy', 'widget.mount.before'], function () {
+    objectForEach(Widget.refs, function (item) {
+      if (item.el.parentNode) {
+        item.el.parentNode.removeChild(item.el);
+      }
+    });
+    /*
+    for (let i = 0; i < App.refs.length; i++) {
+        App.refs[i].el.parentNode.removeChild(App.refs[i].el);
+    }
+    */
+
+    Widget.refs = {};
+  });
+  return Widget;
 }
 
 function Chat (Courier, Components, Events) {
@@ -1595,8 +1739,7 @@ function Chat (Courier, Components, Events) {
     refs: {},
     mount: function mount() {
       Events.emit('chat.mount.before');
-      this.render();
-      this.bind();
+      this.initialize();
       Events.emit('chat.mount.after');
     },
 
@@ -1606,8 +1749,11 @@ function Chat (Courier, Components, Events) {
     bind: function bind() {
       var _this = this;
 
-      Binder.on('click', document, function (event) {
+      Binder.on('click', Components.App.refs.app.elem, function (event) {
         return _this.click(event);
+      });
+      Binder.on('submit', Components.App.refs.app.elem, function (event) {
+        return _this.submit(event);
       });
     },
 
@@ -1615,7 +1761,7 @@ function Chat (Courier, Components, Events) {
      * Removes click events.
      */
     unbind: function unbind() {
-      Binder.off('click', document);
+      Binder.off('click', Components.App.refs.app.elem);
     },
 
     /**
@@ -1624,62 +1770,66 @@ function Chat (Courier, Components, Events) {
      * @param  {Object} event
      */
     click: function click(event) {
-      if (!isUndefined(this.refs.container) && event.target === this.refs.container.el || !isUndefined(this.refs.btnClose) && event.target === this.refs.btnClose.el) this.close();
+      return event;
+    },
+
+    /**
+     * Handles submit events.
+     *
+     * @param  {Object} event
+     */
+    submit: function submit(event) {
+      if (event.target.matches('#courierChatInteractionsForm') || document.querySelector('#courierChatInteractionsForm').contains(event.target)) {
+        return event;
+      }
+
+      return event;
     },
     close: function close() {
+      this.refs.chat.data.active = false;
       Events.emit('chat.close');
     },
     open: function open() {
+      this.refs.chat.data.active = true;
       Events.emit('chat.open');
     },
 
     /**
      * Initialize the chat.
      */
-    initialize: function initialize() {},
+    initialize: function initialize() {
+      Chat.refs.chat = new Reef('#courierChat', {
+        data: {
+          active: false,
+          text: {
+            sendMessage: 'Send message'
+          }
+        },
+        template: function template(props) {
+          if (!props.active) {
+            return '';
+          }
+
+          return "\n                    <div class=\"".concat(Courier.settings.classes.chat, "-wall\">\n                        <div class=\"").concat(Courier.settings.classes.chat, "-work-area\"></div>\n                        <form id=\"courierChatInteractionsForm\" class=\"").concat(Courier.settings.classes.chat, "-interactions\">\n                            <input type=\"text\" class=\"").concat(Courier.settings.classes.chat, "-message-box\" />\n                            <button class=\"").concat(Courier.settings.classes.chat, "-send-msg-btn\" type=\"button\" aria-label=\"").concat(props.sendMessage, "\">\n                                <svg xmlns=\"http://www.w3.org/2000/svg\" enable-background=\"new 0 0 24 24\" height=\"512\" viewBox=\"0 0 24 24\" width=\"512\"><path d=\"m14.077 16.79c-.065-.224-.231-.404-.448-.489l-3.857-1.5c-.231-.09-.491-.061-.695.08-.205.14-.327.371-.327.619v6.75c0 .324.208.611.516.713.077.025.156.037.234.037.234 0 .46-.11.604-.306l3.857-5.25c.139-.188.181-.429.116-.654z\" fill=\"#2196f3\"/><path d=\"m23.685.139c-.23-.163-.532-.185-.782-.054l-22.5 11.75c-.266.139-.423.423-.401.722.023.3.222.556.505.653l19.75 6.75c.079.026.161.04.243.04.136 0 .271-.037.39-.109.19-.116.319-.311.352-.53l2.75-18.5c.041-.28-.077-.558-.307-.722z\" fill=\"#64b5f6\"/></svg>\n                            </button>\n                        </form>\n                    </div>\n                    ");
+        },
+        attachTo: Components.App.refs.app
+      });
+    },
 
     /**
      * Render window outer elements.
      */
     render: function render() {
-      this.refs.container = {
-        el: this.renderContainer()
-      };
-      this.refs.btnClose = {
-        el: this.renderBtnClose(),
-        parentKey: 'container'
-      };
-      objectForEach(Chat.refs, function (item) {
-        if (isUndefined(item.parentKey)) {
-          item.parent = Courier.rootElement;
-        } else if (!isUndefined(Chat.refs[item.parentKey])) {
-          item.parent = Chat.refs[item.parentKey].el;
-        } else {
-          item.parent = Courier.rootElement;
-        }
-
-        item.el = item.parent.appendChild(item.el);
-      });
-    },
-
-    /**
-     * Render the container element.
-     */
-    renderContainer: function renderContainer() {
-      var el = document.createElement('div');
-      el.classList.add(Courier.settings.classes.container);
-      return el;
-    },
-
-    /**
-     * Render the button close element.
-     */
-    renderBtnClose: function renderBtnClose() {
-      var el = document.createElement('button');
-      el.classList.add(Courier.settings.classes.btnClose);
-      return el;
+      Chat.refs.chat.render();
     }
   };
+  /**
+   * Bind event listeners after App has been rendered
+   */
+
+  Events.on('app.rendered', function () {
+    Chat.bind();
+  });
   /**
    * Remove bindings from click:
    * - on destroying to remove added events
@@ -1723,14 +1873,15 @@ function Chat (Courier, Components, Events) {
     }
     */
 
-    Chat.refs = [];
+    Chat.refs = {};
   });
   return Chat;
 }
 
 var COMPONENTS = {
   App: App,
-  Chat: Chat
+  Chat: Chat,
+  Widget: Widget
 };
 
 var Courier$1 = /*#__PURE__*/function (_Core) {

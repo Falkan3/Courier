@@ -14,7 +14,7 @@ export default class EventsBinder {
      * Adds event listeners to element.
      *
      * @param  {String|Array} events
-     * @param  {Element|Window|Document} el
+     * @param  {Element|Node|Window|Document} el
      * @param  {Function} fn
      * @param  {Boolean|Object} capture
      */
@@ -34,7 +34,7 @@ export default class EventsBinder {
      * Removes event listeners from element.
      *
      * @param  {String|Array} events
-     * @param  {Element|Window|Document} el
+     * @param  {Element|Node|Window|Document} el
      * @param  {Boolean|Object} capture
      */
     off(events, el, capture = false) {

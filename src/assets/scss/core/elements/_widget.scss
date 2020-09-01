@@ -1,0 +1,37 @@
+#{$classPrefix}__widget {
+  &-bubble {
+    position: fixed;
+    bottom: 1em;
+    right: 1em;
+    display: flex;
+    align-items: center;
+    padding: 0.5em 1em;
+    background: #6874e8;
+    color: #fff;
+    border-radius: 4px;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+    transition: background-color cubic-bezier(0.1, 1, 0.6, 1) 0.3s, transform cubic-bezier(0.1, 1, 0.6, 1) 0.3s;
+
+    &:hover {
+      cursor: pointer;
+    }
+
+    &:hover,
+    &:focus {
+      background-color: lighten(#6874e8, 5%);
+      transform: scale(1.1, 1.1);
+    }
+  }
+
+  &-img {
+    display: block;
+
+    & > img,
+    & > svg {
+      display: block;
+      width: 2em;
+      height: 2em;
+      margin-right: 1em;
+    }
+  }
+}
