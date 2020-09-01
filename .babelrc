@@ -1,0 +1,26 @@
+{
+  "env": {
+    "development": {
+      "presets": [
+        "@babel/preset-env"
+      ],
+      "plugins": [
+        "add-module-exports",
+        "@babel/plugin-transform-object-assign",
+        "@babel/plugin-proposal-class-properties"
+      ]
+    },
+    "production": {
+      "presets": [
+        "env",
+        "minify",
+        "@babel/preset-env"
+      ],
+      "plugins": [
+        "add-module-exports",
+        "@babel/plugin-transform-object-assign",
+        "@babel/plugin-proposal-class-properties"
+      ]
+    }
+  }
+}

@@ -1,0 +1,53 @@
+@import 'utils/variables';
+@import 'utils/mixins';
+@import 'utils/animations';
+
+/* ------------------------------------------
+ *  Libraries - normalize element appearance
+ *  under the root element
+ * ----------------------------------------- */
+
+#{$classPrefix} {
+  @import 'libs/normalize';
+}
+
+/* -----------------------------------
+ *  Global
+ * ----------------------------------- */
+
+@import url('https://fonts.googleapis.com/css?family=Asap:400,700&display=swap&subset=latin-ext');
+
+/* -----------------------------------
+ *  Components
+ * ----------------------------------- */
+
+#{$classPrefix} {
+  font-family: 'Asap', sans-serif;
+  font-size: #{get-font-size-core('px')};
+  color: #{get-palette-hue('foreground', 100)};
+
+  @include medium-devices {
+    font-size: #{decimal-floor(get-font-size-core-raw() * 0.9) + 'px'};
+  }
+
+  @include m-small-devices {
+    font-size: #{decimal-floor(get-font-size-core-raw() * 0.8) + 'px'};
+  }
+
+  & * {
+    box-sizing: border-box;
+  }
+
+  /* antialias font */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+
+  /* elements */
+  // @import 'core/elements/overlay';
+
+  /* modifiers */
+  @import 'core/modifiers';
+
+  /* root modifiers */
+}
