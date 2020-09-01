@@ -19,7 +19,7 @@ Description: TBD
 - `npm test:prod` - Run tests with minified code.
 - `npm run lint` - Run ESlint with airbnb-config.
 - `npm run lint:fix` - Run ESlint with airbnb-config and apply fixes.
-- `npm run stylelint` - Run ESlint with airbnb-config.
+- `npm run stylelint` - Run Stylelint.
 - `npm run stylelint:fix` - Run Stylelint and apply fixes.
 - `npm run cover` - Coverage report.
 - `npm run build` - Build `src` files into `dist` folder.
