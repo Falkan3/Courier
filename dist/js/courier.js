@@ -214,7 +214,19 @@
      *
      * @type {Object}
      */
-    textVars: {}
+    textVars: {},
+
+    /**
+     * Collection of images and vector graphics.
+     *
+     * @type {Object}
+     */
+    images: {
+      chatBubbles: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512.8 512.8"><path d="M268.8 47.2H15.2C6.4 47.2 0 53.6 0 62.4v174.4c0 8 6.4 15.2 15.2 15.2h36v66.4l84-66.4h134.4c8 0 15.2-6.4 15.2-15.2V62.4c-1.6-8.8-8-15.2-16-15.2z"/><g fill="#fff"><circle cx="211.2" cy="148.8" r="21.6"/><circle cx="141.6" cy="148.8" r="21.6"/><circle cx="72" cy="148.8" r="21.6"/></g><path d="M496.8 195.2H243.2c-8 0-15.2 6.4-15.2 15.2V384c0 8 6.4 15.2 15.2 15.2h134.4l84 66.4v-66.4h36c8 0 15.2-6.4 15.2-15.2V209.6c-.8-8-7.2-14.4-16-14.4z" fill="#25b6d2"/><g fill="#fff"><circle cx="376.8" cy="296.8" r="21.6"/><circle cx="300.8" cy="296.8" r="21.6"/><circle cx="440" cy="296.8" r="21.6"/></g></svg>',
+      closeBtn: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 365.717 365"><g fill="#f44336"><path d="M356.34 296.348L69.727 9.734c-12.5-12.5-32.766-12.5-45.247 0L9.375 24.816c-12.5 12.504-12.5 32.77 0 45.25L295.988 356.68c12.504 12.5 32.77 12.5 45.25 0l15.082-15.082c12.524-12.48 12.524-32.75.02-45.25zm0 0"/><path d="M295.988 9.734L9.375 296.348c-12.5 12.5-12.5 32.77 0 45.25l15.082 15.082c12.504 12.5 32.77 12.5 45.25 0L356.34 70.086c12.504-12.5 12.504-32.766 0-45.246L341.258 9.758c-12.5-12.524-32.766-12.524-45.27-.024zm0 0"/></g></svg>',
+      options: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><g fill="#000"><path d="M256 110.825c-43.241 0-78.42 35.179-78.42 78.42s35.179 78.42 78.42 78.42 78.42-35.179 78.42-78.42-35.179-78.42-78.42-78.42zm0 117.955c-21.802 0-39.534-17.739-39.534-39.534 0-21.802 17.732-39.534 39.534-39.534 21.796 0 39.534 17.732 39.534 39.534S277.796 228.78 256 228.78z"/><path d="M256 229.428c-10.739 0-19.443 8.704-19.443 19.443v230.724c0 10.739 8.704 19.443 19.443 19.443s19.443-8.704 19.443-19.443V248.871c0-10.739-8.704-19.443-19.443-19.443zM256 12.962c-10.739 0-19.443 8.704-19.443 19.443v97.863c0 10.739 8.704 19.443 19.443 19.443s19.443-8.704 19.443-19.443V32.405c0-10.739-8.704-19.443-19.443-19.443zM433.58 244.334c-43.235 0-78.42 35.179-78.42 78.42s35.185 78.42 78.42 78.42c43.241 0 78.42-35.179 78.42-78.42s-35.185-78.42-78.42-78.42zm0 117.961c-21.809 0-39.541-17.739-39.541-39.541s17.739-39.534 39.541-39.534 39.534 17.739 39.534 39.534c0 21.809-17.739 39.541-39.534 39.541z"/><path d="M433.58 362.289c-10.739 0-19.443 8.704-19.443 19.443v97.863c0 10.739 8.704 19.443 19.443 19.443 10.745 0 19.443-8.704 19.443-19.443v-97.863c0-10.739-8.704-19.443-19.443-19.443zM433.58 12.962c-10.739 0-19.443 8.704-19.443 19.443v230.724c0 10.739 8.704 19.443 19.443 19.443 10.745 0 19.443-8.704 19.443-19.443V32.405c0-10.739-8.704-19.443-19.443-19.443zM78.42 244.334c-43.241 0-78.42 35.179-78.42 78.42s35.179 78.42 78.42 78.42 78.42-35.179 78.42-78.42c.001-43.241-35.178-78.42-78.42-78.42zm0 117.961c-21.802 0-39.534-17.739-39.534-39.541S56.618 283.22 78.42 283.22s39.534 17.739 39.534 39.534c0 21.809-17.732 39.541-39.534 39.541z"/><path d="M78.42 362.289c-10.739 0-19.443 8.704-19.443 19.443v97.863c0 10.739 8.704 19.443 19.443 19.443s19.443-8.704 19.443-19.443v-97.863c0-10.739-8.704-19.443-19.443-19.443zM78.42 12.962c-10.739 0-19.443 8.704-19.443 19.443v230.724c0 10.739 8.704 19.443 19.443 19.443s19.443-8.704 19.443-19.443V32.405c0-10.739-8.704-19.443-19.443-19.443z"/></g></svg>',
+      sendMsg: '<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 24 24"><path fill="#2196f3" d="M14.077 16.79a.75.75 0 00-.448-.489l-3.857-1.5a.748.748 0 00-1.022.699v6.75a.751.751 0 001.354.444l3.857-5.25a.748.748 0 00.116-.654z"/><path fill="#64b5f6" d="M23.685.139a.75.75 0 00-.782-.054l-22.5 11.75a.752.752 0 00.104 1.375l19.75 6.75a.753.753 0 00.985-.599l2.75-18.5a.751.751 0 00-.307-.722z"/></svg>'
+    }
   };
 
   /**
@@ -1515,7 +1527,7 @@
        * @param  {Object} event
        */
       click: function click(event) {
-        return event;
+        Events.emit('app.click', event);
       },
 
       /**
@@ -1584,6 +1596,17 @@
     return App;
   }
 
+  /**
+   * Check if the element exists and contains the target element.
+   *
+   * @param  {Element} el         The DOM element check if it contains the target
+   * @param  {Element} target     The target element to check.
+   */
+
+  function elemContains(el, target) {
+    return el && el.contains(target);
+  }
+
   function Widget (Courier, Components, Events) {
     /**
      * Instance of the binder for DOM Events.
@@ -1600,34 +1623,16 @@
       },
 
       /**
-       * Adds click events.
-       */
-      bind: function bind() {
-        var _this = this;
-
-        Binder.on('click', Components.App.refs.app.elem, function (event) {
-          return _this.click(event);
-        });
-      },
-
-      /**
-       * Removes click events.
-       */
-      unbind: function unbind() {
-        Binder.off('click', Components.App.refs.app.elem);
-      },
-
-      /**
        * Handles click events.
        *
        * @param  {Object} event
        */
       click: function click(event) {
-        if (event.target.matches('#courierWidgetButton') || document.querySelector('#courierWidgetButton').contains(event.target)) {
+        var courierWidgetButton = document.querySelector('#courierWidgetButton');
+
+        if (event.target.matches('#courierWidgetButton') || elemContains(courierWidgetButton, event.target)) {
           Components.Chat.open();
         }
-
-        return event;
       },
       close: function close() {
         this.refs.widget.data.active = false;
@@ -1652,7 +1657,7 @@
               return '';
             }
 
-            return "\n                    <button id=\"courierWidgetButton\" class=\"".concat(Courier.settings.classes.widget, "-bubble ").concat(Courier.settings.classes.root, "__appear-bottom\" type=\"button\" aria-label=\"Open widget\">\n                        <div class=\"").concat(Courier.settings.classes.widget, "-img\" aria-hidden=\"true\">\n                            <img src=\"https://image.flaticon.com/icons/svg/209/209999.svg\" alt=\"Chat bubbles\" />\n                        </div>\n                        <p>").concat(props.text, "</p>\n                    </button>");
+            return "\n                    <button id=\"courierWidgetButton\" class=\"".concat(Courier.settings.classes.widget, "-bubble ").concat(Courier.settings.classes.root, "__appear-bottom ").concat(Courier.settings.classes.root, "__anim-timing--half\" type=\"button\" aria-label=\"Open widget\">\n                        <div class=\"").concat(Courier.settings.classes.widget, "-img\" aria-hidden=\"true\">\n                            ").concat(Courier.settings.images.chatBubbles, "\n                        </div>\n                        <p>").concat(props.text, "</p>\n                    </button>");
           },
           attachTo: Components.App.refs.app
         });
@@ -1669,8 +1674,8 @@
      * Bind event listeners after App has been rendered
      */
 
-    Events.on('app.rendered', function () {
-      Widget.bind();
+    Events.on('app.click', function (event) {
+      Widget.click(event);
     });
     /**
      * Close the widget when the chat opens
@@ -1724,10 +1729,10 @@
         }
       });
       /*
-      for (let i = 0; i < App.refs.length; i++) {
-          App.refs[i].el.parentNode.removeChild(App.refs[i].el);
-      }
-      */
+       for (let i = 0; i < App.refs.length; i++) {
+       App.refs[i].el.parentNode.removeChild(App.refs[i].el);
+       }
+       */
 
       Widget.refs = {};
     });
@@ -1755,9 +1760,6 @@
       bind: function bind() {
         var _this = this;
 
-        Binder.on('click', Components.App.refs.app.elem, function (event) {
-          return _this.click(event);
-        });
         Binder.on('submit', Components.App.refs.app.elem, function (event) {
           return _this.submit(event);
         });
@@ -1767,7 +1769,7 @@
        * Removes click events.
        */
       unbind: function unbind() {
-        Binder.off('click', Components.App.refs.app.elem);
+        Binder.off('submit', Components.App.refs.app.elem);
       },
 
       /**
@@ -1776,6 +1778,12 @@
        * @param  {Object} event
        */
       click: function click(event) {
+        var closeBtn = document.querySelector('#courierChatCloseBtn');
+
+        if (event.target.matches('#courierChatCloseBtn') || elemContains(closeBtn, event.target)) {
+          this.close();
+        }
+
         return event;
       },
 
@@ -1785,8 +1793,10 @@
        * @param  {Object} event
        */
       submit: function submit(event) {
-        if (event.target.matches('#courierChatInteractionsForm') || document.querySelector('#courierChatInteractionsForm').contains(event.target)) {
-          return event;
+        var form = document.querySelector('#courierChatInteractionsForm');
+
+        if (event.target.matches('#courierChatInteractionsForm') || elemContains(form, event.target)) {
+          event.preventDefault();
         }
 
         return event;
@@ -1808,7 +1818,9 @@
           data: {
             active: false,
             text: {
-              sendMessage: 'Send message'
+              headerMessage: 'Chat with us!',
+              sendMessage: 'Send message',
+              messagePlaceholder: 'Type something...'
             }
           },
           template: function template(props) {
@@ -1816,7 +1828,7 @@
               return '';
             }
 
-            return "\n                    <div class=\"".concat(Courier.settings.classes.chat, "-wall\">\n                        <div class=\"").concat(Courier.settings.classes.chat, "-work-area\"></div>\n                        <form id=\"courierChatInteractionsForm\" class=\"").concat(Courier.settings.classes.chat, "-interactions\">\n                            <input type=\"text\" class=\"").concat(Courier.settings.classes.chat, "-message-box\" />\n                            <button class=\"").concat(Courier.settings.classes.chat, "-send-msg-btn\" type=\"button\" aria-label=\"").concat(props.sendMessage, "\">\n                                <svg xmlns=\"http://www.w3.org/2000/svg\" enable-background=\"new 0 0 24 24\" height=\"512\" viewBox=\"0 0 24 24\" width=\"512\"><path d=\"m14.077 16.79c-.065-.224-.231-.404-.448-.489l-3.857-1.5c-.231-.09-.491-.061-.695.08-.205.14-.327.371-.327.619v6.75c0 .324.208.611.516.713.077.025.156.037.234.037.234 0 .46-.11.604-.306l3.857-5.25c.139-.188.181-.429.116-.654z\" fill=\"#2196f3\"/><path d=\"m23.685.139c-.23-.163-.532-.185-.782-.054l-22.5 11.75c-.266.139-.423.423-.401.722.023.3.222.556.505.653l19.75 6.75c.079.026.161.04.243.04.136 0 .271-.037.39-.109.19-.116.319-.311.352-.53l2.75-18.5c.041-.28-.077-.558-.307-.722z\" fill=\"#64b5f6\"/></svg>\n                            </button>\n                        </form>\n                    </div>\n                    ");
+            return "\n                    <div class=\"".concat(Courier.settings.classes.chat, "-wall ").concat(Courier.settings.classes.root, "__slide-in-bottom ").concat(Courier.settings.classes.root, "__anim-timing--half\">\n                        <div class=\"").concat(Courier.settings.classes.chat, "-header\">\n                            <div>\n                                <button id=\"courierChatOptionsBtn\" class=\"").concat(Courier.settings.classes.chat, "-options-btn\" type=\"button\">\n                                    ").concat(Courier.settings.images.options, "\n                                </button>\n                            </div>\n                            <div>\n                                <p>").concat(props.text.headerMessage, "</p>\n                            </div>\n                            <div>\n                                <button id=\"courierChatCloseBtn\" class=\"").concat(Courier.settings.classes.chat, "-close-btn\" type=\"button\">\n                                    ").concat(Courier.settings.images.closeBtn, "\n                                </button>\n                            </div>\n                        </div>\n                        <div class=\"").concat(Courier.settings.classes.chat, "-work-area\"></div>\n                        <form id=\"courierChatInteractionsForm\" class=\"").concat(Courier.settings.classes.chat, "-interactions\">\n                            <input type=\"text\" class=\"").concat(Courier.settings.classes.chat, "-message-box\" placeholder=\"").concat(props.text.messagePlaceholder, "\" autofocus />\n                            <button class=\"").concat(Courier.settings.classes.chat, "-send-msg-btn\" type=\"submit\" aria-label=\"").concat(props.text.sendMessage, "\">\n                                ").concat(Courier.settings.images.sendMsg, "\n                            </button>\n                        </form>\n                    </div>\n                    ");
           },
           attachTo: Components.App.refs.app
         });
@@ -1835,6 +1847,13 @@
 
     Events.on('app.rendered', function () {
       Chat.bind();
+    });
+    /**
+     * Bind event listeners after App has been rendered
+     */
+
+    Events.on('app.click', function (event) {
+      Chat.click(event);
     });
     /**
      * Remove bindings from click:
@@ -1874,10 +1893,10 @@
         }
       });
       /*
-      for (let i = 0; i < App.refs.length; i++) {
-          App.refs[i].el.parentNode.removeChild(App.refs[i].el);
-      }
-      */
+       for (let i = 0; i < App.refs.length; i++) {
+       App.refs[i].el.parentNode.removeChild(App.refs[i].el);
+       }
+       */
 
       Chat.refs = {};
     });

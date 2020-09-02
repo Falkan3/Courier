@@ -1,6 +1,7 @@
 import { objectForEach } from '../utils/object';
 import EventsBinder from '../core/event/events-binder';
 import Reef from '../libs/reefjs/reef.es';
+import { elemContains } from '../utils/dom';
 
 
 export default function (Courier, Components, Events) {
@@ -21,30 +22,16 @@ export default function (Courier, Components, Events) {
         },
 
         /**
-         * Adds click events.
-         */
-        bind() {
-            Binder.on('click', Components.App.refs.app.elem, event => this.click(event));
-        },
-
-        /**
-         * Removes click events.
-         */
-        unbind() {
-            Binder.off('click', Components.App.refs.app.elem);
-        },
-
-        /**
          * Handles click events.
          *
          * @param  {Object} event
          */
         click(event) {
-            if (event.target.matches('#courierWidgetButton') || document.querySelector('#courierWidgetButton').contains(event.target)) {
+            const courierWidgetButton = document.querySelector('#courierWidgetButton');
+            if (event.target.matches('#courierWidgetButton')
+                || (elemContains(courierWidgetButton, event.target))) {
                 Components.Chat.open();
             }
-
-            return event;
         },
 
         close() {
@@ -72,9 +59,9 @@ export default function (Courier, Components, Events) {
                     }
 
                     return `
-                    <button id="courierWidgetButton" class="${Courier.settings.classes.widget}-bubble ${Courier.settings.classes.root}__appear-bottom" type="button" aria-label="Open widget">
+                    <button id="courierWidgetButton" class="${Courier.settings.classes.widget}-bubble ${Courier.settings.classes.root}__appear-bottom ${Courier.settings.classes.root}__anim-timing--half" type="button" aria-label="Open widget">
                         <div class="${Courier.settings.classes.widget}-img" aria-hidden="true">
-                            <img src="https://image.flaticon.com/icons/svg/209/209999.svg" alt="Chat bubbles" />
+                            ${Courier.settings.images.chatBubbles}
                         </div>
                         <p>${props.text}</p>
                     </button>`;
@@ -94,8 +81,8 @@ export default function (Courier, Components, Events) {
     /**
      * Bind event listeners after App has been rendered
      */
-    Events.on('app.rendered', () => {
-        Widget.bind();
+    Events.on('app.click', (event) => {
+        Widget.click(event);
     });
 
     /**
@@ -149,10 +136,10 @@ export default function (Courier, Components, Events) {
             }
         });
         /*
-        for (let i = 0; i < App.refs.length; i++) {
-            App.refs[i].el.parentNode.removeChild(App.refs[i].el);
-        }
-        */
+         for (let i = 0; i < App.refs.length; i++) {
+         App.refs[i].el.parentNode.removeChild(App.refs[i].el);
+         }
+         */
         Widget.refs = {};
     });
 

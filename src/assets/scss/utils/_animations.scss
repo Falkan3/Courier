@@ -3,14 +3,26 @@
  */
 
 :root {
-  --animate-duration: 1s;
-  --animate-delay: 1s;
-  --animate-repeat: 1;
+  --#{$variablePrefix}-animate-duration: 1s;
+  --#{$variablePrefix}-animate-delay: 1s;
+  --#{$variablePrefix}-animate-repeat: 1;
 }
 
 %animated {
-  animation-duration: var(--animate-duration);
+  animation-duration: var(--#{$variablePrefix}-animate-duration);
   animation-fill-mode: both;
+}
+
+#{$classPrefix} {
+  &__anim-timing {
+    &--third {
+      animation-duration: calc(var(--#{$variablePrefix}-animate-duration) * 0.3);
+    }
+
+    &--half {
+      animation-duration: calc(var(--#{$variablePrefix}-animate-duration) * 0.5);
+    }
+  }
 }
 
 /*
@@ -93,5 +105,39 @@
 #{$classPrefix} {
   &__appear-bottom {
     @include appearBottom;
+  }
+}
+
+/*
+ * Slide in from the bottom
+ */
+
+@keyframes slideInBottom {
+  from,
+  to {
+    animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+  }
+
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 100%, 0);
+  }
+
+  to {
+    opacity: 1;
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@mixin slideInBottom() {
+  @extend %animated;
+
+  animation-name: slideInBottom;
+}
+
+#{$classPrefix} {
+  &__slide-in-bottom {
+    @include slideInBottom;
   }
 }

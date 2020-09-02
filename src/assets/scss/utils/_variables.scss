@@ -1,5 +1,6 @@
 /* PREFIXES */
 $classPrefix: '.courier';
+$variablePrefix: 'courier';
 
 /* FONT */
 $fontSizeUnit: 'rem';
@@ -28,7 +29,8 @@ $palette: (
     600: #868887,
     700: #6f7171,
     800: #595b5a,
-    900: #434444
+    900: #434444,
+    1000: #212121
   ),
   accent-1: (
     100: #9ea6f0,

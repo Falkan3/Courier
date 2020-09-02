@@ -16,4 +16,14 @@ export function applyClasses(el, classes) {
     }
 }
 
+/**
+ * Check if the element exists and contains the target element.
+ *
+ * @param  {Element} el         The DOM element check if it contains the target
+ * @param  {Element} target     The target element to check.
+ */
+export function elemContains(el, target) {
+    return el && el.contains(target);
+}
+
 export default applyClasses;

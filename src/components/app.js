@@ -40,7 +40,7 @@ export default function (Courier, Components, Events) {
          * @param  {Object} event
          */
         click(event) {
-            return event;
+            Events.emit('app.click', event);
         },
 
         /**

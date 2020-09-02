@@ -9,6 +9,16 @@
 
 #{$classPrefix} {
   @import 'libs/normalize';
+
+  /* normalize focus outline effect */
+  input,
+  textarea,
+  button,
+  a {
+    &:focus {
+      outline: solid 2px #64b5f6;
+    }
+  }
 }
 
 /* -----------------------------------
@@ -24,7 +34,7 @@
 #{$classPrefix} {
   font-family: 'Asap', sans-serif;
   font-size: #{get-font-size-core('px')};
-  color: #{get-palette-hue('foreground', 100)};
+  color: #{get-palette-hue('foreground', 1000)};
   z-index: 1040;
 
   @include medium-devices {

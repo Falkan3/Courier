@@ -1,6 +1,7 @@
 import { objectForEach } from '../utils/object';
 import EventsBinder from '../core/event/events-binder';
 import Reef from '../libs/reefjs/reef.es';
+import { elemContains } from '../utils/dom';
 
 
 export default function (Courier, Components, Events) {
@@ -24,7 +25,6 @@ export default function (Courier, Components, Events) {
          * Adds click events.
          */
         bind() {
-            Binder.on('click', Components.App.refs.app.elem, event => this.click(event));
             Binder.on('submit', Components.App.refs.app.elem, event => this.submit(event));
         },
 
@@ -32,7 +32,7 @@ export default function (Courier, Components, Events) {
          * Removes click events.
          */
         unbind() {
-            Binder.off('click', Components.App.refs.app.elem);
+            Binder.off('submit', Components.App.refs.app.elem);
         },
 
         /**
@@ -41,9 +41,14 @@ export default function (Courier, Components, Events) {
          * @param  {Object} event
          */
         click(event) {
+            const closeBtn = document.querySelector('#courierChatCloseBtn');
+            if (event.target.matches('#courierChatCloseBtn')
+                || (elemContains(closeBtn, event.target))) {
+                this.close();
+            }
+
             return event;
         },
-
 
         /**
          * Handles submit events.
@@ -51,10 +56,10 @@ export default function (Courier, Components, Events) {
          * @param  {Object} event
          */
         submit(event) {
+            const form = document.querySelector('#courierChatInteractionsForm');
             if (event.target.matches('#courierChatInteractionsForm')
-                || document.querySelector('#courierChatInteractionsForm')
-                    .contains(event.target)) {
-                return event;
+                || (elemContains(form, event.target))) {
+                event.preventDefault();
             }
 
             return event;
@@ -78,7 +83,9 @@ export default function (Courier, Components, Events) {
                 data: {
                     active: false,
                     text: {
+                        headerMessage: 'Chat with us!',
                         sendMessage: 'Send message',
+                        messagePlaceholder: 'Type something...',
                     },
                 },
                 template: (props) => {
@@ -87,12 +94,27 @@ export default function (Courier, Components, Events) {
                     }
 
                     return `
-                    <div class="${Courier.settings.classes.chat}-wall">
+                    <div class="${Courier.settings.classes.chat}-wall ${Courier.settings.classes.root}__slide-in-bottom ${Courier.settings.classes.root}__anim-timing--half">
+                        <div class="${Courier.settings.classes.chat}-header">
+                            <div>
+                                <button id="courierChatOptionsBtn" class="${Courier.settings.classes.chat}-options-btn" type="button">
+                                    ${Courier.settings.images.options}
+                                </button>
+                            </div>
+                            <div>
+                                <p>${props.text.headerMessage}</p>
+                            </div>
+                            <div>
+                                <button id="courierChatCloseBtn" class="${Courier.settings.classes.chat}-close-btn" type="button">
+                                    ${Courier.settings.images.closeBtn}
+                                </button>
+                            </div>
+                        </div>
                         <div class="${Courier.settings.classes.chat}-work-area"></div>
                         <form id="courierChatInteractionsForm" class="${Courier.settings.classes.chat}-interactions">
-                            <input type="text" class="${Courier.settings.classes.chat}-message-box" />
-                            <button class="${Courier.settings.classes.chat}-send-msg-btn" type="button" aria-label="${props.sendMessage}">
-                                <svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="512" viewBox="0 0 24 24" width="512"><path d="m14.077 16.79c-.065-.224-.231-.404-.448-.489l-3.857-1.5c-.231-.09-.491-.061-.695.08-.205.14-.327.371-.327.619v6.75c0 .324.208.611.516.713.077.025.156.037.234.037.234 0 .46-.11.604-.306l3.857-5.25c.139-.188.181-.429.116-.654z" fill="#2196f3"/><path d="m23.685.139c-.23-.163-.532-.185-.782-.054l-22.5 11.75c-.266.139-.423.423-.401.722.023.3.222.556.505.653l19.75 6.75c.079.026.161.04.243.04.136 0 .271-.037.39-.109.19-.116.319-.311.352-.53l2.75-18.5c.041-.28-.077-.558-.307-.722z" fill="#64b5f6"/></svg>
+                            <input type="text" class="${Courier.settings.classes.chat}-message-box" placeholder="${props.text.messagePlaceholder}" autofocus />
+                            <button class="${Courier.settings.classes.chat}-send-msg-btn" type="submit" aria-label="${props.text.sendMessage}">
+                                ${Courier.settings.images.sendMsg}
                             </button>
                         </form>
                     </div>
@@ -115,6 +137,13 @@ export default function (Courier, Components, Events) {
      */
     Events.on('app.rendered', () => {
         Chat.bind();
+    });
+
+    /**
+     * Bind event listeners after App has been rendered
+     */
+    Events.on('app.click', (event) => {
+        Chat.click(event);
     });
 
     /**
@@ -154,10 +183,10 @@ export default function (Courier, Components, Events) {
             }
         });
         /*
-        for (let i = 0; i < App.refs.length; i++) {
-            App.refs[i].el.parentNode.removeChild(App.refs[i].el);
-        }
-        */
+         for (let i = 0; i < App.refs.length; i++) {
+         App.refs[i].el.parentNode.removeChild(App.refs[i].el);
+         }
+         */
         Chat.refs = {};
     });
 
