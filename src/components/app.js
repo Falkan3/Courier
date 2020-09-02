@@ -24,7 +24,8 @@ export default function (Courier, Components, Events) {
          * Adds click events.
          */
         bind() {
-            Binder.on('click', Components.App.refs.app.elem, event => this.click(event));
+            Binder.on('click', Components.App.refs.app.elem, event => this.onClick(event));
+            Binder.on('render', Components.App.refs.app.elem, event => this.onRendered(event));
         },
 
         /**
@@ -39,8 +40,17 @@ export default function (Courier, Components, Events) {
          *
          * @param  {Object} event
          */
-        click(event) {
+        onClick(event) {
             Events.emit('app.click', event);
+        },
+
+        /**
+         * Handles render events.
+         *
+         * @param  {Object} event
+         */
+        onRendered(event) {
+            Events.emit('app.rendered', event);
         },
 
         /**
@@ -72,7 +82,7 @@ export default function (Courier, Components, Events) {
      */
     Events.on('mount.after', () => {
         App.render();
-        Events.emit('app.rendered');
+        Events.emit('app.mounted');
     });
 
     /**

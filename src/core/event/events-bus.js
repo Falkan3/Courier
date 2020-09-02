@@ -34,7 +34,7 @@ export default class EventsBus {
 
         // Provide handle back for removal of event
         return {
-            remove() {
+            remove: () => {
                 delete this.events[event][index];
             }
         };

@@ -14,6 +14,7 @@ export default function (Courier, Components, Events) {
 
     const Chat = {
         refs: {},
+        scrollToBottom: false,
 
         mount() {
             Events.emit('chat.mount.before');
@@ -25,7 +26,7 @@ export default function (Courier, Components, Events) {
          * Adds click events.
          */
         bind() {
-            Binder.on('submit', Components.App.refs.app.elem, event => this.submit(event));
+            Binder.on('submit', Components.App.refs.app.elem, event => this.onSubmit(event));
         },
 
         /**
@@ -40,8 +41,8 @@ export default function (Courier, Components, Events) {
          *
          * @param  {Object} event
          */
-        click(event) {
-            const closeBtn = document.querySelector('#courierChatCloseBtn');
+        onClick(event) {
+            const closeBtn = Components.App.refs.app.elem.querySelector('#courierChatCloseBtn');
             if (event.target.matches('#courierChatCloseBtn')
                 || (elemContains(closeBtn, event.target))) {
                 this.close();
@@ -50,16 +51,31 @@ export default function (Courier, Components, Events) {
             return event;
         },
 
+        onAppRendered(event) {
+            // Only run for elements with the #courierChat ID
+            if (event.target.matches('#courierChat')) {
+                if (this.scrollToBottom) {
+                    this.scrollLastMessageIntoView();
+                    this.scrollToBottom = false;
+                }
+            }
+        },
+
         /**
          * Handles submit events.
          *
          * @param  {Object} event
          */
-        submit(event) {
-            const form = document.querySelector('#courierChatInteractionsForm');
+        onSubmit(event) {
+            const form = Components.App.refs.app.elem.querySelector('#courierChatInteractionsForm');
             if (event.target.matches('#courierChatInteractionsForm')
                 || (elemContains(form, event.target))) {
                 event.preventDefault();
+                const message = form.message.value.trim();
+                if (message.length) {
+                    this.sendMessage(message, 'outgoing');
+                }
+                form.message.value = '';
             }
 
             return event;
@@ -75,6 +91,27 @@ export default function (Courier, Components, Events) {
             Events.emit('chat.open');
         },
 
+        sendMessage(message, side) {
+            this.refs.chat.data.messages.push({
+                message,
+                side,
+            });
+
+            this.scrollToBottom = this.chatIsScrolledToTheBottom();
+        },
+
+        chatIsScrolledToTheBottom() {
+            const chatArea = Components.App.refs.app.elem.querySelector('#courierChatWorkArea');
+            return chatArea && chatArea.scrollHeight - chatArea.offsetHeight === chatArea.scrollTop;
+        },
+
+        scrollLastMessageIntoView() {
+            const messages = Components.App.refs.app.elem.querySelectorAll('[data-courier-message-id]');
+            if (messages.length) {
+                messages[messages.length - 1].scrollIntoView();
+            }
+        },
+
         /**
          * Initialize the chat.
          */
@@ -82,37 +119,74 @@ export default function (Courier, Components, Events) {
             Chat.refs.chat = new Reef('#courierChat', {
                 data: {
                     active: false,
+                    identity: {
+                        name: Courier.settings.identity.name,
+                        website: Courier.settings.identity.website,
+                        img: {
+                            src: Courier.settings.identity.logo.src,
+                            alt: Courier.settings.identity.logo.alt,
+                        },
+                    },
                     text: {
                         headerMessage: 'Chat with us!',
                         sendMessage: 'Send message',
                         messagePlaceholder: 'Type something...',
                     },
+                    messages: [
+                        {
+                            message: 'Test message 1',
+                            side: 'outgoing',
+                        },
+                        {
+                            message: 'Test message 2',
+                            side: 'incoming',
+                        },
+                    ],
                 },
                 template: (props) => {
                     if (!props.active) {
                         return '';
                     }
 
+                    const messages = props.messages.map((item, index) => `
+                        <div class="${Courier.settings.classes.chat}-message ${item.side === 'outgoing' ? `${Courier.settings.classes.chat}-message--self` : ''}" data-courier-message-id="${index}">${item.message}</div>
+                    `).join('');
+
                     return `
                     <div class="${Courier.settings.classes.chat}-wall ${Courier.settings.classes.root}__slide-in-bottom ${Courier.settings.classes.root}__anim-timing--half">
                         <div class="${Courier.settings.classes.chat}-header">
-                            <div>
-                                <button id="courierChatOptionsBtn" class="${Courier.settings.classes.chat}-options-btn" type="button">
-                                    ${Courier.settings.images.options}
-                                </button>
+                            <div class="${Courier.settings.classes.chat}-menu">
+                                <div>
+                                    <button id="courierChatOptionsBtn" class="${Courier.settings.classes.chat}-options-btn" type="button" aria-label="Options" disabled>
+                                        ${Courier.settings.images.options}
+                                    </button>
+                                </div>
+                                <div>
+                                    <p>${props.text.headerMessage}</p>
+                                </div>
+                                <div>
+                                    <button id="courierChatCloseBtn" class="${Courier.settings.classes.chat}-close-btn" type="button" aria-label="Close">
+                                        ${Courier.settings.images.closeBtn}
+                                    </button>
+                                </div>
                             </div>
-                            <div>
-                                <p>${props.text.headerMessage}</p>
-                            </div>
-                            <div>
-                                <button id="courierChatCloseBtn" class="${Courier.settings.classes.chat}-close-btn" type="button">
-                                    ${Courier.settings.images.closeBtn}
-                                </button>
+                            <div class="${Courier.settings.classes.chat}-identity">
+                                <div class="p-all--hf">
+                                    <div class="${Courier.settings.classes.chat}-avatar">
+                                        <img src="${props.identity.img.src}" alt="${props.identity.img.alt}" />
+                                    </div>
+                                </div>
+                                <div class="${Courier.settings.classes.chat}-name">
+                                    <p>${props.identity.name}</p>
+                                    <p><a href="${props.identity.website.url}" target="_blank" rel="nofollow noopener noreferrer">${props.identity.website.name}</a></p>
+                                </div>
                             </div>
                         </div>
-                        <div class="${Courier.settings.classes.chat}-work-area"></div>
+                        <div id="courierChatWorkArea" class="${Courier.settings.classes.chat}-work-area">
+                            ${messages}
+                        </div>
                         <form id="courierChatInteractionsForm" class="${Courier.settings.classes.chat}-interactions">
-                            <input type="text" class="${Courier.settings.classes.chat}-message-box" placeholder="${props.text.messagePlaceholder}" autofocus />
+                            <input class="${Courier.settings.classes.chat}-message-box" type="text" name="message" placeholder="${props.text.messagePlaceholder}" autofocus />
                             <button class="${Courier.settings.classes.chat}-send-msg-btn" type="submit" aria-label="${props.text.sendMessage}">
                                 ${Courier.settings.images.sendMsg}
                             </button>
@@ -133,17 +207,24 @@ export default function (Courier, Components, Events) {
     };
 
     /**
-     * Bind event listeners after App has been rendered
+     * Bind event listeners after App has been mounted and rendered for the first time
      */
-    Events.on('app.rendered', () => {
+    Events.on('app.mounted', () => {
         Chat.bind();
     });
 
     /**
      * Bind event listeners after App has been rendered
      */
+    Events.on('app.rendered', (event) => {
+        Chat.onAppRendered(event);
+    });
+
+    /**
+     * Bind event listeners after App has been rendered
+     */
     Events.on('app.click', (event) => {
-        Chat.click(event);
+        Chat.onClick(event);
     });
 
     /**

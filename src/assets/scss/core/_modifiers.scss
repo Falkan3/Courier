@@ -68,3 +68,13 @@
     }
   }
 }
+
+.p {
+  &-all {
+    padding: #{get-font-size()};
+
+    &--hf {
+      padding: #{get-font-size(0.5)};
+    }
+  }
+}
