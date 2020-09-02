@@ -448,7 +448,22 @@
    * Header
    */
     /*
+   * Menu
+   */
+    /*
+   * Identity
+   */
+    /*
+   * Avatar
+   */
+    /*
+   * Name and website
+   */
+    /*
    * Work area
+   */
+    /*
+   * Message
    */
     /*
    * Interactions wrapper
@@ -476,14 +491,71 @@
       background: #fff;
       border-top-left-radius: 4px;
       border-top-right-radius: 4px;
-      box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
-      overflow: auto; }
+      box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23); }
     .courier .courier__chat-header {
+      display: block; }
+    .courier .courier__chat-menu {
       display: flex;
       justify-content: space-between;
-      align-items: center; }
+      align-items: center;
+      padding: 0.5em 1em; }
+    .courier .courier__chat-identity {
+      display: flex;
+      align-items: center;
+      padding: 0.5em 1em;
+      border-top: solid 1px rgba(0, 0, 0, 0.05); }
+    .courier .courier__chat-avatar {
+      position: relative;
+      width: 3em;
+      height: 3em;
+      border-radius: 50%;
+      line-height: 3em; }
+      .courier .courier__chat-avatar::before {
+        content: "";
+        position: absolute;
+        right: 0;
+        top: 0;
+        width: 14px;
+        height: 14px;
+        background: #35d03d;
+        border: 2px solid #fff;
+        border-radius: 50%; }
+      .courier .courier__chat-avatar > img {
+        display: block;
+        border-radius: inherit;
+        width: 100%;
+        height: 100%;
+        object-fit: cover; }
+    .courier .courier__chat-name {
+      padding: 0.5em;
+      line-height: 1.6; }
+      .courier .courier__chat-name > p:nth-child(1) {
+        font-weight: bold; }
+      .courier .courier__chat-name > p:nth-child(2) {
+        font-size: 0.9em; }
+        .courier .courier__chat-name > p:nth-child(2) > a {
+          color: #0b77ce;
+          text-decoration: none;
+          transition: color cubic-bezier(0.1, 1, 0.6, 1) 0.3s; }
+          .courier .courier__chat-name > p:nth-child(2) > a:hover {
+            color: #1992f3; }
     .courier .courier__chat-work-area {
-      height: 100%; }
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      padding: 1em;
+      background-color: #fbfbfb;
+      overflow: auto; }
+    .courier .courier__chat-message {
+      padding: 0.5em 1em;
+      background-color: #e6e6e6;
+      margin-bottom: 1em;
+      align-self: flex-start; }
+      .courier .courier__chat-message--self {
+        align-self: flex-end;
+        background-color: #ddf0ff; }
+      .courier .courier__chat-message:last-child {
+        margin-bottom: 0; }
     .courier .courier__chat-interactions {
       display: flex;
       justify-content: space-between;
@@ -491,7 +563,7 @@
     .courier .courier__chat-message-box {
       width: 100%;
       padding: 0.5em 1em;
-      background-color: #f7f7f7;
+      background-color: #f7fbff;
       border-radius: 8px;
       line-height: 1.6; }
       .courier .courier__chat-message-box::placeholder {
@@ -558,10 +630,12 @@
         transition: fill cubic-bezier(0.1, 1, 0.6, 1) 0.3s; }
       .courier .courier__chat-options-btn:hover {
         cursor: pointer; }
-      .courier .courier__chat-options-btn:hover > svg, .courier .courier__chat-options-btn:active > svg {
+      .courier .courier__chat-options-btn:hover:enabled > svg, .courier .courier__chat-options-btn:active:enabled > svg {
         transform: rotate(90deg); }
-        .courier .courier__chat-options-btn:hover > svg > g, .courier .courier__chat-options-btn:active > svg > g {
+        .courier .courier__chat-options-btn:hover:enabled > svg > g, .courier .courier__chat-options-btn:active:enabled > svg > g {
           fill: #64b5f6; }
+      .courier .courier__chat-options-btn:disabled > svg > g {
+        fill: #ddd; }
   .courier .tx-center {
     text-align: center; }
   .courier .tx-bold {
@@ -597,3 +671,7 @@
       margin-bottom: 0.5em; }
     .courier .m-b--db {
       margin-bottom: 2em; }
+  .courier .p-all {
+    padding: 1em; }
+    .courier .p-all--hf {
+      padding: 0.5em; }

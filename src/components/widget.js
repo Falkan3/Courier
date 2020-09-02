@@ -26,7 +26,7 @@ export default function (Courier, Components, Events) {
          *
          * @param  {Object} event
          */
-        click(event) {
+        onClick(event) {
             const courierWidgetButton = document.querySelector('#courierWidgetButton');
             if (event.target.matches('#courierWidgetButton')
                 || (elemContains(courierWidgetButton, event.target))) {
@@ -82,7 +82,7 @@ export default function (Courier, Components, Events) {
      * Bind event listeners after App has been rendered
      */
     Events.on('app.click', (event) => {
-        Widget.click(event);
+        Widget.onClick(event);
     });
 
     /**

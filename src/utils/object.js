@@ -1,5 +1,3 @@
-import { isUndefined } from './types';
-
 /**
  * Defines getter and setter property on the specified object.
  *
@@ -18,11 +16,13 @@ export function define(obj, prop, definition) {
  * @return {Object}
  */
 export function sortKeys(obj) {
-    return Object.keys(obj).sort().reduce((r, k) => {
-        r[k] = obj[k];
+    return Object.keys(obj)
+        .sort()
+        .reduce((r, k) => {
+            r[k] = obj[k];
 
-        return (r[k], r);
-    }, {});
+            return (r[k], r);
+        }, {});
 }
 
 /**
@@ -33,11 +33,12 @@ export function sortKeys(obj) {
  * @param  {Object} thisArg     reference to input object
  */
 export function objectForEach(obj, callback, thisArg = window) {
-    Object.keys(obj).forEach((key) => {
-        if (Object.hasOwnProperty.call(obj, key)) {
-            callback.call(thisArg, obj[key], key, obj);
-        }
-    });
+    Object.keys(obj)
+        .forEach((key) => {
+            if (Object.hasOwnProperty.call(obj, key)) {
+                callback.call(thisArg, obj[key], key, obj);
+            }
+        });
 }
 
 /**
@@ -74,7 +75,6 @@ export function mergeOptions(defaults, settings) {
     if (Object.hasOwnProperty.call(settings, 'ids')) {
         options.ids = Object.assign({}, defaults.ids, settings.ids);
     }
-
     if (Object.hasOwnProperty.call(settings, 'classes')) {
         options.classes = Object.assign({}, defaults.classes, settings.classes);
     }
@@ -86,6 +86,12 @@ export function mergeOptions(defaults, settings) {
     }
     if (Object.hasOwnProperty.call(settings, 'textVars')) {
         options.textVars = Object.assign({}, defaults.textVars, settings.textVars);
+    }
+    if (Object.hasOwnProperty.call(settings, 'identity')) {
+        options.identity = Object.assign({}, defaults.identity, settings.identity);
+    }
+    if (Object.hasOwnProperty.call(settings, 'images')) {
+        options.images = Object.assign({}, defaults.images, settings.images);
     }
 
     objectForEach(options.texts, (value, key) => {

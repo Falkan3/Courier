@@ -16,6 +16,7 @@ export default class EventsBus {
      *
      * @param {String|Array} event
      * @param {Function} handler
+     * @returns {{remove: remove}}
      */
     on(event, handler) {
         if (isArray(event)) {
@@ -34,7 +35,7 @@ export default class EventsBus {
 
         // Provide handle back for removal of event
         return {
-            remove() {
+            remove: () => {
                 delete this.events[event][index];
             }
         };
