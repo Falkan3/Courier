@@ -1,0 +1,64 @@
+/*
+ * Work area
+ */
+&-work-area {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 1em;
+  background-color: $workAreaBgColor;
+  overflow: auto;
+}
+
+/*
+ * Message
+ */
+&-message {
+  padding: 0.5em 1em;
+  background-color: $messageBgColorIncoming;
+  margin-bottom: 1em;
+  align-self: flex-start;
+  border-radius: 4px 4px 4px 0;
+
+  &--self {
+    align-self: flex-end;
+    background-color: $messageBgColorOutgoing;
+    border-radius: 4px 4px 0;
+  }
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+/*
+ * Topics
+ */
+&-topics {
+  position: relative;
+  display: flex;
+  // flex-wrap: wrap;
+  margin: -4px;
+  justify-content: center;
+}
+
+&-topic {
+  padding: 0.5em 1em;
+  background-color: $messageTopicPrimaryColor;
+  border: solid 2px $messageTopicSecondaryColor;
+  margin: 4px;
+  border-radius: 14px;
+  color: $messageTopicSecondaryColor;
+  transition: background-color cubic-bezier(0.1, 1, 0.6, 1) 0.3s, color cubic-bezier(0.1, 1, 0.6, 1) 0.2s;
+
+  &:hover:enabled {
+    cursor: pointer;
+  }
+
+  &:hover:enabled,
+  &:focus:enabled,
+  &--active {
+    background-color: $messageTopicSecondaryColor;
+    color: $messageTopicPrimaryColor;
+  }
+}

@@ -1,0 +1,90 @@
+/*
+ * Interactions wrapper
+ */
+&-interactions {
+  display: flex;
+  justify-content: space-between;
+  padding: 1em;
+}
+
+/*
+ * Message box
+ */
+&-message-box {
+  width: 100%;
+  padding: 0.5em 1em;
+  background-color: $sendMessageBoxBgColor;
+  border-radius: 8px;
+  line-height: 1.6;
+
+  &::placeholder {
+    font-size: 0.8em;
+    color: get-palette-hue('foreground', 500);
+  }
+}
+
+/*
+ * Send message button
+ */
+&-send-msg-btn {
+  margin-left: 0.5em;
+  padding: 0.5em 1em;
+  background: transparent;
+  border-radius: 8px;
+
+  & > img,
+  & > svg {
+    display: block;
+    width: 2em;
+    height: 2em;
+    transition: transform cubic-bezier(0.1, 1, 0.6, 1) 0.3s;
+  }
+
+  & > svg {
+    & > path {
+      transition: fill cubic-bezier(0.1, 1, 0.6, 1) 0.3s;
+
+      &:nth-child(1) {
+        fill: darken($btnColorActive, 5%);
+      }
+
+      &:nth-child(2) {
+        fill: $btnColorActive;
+      }
+    }
+  }
+
+  &:hover {
+    cursor: pointer;
+  }
+
+  &:hover,
+  &:active {
+    & > img,
+    & > svg {
+      transform: rotate(10deg) scale(1.1, 1.1);
+    }
+
+    & > svg {
+      & > path:nth-child(1) {
+        fill: lighten(darken($btnColorActive, 5%), 5%);
+      }
+
+      & > path:nth-child(2) {
+        fill: lighten($btnColorActive, 5%);
+      }
+    }
+  }
+
+  &:disabled {
+    & > svg {
+      & > path:nth-child(1) {
+        fill: darken($btnColorInactive, 5%);
+      }
+
+      & > path:nth-child(2) {
+        fill: $btnColorInactive;
+      }
+    }
+  }
+}

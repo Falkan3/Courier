@@ -1,0 +1,173 @@
+/*
+ * Header
+ */
+&-header {
+  display: block;
+}
+
+/*
+ * Menu
+ */
+&-menu {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5em 1em;
+}
+
+/*
+ * Identity
+ */
+&-identity {
+  display: flex;
+  align-items: center;
+  padding: 0.5em 1em;
+  border-top: solid 1px rgba(0, 0, 0, 0.05);
+}
+
+/*
+ * Avatar
+ */
+&-avatar {
+  position: relative;
+  width: 3em;
+  height: 3em;
+  border-radius: 50%;
+  line-height: 3em;
+
+  &::before {
+    content: "";
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 14px;
+    height: 14px;
+    background-color: #bbb;
+    border: 2px solid #fff;
+    border-radius: 50%;
+  }
+
+  &#{$classPrefix}__chat--online {
+    &::before {
+      background-color: #35d03d;
+    }
+  }
+
+  & > img {
+    display: block;
+    border-radius: inherit;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+/*
+ * Name and website
+ */
+&-name {
+  padding: 0.5em;
+  line-height: 1.6;
+
+  & > p {
+    &:nth-child(1) {
+      font-weight: bold;
+    }
+
+    &:nth-child(2) {
+      font-size: 0.9em;
+
+      & > a {
+        color: $linkColor;
+        text-decoration: none;
+        transition: color cubic-bezier(0.1, 1, 0.6, 1) 0.3s;
+
+        &:hover {
+          color: lighten($linkColor, 10%);
+        }
+      }
+    }
+  }
+}
+
+/*
+ * Close button
+ */
+&-close-btn {
+  padding: 1em;
+
+  & > img,
+  & > svg {
+    display: block;
+    width: 1em;
+    height: 1em;
+    transition: transform cubic-bezier(0.1, 1, 0.6, 1) 0.3s;
+  }
+
+  & > svg {
+    & > g {
+      fill: $btnColorInactive;
+      transition: fill cubic-bezier(0.1, 1, 0.6, 1) 0.3s;
+    }
+  }
+
+  &:hover {
+    cursor: pointer;
+  }
+
+  &:hover,
+  &:active {
+    & > svg {
+      transform: rotate(90deg);
+
+      & > g {
+        fill: $btnColorActive;
+      }
+    }
+  }
+}
+
+/*
+ * Options button
+ */
+&-options-btn {
+  padding: 1em;
+
+  & > img,
+  & > svg {
+    display: block;
+    width: 1em;
+    height: 1em;
+    transition: transform cubic-bezier(0.1, 1, 0.6, 1) 0.3s;
+  }
+
+  & > svg {
+    & > g {
+      fill: $btnColorInactive;
+      transition: fill cubic-bezier(0.1, 1, 0.6, 1) 0.3s;
+    }
+  }
+
+  &:hover {
+    cursor: pointer;
+  }
+
+  &:hover,
+  &:active {
+    &:enabled > svg {
+      transform: rotate(90deg);
+
+      & > g {
+        fill: $btnColorActive;
+      }
+    }
+  }
+
+  &:disabled {
+    & > svg {
+      & > g {
+        fill: #ddd;
+      }
+    }
+  }
+}

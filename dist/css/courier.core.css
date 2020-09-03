@@ -18,7 +18,7 @@
   --courier-animate-delay: 1s;
   --courier-animate-repeat: 1; }
 
-.courier__bounce-in-left, .courier__appear-bottom, .courier__slide-in-bottom {
+.courier__bounce-in-left, .courier__appear, .courier__appear-bottom, .courier__slide-in-bottom {
   animation-duration: var(--courier-animate-duration);
   animation-fill-mode: both; }
 
@@ -54,6 +54,24 @@
 
 .courier__bounce-in-left {
   animation-name: bounceInLeft; }
+
+/*
+ * Appear
+ */
+@keyframes appear {
+  from,
+  to {
+    animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1); }
+  0% {
+    opacity: 0;
+    transform: scale(0.8, 0.8); }
+  to {
+    opacity: 1;
+    -webkit-transform: scale(1, 1);
+    transform: scale(1, 1); } }
+
+.courier__appear {
+  animation-name: appear; }
 
 /*
  * Appear from the bottom
@@ -440,54 +458,60 @@
   .courier .courier__chat {
     position: fixed;
     bottom: 0;
-    right: 1em;
+    right: 0;
     /*
-   * Wall container
-   */
+ * Wall container
+ */
     /*
-   * Header
-   */
+ * Header
+ */
     /*
-   * Menu
-   */
+ * Menu
+ */
     /*
-   * Identity
-   */
+ * Identity
+ */
     /*
-   * Avatar
-   */
+ * Avatar
+ */
     /*
-   * Name and website
-   */
+ * Name and website
+ */
     /*
-   * Work area
-   */
+ * Close button
+ */
     /*
-   * Message
-   */
+ * Options button
+ */
     /*
-   * Interactions wrapper
-   */
+ * Work area
+ */
     /*
-   * Message box
-   */
+ * Message
+ */
     /*
-   * Send message button
-   */
+ * Topics
+ */
     /*
-   * Close button
-   */
+ * Interactions wrapper
+ */
     /*
-   * Options button
-   */ }
+ * Message box
+ */
+    /*
+ * Send message button
+ */ }
+    @media (min-width: 768px) {
+      .courier .courier__chat {
+        right: 1em; } }
     .courier .courier__chat-wall {
       display: flex;
       flex-direction: column;
       justify-content: space-between;
       width: 400px;
-      max-width: 100%;
+      max-width: 100vw;
       height: 600px;
-      max-height: 100vw;
+      max-height: 100vh;
       background: #fff;
       border-top-left-radius: 4px;
       border-top-right-radius: 4px;
@@ -517,9 +541,11 @@
         top: 0;
         width: 14px;
         height: 14px;
-        background: #35d03d;
+        background-color: #bbb;
         border: 2px solid #fff;
         border-radius: 50%; }
+      .courier .courier__chat-avatar.courier__chat--online::before {
+        background-color: #35d03d; }
       .courier .courier__chat-avatar > img {
         display: block;
         border-radius: inherit;
@@ -539,67 +565,6 @@
           transition: color cubic-bezier(0.1, 1, 0.6, 1) 0.3s; }
           .courier .courier__chat-name > p:nth-child(2) > a:hover {
             color: #1992f3; }
-    .courier .courier__chat-work-area {
-      display: flex;
-      flex-direction: column;
-      height: 100%;
-      padding: 1em;
-      background-color: #fbfbfb;
-      overflow: auto; }
-    .courier .courier__chat-message {
-      padding: 0.5em 1em;
-      background-color: #e6e6e6;
-      margin-bottom: 1em;
-      align-self: flex-start; }
-      .courier .courier__chat-message--self {
-        align-self: flex-end;
-        background-color: #ddf0ff; }
-      .courier .courier__chat-message:last-child {
-        margin-bottom: 0; }
-    .courier .courier__chat-interactions {
-      display: flex;
-      justify-content: space-between;
-      padding: 1em; }
-    .courier .courier__chat-message-box {
-      width: 100%;
-      padding: 0.5em 1em;
-      background-color: #f7fbff;
-      border-radius: 8px;
-      line-height: 1.6; }
-      .courier .courier__chat-message-box::placeholder {
-        font-size: 0.8em;
-        color: #9c9e9e; }
-    .courier .courier__chat-send-msg-btn {
-      margin-left: 0.5em;
-      padding: 0.5em 1em;
-      background: transparent;
-      border-radius: 8px; }
-      .courier .courier__chat-send-msg-btn > img,
-      .courier .courier__chat-send-msg-btn > svg {
-        display: block;
-        width: 2em;
-        height: 2em;
-        transition: transform cubic-bezier(0.1, 1, 0.6, 1) 0.3s; }
-      .courier .courier__chat-send-msg-btn > svg > path {
-        transition: fill cubic-bezier(0.1, 1, 0.6, 1) 0.3s; }
-        .courier .courier__chat-send-msg-btn > svg > path > path:nth-child(1) {
-          fill: #cfe4f5; }
-        .courier .courier__chat-send-msg-btn > svg > path > path:nth-child(2) {
-          fill: #bad8f1; }
-      .courier .courier__chat-send-msg-btn:hover {
-        cursor: pointer; }
-      .courier .courier__chat-send-msg-btn:hover > img,
-      .courier .courier__chat-send-msg-btn:hover > svg, .courier .courier__chat-send-msg-btn:active > img,
-      .courier .courier__chat-send-msg-btn:active > svg {
-        transform: rotate(10deg) scale(1.1, 1.1); }
-      .courier .courier__chat-send-msg-btn:hover > svg > path:nth-child(1), .courier .courier__chat-send-msg-btn:active > svg > path:nth-child(1) {
-        fill: #64b5f6; }
-      .courier .courier__chat-send-msg-btn:hover > svg > path:nth-child(2), .courier .courier__chat-send-msg-btn:active > svg > path:nth-child(2) {
-        fill: #4ca9f5; }
-      .courier .courier__chat-send-msg-btn:disabled > svg > path:nth-child(1) {
-        fill: #bdbdbd; }
-      .courier .courier__chat-send-msg-btn:disabled > svg > path:nth-child(2) {
-        fill: #ddd; }
     .courier .courier__chat-close-btn {
       padding: 1em; }
       .courier .courier__chat-close-btn > img,
@@ -636,6 +601,87 @@
           fill: #64b5f6; }
       .courier .courier__chat-options-btn:disabled > svg > g {
         fill: #ddd; }
+    .courier .courier__chat-work-area {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      padding: 1em;
+      background-color: #fbfbfb;
+      overflow: auto; }
+    .courier .courier__chat-message {
+      padding: 0.5em 1em;
+      background-color: #e6e6e6;
+      margin-bottom: 1em;
+      align-self: flex-start;
+      border-radius: 4px 4px 4px 0; }
+      .courier .courier__chat-message--self {
+        align-self: flex-end;
+        background-color: #ddf0ff;
+        border-radius: 4px 4px 0; }
+      .courier .courier__chat-message:last-child {
+        margin-bottom: 0; }
+    .courier .courier__chat-topics {
+      position: relative;
+      display: flex;
+      margin: -4px;
+      justify-content: center; }
+    .courier .courier__chat-topic {
+      padding: 0.5em 1em;
+      background-color: #fff;
+      border: solid 2px #41abff;
+      margin: 4px;
+      border-radius: 14px;
+      color: #41abff;
+      transition: background-color cubic-bezier(0.1, 1, 0.6, 1) 0.3s, color cubic-bezier(0.1, 1, 0.6, 1) 0.2s; }
+      .courier .courier__chat-topic:hover {
+        cursor: pointer; }
+      .courier .courier__chat-topic:hover:enabled, .courier .courier__chat-topic:focus:enabled, .courier .courier__chat-topic--active {
+        background-color: #41abff;
+        color: #fff; }
+    .courier .courier__chat-interactions {
+      display: flex;
+      justify-content: space-between;
+      padding: 1em; }
+    .courier .courier__chat-message-box {
+      width: 100%;
+      padding: 0.5em 1em;
+      background-color: #f7fbff;
+      border-radius: 8px;
+      line-height: 1.6; }
+      .courier .courier__chat-message-box::placeholder {
+        font-size: 0.8em;
+        color: #9c9e9e; }
+    .courier .courier__chat-send-msg-btn {
+      margin-left: 0.5em;
+      padding: 0.5em 1em;
+      background: transparent;
+      border-radius: 8px; }
+      .courier .courier__chat-send-msg-btn > img,
+      .courier .courier__chat-send-msg-btn > svg {
+        display: block;
+        width: 2em;
+        height: 2em;
+        transition: transform cubic-bezier(0.1, 1, 0.6, 1) 0.3s; }
+      .courier .courier__chat-send-msg-btn > svg > path {
+        transition: fill cubic-bezier(0.1, 1, 0.6, 1) 0.3s; }
+        .courier .courier__chat-send-msg-btn > svg > path:nth-child(1) {
+          fill: #4ca9f5; }
+        .courier .courier__chat-send-msg-btn > svg > path:nth-child(2) {
+          fill: #64b5f6; }
+      .courier .courier__chat-send-msg-btn:hover {
+        cursor: pointer; }
+      .courier .courier__chat-send-msg-btn:hover > img,
+      .courier .courier__chat-send-msg-btn:hover > svg, .courier .courier__chat-send-msg-btn:active > img,
+      .courier .courier__chat-send-msg-btn:active > svg {
+        transform: rotate(10deg) scale(1.1, 1.1); }
+      .courier .courier__chat-send-msg-btn:hover > svg > path:nth-child(1), .courier .courier__chat-send-msg-btn:active > svg > path:nth-child(1) {
+        fill: #64b5f6; }
+      .courier .courier__chat-send-msg-btn:hover > svg > path:nth-child(2), .courier .courier__chat-send-msg-btn:active > svg > path:nth-child(2) {
+        fill: #7cc1f7; }
+      .courier .courier__chat-send-msg-btn:disabled > svg > path:nth-child(1) {
+        fill: #bad8f1; }
+      .courier .courier__chat-send-msg-btn:disabled > svg > path:nth-child(2) {
+        fill: #cfe4f5; }
   .courier .tx-center {
     text-align: center; }
   .courier .tx-bold {

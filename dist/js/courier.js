@@ -200,6 +200,14 @@
       widget: 'courier__widget',
       chat: 'courier__chat'
     },
+
+    /**
+     * Collection of modifier classes to be applied to the specified elements
+     * For example:
+     * {root: 'your-modifier-class'}
+     *
+     * @type {Object}
+     */
     modifierClasses: {},
 
     /**
@@ -215,6 +223,12 @@
      * @type {Object}
      */
     textVars: {},
+
+    /**
+     * Collection of variables representing the identity of the service owner.
+     *
+     * @type {Object}
+     */
     identity: {
       name: 'Name',
       website: {
@@ -237,6 +251,41 @@
       closeBtn: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 365.717 365"><g fill="#f44336"><path d="M356.34 296.348L69.727 9.734c-12.5-12.5-32.766-12.5-45.247 0L9.375 24.816c-12.5 12.504-12.5 32.77 0 45.25L295.988 356.68c12.504 12.5 32.77 12.5 45.25 0l15.082-15.082c12.524-12.48 12.524-32.75.02-45.25zm0 0"/><path d="M295.988 9.734L9.375 296.348c-12.5 12.5-12.5 32.77 0 45.25l15.082 15.082c12.504 12.5 32.77 12.5 45.25 0L356.34 70.086c12.504-12.5 12.504-32.766 0-45.246L341.258 9.758c-12.5-12.524-32.766-12.524-45.27-.024zm0 0"/></g></svg>',
       options: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><g fill="#000"><path d="M256 110.825c-43.241 0-78.42 35.179-78.42 78.42s35.179 78.42 78.42 78.42 78.42-35.179 78.42-78.42-35.179-78.42-78.42-78.42zm0 117.955c-21.802 0-39.534-17.739-39.534-39.534 0-21.802 17.732-39.534 39.534-39.534 21.796 0 39.534 17.732 39.534 39.534S277.796 228.78 256 228.78z"/><path d="M256 229.428c-10.739 0-19.443 8.704-19.443 19.443v230.724c0 10.739 8.704 19.443 19.443 19.443s19.443-8.704 19.443-19.443V248.871c0-10.739-8.704-19.443-19.443-19.443zM256 12.962c-10.739 0-19.443 8.704-19.443 19.443v97.863c0 10.739 8.704 19.443 19.443 19.443s19.443-8.704 19.443-19.443V32.405c0-10.739-8.704-19.443-19.443-19.443zM433.58 244.334c-43.235 0-78.42 35.179-78.42 78.42s35.185 78.42 78.42 78.42c43.241 0 78.42-35.179 78.42-78.42s-35.185-78.42-78.42-78.42zm0 117.961c-21.809 0-39.541-17.739-39.541-39.541s17.739-39.534 39.541-39.534 39.534 17.739 39.534 39.534c0 21.809-17.739 39.541-39.534 39.541z"/><path d="M433.58 362.289c-10.739 0-19.443 8.704-19.443 19.443v97.863c0 10.739 8.704 19.443 19.443 19.443 10.745 0 19.443-8.704 19.443-19.443v-97.863c0-10.739-8.704-19.443-19.443-19.443zM433.58 12.962c-10.739 0-19.443 8.704-19.443 19.443v230.724c0 10.739 8.704 19.443 19.443 19.443 10.745 0 19.443-8.704 19.443-19.443V32.405c0-10.739-8.704-19.443-19.443-19.443zM78.42 244.334c-43.241 0-78.42 35.179-78.42 78.42s35.179 78.42 78.42 78.42 78.42-35.179 78.42-78.42c.001-43.241-35.178-78.42-78.42-78.42zm0 117.961c-21.802 0-39.534-17.739-39.534-39.541S56.618 283.22 78.42 283.22s39.534 17.739 39.534 39.534c0 21.809-17.732 39.541-39.534 39.541z"/><path d="M78.42 362.289c-10.739 0-19.443 8.704-19.443 19.443v97.863c0 10.739 8.704 19.443 19.443 19.443s19.443-8.704 19.443-19.443v-97.863c0-10.739-8.704-19.443-19.443-19.443zM78.42 12.962c-10.739 0-19.443 8.704-19.443 19.443v230.724c0 10.739 8.704 19.443 19.443 19.443s19.443-8.704 19.443-19.443V32.405c0-10.739-8.704-19.443-19.443-19.443z"/></g></svg>',
       sendMsg: '<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 24 24"><path fill="#2196f3" d="M14.077 16.79a.75.75 0 00-.448-.489l-3.857-1.5a.748.748 0 00-1.022.699v6.75a.751.751 0 001.354.444l3.857-5.25a.748.748 0 00.116-.654z"/><path fill="#64b5f6" d="M23.685.139a.75.75 0 00-.782-.054l-22.5 11.75a.752.752 0 00.104 1.375l19.75 6.75a.753.753 0 00.985-.599l2.75-18.5a.751.751 0 00-.307-.722z"/></svg>'
+    },
+
+    /**
+     * Collection of messages and topics to be held by the chat bot.
+     *
+     * @type {Object}
+     */
+    messages: {
+      start: {
+        message: 'Test message 1 with topics',
+        topics: [{
+          text: 'Coupons',
+          path: 'coupons'
+        }, {
+          text: 'Sales'
+        }, {
+          text: 'Newsletter'
+        }]
+      },
+      coupons: {
+        message: 'Here is a list of all of our active coupons:',
+        topics: [{
+          text: 'XXX',
+          path: 'couponsXXX'
+        }, {
+          text: 'YYY',
+          path: 'couponsYYY'
+        }, {
+          text: 'ZZZ',
+          path: 'couponsZZZ'
+        }]
+      },
+      couponsXXX: {
+        message: 'You have selected coupon XXX'
+      }
     }
   };
 
@@ -440,6 +489,7 @@
      *
      * @param {String|Array} event
      * @param {Function} handler
+     * @returns {{remove: remove}}
      */
 
 
@@ -1772,6 +1822,30 @@
     return Widget;
   }
 
+  /**
+   * Applies classes from settings to an element
+   *
+   * @param  {Element|Node} el  The DOM element to check if it's scrolled to the bottom.
+   */
+  function isScrolledToTheBottom(el) {
+    return el && el.scrollHeight - el.offsetHeight === el.scrollTop;
+  }
+  /**
+   * Find a predefined reply from the scenario property in settings.
+   *
+   * @param  {Object} scenario    Message scenario.
+   * @param  {string} msg         The message.
+   * @param  {string} path        The topic's path.
+   */
+
+  function replyFromScenario(scenario, msg, path) {
+    if (path && scenario[path]) {
+      return scenario[path];
+    }
+
+    return null;
+  }
+
   function Chat (Courier, Components, Events) {
     /**
      * Instance of the binder for DOM Events.
@@ -1784,7 +1858,9 @@
       scrollToBottom: false,
       mount: function mount() {
         Events.emit('chat.mount.before');
-        this.initialize();
+        this.initialize(); // push the start message after initialization
+
+        this.refs.chat.data.messages.push(Courier.settings.messages.start);
         Events.emit('chat.mount.after');
       },
 
@@ -1818,6 +1894,10 @@
           this.close();
         }
 
+        if (event.target.matches('[data-courier-topic-id]')) {
+          this.triggerTopic(event.target.dataset.courierMessageId, event.target.dataset.courierTopicId);
+        }
+
         return event;
       },
       onAppRendered: function onAppRendered(event) {
@@ -1843,7 +1923,10 @@
           var message = form.message.value.trim();
 
           if (message.length) {
-            this.sendMessage(message, 'outgoing');
+            this.sendMessage({
+              message: message,
+              outgoing: true
+            });
           }
 
           form.message.value = '';
@@ -1859,16 +1942,36 @@
         this.refs.chat.data.active = true;
         Events.emit('chat.open');
       },
-      sendMessage: function sendMessage(message, side) {
-        this.refs.chat.data.messages.push({
-          message: message,
-          side: side
-        });
+      sendMessage: function sendMessage(message) {
+        // user can only send messages when it's their turn
+        if (message.outgoing && !this.refs.chat.data.state.userTurn) return;
+        this.refs.chat.data.messages.push(message);
         this.scrollToBottom = this.chatIsScrolledToTheBottom();
       },
+      triggerTopic: function triggerTopic(messageId, topicId) {
+        var topics = this.refs.chat.data.messages[messageId].topics;
+        var topic = topics[topicId]; // check if any topic at this level was not already selected
+
+        if (topics.filter(function (t) {
+          return t.active;
+        }).length === 0) {
+          topics.forEach(function (item) {
+            item.disabled = true;
+          });
+          topic.active = true;
+          this.sendMessage({
+            message: topic.text,
+            outgoing: true
+          });
+          var reply = replyFromScenario(Courier.settings.messages, topic.text, topic.path);
+
+          if (reply) {
+            this.sendMessage(reply);
+          }
+        }
+      },
       chatIsScrolledToTheBottom: function chatIsScrolledToTheBottom() {
-        var chatArea = Components.App.refs.app.elem.querySelector('#courierChatWorkArea');
-        return chatArea && chatArea.scrollHeight - chatArea.offsetHeight === chatArea.scrollTop;
+        return isScrolledToTheBottom(Components.App.refs.app.elem.querySelector('#courierChatWorkArea'));
       },
       scrollLastMessageIntoView: function scrollLastMessageIntoView() {
         var messages = Components.App.refs.app.elem.querySelectorAll('[data-courier-message-id]');
@@ -1885,6 +1988,8 @@
         Chat.refs.chat = new Reef('#courierChat', {
           data: {
             active: false,
+            messageBox: false,
+            online: true,
             identity: {
               name: Courier.settings.identity.name,
               website: Courier.settings.identity.website,
@@ -1898,13 +2003,10 @@
               sendMessage: 'Send message',
               messagePlaceholder: 'Type something...'
             },
-            messages: [{
-              message: 'Test message 1',
-              side: 'outgoing'
-            }, {
-              message: 'Test message 2',
-              side: 'incoming'
-            }]
+            messages: [],
+            state: {
+              userTurn: true
+            }
           },
           template: function template(props) {
             if (!props.active) {
@@ -1912,9 +2014,25 @@
             }
 
             var messages = props.messages.map(function (item, index) {
-              return "\n                        <div class=\"".concat(Courier.settings.classes.chat, "-message ").concat(item.side === 'outgoing' ? "".concat(Courier.settings.classes.chat, "-message--self") : '', "\" data-courier-message-id=\"").concat(index, "\">").concat(item.message, "</div>\n                    ");
+              // generate message html
+              var html = "\n                            <div class=\"".concat(Courier.settings.classes.chat, "-message ").concat(item.outgoing ? "".concat(Courier.settings.classes.chat, "-message--self") : '', " courier__appear courier__anim-timing--third\" data-courier-message-id=\"").concat(index, "\">").concat(item.message, "</div>\n                        ");
+
+              if (item.topics) {
+                var topicsHtml; // generate topics html
+
+                topicsHtml = item.topics.map(function (topic, topicIndex) {
+                  return "\n                                <button class=\"".concat(Courier.settings.classes.chat, "-topic ").concat(topic.active ? "".concat(Courier.settings.classes.chat, "-topic--active") : '', "\" data-courier-message-id=\"").concat(index, "\" data-courier-topic-id=\"").concat(topicIndex, "\" ").concat(topic.disabled ? 'disabled' : '', ">").concat(topic.text, "</button>\n                            ");
+                }).join(''); // wrap topics
+
+                topicsHtml = "\n                                <div class=\"m-b\">\n                                    <div class=\"".concat(Courier.settings.classes.chat, "-topics\">\n                                        ").concat(topicsHtml, "\n                                    </div>\n                                </div>\n                            "); // merge message and topics html
+
+                html += topicsHtml;
+              }
+
+              return html;
             }).join('');
-            return "\n                    <div class=\"".concat(Courier.settings.classes.chat, "-wall ").concat(Courier.settings.classes.root, "__slide-in-bottom ").concat(Courier.settings.classes.root, "__anim-timing--half\">\n                        <div class=\"").concat(Courier.settings.classes.chat, "-header\">\n                            <div class=\"").concat(Courier.settings.classes.chat, "-menu\">\n                                <div>\n                                    <button id=\"courierChatOptionsBtn\" class=\"").concat(Courier.settings.classes.chat, "-options-btn\" type=\"button\" aria-label=\"Options\" disabled>\n                                        ").concat(Courier.settings.images.options, "\n                                    </button>\n                                </div>\n                                <div>\n                                    <p>").concat(props.text.headerMessage, "</p>\n                                </div>\n                                <div>\n                                    <button id=\"courierChatCloseBtn\" class=\"").concat(Courier.settings.classes.chat, "-close-btn\" type=\"button\" aria-label=\"Close\">\n                                        ").concat(Courier.settings.images.closeBtn, "\n                                    </button>\n                                </div>\n                            </div>\n                            <div class=\"").concat(Courier.settings.classes.chat, "-identity\">\n                                <div class=\"p-all--hf\">\n                                    <div class=\"").concat(Courier.settings.classes.chat, "-avatar\">\n                                        <img src=\"").concat(props.identity.img.src, "\" alt=\"").concat(props.identity.img.alt, "\" />\n                                    </div>\n                                </div>\n                                <div class=\"").concat(Courier.settings.classes.chat, "-name\">\n                                    <p>").concat(props.identity.name, "</p>\n                                    <p><a href=\"").concat(props.identity.website.url, "\" target=\"_blank\" rel=\"nofollow noopener noreferrer\">").concat(props.identity.website.name, "</a></p>\n                                </div>\n                            </div>\n                        </div>\n                        <div id=\"courierChatWorkArea\" class=\"").concat(Courier.settings.classes.chat, "-work-area\">\n                            ").concat(messages, "\n                        </div>\n                        <form id=\"courierChatInteractionsForm\" class=\"").concat(Courier.settings.classes.chat, "-interactions\">\n                            <input class=\"").concat(Courier.settings.classes.chat, "-message-box\" type=\"text\" name=\"message\" placeholder=\"").concat(props.text.messagePlaceholder, "\" autofocus />\n                            <button class=\"").concat(Courier.settings.classes.chat, "-send-msg-btn\" type=\"submit\" aria-label=\"").concat(props.text.sendMessage, "\">\n                                ").concat(Courier.settings.images.sendMsg, "\n                            </button>\n                        </form>\n                    </div>\n                    ");
+            var messageBox = props.messageBox ? "\n                        <form id=\"courierChatInteractionsForm\" class=\"".concat(Courier.settings.classes.chat, "-interactions\" autocomplete=\"off\">\n                            <input class=\"").concat(Courier.settings.classes.chat, "-message-box\" type=\"text\" name=\"message\" placeholder=\"").concat(props.text.messagePlaceholder, "\" autofocus />\n                            <button class=\"").concat(Courier.settings.classes.chat, "-send-msg-btn\" type=\"submit\" aria-label=\"").concat(props.text.sendMessage, "\">\n                                ").concat(Courier.settings.images.sendMsg, "\n                            </button>\n                        </form>\n                        ") : '';
+            return "\n                    <div class=\"".concat(Courier.settings.classes.chat, "-wall ").concat(Courier.settings.classes.root, "__slide-in-bottom ").concat(Courier.settings.classes.root, "__anim-timing--half\">\n                        <div class=\"").concat(Courier.settings.classes.chat, "-header\">\n                            <div class=\"").concat(Courier.settings.classes.chat, "-menu\">\n                                <div>\n                                    <button id=\"courierChatOptionsBtn\" class=\"").concat(Courier.settings.classes.chat, "-options-btn\" type=\"button\" aria-label=\"Options\" disabled>\n                                        ").concat(Courier.settings.images.options, "\n                                    </button>\n                                </div>\n                                <div>\n                                    <p>").concat(props.text.headerMessage, "</p>\n                                </div>\n                                <div>\n                                    <button id=\"courierChatCloseBtn\" class=\"").concat(Courier.settings.classes.chat, "-close-btn\" type=\"button\" aria-label=\"Close\">\n                                        ").concat(Courier.settings.images.closeBtn, "\n                                    </button>\n                                </div>\n                            </div>\n                            <div class=\"").concat(Courier.settings.classes.chat, "-identity\">\n                                <div class=\"p-all--hf\">\n                                    <div class=\"").concat(Courier.settings.classes.chat, "-avatar ").concat(props.online ? "".concat(Courier.settings.classes.chat, "--online") : '', "\">\n                                        <img src=\"").concat(props.identity.img.src, "\" alt=\"").concat(props.identity.img.alt, "\" />\n                                    </div>\n                                </div>\n                                <div class=\"").concat(Courier.settings.classes.chat, "-name\">\n                                    <p>").concat(props.identity.name, "</p>\n                                    <p><a href=\"").concat(props.identity.website.url, "\" target=\"_blank\" rel=\"nofollow noopener noreferrer\">").concat(props.identity.website.name, "</a></p>\n                                </div>\n                            </div>\n                        </div>\n                        <div id=\"courierChatWorkArea\" class=\"").concat(Courier.settings.classes.chat, "-work-area\">\n                            ").concat(messages, "\n                        </div>\n                        ").concat(messageBox, "\n                    </div>\n                    ");
           },
           attachTo: Components.App.refs.app
         });

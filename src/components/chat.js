@@ -2,6 +2,7 @@ import { objectForEach } from '../utils/object';
 import EventsBinder from '../core/event/events-binder';
 import Reef from '../libs/reefjs/reef.es';
 import { elemContains } from '../utils/dom';
+import { isScrolledToTheBottom, replyFromScenario } from '../utils/chat';
 
 
 export default function (Courier, Components, Events) {
@@ -19,6 +20,8 @@ export default function (Courier, Components, Events) {
         mount() {
             Events.emit('chat.mount.before');
             this.initialize();
+            // push the start message after initialization
+            this.refs.chat.data.messages.push(Courier.settings.messages.start);
             Events.emit('chat.mount.after');
         },
 
@@ -48,6 +51,13 @@ export default function (Courier, Components, Events) {
                 this.close();
             }
 
+            if (event.target.matches('[data-courier-topic-id]')) {
+                this.triggerTopic(
+                    event.target.dataset.courierMessageId,
+                    event.target.dataset.courierTopicId,
+                );
+            }
+
             return event;
         },
 
@@ -73,7 +83,10 @@ export default function (Courier, Components, Events) {
                 event.preventDefault();
                 const message = form.message.value.trim();
                 if (message.length) {
-                    this.sendMessage(message, 'outgoing');
+                    this.sendMessage({
+                        message,
+                        outgoing: true
+                    });
                 }
                 form.message.value = '';
             }
@@ -91,18 +104,35 @@ export default function (Courier, Components, Events) {
             Events.emit('chat.open');
         },
 
-        sendMessage(message, side) {
-            this.refs.chat.data.messages.push({
-                message,
-                side,
-            });
-
+        sendMessage(message) {
+            // user can only send messages when it's their turn
+            if (message.outgoing && !this.refs.chat.data.state.userTurn) return;
+            this.refs.chat.data.messages.push(message);
             this.scrollToBottom = this.chatIsScrolledToTheBottom();
         },
 
+        triggerTopic(messageId, topicId) {
+            const { topics } = this.refs.chat.data.messages[messageId];
+            const topic = topics[topicId];
+            // check if any topic at this level was not already selected
+            if (topics.filter(t => t.active).length === 0) {
+                topics.forEach((item) => {
+                    item.disabled = true;
+                });
+                topic.active = true;
+                this.sendMessage({
+                    message: topic.text,
+                    outgoing: true
+                });
+                const reply = replyFromScenario(Courier.settings.messages, topic.text, topic.path);
+                if (reply) {
+                    this.sendMessage(reply);
+                }
+            }
+        },
+
         chatIsScrolledToTheBottom() {
-            const chatArea = Components.App.refs.app.elem.querySelector('#courierChatWorkArea');
-            return chatArea && chatArea.scrollHeight - chatArea.offsetHeight === chatArea.scrollTop;
+            return isScrolledToTheBottom(Components.App.refs.app.elem.querySelector('#courierChatWorkArea'));
         },
 
         scrollLastMessageIntoView() {
@@ -119,6 +149,8 @@ export default function (Courier, Components, Events) {
             Chat.refs.chat = new Reef('#courierChat', {
                 data: {
                     active: false,
+                    messageBox: false,
+                    online: true,
                     identity: {
                         name: Courier.settings.identity.name,
                         website: Courier.settings.identity.website,
@@ -132,25 +164,55 @@ export default function (Courier, Components, Events) {
                         sendMessage: 'Send message',
                         messagePlaceholder: 'Type something...',
                     },
-                    messages: [
-                        {
-                            message: 'Test message 1',
-                            side: 'outgoing',
-                        },
-                        {
-                            message: 'Test message 2',
-                            side: 'incoming',
-                        },
-                    ],
+                    messages: [],
+                    state: {
+                        userTurn: true,
+                    },
                 },
                 template: (props) => {
                     if (!props.active) {
                         return '';
                     }
 
-                    const messages = props.messages.map((item, index) => `
-                        <div class="${Courier.settings.classes.chat}-message ${item.side === 'outgoing' ? `${Courier.settings.classes.chat}-message--self` : ''}" data-courier-message-id="${index}">${item.message}</div>
-                    `).join('');
+                    const messages = props.messages.map((item, index) => {
+                        // generate message html
+                        let html = `
+                            <div class="${Courier.settings.classes.chat}-message ${item.outgoing ? `${Courier.settings.classes.chat}-message--self` : ''} courier__appear courier__anim-timing--third" data-courier-message-id="${index}">${item.message}</div>
+                        `;
+
+                        if (item.topics) {
+                            let topicsHtml;
+                            // generate topics html
+                            topicsHtml = item.topics.map((topic, topicIndex) => `
+                                <button class="${Courier.settings.classes.chat}-topic ${topic.active ? `${Courier.settings.classes.chat}-topic--active` : ''}" data-courier-message-id="${index}" data-courier-topic-id="${topicIndex}" ${topic.disabled ? 'disabled' : ''}>${topic.text}</button>
+                            `).join('');
+
+                            // wrap topics
+                            topicsHtml = `
+                                <div class="m-b">
+                                    <div class="${Courier.settings.classes.chat}-topics">
+                                        ${topicsHtml}
+                                    </div>
+                                </div>
+                            `;
+
+                            // merge message and topics html
+                            html += topicsHtml;
+                        }
+
+                        return html;
+                    }).join('');
+
+                    const messageBox = props.messageBox
+                        ? `
+                        <form id="courierChatInteractionsForm" class="${Courier.settings.classes.chat}-interactions" autocomplete="off">
+                            <input class="${Courier.settings.classes.chat}-message-box" type="text" name="message" placeholder="${props.text.messagePlaceholder}" autofocus />
+                            <button class="${Courier.settings.classes.chat}-send-msg-btn" type="submit" aria-label="${props.text.sendMessage}">
+                                ${Courier.settings.images.sendMsg}
+                            </button>
+                        </form>
+                        `
+                        : '';
 
                     return `
                     <div class="${Courier.settings.classes.chat}-wall ${Courier.settings.classes.root}__slide-in-bottom ${Courier.settings.classes.root}__anim-timing--half">
@@ -172,7 +234,7 @@ export default function (Courier, Components, Events) {
                             </div>
                             <div class="${Courier.settings.classes.chat}-identity">
                                 <div class="p-all--hf">
-                                    <div class="${Courier.settings.classes.chat}-avatar">
+                                    <div class="${Courier.settings.classes.chat}-avatar ${props.online ? `${Courier.settings.classes.chat}--online` : ''}">
                                         <img src="${props.identity.img.src}" alt="${props.identity.img.alt}" />
                                     </div>
                                 </div>
@@ -185,12 +247,7 @@ export default function (Courier, Components, Events) {
                         <div id="courierChatWorkArea" class="${Courier.settings.classes.chat}-work-area">
                             ${messages}
                         </div>
-                        <form id="courierChatInteractionsForm" class="${Courier.settings.classes.chat}-interactions">
-                            <input class="${Courier.settings.classes.chat}-message-box" type="text" name="message" placeholder="${props.text.messagePlaceholder}" autofocus />
-                            <button class="${Courier.settings.classes.chat}-send-msg-btn" type="submit" aria-label="${props.text.sendMessage}">
-                                ${Courier.settings.images.sendMsg}
-                            </button>
-                        </form>
+                        ${messageBox}
                     </div>
                     `;
                 },
