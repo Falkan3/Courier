@@ -51,7 +51,7 @@ export default function (Courier, Components, Events) {
             Widget.refs.widget = new Reef('#courierWidget', {
                 data: {
                     active: true,
-                    text: 'Hello!',
+                    text: Courier.settings.texts.widgetGreeting,
                 },
                 template: (props) => {
                     if (!props.active) {
@@ -61,7 +61,7 @@ export default function (Courier, Components, Events) {
                     return `
                     <button id="courierWidgetButton" class="${Courier.settings.classes.widget}-bubble ${Courier.settings.classes.root}__appear-bottom ${Courier.settings.classes.root}__anim-timing--half" type="button" aria-label="Open widget">
                         <div class="${Courier.settings.classes.widget}-img" aria-hidden="true">
-                            ${Courier.settings.images.chatBubbles}
+                            ${Courier.settings.images.widget}
                         </div>
                         <p>${props.text}</p>
                     </button>`;

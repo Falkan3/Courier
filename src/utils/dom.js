@@ -26,4 +26,13 @@ export function elemContains(el, target) {
     return el && el.contains(target);
 }
 
+/**
+ * Applies classes from settings to an element
+ *
+ * @param  {Element|Node} el  The DOM element to check if it's scrolled to the bottom.
+ */
+export function isScrolledToTheBottom(el) {
+    return el && el.scrollHeight - el.offsetHeight <= el.scrollTop;
+}
+
 export default applyClasses;

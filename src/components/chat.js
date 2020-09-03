@@ -1,8 +1,9 @@
-import { objectForEach } from '../utils/object';
+import { objectForEach, textTemplate } from '../utils/object';
+import { isArray } from '../utils/types';
 import EventsBinder from '../core/event/events-binder';
 import Reef from '../libs/reefjs/reef.es';
-import { elemContains } from '../utils/dom';
-import { isScrolledToTheBottom, replyFromScenario } from '../utils/chat';
+import { elemContains, isScrolledToTheBottom } from '../utils/dom';
+import { replyFromScenario } from '../utils/chat';
 
 
 export default function (Courier, Components, Events) {
@@ -84,8 +85,8 @@ export default function (Courier, Components, Events) {
                 const message = form.message.value.trim();
                 if (message.length) {
                     this.sendMessage({
-                        message,
-                        outgoing: true
+                        text: message,
+                        outgoing: true,
                     });
                 }
                 form.message.value = '';
@@ -107,7 +108,11 @@ export default function (Courier, Components, Events) {
         sendMessage(message) {
             // user can only send messages when it's their turn
             if (message.outgoing && !this.refs.chat.data.state.userTurn) return;
+            // replace variables in the message using text template
+            message.text = textTemplate(message.text, Courier.settings.textVars);
+            // push message to component data
             this.refs.chat.data.messages.push(message);
+            // set whether after render the chat work area should be scrolled to the bottom
             this.scrollToBottom = this.chatIsScrolledToTheBottom();
         },
 
@@ -116,17 +121,25 @@ export default function (Courier, Components, Events) {
             const topic = topics[topicId];
             // check if any topic at this level was not already selected
             if (topics.filter(t => t.active).length === 0) {
+                // disable all topics for the message the topic has been triggered from
                 topics.forEach((item) => {
                     item.disabled = true;
                 });
                 topic.active = true;
+                // send topic text as a message from the user
                 this.sendMessage({
-                    message: topic.text,
-                    outgoing: true
+                    text: topic.text,
+                    outgoing: true,
                 });
                 const reply = replyFromScenario(Courier.settings.messages, topic.text, topic.path);
                 if (reply) {
-                    this.sendMessage(reply);
+                    if (isArray(reply)) {
+                        reply.forEach((item) => {
+                            this.sendMessage(item);
+                        });
+                    } else {
+                        this.sendMessage(reply);
+                    }
                 }
             }
         },
@@ -160,9 +173,9 @@ export default function (Courier, Components, Events) {
                         },
                     },
                     text: {
-                        headerMessage: 'Chat with us!',
-                        sendMessage: 'Send message',
-                        messagePlaceholder: 'Type something...',
+                        chatTitle: Courier.settings.texts.chatTitle,
+                        sendMessage: Courier.settings.texts.sendMessage,
+                        messagePlaceholder: Courier.settings.texts.messagePlaceholder,
                     },
                     messages: [],
                     state: {
@@ -177,7 +190,7 @@ export default function (Courier, Components, Events) {
                     const messages = props.messages.map((item, index) => {
                         // generate message html
                         let html = `
-                            <div class="${Courier.settings.classes.chat}-message ${item.outgoing ? `${Courier.settings.classes.chat}-message--self` : ''} courier__appear courier__anim-timing--third" data-courier-message-id="${index}">${item.message}</div>
+                            <div class="${Courier.settings.classes.chat}-message ${item.outgoing ? `${Courier.settings.classes.chat}-message--self` : ''} courier__appear courier__anim-timing--third" data-courier-message-id="${index}">${item.text}</div>
                         `;
 
                         if (item.topics) {
@@ -224,7 +237,7 @@ export default function (Courier, Components, Events) {
                                     </button>
                                 </div>
                                 <div>
-                                    <p>${props.text.headerMessage}</p>
+                                    <p>${props.text.chatTitle}</p>
                                 </div>
                                 <div>
                                     <button id="courierChatCloseBtn" class="${Courier.settings.classes.chat}-close-btn" type="button" aria-label="Close">
@@ -252,6 +265,7 @@ export default function (Courier, Components, Events) {
                     `;
                 },
                 attachTo: Components.App.refs.app,
+                allowHTML: true
             });
         },
 

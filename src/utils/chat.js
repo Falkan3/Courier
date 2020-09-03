@@ -1,13 +1,4 @@
 /**
- * Applies classes from settings to an element
- *
- * @param  {Element|Node} el  The DOM element to check if it's scrolled to the bottom.
- */
-export function isScrolledToTheBottom(el) {
-    return el && el.scrollHeight - el.offsetHeight === el.scrollTop;
-}
-
-/**
  * Find a predefined reply from the scenario property in settings.
  *
  * @param  {Object} scenario    Message scenario.

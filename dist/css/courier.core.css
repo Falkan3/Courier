@@ -607,6 +607,7 @@
       height: 100%;
       padding: 1em;
       background-color: #fbfbfb;
+      line-height: 1.4;
       overflow: auto; }
     .courier .courier__chat-message {
       padding: 0.5em 1em;
@@ -633,7 +634,7 @@
       border-radius: 14px;
       color: #41abff;
       transition: background-color cubic-bezier(0.1, 1, 0.6, 1) 0.3s, color cubic-bezier(0.1, 1, 0.6, 1) 0.2s; }
-      .courier .courier__chat-topic:hover {
+      .courier .courier__chat-topic:hover:enabled {
         cursor: pointer; }
       .courier .courier__chat-topic:hover:enabled, .courier .courier__chat-topic:focus:enabled, .courier .courier__chat-topic--active {
         background-color: #41abff;
