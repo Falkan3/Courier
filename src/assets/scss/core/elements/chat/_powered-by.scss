@@ -8,12 +8,19 @@
   align-items: center;
   font-size: 0.6em;
 
-  & > p {
-    color: #555;
-  }
+  a {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: inherit;
 
-  & > img {
-    width: 5rem;
-    max-width: 100%;
+    & > p {
+      color: #555;
+    }
+
+    & > img {
+      width: 5rem;
+      max-width: 100%;
+    }
   }
 }

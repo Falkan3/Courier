@@ -701,11 +701,16 @@
       justify-content: center;
       align-items: center;
       font-size: 0.6em; }
-      .courier .courier__chat-powered-by > p {
-        color: #555; }
-      .courier .courier__chat-powered-by > img {
-        width: 5rem;
-        max-width: 100%; }
+      .courier .courier__chat-powered-by a {
+        display: flex;
+        align-items: center;
+        text-decoration: none;
+        color: inherit; }
+        .courier .courier__chat-powered-by a > p {
+          color: #555; }
+        .courier .courier__chat-powered-by a > img {
+          width: 5rem;
+          max-width: 100%; }
   .courier .tx-center {
     text-align: center; }
   .courier .tx-bold {
