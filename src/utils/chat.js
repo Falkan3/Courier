@@ -12,4 +12,4 @@ export function replyFromScenario(scenario, msg, path) {
     return null;
 }
 
-export default isScrolledToTheBottom;
+export default replyFromScenario;
