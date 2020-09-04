@@ -96,6 +96,9 @@ export function mergeOptions(defaults, settings) {
     if (Object.hasOwnProperty.call(settings, 'images')) {
         options.images = Object.assign({}, defaults.images, settings.images);
     }
+    if (Object.hasOwnProperty.call(settings, 'style')) {
+        options.style = Object.assign({}, defaults.style, settings.style);
+    }
     if (Object.hasOwnProperty.call(settings, 'messages')) {
         options.messages = Object.assign({}, defaults.messages, settings.messages);
     }

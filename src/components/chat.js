@@ -101,6 +101,7 @@ export default function (Courier, Components, Events) {
 
         open() {
             this.refs.chat.data.active = true;
+            this.scrollToBottom = true; // scroll to bottom when the chat opens
             Events.emit('chat.opened');
         },
 
@@ -120,7 +121,9 @@ export default function (Courier, Components, Events) {
             // user can only send messages when it's their turn
             if (message.outgoing && !this.refs.chat.data.state.userTurn) return;
             // replace variables in the message using text template
-            message.text = textTemplate(message.text, Courier.settings.textVars);
+            if (message.text) {
+                message.text = textTemplate(message.text, Courier.settings.textVars);
+            }
             // push message to component data
             this.refs.chat.data.messages.push(message);
             // set whether after render the chat work area should be scrolled to the bottom
@@ -202,9 +205,9 @@ export default function (Courier, Components, Events) {
                         text: Courier.settings.poweredBy.text,
                         img: {
                             src: Courier.settings.poweredBy.img.src,
-                            alt: Courier.settings.poweredBy.img.alt
+                            alt: Courier.settings.poweredBy.img.alt,
                         },
-                        url: Courier.settings.poweredBy.url
+                        url: Courier.settings.poweredBy.url,
                     },
                     messages: [],
                     state: {
@@ -218,9 +221,9 @@ export default function (Courier, Components, Events) {
 
                     const messages = props.messages.map((item, index) => {
                         // generate message html
-                        let html = `
+                        let html = item.text ? `
                             <div class="${Courier.settings.classes.chat}-message ${item.outgoing ? `${Courier.settings.classes.chat}-message--self` : ''} courier__appear courier__anim-timing--third" data-courier-message-id="${index}">${item.text}</div>
-                        `;
+                        ` : '';
 
                         if (item.topics) {
                             let topicsHtml;

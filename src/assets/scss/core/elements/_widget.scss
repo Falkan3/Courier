@@ -1,3 +1,6 @@
+$bubbleBgColor: #6874e8;
+$bubbleColor: #fff;
+
 #{$classPrefix}__widget {
   &-bubble {
     position: fixed;
@@ -6,11 +9,11 @@
     display: flex;
     align-items: center;
     padding: 0.5em 1em;
-    background: #6874e8;
-    color: #fff;
+    background: $bubbleBgColor;
+    color: $bubbleColor;
     border-radius: 4px;
     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
-    transition: background-color cubic-bezier(0.1, 1, 0.6, 1) 0.3s, transform cubic-bezier(0.1, 1, 0.6, 1) 0.3s;
+    transition: background-color cubic-bezier(0.1, 1, 0.6, 1) 0.3s;
 
     &:hover {
       cursor: pointer;
@@ -18,8 +21,7 @@
 
     &:hover,
     &:focus {
-      background-color: lighten(#6874e8, 5%);
-      transform: scale(1.1, 1.1);
+      background-color: lighten($bubbleBgColor, 5%);
     }
   }
 

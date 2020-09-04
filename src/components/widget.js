@@ -52,6 +52,10 @@ export default function (Courier, Components, Events) {
                 data: {
                     active: true,
                     text: Courier.settings.texts.widgetGreeting,
+                    style: {
+                        backgroundColor: Courier.settings.style.widget.backgroundColor,
+                        color: Courier.settings.style.widget.color
+                    }
                 },
                 template: (props) => {
                     if (!props.active) {
@@ -59,7 +63,7 @@ export default function (Courier, Components, Events) {
                     }
 
                     return `
-                    <button id="courierWidgetButton" class="${Courier.settings.classes.widget}-bubble ${Courier.settings.classes.root}__appear-bottom ${Courier.settings.classes.root}__anim-timing--half" type="button" aria-label="Open widget">
+                    <button id="courierWidgetButton" class="${Courier.settings.classes.widget}-bubble ${Courier.settings.classes.root}__appear-bottom ${Courier.settings.classes.root}__anim-timing--half" type="button" aria-label="Open widget" style="background-color: ${props.style.backgroundColor}; color: ${props.style.color}">
                         <div class="${Courier.settings.classes.widget}-img" aria-hidden="true">
                             ${Courier.settings.images.widget}
                         </div>
