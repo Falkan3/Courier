@@ -2,9 +2,25 @@
     "name": "courier",
     "version": "0.0.1",
     "description": "A virtual assistant which allows clients to interact with a website using preselected topics.",
+    "author": "Adam Kocić (Falkan3)",
+    "homepage": "https://github.com/Falkan3/courier#readme",
     "main": "dist/js/courier.js",
     "module": "dist/js/courier.esm.js",
     "unpkg": "dist/js/courier.js",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/Falkan3/courier.git"
+    },
+    "bugs": {
+        "url": "https://github.com/Falkan3/courier/issues"
+    },
+    "license": "MIT",
+    "keywords": [
+        "chat",
+        "bot",
+        "assistant",
+        "plugin"
+    ],
     "scripts": {
         "clean": "rimraf dist",
         "test": "npm run lint && npm run cover",
@@ -13,8 +29,8 @@
         "test:watch": "npm test -- --watch",
         "cover": "nyc --check-coverage npm run test:only",
         "lint": "eslint {src,tests}/**/*.js",
-        "lint:base": "eslint src test",
-        "lint:fix": "eslint src test --fix",
+        "lint:base": "eslint src tests",
+        "lint:fix": "eslint {src,tests}/**/*.js --fix",
         "stylelint": "stylelint src/assets/scss",
         "stylelint:fix": "stylelint src/assets/scss --fix",
         "scss:core": "node-sass src/assets/scss/courier.core.scss dist/css/courier.core.css && node-sass src/assets/scss/courier.core.scss dist/css/courier.core.min.css --output-style=compressed",
@@ -28,7 +44,7 @@
         "prepublish": "npm run clean && npm run test && npm run build"
     },
     "watch": {
-        "test": "{src,test}/**/*.js",
+        "test": "{src,tests}/**/*.js",
         "build:js": "src/**/*.js",
         "build:css": "assets/**/*.scss"
     },
@@ -36,22 +52,6 @@
         "src",
         "dist"
     ],
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/Falkan3/courier.git"
-    },
-    "keywords": [
-        "chat",
-        "bot",
-        "assistant",
-        "plugin"
-    ],
-    "author": "Adam Kocić (Falkan3)",
-    "license": "MIT",
-    "bugs": {
-        "url": "https://github.com/Falkan3/courier/issues"
-    },
-    "homepage": "https://github.com/Falkan3/courier#readme",
     "devDependencies": {
         "@babel/cli": "^7.10.5",
         "@babel/core": "^7.11.4",
