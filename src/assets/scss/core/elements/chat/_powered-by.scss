@@ -1,0 +1,19 @@
+/*
+ * Interactions wrapper
+ */
+&-powered-by {
+  padding: 1em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 0.6em;
+
+  & > p {
+    color: #555;
+  }
+
+  & > img {
+    width: 5rem;
+    max-width: 100%;
+  }
+}

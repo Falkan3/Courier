@@ -70,6 +70,21 @@ export default {
     },
 
     /**
+     * Collection of variables representing the identity of the plugin's maker.
+     *
+     * @type {Object}
+     */
+    poweredBy: {
+        show: true,
+        text: 'Powered by',
+        img: {
+            src: 'https://panel.trafficwatchdog.pl/svg/logo.svg',
+            alt: 'TrafficWatchdog'
+        },
+        url: 'https://trafficwatchdog.pl/'
+    },
+
+    /**
      * Collection of images and vector graphics.
      *
      * @type {Object}

@@ -90,6 +90,9 @@ export function mergeOptions(defaults, settings) {
     if (Object.hasOwnProperty.call(settings, 'identity')) {
         options.identity = Object.assign({}, defaults.identity, settings.identity);
     }
+    if (Object.hasOwnProperty.call(settings, 'poweredBy')) {
+        options.poweredBy = Object.assign({}, defaults.poweredBy, settings.poweredBy);
+    }
     if (Object.hasOwnProperty.call(settings, 'images')) {
         options.images = Object.assign({}, defaults.images, settings.images);
     }

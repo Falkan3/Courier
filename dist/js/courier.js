@@ -247,6 +247,21 @@
     },
 
     /**
+     * Collection of variables representing the identity of the plugin's maker.
+     *
+     * @type {Object}
+     */
+    poweredBy: {
+      show: true,
+      text: 'Powered by',
+      img: {
+        src: 'https://panel.trafficwatchdog.pl/svg/logo.svg',
+        alt: 'TrafficWatchdog'
+      },
+      url: 'https://trafficwatchdog.pl/'
+    },
+
+    /**
      * Collection of images and vector graphics.
      *
      * @type {Object}
@@ -463,6 +478,10 @@
 
     if (Object.hasOwnProperty.call(settings, 'identity')) {
       options.identity = _extends({}, defaults.identity, settings.identity);
+    }
+
+    if (Object.hasOwnProperty.call(settings, 'poweredBy')) {
+      options.poweredBy = _extends({}, defaults.poweredBy, settings.poweredBy);
     }
 
     if (Object.hasOwnProperty.call(settings, 'images')) {
@@ -1782,14 +1801,14 @@
      * Close the widget when the chat opens
      */
 
-    Events.on('chat.open', function () {
+    Events.on('chat.opened', function () {
       Widget.close();
     });
     /**
      * Open the widget when the chat closes
      */
 
-    Events.on('chat.close', function () {
+    Events.on('chat.closed', function () {
       Widget.open();
     });
     /**
@@ -1867,9 +1886,8 @@
       scrollToBottom: false,
       mount: function mount() {
         Events.emit('chat.mount.before');
-        this.initialize(); // push the start message after initialization
-
-        this.refs.chat.data.messages.push(Courier.settings.messages.start);
+        this.initialize();
+        this.startMessage();
         Events.emit('chat.mount.after');
       },
 
@@ -1945,11 +1963,24 @@
       },
       close: function close() {
         this.refs.chat.data.active = false;
-        Events.emit('chat.close');
+        Events.emit('chat.closed');
       },
       open: function open() {
         this.refs.chat.data.active = true;
-        Events.emit('chat.open');
+        Events.emit('chat.opened');
+      },
+      startMessage: function startMessage() {
+        var _this2 = this;
+
+        var startMessage = Courier.settings.messages.start; // send the start message after initialization
+
+        if (isArray(startMessage)) {
+          startMessage.forEach(function (message) {
+            _this2.sendMessage(message);
+          });
+        } else {
+          this.sendMessage(startMessage);
+        }
       },
       sendMessage: function sendMessage(message) {
         // user can only send messages when it's their turn
@@ -1962,7 +1993,7 @@
         this.scrollToBottom = this.chatIsScrolledToTheBottom();
       },
       triggerTopic: function triggerTopic(messageId, topicId) {
-        var _this2 = this;
+        var _this3 = this;
 
         var topics = this.refs.chat.data.messages[messageId].topics;
         var topic = topics[topicId]; // check if any topic at this level was not already selected
@@ -1979,19 +2010,28 @@
           this.sendMessage({
             text: topic.text,
             outgoing: true
-          });
+          }); // emit the topic's trigger, if it's set
+
+          if (topic.trigger) {
+            this.topicTrigger(topic.trigger);
+          } // find a reply based on selected path
+
+
           var reply = replyFromScenario(Courier.settings.messages, topic.text, topic.path);
 
           if (reply) {
             if (isArray(reply)) {
               reply.forEach(function (item) {
-                _this2.sendMessage(item);
+                _this3.sendMessage(item);
               });
             } else {
               this.sendMessage(reply);
             }
           }
         }
+      },
+      topicTrigger: function topicTrigger(trigger) {
+        Events.emit(trigger);
       },
       chatIsScrolledToTheBottom: function chatIsScrolledToTheBottom() {
         return isScrolledToTheBottom$1(Components.App.refs.app.elem.querySelector('#courierChatWorkArea'));
@@ -2026,6 +2066,15 @@
               sendMessage: Courier.settings.texts.sendMessage,
               messagePlaceholder: Courier.settings.texts.messagePlaceholder
             },
+            poweredBy: {
+              show: Courier.settings.poweredBy.show,
+              text: Courier.settings.poweredBy.text,
+              img: {
+                src: Courier.settings.poweredBy.img.src,
+                alt: Courier.settings.poweredBy.img.alt
+              },
+              url: Courier.settings.poweredBy.url
+            },
             messages: [],
             state: {
               userTurn: true
@@ -2055,7 +2104,8 @@
               return html;
             }).join('');
             var messageBox = props.messageBox ? "\n                        <form id=\"courierChatInteractionsForm\" class=\"".concat(Courier.settings.classes.chat, "-interactions\" autocomplete=\"off\">\n                            <input class=\"").concat(Courier.settings.classes.chat, "-message-box\" type=\"text\" name=\"message\" placeholder=\"").concat(props.text.messagePlaceholder, "\" autofocus />\n                            <button class=\"").concat(Courier.settings.classes.chat, "-send-msg-btn\" type=\"submit\" aria-label=\"").concat(props.text.sendMessage, "\">\n                                ").concat(Courier.settings.images.sendMsg, "\n                            </button>\n                        </form>\n                        ") : '';
-            return "\n                    <div class=\"".concat(Courier.settings.classes.chat, "-wall ").concat(Courier.settings.classes.root, "__slide-in-bottom ").concat(Courier.settings.classes.root, "__anim-timing--half\">\n                        <div class=\"").concat(Courier.settings.classes.chat, "-header\">\n                            <div class=\"").concat(Courier.settings.classes.chat, "-menu\">\n                                <div>\n                                    <button id=\"courierChatOptionsBtn\" class=\"").concat(Courier.settings.classes.chat, "-options-btn\" type=\"button\" aria-label=\"Options\" disabled>\n                                        ").concat(Courier.settings.images.options, "\n                                    </button>\n                                </div>\n                                <div>\n                                    <p>").concat(props.text.chatTitle, "</p>\n                                </div>\n                                <div>\n                                    <button id=\"courierChatCloseBtn\" class=\"").concat(Courier.settings.classes.chat, "-close-btn\" type=\"button\" aria-label=\"Close\">\n                                        ").concat(Courier.settings.images.closeBtn, "\n                                    </button>\n                                </div>\n                            </div>\n                            <div class=\"").concat(Courier.settings.classes.chat, "-identity\">\n                                <div class=\"p-all--hf\">\n                                    <div class=\"").concat(Courier.settings.classes.chat, "-avatar ").concat(props.online ? "".concat(Courier.settings.classes.chat, "--online") : '', "\">\n                                        <img src=\"").concat(props.identity.img.src, "\" alt=\"").concat(props.identity.img.alt, "\" />\n                                    </div>\n                                </div>\n                                <div class=\"").concat(Courier.settings.classes.chat, "-name\">\n                                    <p>").concat(props.identity.name, "</p>\n                                    <p><a href=\"").concat(props.identity.website.url, "\" target=\"_blank\" rel=\"nofollow noopener noreferrer\">").concat(props.identity.website.name, "</a></p>\n                                </div>\n                            </div>\n                        </div>\n                        <div id=\"courierChatWorkArea\" class=\"").concat(Courier.settings.classes.chat, "-work-area\">\n                            ").concat(messages, "\n                        </div>\n                        ").concat(messageBox, "\n                    </div>\n                    ");
+            var poweredBy = props.poweredBy.show ? "\n                        <div class=\"".concat(Courier.settings.classes.chat, "-powered-by\">\n                            <a href=\"").concat(props.poweredBy.url, "\" target=\"_blank\" rel=\"nofollow noopener noreferrer\">\n                                <p class=\"m-r--hf\">").concat(props.poweredBy.text, "</p>\n                                <img src=\"").concat(props.poweredBy.img.src, "\" alt=\"").concat(props.poweredBy.img.alt, "\" />\n                            </a>\n                        </div>\n                        ") : '';
+            return "\n                    <div class=\"".concat(Courier.settings.classes.chat, "-wall ").concat(Courier.settings.classes.root, "__slide-in-bottom ").concat(Courier.settings.classes.root, "__anim-timing--half\">\n                        <div class=\"").concat(Courier.settings.classes.chat, "-header\">\n                            <div class=\"").concat(Courier.settings.classes.chat, "-menu\">\n                                <div>\n                                    <button id=\"courierChatOptionsBtn\" class=\"").concat(Courier.settings.classes.chat, "-options-btn\" type=\"button\" aria-label=\"Options\" disabled>\n                                        ").concat(Courier.settings.images.options, "\n                                    </button>\n                                </div>\n                                <div>\n                                    <p>").concat(props.text.chatTitle, "</p>\n                                </div>\n                                <div>\n                                    <button id=\"courierChatCloseBtn\" class=\"").concat(Courier.settings.classes.chat, "-close-btn\" type=\"button\" aria-label=\"Close\">\n                                        ").concat(Courier.settings.images.closeBtn, "\n                                    </button>\n                                </div>\n                            </div>\n                            <div class=\"").concat(Courier.settings.classes.chat, "-identity\">\n                                <div class=\"p-all--hf\">\n                                    <div class=\"").concat(Courier.settings.classes.chat, "-avatar ").concat(props.online ? "".concat(Courier.settings.classes.chat, "--online") : '', "\">\n                                        <img src=\"").concat(props.identity.img.src, "\" alt=\"").concat(props.identity.img.alt, "\" />\n                                    </div>\n                                </div>\n                                <div class=\"").concat(Courier.settings.classes.chat, "-name\">\n                                    <p>").concat(props.identity.name, "</p>\n                                    <p><a href=\"").concat(props.identity.website.url, "\" target=\"_blank\" rel=\"nofollow noopener noreferrer\">").concat(props.identity.website.name, "</a></p>\n                                </div>\n                            </div>\n                        </div>\n                        <div id=\"courierChatWorkArea\" class=\"").concat(Courier.settings.classes.chat, "-work-area\">\n                            ").concat(messages, "\n                        </div>\n                        ").concat(messageBox, "\n                        ").concat(poweredBy, "\n                    </div>\n                    ");
           },
           attachTo: Components.App.refs.app,
           allowHTML: true
@@ -2069,6 +2119,13 @@
         Chat.refs.chat.render();
       }
     };
+    /**
+     * Bind event listeners after App has been mounted and rendered for the first time
+     */
+
+    Events.on('chat.close', function () {
+      Chat.close();
+    });
     /**
      * Bind event listeners after App has been mounted and rendered for the first time
      */

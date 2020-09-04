@@ -421,6 +421,15 @@
   text-rendering: optimizeLegibility;
   /* elements */
   /* modifiers */
+  /*
+ * Text
+ */
+  /*
+ * Margin
+ */
+  /*
+ * Padding
+ */
   /* root modifiers */ }
   @media (max-width: 1199px) {
     .courier {
@@ -500,6 +509,9 @@
  */
     /*
  * Send message button
+ */
+    /*
+ * Interactions wrapper
  */ }
     @media (min-width: 768px) {
       .courier .courier__chat {
@@ -683,6 +695,17 @@
         fill: #bad8f1; }
       .courier .courier__chat-send-msg-btn:disabled > svg > path:nth-child(2) {
         fill: #cfe4f5; }
+    .courier .courier__chat-powered-by {
+      padding: 1em;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 0.6em; }
+      .courier .courier__chat-powered-by > p {
+        color: #555; }
+      .courier .courier__chat-powered-by > img {
+        width: 5rem;
+        max-width: 100%; }
   .courier .tx-center {
     text-align: center; }
   .courier .tx-bold {
@@ -718,6 +741,10 @@
       margin-bottom: 0.5em; }
     .courier .m-b--db {
       margin-bottom: 2em; }
+  .courier .m-r {
+    margin-right: 1em; }
+    .courier .m-r--hf {
+      margin-right: 0.5em; }
   .courier .p-all {
     padding: 1em; }
     .courier .p-all--hf {

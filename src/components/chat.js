@@ -21,8 +21,7 @@ export default function (Courier, Components, Events) {
         mount() {
             Events.emit('chat.mount.before');
             this.initialize();
-            // push the start message after initialization
-            this.refs.chat.data.messages.push(Courier.settings.messages.start);
+            this.startMessage();
             Events.emit('chat.mount.after');
         },
 
@@ -97,12 +96,24 @@ export default function (Courier, Components, Events) {
 
         close() {
             this.refs.chat.data.active = false;
-            Events.emit('chat.close');
+            Events.emit('chat.closed');
         },
 
         open() {
             this.refs.chat.data.active = true;
-            Events.emit('chat.open');
+            Events.emit('chat.opened');
+        },
+
+        startMessage() {
+            const startMessage = Courier.settings.messages.start;
+            // send the start message after initialization
+            if (isArray(startMessage)) {
+                startMessage.forEach((message) => {
+                    this.sendMessage(message);
+                });
+            } else {
+                this.sendMessage(startMessage);
+            }
         },
 
         sendMessage(message) {
@@ -131,6 +142,11 @@ export default function (Courier, Components, Events) {
                     text: topic.text,
                     outgoing: true,
                 });
+                // emit the topic's trigger, if it's set
+                if (topic.trigger) {
+                    this.topicTrigger(topic.trigger);
+                }
+                // find a reply based on selected path
                 const reply = replyFromScenario(Courier.settings.messages, topic.text, topic.path);
                 if (reply) {
                     if (isArray(reply)) {
@@ -142,6 +158,10 @@ export default function (Courier, Components, Events) {
                     }
                 }
             }
+        },
+
+        topicTrigger(trigger) {
+            Events.emit(trigger);
         },
 
         chatIsScrolledToTheBottom() {
@@ -176,6 +196,15 @@ export default function (Courier, Components, Events) {
                         chatTitle: Courier.settings.texts.chatTitle,
                         sendMessage: Courier.settings.texts.sendMessage,
                         messagePlaceholder: Courier.settings.texts.messagePlaceholder,
+                    },
+                    poweredBy: {
+                        show: Courier.settings.poweredBy.show,
+                        text: Courier.settings.poweredBy.text,
+                        img: {
+                            src: Courier.settings.poweredBy.img.src,
+                            alt: Courier.settings.poweredBy.img.alt
+                        },
+                        url: Courier.settings.poweredBy.url
                     },
                     messages: [],
                     state: {
@@ -227,6 +256,17 @@ export default function (Courier, Components, Events) {
                         `
                         : '';
 
+                    const poweredBy = props.poweredBy.show
+                        ? `
+                        <div class="${Courier.settings.classes.chat}-powered-by">
+                            <a href="${props.poweredBy.url}" target="_blank" rel="nofollow noopener noreferrer">
+                                <p class="m-r--hf">${props.poweredBy.text}</p>
+                                <img src="${props.poweredBy.img.src}" alt="${props.poweredBy.img.alt}" />
+                            </a>
+                        </div>
+                        `
+                        : '';
+
                     return `
                     <div class="${Courier.settings.classes.chat}-wall ${Courier.settings.classes.root}__slide-in-bottom ${Courier.settings.classes.root}__anim-timing--half">
                         <div class="${Courier.settings.classes.chat}-header">
@@ -261,11 +301,12 @@ export default function (Courier, Components, Events) {
                             ${messages}
                         </div>
                         ${messageBox}
+                        ${poweredBy}
                     </div>
                     `;
                 },
                 attachTo: Components.App.refs.app,
-                allowHTML: true
+                allowHTML: true,
             });
         },
 
@@ -276,6 +317,13 @@ export default function (Courier, Components, Events) {
             Chat.refs.chat.render();
         },
     };
+
+    /**
+     * Bind event listeners after App has been mounted and rendered for the first time
+     */
+    Events.on('chat.close', () => {
+        Chat.close();
+    });
 
     /**
      * Bind event listeners after App has been mounted and rendered for the first time

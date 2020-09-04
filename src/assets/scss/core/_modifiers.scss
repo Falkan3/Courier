@@ -1,3 +1,6 @@
+/*
+ * Text
+ */
 .tx {
   &-center {
     text-align: center;
@@ -28,6 +31,9 @@
   }
 }
 
+/*
+ * Margin
+ */
 .m {
   &-v {
     margin-top: #{get-font-size()};
@@ -67,8 +73,19 @@
       margin-bottom: #{get-font-size(2)};
     }
   }
+
+  &-r {
+    margin-right: #{get-font-size()};
+
+    &--hf {
+      margin-right: #{get-font-size(0.5)};
+    }
+  }
 }
 
+/*
+ * Padding
+ */
 .p {
   &-all {
     padding: #{get-font-size()};

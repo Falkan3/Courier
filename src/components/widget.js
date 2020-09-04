@@ -88,14 +88,14 @@ export default function (Courier, Components, Events) {
     /**
      * Close the widget when the chat opens
      */
-    Events.on('chat.open', () => {
+    Events.on('chat.opened', () => {
         Widget.close();
     });
 
     /**
      * Open the widget when the chat closes
      */
-    Events.on('chat.close', () => {
+    Events.on('chat.closed', () => {
         Widget.open();
     });
 
