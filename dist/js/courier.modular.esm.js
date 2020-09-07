@@ -268,18 +268,6 @@ var defaults = {
   },
 
   /**
-   * Collection of custom styles.
-   *
-   * @type {Object}
-   */
-  style: {
-    widget: {
-      backgroundColor: '#6874e8',
-      color: '#fff'
-    }
-  },
-
-  /**
    * Collection of messages and topics to be held by the chat bot.
    *
    * @type {Object}
@@ -1729,7 +1717,7 @@ function elemContains(el, target) {
  * @param  {Element|Node} el  The DOM element to check if it's scrolled to the bottom.
  */
 
-function isScrolledToTheBottom$1(el) {
+function isScrolledToTheBottom(el) {
   return el && el.scrollHeight - el.offsetHeight <= el.scrollTop;
 }
 
@@ -1776,18 +1764,14 @@ function Widget (Courier, Components, Events) {
       Widget.refs.widget = new Reef('#courierWidget', {
         data: {
           active: true,
-          text: Courier.settings.texts.widgetGreeting,
-          style: {
-            backgroundColor: Courier.settings.style.widget.backgroundColor,
-            color: Courier.settings.style.widget.color
-          }
+          text: Courier.settings.texts.widgetGreeting
         },
         template: function template(props) {
           if (!props.active) {
             return '';
           }
 
-          return "\n                    <button id=\"courierWidgetButton\" class=\"".concat(Courier.settings.classes.widget, "-bubble ").concat(Courier.settings.classes.root, "__appear-bottom ").concat(Courier.settings.classes.root, "__anim-timing--half\" type=\"button\" aria-label=\"Open widget\" style=\"background-color: ").concat(props.style.backgroundColor, "; color: ").concat(props.style.color, "\">\n                        <div class=\"").concat(Courier.settings.classes.widget, "-img\" aria-hidden=\"true\">\n                            ").concat(Courier.settings.images.widget, "\n                        </div>\n                        <p>").concat(props.text, "</p>\n                    </button>");
+          return "\n                    <button id=\"courierWidgetButton\" class=\"".concat(Courier.settings.classes.widget, "-bubble ").concat(Courier.settings.classes.root, "__appear-bottom ").concat(Courier.settings.classes.root, "__anim-timing--half\" type=\"button\" aria-label=\"Open widget\">\n                        <div class=\"").concat(Courier.settings.classes.widget, "-img\" aria-hidden=\"true\">\n                            ").concat(Courier.settings.images.widget, "\n                        </div>\n                        <p>").concat(props.text, "</p>\n                    </button>");
         },
         attachTo: Components.App.refs.app
       });
@@ -2049,7 +2033,7 @@ function Chat (Courier, Components, Events) {
       Events.emit(trigger);
     },
     chatIsScrolledToTheBottom: function chatIsScrolledToTheBottom() {
-      return isScrolledToTheBottom$1(Components.App.refs.app.elem.querySelector('#courierChatWorkArea'));
+      return isScrolledToTheBottom(Components.App.refs.app.elem.querySelector('#courierChatWorkArea'));
     },
     scrollLastMessageIntoView: function scrollLastMessageIntoView() {
       var messages = Components.App.refs.app.elem.querySelectorAll('[data-courier-message-id]');

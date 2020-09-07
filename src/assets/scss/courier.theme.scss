@@ -1,1 +1,22 @@
-/* -- */
+@import 'utils/variables';
+@import 'utils/mixins';
+@import 'utils/animations';
+
+/* -----------------------------------
+ *  Components
+ * ----------------------------------- */
+
+#{$classPrefix} {
+  /* elements */
+  &__widget {
+    &-bubble {
+      background: #fff;
+      color: #212121;
+
+      &:hover,
+      &:focus {
+        background-color: #bebeec;
+      }
+    }
+  }
+}

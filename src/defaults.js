@@ -97,18 +97,6 @@ export default {
     },
 
     /**
-     * Collection of custom styles.
-     *
-     * @type {Object}
-     */
-    style: {
-        widget: {
-            backgroundColor: '#6874e8',
-            color: '#fff'
-        }
-    },
-
-    /**
      * Collection of messages and topics to be held by the chat bot.
      *
      * @type {Object}

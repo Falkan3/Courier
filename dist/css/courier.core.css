@@ -450,12 +450,11 @@
     color: #fff;
     border-radius: 4px;
     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
-    transition: background-color cubic-bezier(0.1, 1, 0.6, 1) 0.3s, transform cubic-bezier(0.1, 1, 0.6, 1) 0.3s; }
+    transition: background-color cubic-bezier(0.1, 1, 0.6, 1) 0.3s; }
     .courier .courier__widget-bubble:hover {
       cursor: pointer; }
     .courier .courier__widget-bubble:hover, .courier .courier__widget-bubble:focus {
-      background-color: #7e88eb;
-      transform: scale(1.1, 1.1); }
+      background-color: #7e88eb; }
   .courier .courier__widget-img {
     display: block; }
     .courier .courier__widget-img > img,
