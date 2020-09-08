@@ -68,17 +68,17 @@
                 ],
             },
             notInterested: {
-                text: 'Ok, dziękujemy i do usłyszenia następnym razem:)',
+                text: 'Dziękujemy w takim razie i do usłyszenia następnym razem:)',
                 topics: [
                     {
-                        text: 'Zmieniłem zdanie, chcę wygenerować kod rabatowy',
-                        path: 'interested',
-                    },
-                    {
-                        text: 'Wracam na stronę',
+                        text: 'Ok, wracam na stronę',
                         path: 'notInterestedChangedMind',
                         trigger: 'chat.close'
-                    }
+                    },
+                    {
+                        text: 'Chciałbym jednak rabat',
+                        path: 'interested',
+                    },
                 ],
             },
             notInterestedChangedMind: {
@@ -106,7 +106,15 @@
                     ]
                 }
             ]
-        }
+        },
+        cookies: {
+            saveConversation: {
+                active: false
+            },
+            hideWidget: {
+                active: false
+            }
+        },
     });
 	courier.mount();
 	// courier._components.ComponentName.function();
