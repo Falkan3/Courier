@@ -101,41 +101,8 @@ export default {
      *
      * @type {Object}
      */
-    messages: {
-        start: {
-            text: 'Test message 1 with topics',
-            topics: [
-                {
-                    text: 'Coupons',
-                    path: 'coupons',
-                },
-                {
-                    text: 'Sales',
-                },
-                {
-                    text: 'Newsletter',
-                },
-            ],
+    messages: {},
         },
-        coupons: {
-            text: 'Here is a list of all of our active coupons:',
-            topics: [
-                {
-                    text: 'XXX',
-                    path: 'couponsXXX',
-                },
-                {
-                    text: 'YYY',
-                    path: 'couponsYYY',
-                },
-                {
-                    text: 'ZZZ',
-                    path: 'couponsZZZ',
-                },
-            ],
-        },
-        couponsXXX: {
-            text: 'You have selected coupon XXX'
         }
     },
 };

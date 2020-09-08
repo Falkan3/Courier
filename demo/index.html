@@ -15,7 +15,61 @@
 </head>
 <body>
 <script>
-	const courier = new Courier();
+	const courier = new Courier(document.body, {
+	    messages: {
+            start: {
+                text: 'Test message 1 with topics',
+                topics: [
+                    {
+                        text: 'Coupons',
+                        path: 'coupons',
+                    },
+                    {
+                        text: 'Sales',
+                        path: 'sales'
+                    },
+                    {
+                        text: 'Newsletter',
+                        path: 'newsletter'
+                    },
+                ],
+            },
+            coupons: {
+                text: 'Here is a list of all of our active coupons:',
+                topics: [
+                    {
+                        text: 'XXX',
+                        path: 'couponsXXX',
+                    },
+                    {
+                        text: 'YYY',
+                        path: 'couponsYYY',
+                    },
+                    {
+                        text: 'ZZZ',
+                        path: 'couponsZZZ',
+                    },
+                ],
+            },
+            couponsXXX: {
+                text: 'You have selected coupon XXX'
+            },
+            sales: {
+                text: 'Here is a list of all of our active sales:',
+                topics: [
+                    {
+                        text: 'Sale item 1'
+                    },
+                    {
+                        text: 'Sale item 2',
+                    },
+                ],
+            },
+            newsletter: {
+                text: 'Please enter your email address to subscribe to our newsletter.',
+            }
+        }
+    });
 	courier.mount();
 	// courier._components.ComponentName.function();
 </script>
