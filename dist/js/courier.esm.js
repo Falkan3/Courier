@@ -272,33 +272,22 @@ var defaults = {
    *
    * @type {Object}
    */
-  messages: {
-    start: {
-      text: 'Test message 1 with topics',
-      topics: [{
-        text: 'Coupons',
-        path: 'coupons'
-      }, {
-        text: 'Sales'
-      }, {
-        text: 'Newsletter'
-      }]
+  messages: {},
+
+  /**
+   * Collection of cookie variables.
+   * All durations are in hours.
+   *
+   * @type {Object}
+   */
+  cookies: {
+    saveConversation: {
+      active: true,
+      duration: 24
     },
-    coupons: {
-      text: 'Here is a list of all of our active coupons:',
-      topics: [{
-        text: 'XXX',
-        path: 'couponsXXX'
-      }, {
-        text: 'YYY',
-        path: 'couponsYYY'
-      }, {
-        text: 'ZZZ',
-        path: 'couponsZZZ'
-      }]
-    },
-    couponsXXX: {
-      text: 'You have selected coupon XXX'
+    hideWidget: {
+      active: true,
+      duration: 24
     }
   }
 };
@@ -484,6 +473,10 @@ function mergeOptions(defaults, settings) {
 
   if (Object.hasOwnProperty.call(settings, 'messages')) {
     options.messages = _extends({}, defaults.messages, settings.messages);
+  }
+
+  if (Object.hasOwnProperty.call(settings, 'cookies')) {
+    options.cookies = _extends({}, defaults.cookies, settings.cookies);
   }
 
   objectForEach(options.texts, function (value, key) {
@@ -1721,6 +1714,69 @@ function isScrolledToTheBottom(el) {
   return el && el.scrollHeight - el.offsetHeight <= el.scrollTop;
 }
 
+/**
+ * Set cookie
+ * Source: http://www.quirksmode.org/js/cookies.html
+ *
+ * @param name
+ * @param value
+ * @param hours
+ */
+function setCookie(name, value, hours) {
+  var expires = '';
+
+  if (hours) {
+    var date = new Date();
+    date.setTime(date.getTime() + hours * 60 * 60 * 1000);
+    expires = "; expires=".concat(date.toUTCString());
+  }
+
+  document.cookie = "".concat(name, "=").concat(value || '').concat(expires, "; path=/");
+}
+/**
+ * Get cookie
+ * Source: http://www.quirksmode.org/js/cookies.html
+ *
+ * @param name
+ */
+
+function getCookie(name) {
+  var nameEQ = "".concat(name, "=");
+  var ca = document.cookie.split(';');
+
+  for (var i = 0; i < ca.length; i++) {
+    var c = ca[i];
+
+    while (c.charAt(0) === ' ') {
+      c = c.substring(1, c.length);
+    }
+
+    if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
+  }
+
+  return null;
+}
+
+/**
+ * Save widget hidden state to cookie
+ *
+ * @param {Boolean} hidden      If the widget should be hidden
+ * @param {Number} duration     Cookie duration in hours
+ */
+
+function setHidden(hidden, duration) {
+  setCookie('courierWidgetHidden', hidden, duration);
+}
+/**
+ * Check if the widget should be hidden
+ *
+ * @returns Object|null
+ */
+
+function isHidden() {
+  return getCookie('courierWidgetHidden') === 'true'; // compare to string because the boolean has been stringified when saved in cookie
+}
+
 function Widget (Courier, Components, Events) {
   /**
    * Instance of the binder for DOM Events.
@@ -1733,6 +1789,13 @@ function Widget (Courier, Components, Events) {
     mount: function mount() {
       Events.emit('widget.mount.before');
       this.initialize();
+
+      if (Courier.settings.cookies.hideWidget.active) {
+        if (isHidden()) {
+          this.hide(false);
+        }
+      }
+
       Events.emit('widget.mount.after');
     },
 
@@ -1742,10 +1805,16 @@ function Widget (Courier, Components, Events) {
      * @param  {Object} event
      */
     onClick: function onClick(event) {
-      var courierWidgetButton = document.querySelector('#courierWidgetButton');
+      var courierWidgetButton = Components.App.refs.app.elem.querySelector('#courierWidgetButton');
 
       if (event.target.matches('#courierWidgetButton') || elemContains(courierWidgetButton, event.target)) {
         Components.Chat.open();
+      }
+
+      var courierWidgetHideButton = Components.App.refs.app.elem.querySelector('#courierWidgetHideButton');
+
+      if (event.target.matches('#courierWidgetHideButton') || elemContains(courierWidgetHideButton, event.target)) {
+        this.hide();
       }
     },
     close: function close() {
@@ -1756,6 +1825,16 @@ function Widget (Courier, Components, Events) {
       this.refs.widget.data.active = true;
       Events.emit('widget.open');
     },
+    hide: function hide() {
+      var save = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
+      this.refs.widget.data.active = false;
+
+      if (save) {
+        setHidden(true, Courier.settings.cookies.hideWidget.duration);
+      }
+
+      Events.emit('widget.hide');
+    },
 
     /**
      * Initialize the widget.
@@ -1764,14 +1843,16 @@ function Widget (Courier, Components, Events) {
       Widget.refs.widget = new Reef('#courierWidget', {
         data: {
           active: true,
-          text: Courier.settings.texts.widgetGreeting
+          text: Courier.settings.texts.widgetGreeting,
+          hideBtnActive: false
         },
         template: function template(props) {
           if (!props.active) {
             return '';
           }
 
-          return "\n                    <button id=\"courierWidgetButton\" class=\"".concat(Courier.settings.classes.widget, "-bubble ").concat(Courier.settings.classes.root, "__appear-bottom ").concat(Courier.settings.classes.root, "__anim-timing--half\" type=\"button\" aria-label=\"Open widget\">\n                        <div class=\"").concat(Courier.settings.classes.widget, "-img\" aria-hidden=\"true\">\n                            ").concat(Courier.settings.images.widget, "\n                        </div>\n                        <p>").concat(props.text, "</p>\n                    </button>");
+          var hideBtn = props.hideBtnActive ? "\n                        <button id=\"courierWidgetHideButton\" class=\"".concat(Courier.settings.classes.widget, "-hide-btn\" type=\"button\" aria-label=\"Hide widget\">\n                            ").concat(Courier.settings.images.closeBtn, "\n                        </button>\n                        ") : '';
+          return "\n                    <div class=\"".concat(Courier.settings.classes.widget, "-wrapper ").concat(Courier.settings.classes.root, "__appear-bottom ").concat(Courier.settings.classes.root, "__anim-timing--half\">\n                        <button id=\"courierWidgetButton\" class=\"").concat(Courier.settings.classes.widget, "-bubble\" type=\"button\" aria-label=\"Open widget\">\n                            <div class=\"").concat(Courier.settings.classes.widget, "-img\" aria-hidden=\"true\">\n                                ").concat(Courier.settings.images.widget, "\n                            </div>\n                            <p>").concat(props.text, "</p>\n                        </button>\n                        ").concat(hideBtn, "\n                    </div>\n                    ");
         },
         attachTo: Components.App.refs.app
       });
@@ -1785,25 +1866,31 @@ function Widget (Courier, Components, Events) {
     }
   };
   /**
+   * Bind event listeners after App has been mounted and rendered for the first time
+   */
+
+  Events.on('app.mounted', function () {
+    /**
+     * Close the widget when the chat opens
+     */
+    Events.on('chat.opened', function () {
+      Widget.close();
+    });
+    /**
+     * Open the widget when the chat closes
+     */
+
+    Events.on('chat.closed', function () {
+      Widget.refs.widget.data.hideBtnActive = true;
+      Widget.open();
+    });
+  });
+  /**
    * Bind event listeners after App has been rendered
    */
 
   Events.on('app.click', function (event) {
     Widget.onClick(event);
-  });
-  /**
-   * Close the widget when the chat opens
-   */
-
-  Events.on('chat.opened', function () {
-    Widget.close();
-  });
-  /**
-   * Open the widget when the chat closes
-   */
-
-  Events.on('chat.closed', function () {
-    Widget.open();
   });
   /**
    * Remove bindings from click:
@@ -1860,12 +1947,33 @@ function Widget (Courier, Components, Events) {
  * @param  {string} msg         The message.
  * @param  {string} path        The topic's path.
  */
+
 function replyFromScenario(scenario, msg, path) {
   if (path && scenario[path]) {
     return scenario[path];
   }
 
   return null;
+}
+/**
+ * Save all chat messages and last path that was selected
+ *
+ * @param {Number} messagePath      Array containing the path taken
+ * @param {Number} duration         Cookie duration in hours
+ */
+
+function saveMessagePath(messagePath, duration) {
+  setCookie('courierMessagePath', JSON.stringify(messagePath), duration);
+}
+/**
+ * Load saved message path that was selected
+ *
+ * @returns Object|null
+ */
+
+function loadMessagePath() {
+  var cookie = getCookie('courierMessagePath');
+  return cookie ? JSON.parse(cookie) : cookie;
 }
 
 function Chat (Courier, Components, Events) {
@@ -1878,10 +1986,16 @@ function Chat (Courier, Components, Events) {
   var Chat = {
     refs: {},
     scrollToBottom: false,
+    messagePath: [],
     mount: function mount() {
       Events.emit('chat.mount.before');
       this.initialize();
       this.startMessage();
+
+      if (Courier.settings.cookies.saveConversation.active) {
+        this.restoreMessages();
+      }
+
       Events.emit('chat.mount.after');
     },
 
@@ -1968,7 +2082,8 @@ function Chat (Courier, Components, Events) {
     startMessage: function startMessage() {
       var _this2 = this;
 
-      var startMessage = Courier.settings.messages.start; // send the start message after initialization
+      var startMessage = Courier.settings.messages.start;
+      if (!startMessage) return; // send the start message after initialization
 
       if (isArray(startMessage)) {
         startMessage.forEach(function (message) {
@@ -1992,8 +2107,6 @@ function Chat (Courier, Components, Events) {
       this.scrollToBottom = this.chatIsScrolledToTheBottom();
     },
     triggerTopic: function triggerTopic(messageId, topicId) {
-      var _this3 = this;
-
       var topics = this.refs.chat.data.messages[messageId].topics;
       var topic = topics[topicId]; // check if any topic at this level was not already selected
 
@@ -2013,19 +2126,28 @@ function Chat (Courier, Components, Events) {
 
         if (topic.trigger) {
           this.topicTrigger(topic.trigger);
-        } // find a reply based on selected path
+        }
 
+        this.triggerPath(topic); // push message path
 
-        var reply = replyFromScenario(Courier.settings.messages, topic.text, topic.path);
+        if (Courier.settings.cookies.saveConversation.active) {
+          this.pushMessagePath(messageId, topicId);
+        }
+      }
+    },
+    triggerPath: function triggerPath(topic) {
+      var _this3 = this;
 
-        if (reply) {
-          if (isArray(reply)) {
-            reply.forEach(function (item) {
-              _this3.sendMessage(item);
-            });
-          } else {
-            this.sendMessage(reply);
-          }
+      // find a reply based on selected path
+      var reply = replyFromScenario(Courier.settings.messages, topic.text, topic.path);
+
+      if (reply) {
+        if (isArray(reply)) {
+          reply.forEach(function (item) {
+            _this3.sendMessage(item);
+          });
+        } else {
+          this.sendMessage(reply);
         }
       }
     },
@@ -2040,6 +2162,24 @@ function Chat (Courier, Components, Events) {
 
       if (messages.length) {
         messages[messages.length - 1].scrollIntoView();
+      }
+    },
+    pushMessagePath: function pushMessagePath(messageId, topicId) {
+      this.messagePath.push({
+        messageId: messageId,
+        topicId: topicId
+      });
+      saveMessagePath(this.messagePath, Courier.settings.cookies.saveConversation.duration);
+    },
+    restoreMessages: function restoreMessages() {
+      var _this4 = this;
+
+      var messagePath = loadMessagePath();
+
+      if (messagePath && isArray(messagePath)) {
+        messagePath.forEach(function (item) {
+          _this4.triggerTopic(item.messageId, item.topicId);
+        });
       }
     },
 
@@ -2122,15 +2262,15 @@ function Chat (Courier, Components, Events) {
    * Bind event listeners after App has been mounted and rendered for the first time
    */
 
-  Events.on('chat.close', function () {
-    Chat.close();
-  });
-  /**
-   * Bind event listeners after App has been mounted and rendered for the first time
-   */
-
   Events.on('app.mounted', function () {
     Chat.bind();
+    /**
+     * Bind event listeners after App has been mounted and rendered for the first time
+     */
+
+    Events.on('chat.close', function () {
+      Chat.close();
+    });
   });
   /**
    * Bind event listeners after App has been rendered

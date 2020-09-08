@@ -99,6 +99,9 @@ export function mergeOptions(defaults, settings) {
     if (Object.hasOwnProperty.call(settings, 'messages')) {
         options.messages = Object.assign({}, defaults.messages, settings.messages);
     }
+    if (Object.hasOwnProperty.call(settings, 'cookies')) {
+        options.cookies = Object.assign({}, defaults.cookies, settings.cookies);
+    }
 
     objectForEach(options.texts, (value, key) => {
         options.texts[key] = textTemplate(value, options.textVars);

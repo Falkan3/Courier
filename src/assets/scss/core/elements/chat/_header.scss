@@ -90,10 +90,7 @@
   }
 }
 
-/*
- * Close button
- */
-&-close-btn {
+%header-btn {
   padding: 1em;
 
   & > img,
@@ -117,48 +114,16 @@
 
   &:hover,
   &:active {
-    & > svg {
-      transform: rotate(90deg);
-
-      & > g {
-        fill: $btnColorActive;
+    &:enabled {
+      & > img,
+      & > svg {
+        transform: rotate(90deg);
       }
-    }
-  }
-}
 
-/*
- * Options button
- */
-&-options-btn {
-  padding: 1em;
-
-  & > img,
-  & > svg {
-    display: block;
-    width: 1em;
-    height: 1em;
-    transition: transform cubic-bezier(0.1, 1, 0.6, 1) 0.3s;
-  }
-
-  & > svg {
-    & > g {
-      fill: $btnColorInactive;
-      transition: fill cubic-bezier(0.1, 1, 0.6, 1) 0.3s;
-    }
-  }
-
-  &:hover {
-    cursor: pointer;
-  }
-
-  &:hover,
-  &:active {
-    &:enabled > svg {
-      transform: rotate(90deg);
-
-      & > g {
-        fill: $btnColorActive;
+      & > svg {
+        & > g {
+          fill: $btnColorActive;
+        }
       }
     }
   }
@@ -170,4 +135,18 @@
       }
     }
   }
+}
+
+/*
+ * Close button
+ */
+&-close-btn {
+  @extend %header-btn;
+}
+
+/*
+ * Options button
+ */
+&-options-btn {
+  @extend %header-btn;
 }

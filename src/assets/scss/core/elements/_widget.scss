@@ -1,11 +1,18 @@
+// bubble
 $bubbleBgColor: #6874e8;
 $bubbleColor: #fff;
+// buttons
+$btnColorInactive: #cfe4f5;
+$btnColorActive: #64b5f6;
 
 #{$classPrefix}__widget {
-  &-bubble {
+  &-wrapper {
     position: fixed;
     bottom: 1em;
     right: 1em;
+  }
+
+  &-bubble {
     display: flex;
     align-items: center;
     padding: 0.5em 1em;
@@ -14,6 +21,7 @@ $bubbleColor: #fff;
     border-radius: 4px;
     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
     transition: background-color cubic-bezier(0.1, 1, 0.6, 1) 0.3s;
+    z-index: 1001;
 
     &:hover {
       cursor: pointer;
@@ -34,6 +42,47 @@ $bubbleColor: #fff;
       width: 2em;
       height: 2em;
       margin-right: 1em;
+    }
+  }
+
+  &-hide-btn {
+    position: absolute;
+    right: -0.5em;
+    top: -0.5em;
+    width: 1em;
+    height: 1em;
+    padding: 0;
+
+    & > img,
+    & > svg {
+      display: block;
+      width: 100%;
+      height: 100%;
+      transition: transform cubic-bezier(0.1, 1, 0.6, 1) 0.3s;
+    }
+
+    & > svg {
+      & > g {
+        fill: $btnColorInactive;
+      }
+    }
+
+    &:hover {
+      cursor: pointer;
+    }
+
+    &:hover,
+    &:focus {
+      & > img,
+      & > svg {
+        transform: rotate(90deg);
+      }
+
+      & > svg {
+        & > g {
+          fill: $btnColorActive;
+        }
+      }
     }
   }
 }

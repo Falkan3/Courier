@@ -3,7 +3,7 @@
 // $closeBtnColor: #64b5f6; // #f44336;
 // $optionsBtnColor: #64b5f6; // #000;
 // buttons
-$btnColorInactive: #cfe4f5;
+$btnColorInactive: #b5d4ec;
 $btnColorActive: #64b5f6;
 // work area
 $linkColor: #0b77ce;
@@ -20,6 +20,7 @@ $sendMessageBoxBgColor: #f7fbff;
   position: fixed;
   bottom: 0;
   right: 0;
+  z-index: 1001;
 
   @include min-m-small-devices {
     right: 1em;

@@ -1,7 +1,6 @@
 import Reef from '../libs/reefjs/reef.es';
 import EventsBinder from '../core/event/events-binder';
 
-
 export default function (Courier, Components, Events) {
     /**
      * Instance of the binder for DOM Events.

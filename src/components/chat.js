@@ -3,7 +3,7 @@ import { isArray } from '../utils/types';
 import EventsBinder from '../core/event/events-binder';
 import Reef from '../libs/reefjs/reef.es';
 import { elemContains, isScrolledToTheBottom } from '../utils/dom';
-import { replyFromScenario } from '../utils/chat';
+import { loadMessagePath, replyFromScenario, saveMessagePath } from '../utils/chat';
 
 
 export default function (Courier, Components, Events) {
@@ -17,11 +17,15 @@ export default function (Courier, Components, Events) {
     const Chat = {
         refs: {},
         scrollToBottom: false,
+        messagePath: [],
 
         mount() {
             Events.emit('chat.mount.before');
             this.initialize();
             this.startMessage();
+            if (Courier.settings.cookies.saveConversation.active) {
+                this.restoreMessages();
+            }
             Events.emit('chat.mount.after');
         },
 
@@ -107,6 +111,7 @@ export default function (Courier, Components, Events) {
 
         startMessage() {
             const startMessage = Courier.settings.messages.start;
+            if (!startMessage) return;
             // send the start message after initialization
             if (isArray(startMessage)) {
                 startMessage.forEach((message) => {
@@ -149,16 +154,24 @@ export default function (Courier, Components, Events) {
                 if (topic.trigger) {
                     this.topicTrigger(topic.trigger);
                 }
-                // find a reply based on selected path
-                const reply = replyFromScenario(Courier.settings.messages, topic.text, topic.path);
-                if (reply) {
-                    if (isArray(reply)) {
-                        reply.forEach((item) => {
-                            this.sendMessage(item);
-                        });
-                    } else {
-                        this.sendMessage(reply);
-                    }
+                this.triggerPath(topic);
+                // push message path
+                if (Courier.settings.cookies.saveConversation.active) {
+                    this.pushMessagePath(messageId, topicId);
+                }
+            }
+        },
+
+        triggerPath(topic) {
+            // find a reply based on selected path
+            const reply = replyFromScenario(Courier.settings.messages, topic.text, topic.path);
+            if (reply) {
+                if (isArray(reply)) {
+                    reply.forEach((item) => {
+                        this.sendMessage(item);
+                    });
+                } else {
+                    this.sendMessage(reply);
                 }
             }
         },
@@ -175,6 +188,26 @@ export default function (Courier, Components, Events) {
             const messages = Components.App.refs.app.elem.querySelectorAll('[data-courier-message-id]');
             if (messages.length) {
                 messages[messages.length - 1].scrollIntoView();
+            }
+        },
+
+        pushMessagePath(messageId, topicId) {
+            this.messagePath.push({
+                messageId,
+                topicId,
+            });
+            saveMessagePath(
+                this.messagePath,
+                Courier.settings.cookies.saveConversation.duration,
+            );
+        },
+
+        restoreMessages() {
+            const messagePath = loadMessagePath();
+            if (messagePath && isArray(messagePath)) {
+                messagePath.forEach((item) => {
+                    this.triggerTopic(item.messageId, item.topicId);
+                });
             }
         },
 
@@ -324,15 +357,15 @@ export default function (Courier, Components, Events) {
     /**
      * Bind event listeners after App has been mounted and rendered for the first time
      */
-    Events.on('chat.close', () => {
-        Chat.close();
-    });
-
-    /**
-     * Bind event listeners after App has been mounted and rendered for the first time
-     */
     Events.on('app.mounted', () => {
         Chat.bind();
+
+        /**
+         * Bind event listeners after App has been mounted and rendered for the first time
+         */
+        Events.on('chat.close', () => {
+            Chat.close();
+        });
     });
 
     /**

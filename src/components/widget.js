@@ -2,6 +2,7 @@ import { objectForEach } from '../utils/object';
 import EventsBinder from '../core/event/events-binder';
 import Reef from '../libs/reefjs/reef.es';
 import { elemContains } from '../utils/dom';
+import { isHidden as widgetIsHidden, setHidden as widgetSetHidden } from '../utils/widget';
 
 
 export default function (Courier, Components, Events) {
@@ -18,6 +19,11 @@ export default function (Courier, Components, Events) {
         mount() {
             Events.emit('widget.mount.before');
             this.initialize();
+            if (Courier.settings.cookies.hideWidget.active) {
+                if (widgetIsHidden()) {
+                    this.hide(false);
+                }
+            }
             Events.emit('widget.mount.after');
         },
 
@@ -27,10 +33,15 @@ export default function (Courier, Components, Events) {
          * @param  {Object} event
          */
         onClick(event) {
-            const courierWidgetButton = document.querySelector('#courierWidgetButton');
+            const courierWidgetButton = Components.App.refs.app.elem.querySelector('#courierWidgetButton');
             if (event.target.matches('#courierWidgetButton')
                 || (elemContains(courierWidgetButton, event.target))) {
                 Components.Chat.open();
+            }
+            const courierWidgetHideButton = Components.App.refs.app.elem.querySelector('#courierWidgetHideButton');
+            if (event.target.matches('#courierWidgetHideButton')
+                || (elemContains(courierWidgetHideButton, event.target))) {
+                this.hide();
             }
         },
 
@@ -44,6 +55,14 @@ export default function (Courier, Components, Events) {
             Events.emit('widget.open');
         },
 
+        hide(save = true) {
+            this.refs.widget.data.active = false;
+            if (save) {
+                widgetSetHidden(true, Courier.settings.cookies.hideWidget.duration);
+            }
+            Events.emit('widget.hide');
+        },
+
         /**
          * Initialize the widget.
          */
@@ -51,20 +70,33 @@ export default function (Courier, Components, Events) {
             Widget.refs.widget = new Reef('#courierWidget', {
                 data: {
                     active: true,
-                    text: Courier.settings.texts.widgetGreeting
+                    text: Courier.settings.texts.widgetGreeting,
+                    hideBtnActive: false,
                 },
                 template: (props) => {
                     if (!props.active) {
                         return '';
                     }
 
+                    const hideBtn = props.hideBtnActive
+                        ? `
+                        <button id="courierWidgetHideButton" class="${Courier.settings.classes.widget}-hide-btn" type="button" aria-label="Hide widget">
+                            ${Courier.settings.images.closeBtn}
+                        </button>
+                        `
+                        : '';
+
                     return `
-                    <button id="courierWidgetButton" class="${Courier.settings.classes.widget}-bubble ${Courier.settings.classes.root}__appear-bottom ${Courier.settings.classes.root}__anim-timing--half" type="button" aria-label="Open widget">
-                        <div class="${Courier.settings.classes.widget}-img" aria-hidden="true">
-                            ${Courier.settings.images.widget}
-                        </div>
-                        <p>${props.text}</p>
-                    </button>`;
+                    <div class="${Courier.settings.classes.widget}-wrapper ${Courier.settings.classes.root}__appear-bottom ${Courier.settings.classes.root}__anim-timing--half">
+                        <button id="courierWidgetButton" class="${Courier.settings.classes.widget}-bubble" type="button" aria-label="Open widget">
+                            <div class="${Courier.settings.classes.widget}-img" aria-hidden="true">
+                                ${Courier.settings.images.widget}
+                            </div>
+                            <p>${props.text}</p>
+                        </button>
+                        ${hideBtn}
+                    </div>
+                    `;
                 },
                 attachTo: Components.App.refs.app,
             });
@@ -79,24 +111,30 @@ export default function (Courier, Components, Events) {
     };
 
     /**
+     * Bind event listeners after App has been mounted and rendered for the first time
+     */
+    Events.on('app.mounted', () => {
+        /**
+         * Close the widget when the chat opens
+         */
+        Events.on('chat.opened', () => {
+            Widget.close();
+        });
+
+        /**
+         * Open the widget when the chat closes
+         */
+        Events.on('chat.closed', () => {
+            Widget.refs.widget.data.hideBtnActive = true;
+            Widget.open();
+        });
+    });
+
+    /**
      * Bind event listeners after App has been rendered
      */
     Events.on('app.click', (event) => {
         Widget.onClick(event);
-    });
-
-    /**
-     * Close the widget when the chat opens
-     */
-    Events.on('chat.opened', () => {
-        Widget.close();
-    });
-
-    /**
-     * Open the widget when the chat closes
-     */
-    Events.on('chat.closed', () => {
-        Widget.open();
     });
 
     /**

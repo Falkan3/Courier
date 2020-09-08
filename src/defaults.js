@@ -102,7 +102,21 @@ export default {
      * @type {Object}
      */
     messages: {},
+
+    /**
+     * Collection of cookie variables.
+     * All durations are in hours.
+     *
+     * @type {Object}
+     */
+    cookies: {
+        saveConversation: {
+            active: true,
+            duration: 24
         },
+        hideWidget: {
+            active: true,
+            duration: 24
         }
     },
 };

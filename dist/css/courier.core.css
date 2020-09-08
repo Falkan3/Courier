@@ -439,10 +439,11 @@
       font-size: 12.8px; } }
   .courier * {
     box-sizing: border-box; }
-  .courier .courier__widget-bubble {
+  .courier .courier__widget-wrapper {
     position: fixed;
     bottom: 1em;
-    right: 1em;
+    right: 1em; }
+  .courier .courier__widget-bubble {
     display: flex;
     align-items: center;
     padding: 0.5em 1em;
@@ -450,7 +451,8 @@
     color: #fff;
     border-radius: 4px;
     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
-    transition: background-color cubic-bezier(0.1, 1, 0.6, 1) 0.3s; }
+    transition: background-color cubic-bezier(0.1, 1, 0.6, 1) 0.3s;
+    z-index: 1001; }
     .courier .courier__widget-bubble:hover {
       cursor: pointer; }
     .courier .courier__widget-bubble:hover, .courier .courier__widget-bubble:focus {
@@ -463,10 +465,34 @@
       width: 2em;
       height: 2em;
       margin-right: 1em; }
+  .courier .courier__widget-hide-btn {
+    position: absolute;
+    right: -0.5em;
+    top: -0.5em;
+    width: 1em;
+    height: 1em;
+    padding: 0; }
+    .courier .courier__widget-hide-btn > img,
+    .courier .courier__widget-hide-btn > svg {
+      display: block;
+      width: 100%;
+      height: 100%;
+      transition: transform cubic-bezier(0.1, 1, 0.6, 1) 0.3s; }
+    .courier .courier__widget-hide-btn > svg > g {
+      fill: #cfe4f5; }
+    .courier .courier__widget-hide-btn:hover {
+      cursor: pointer; }
+    .courier .courier__widget-hide-btn:hover > img,
+    .courier .courier__widget-hide-btn:hover > svg, .courier .courier__widget-hide-btn:focus > img,
+    .courier .courier__widget-hide-btn:focus > svg {
+      transform: rotate(90deg); }
+    .courier .courier__widget-hide-btn:hover > svg > g, .courier .courier__widget-hide-btn:focus > svg > g {
+      fill: #64b5f6; }
   .courier .courier__chat {
     position: fixed;
     bottom: 0;
     right: 0;
+    z-index: 1001;
     /*
  * Wall container
  */
@@ -521,8 +547,8 @@
       justify-content: space-between;
       width: 400px;
       max-width: 100vw;
-      height: 600px;
-      max-height: 100vh;
+      height: 650px;
+      max-height: 80vh;
       background: #fff;
       border-top-left-radius: 4px;
       border-top-right-radius: 4px;
@@ -576,41 +602,29 @@
           transition: color cubic-bezier(0.1, 1, 0.6, 1) 0.3s; }
           .courier .courier__chat-name > p:nth-child(2) > a:hover {
             color: #1992f3; }
-    .courier .courier__chat-close-btn {
+    .courier .courier__chat .courier__chat-close-btn, .courier .courier__chat .courier__chat-options-btn {
       padding: 1em; }
-      .courier .courier__chat-close-btn > img,
-      .courier .courier__chat-close-btn > svg {
+      .courier .courier__chat .courier__chat-close-btn > img, .courier .courier__chat .courier__chat-options-btn > img,
+      .courier .courier__chat .courier__chat-close-btn > svg,
+      .courier .courier__chat .courier__chat-options-btn > svg {
         display: block;
         width: 1em;
         height: 1em;
         transition: transform cubic-bezier(0.1, 1, 0.6, 1) 0.3s; }
-      .courier .courier__chat-close-btn > svg > g {
-        fill: #cfe4f5;
+      .courier .courier__chat .courier__chat-close-btn > svg > g, .courier .courier__chat .courier__chat-options-btn > svg > g {
+        fill: #b5d4ec;
         transition: fill cubic-bezier(0.1, 1, 0.6, 1) 0.3s; }
-      .courier .courier__chat-close-btn:hover {
+      .courier .courier__chat .courier__chat-close-btn:hover, .courier .courier__chat .courier__chat-options-btn:hover {
         cursor: pointer; }
-      .courier .courier__chat-close-btn:hover > svg, .courier .courier__chat-close-btn:active > svg {
+      .courier .courier__chat .courier__chat-close-btn:hover:enabled > img, .courier .courier__chat .courier__chat-options-btn:hover:enabled > img,
+      .courier .courier__chat .courier__chat-close-btn:hover:enabled > svg,
+      .courier .courier__chat .courier__chat-options-btn:hover:enabled > svg, .courier .courier__chat .courier__chat-close-btn:active:enabled > img, .courier .courier__chat .courier__chat-options-btn:active:enabled > img,
+      .courier .courier__chat .courier__chat-close-btn:active:enabled > svg,
+      .courier .courier__chat .courier__chat-options-btn:active:enabled > svg {
         transform: rotate(90deg); }
-        .courier .courier__chat-close-btn:hover > svg > g, .courier .courier__chat-close-btn:active > svg > g {
-          fill: #64b5f6; }
-    .courier .courier__chat-options-btn {
-      padding: 1em; }
-      .courier .courier__chat-options-btn > img,
-      .courier .courier__chat-options-btn > svg {
-        display: block;
-        width: 1em;
-        height: 1em;
-        transition: transform cubic-bezier(0.1, 1, 0.6, 1) 0.3s; }
-      .courier .courier__chat-options-btn > svg > g {
-        fill: #cfe4f5;
-        transition: fill cubic-bezier(0.1, 1, 0.6, 1) 0.3s; }
-      .courier .courier__chat-options-btn:hover {
-        cursor: pointer; }
-      .courier .courier__chat-options-btn:hover:enabled > svg, .courier .courier__chat-options-btn:active:enabled > svg {
-        transform: rotate(90deg); }
-        .courier .courier__chat-options-btn:hover:enabled > svg > g, .courier .courier__chat-options-btn:active:enabled > svg > g {
-          fill: #64b5f6; }
-      .courier .courier__chat-options-btn:disabled > svg > g {
+      .courier .courier__chat .courier__chat-close-btn:hover:enabled > svg > g, .courier .courier__chat .courier__chat-options-btn:hover:enabled > svg > g, .courier .courier__chat .courier__chat-close-btn:active:enabled > svg > g, .courier .courier__chat .courier__chat-options-btn:active:enabled > svg > g {
+        fill: #64b5f6; }
+      .courier .courier__chat .courier__chat-close-btn:disabled > svg > g, .courier .courier__chat .courier__chat-options-btn:disabled > svg > g {
         fill: #ddd; }
     .courier .courier__chat-work-area {
       display: flex;
@@ -691,9 +705,9 @@
       .courier .courier__chat-send-msg-btn:hover > svg > path:nth-child(2), .courier .courier__chat-send-msg-btn:active > svg > path:nth-child(2) {
         fill: #7cc1f7; }
       .courier .courier__chat-send-msg-btn:disabled > svg > path:nth-child(1) {
-        fill: #bad8f1; }
+        fill: #a1c8e7; }
       .courier .courier__chat-send-msg-btn:disabled > svg > path:nth-child(2) {
-        fill: #cfe4f5; }
+        fill: #b5d4ec; }
     .courier .courier__chat-powered-by {
       padding: 1em;
       display: flex;
