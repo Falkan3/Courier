@@ -10,6 +10,7 @@ $btnColorActive: #64b5f6;
     position: fixed;
     bottom: 1em;
     right: 1em;
+    z-index: 1001;
   }
 
   &-bubble {
@@ -21,7 +22,6 @@ $btnColorActive: #64b5f6;
     border-radius: 4px;
     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
     transition: background-color cubic-bezier(0.1, 1, 0.6, 1) 0.3s;
-    z-index: 1001;
 
     &:hover {
       cursor: pointer;
