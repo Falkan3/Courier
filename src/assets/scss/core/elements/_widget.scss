@@ -23,6 +23,19 @@ $btnColorActive: #64b5f6;
     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
     transition: background-color cubic-bezier(0.1, 1, 0.6, 1) 0.3s;
 
+    // bubble arrow
+    &::after {
+      content: "";
+      position: absolute;
+      bottom: calc(-1em + 3px);
+      right: 0.5em;
+      display: block;
+      border: solid 0.5em $bubbleBgColor;
+      border-bottom-color: transparent;
+      border-left-color: transparent;
+      transition: border-color cubic-bezier(0.1, 1, 0.6, 1) 0.3s;
+    }
+
     &:hover {
       cursor: pointer;
     }
@@ -30,6 +43,11 @@ $btnColorActive: #64b5f6;
     &:hover,
     &:focus {
       background-color: lighten($bubbleBgColor, 5%);
+
+      &::after {
+        border-top-color: lighten($bubbleBgColor, 5%);
+        border-right-color: lighten($bubbleBgColor, 5%);
+      }
     }
   }
 

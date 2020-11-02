@@ -17,5 +17,11 @@
   .courier .courier__widget-bubble {
     background: #fff;
     color: #212121; }
+    .courier .courier__widget-bubble::after {
+      border-top-color: #fff;
+      border-right-color: #fff; }
     .courier .courier__widget-bubble:hover, .courier .courier__widget-bubble:focus {
       background-color: #ffde51; }
+      .courier .courier__widget-bubble:hover::after, .courier .courier__widget-bubble:focus::after {
+        border-top-color: #ffde51;
+        border-right-color: #ffde51; }

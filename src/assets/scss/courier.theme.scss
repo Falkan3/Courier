@@ -12,9 +12,19 @@
       background: #fff;
       color: #212121;
 
+      &::after {
+        border-top-color: #fff;
+        border-right-color: #fff;
+      }
+
       &:hover,
       &:focus {
         background-color: #ffde51;
+
+        &::after {
+          border-top-color: #ffde51;
+          border-right-color: #ffde51;
+        }
       }
     }
   }
