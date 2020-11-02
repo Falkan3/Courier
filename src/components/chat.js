@@ -255,7 +255,7 @@ export default function (Courier, Components, Events) {
                     const messages = props.messages.map((item, index) => {
                         // generate message html
                         let html = item.text ? `
-                            <div class="${Courier.settings.classes.chat}-message ${item.outgoing ? `${Courier.settings.classes.chat}-message--self` : ''} courier__appear courier__anim-timing--third" data-courier-message-id="${index}">${item.text}</div>
+                            <p class="${Courier.settings.classes.chat}-message ${item.outgoing ? `${Courier.settings.classes.chat}-message--self` : ''} courier__appear courier__anim-timing--third" data-courier-message-id="${index}">${item.text}</p>
                         ` : '';
 
                         if (item.topics) {

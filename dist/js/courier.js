@@ -2232,7 +2232,7 @@
 
             var messages = props.messages.map(function (item, index) {
               // generate message html
-              var html = item.text ? "\n                            <div class=\"".concat(Courier.settings.classes.chat, "-message ").concat(item.outgoing ? "".concat(Courier.settings.classes.chat, "-message--self") : '', " courier__appear courier__anim-timing--third\" data-courier-message-id=\"").concat(index, "\">").concat(item.text, "</div>\n                        ") : '';
+              var html = item.text ? "\n                            <p class=\"".concat(Courier.settings.classes.chat, "-message ").concat(item.outgoing ? "".concat(Courier.settings.classes.chat, "-message--self") : '', " courier__appear courier__anim-timing--third\" data-courier-message-id=\"").concat(index, "\">").concat(item.text, "</p>\n                        ") : '';
 
               if (item.topics) {
                 var topicsHtml; // generate topics html
