@@ -22,10 +22,7 @@ $sendMessageBoxBgColor: #f7fbff;
   right: 0;
   z-index: 1001;
 
-  @include min-m-small-devices {
-    right: 1em;
-  }
-
+  @import "chat/overlay"; // the main chat container
   @import "chat/wall"; // the main chat container
   @import "chat/header"; // the header section including the avatar, name, website, title, options and close buttons
   @import "chat/work-area"; // the work area where the messages are shown

@@ -304,40 +304,42 @@ export default function (Courier, Components, Events) {
                         : '';
 
                     return `
-                    <div class="${Courier.settings.classes.chat}-wall ${Courier.settings.classes.root}__slide-in-bottom ${Courier.settings.classes.root}__anim-timing--half">
-                        <div class="${Courier.settings.classes.chat}-header">
-                            <div class="${Courier.settings.classes.chat}-menu">
-                                <div>
-                                    <button id="courierChatOptionsBtn" class="${Courier.settings.classes.chat}-options-btn" type="button" aria-label="Options" disabled>
-                                        ${Courier.settings.images.options}
-                                    </button>
-                                </div>
-                                <div>
-                                    <p>${props.text.chatTitle}</p>
-                                </div>
-                                <div>
-                                    <button id="courierChatCloseBtn" class="${Courier.settings.classes.chat}-close-btn" type="button" aria-label="Close">
-                                        ${Courier.settings.images.closeBtn}
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="${Courier.settings.classes.chat}-identity">
-                                <div class="p-all--hf">
-                                    <div class="${Courier.settings.classes.chat}-avatar ${props.online ? `${Courier.settings.classes.chat}--online` : ''}">
-                                        <img src="${props.identity.img.src}" alt="${props.identity.img.alt}" />
+                    <div class="${Courier.settings.classes.chat}-overlay">
+                        <div class="${Courier.settings.classes.chat}-wall ${Courier.settings.classes.root}__slide-in-bottom ${Courier.settings.classes.root}__anim-timing--half">
+                            <div class="${Courier.settings.classes.chat}-header">
+                                <div class="${Courier.settings.classes.chat}-menu">
+                                    <div>
+                                        <button id="courierChatOptionsBtn" class="${Courier.settings.classes.chat}-options-btn" type="button" aria-label="Options" disabled>
+                                            ${Courier.settings.images.options}
+                                        </button>
+                                    </div>
+                                    <div>
+                                        <p class="tx-bold tx-bigger">${props.text.chatTitle}</p>
+                                    </div>
+                                    <div>
+                                        <button id="courierChatCloseBtn" class="${Courier.settings.classes.chat}-close-btn" type="button" aria-label="Close">
+                                            ${Courier.settings.images.closeBtn}
+                                        </button>
                                     </div>
                                 </div>
-                                <div class="${Courier.settings.classes.chat}-name">
-                                    <p>${props.identity.name}</p>
-                                    <p><a href="${props.identity.website.url}" target="_blank" rel="nofollow noopener noreferrer">${props.identity.website.name}</a></p>
+                                <div class="${Courier.settings.classes.chat}-identity">
+                                    <div class="p-all--hf">
+                                        <div class="${Courier.settings.classes.chat}-avatar ${props.online ? `${Courier.settings.classes.chat}--online` : ''}">
+                                            <img src="${props.identity.img.src}" alt="${props.identity.img.alt}" />
+                                        </div>
+                                    </div>
+                                    <div class="${Courier.settings.classes.chat}-name">
+                                        <p>${props.identity.name}</p>
+                                        <p><a href="${props.identity.website.url}" target="_blank" rel="nofollow noopener noreferrer">${props.identity.website.name}</a></p>
+                                    </div>
                                 </div>
                             </div>
+                            <div id="courierChatWorkArea" class="${Courier.settings.classes.chat}-work-area">
+                                ${messages}
+                            </div>
+                            ${messageBox}
+                            ${poweredBy}
                         </div>
-                        <div id="courierChatWorkArea" class="${Courier.settings.classes.chat}-work-area">
-                            ${messages}
-                        </div>
-                        ${messageBox}
-                        ${poweredBy}
                     </div>
                     `;
                 },
