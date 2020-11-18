@@ -20,7 +20,7 @@ export default function (Courier, Components, Events) {
             Events.emit('widget.mount.before');
             this.initialize();
             if (Courier.settings.cookies.hideWidget.active) {
-                if (widgetIsHidden()) {
+                if (widgetIsHidden(Courier.settings.cookies.hideWidget.nameSuffix)) {
                     this.hide(false);
                 }
             }
@@ -58,7 +58,8 @@ export default function (Courier, Components, Events) {
         hide(save = true) {
             this.refs.widget.data.active = false;
             if (save) {
-                widgetSetHidden(true, Courier.settings.cookies.hideWidget.duration);
+                widgetSetHidden(true, Courier.settings.cookies.hideWidget.duration,
+                    Courier.settings.cookies.hideWidget.nameSuffix);
             }
             Events.emit('widget.hide');
         },

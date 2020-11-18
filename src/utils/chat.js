@@ -19,9 +19,10 @@ export function replyFromScenario(scenario, msg, path) {
  *
  * @param {Number} messagePath      Array containing the path taken
  * @param {Number} duration         Cookie duration in hours
+ * @param {string} nameSuffix       Cookie name suffix
  */
-export function saveMessagePath(messagePath, duration) {
-    setCookie('courierMessagePath', JSON.stringify(messagePath), duration);
+export function saveMessagePath(messagePath, duration, nameSuffix = '') {
+    setCookie(`courier_message_path${nameSuffix}`, JSON.stringify(messagePath), duration);
 }
 
 /**
@@ -29,8 +30,8 @@ export function saveMessagePath(messagePath, duration) {
  *
  * @returns Object|null
  */
-export function loadMessagePath() {
-    const cookie = getCookie('courierMessagePath');
+export function loadMessagePath(nameSuffix = '') {
+    const cookie = getCookie(`courier_message_path${nameSuffix}`);
     return cookie ? JSON.parse(cookie) : cookie;
 }
 

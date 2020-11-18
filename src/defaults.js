@@ -111,10 +111,12 @@ export default {
      */
     cookies: {
         saveConversation: {
+            nameSuffix: '',
             active: true,
             duration: 24
         },
         hideWidget: {
+            nameSuffix: '',
             active: true,
             duration: 24
         }

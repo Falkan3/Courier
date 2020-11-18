@@ -282,10 +282,12 @@ var defaults = {
    */
   cookies: {
     saveConversation: {
+      nameSuffix: '',
       active: true,
       duration: 24
     },
     hideWidget: {
+      nameSuffix: '',
       active: true,
       duration: 24
     }
@@ -1760,21 +1762,26 @@ function getCookie(name) {
 /**
  * Save widget hidden state to cookie
  *
- * @param {Boolean} hidden      If the widget should be hidden
- * @param {Number} duration     Cookie duration in hours
+ * @param {Boolean} hidden          If the widget should be hidden
+ * @param {Number} duration         Cookie duration in hours
+ * @param {string} nameSuffix       Cookie name suffix
  */
 
 function setHidden(hidden, duration) {
-  setCookie('courierWidgetHidden', hidden, duration);
+  var nameSuffix = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : '';
+  setCookie("courier_widget_hidden".concat(nameSuffix), hidden, duration);
 }
 /**
  * Check if the widget should be hidden
+ *
+ * @param {string} nameSuffix  Cookie name suffix
  *
  * @returns Object|null
  */
 
 function isHidden() {
-  return getCookie('courierWidgetHidden') === 'true'; // compare to string because the boolean has been stringified when saved in cookie
+  var nameSuffix = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
+  return getCookie("courier_widget_hidden".concat(nameSuffix)) === 'true'; // compare to string because the boolean has been stringified when saved in cookie
 }
 
 function Widget (Courier, Components, Events) {
@@ -1791,7 +1798,7 @@ function Widget (Courier, Components, Events) {
       this.initialize();
 
       if (Courier.settings.cookies.hideWidget.active) {
-        if (isHidden()) {
+        if (isHidden(Courier.settings.cookies.hideWidget.nameSuffix)) {
           this.hide(false);
         }
       }
@@ -1830,7 +1837,7 @@ function Widget (Courier, Components, Events) {
       this.refs.widget.data.active = false;
 
       if (save) {
-        setHidden(true, Courier.settings.cookies.hideWidget.duration);
+        setHidden(true, Courier.settings.cookies.hideWidget.duration, Courier.settings.cookies.hideWidget.nameSuffix);
       }
 
       Events.emit('widget.hide');
@@ -1960,10 +1967,12 @@ function replyFromScenario(scenario, msg, path) {
  *
  * @param {Number} messagePath      Array containing the path taken
  * @param {Number} duration         Cookie duration in hours
+ * @param {string} nameSuffix       Cookie name suffix
  */
 
 function saveMessagePath(messagePath, duration) {
-  setCookie('courierMessagePath', JSON.stringify(messagePath), duration);
+  var nameSuffix = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : '';
+  setCookie("courier_message_path".concat(nameSuffix), JSON.stringify(messagePath), duration);
 }
 /**
  * Load saved message path that was selected
@@ -1972,7 +1981,8 @@ function saveMessagePath(messagePath, duration) {
  */
 
 function loadMessagePath() {
-  var cookie = getCookie('courierMessagePath');
+  var nameSuffix = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
+  var cookie = getCookie("courier_message_path".concat(nameSuffix));
   return cookie ? JSON.parse(cookie) : cookie;
 }
 
@@ -2169,7 +2179,7 @@ function Chat (Courier, Components, Events) {
         messageId: messageId,
         topicId: topicId
       });
-      saveMessagePath(this.messagePath, Courier.settings.cookies.saveConversation.duration);
+      saveMessagePath(this.messagePath, Courier.settings.cookies.saveConversation.duration, Courier.settings.cookies.saveConversation.nameSuffix);
     },
     restoreMessages: function restoreMessages() {
       var _this4 = this;

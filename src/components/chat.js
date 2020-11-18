@@ -199,6 +199,7 @@ export default function (Courier, Components, Events) {
             saveMessagePath(
                 this.messagePath,
                 Courier.settings.cookies.saveConversation.duration,
+                Courier.settings.cookies.saveConversation.nameSuffix,
             );
         },
 
