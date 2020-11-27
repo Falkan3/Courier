@@ -1,0 +1,13 @@
+/*
+ * Main container
+ */
+&-main {
+  position: relative;
+  display: flex;
+  width: 600px;
+  max-width: 100%;
+  min-height: 8rem;
+  background: $mainBgColor;
+  padding: 2.5rem 2.5rem 1rem;
+  border-radius: 16px;
+}

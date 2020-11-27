@@ -22,6 +22,7 @@ export default {
         root: 'courier',
         widget: 'courier__widget',
         chat: 'courier__chat',
+        popup: 'courier__popup',
     },
 
     /**
@@ -40,9 +41,12 @@ export default {
      */
     texts: {
         widgetGreeting: 'Hello!',
+        // chat
         chatTitle: 'Chat with us!',
         messagePlaceholder: 'Type something...',
         sendMessage: 'Send message',
+        // popup
+        popupContent: '',
     },
 
     /**
@@ -58,14 +62,14 @@ export default {
      * @type {Object}
      */
     identity: {
-        name: 'Name',
+        name: 'Company',
         website: {
-            name: 'TrafficWatchdog',
-            url: 'https://trafficwatchdog.pl',
+            name: 'company.com',
+            url: 'https://company.com',
         },
         logo: {
-            src: 'https://panel.trafficwatchdog.pl/svg/logo_cropped.svg',
-            alt: 'TrafficWatchdog logo',
+            src: 'https://uilogos.co/img/logomark/circle.png',
+            alt: 'Company logo',
         },
     },
 

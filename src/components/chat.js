@@ -5,7 +5,6 @@ import Reef from '../libs/reefjs/reef.es';
 import { elemContains, isScrolledToTheBottom } from '../utils/dom';
 import { loadMessagePath, replyFromScenario, saveMessagePath } from '../utils/chat';
 
-
 export default function (Courier, Components, Events) {
     /**
      * Instance of the binder for DOM Events.
@@ -49,9 +48,11 @@ export default function (Courier, Components, Events) {
          * @param  {Object} event
          */
         onClick(event) {
+            // const overlay = Components.App.refs.app.elem.querySelector('#courierChatOverlay');
             const closeBtn = Components.App.refs.app.elem.querySelector('#courierChatCloseBtn');
-            if (event.target.matches('#courierChatCloseBtn')
-                || (elemContains(closeBtn, event.target))) {
+            if (event.target.matches('#courierPopupCloseBtn')
+                || (elemContains(closeBtn, event.target))
+                || (event.target.matches('#courierChatOverlay'))) {
                 this.close();
             }
 
@@ -63,6 +64,17 @@ export default function (Courier, Components, Events) {
             }
 
             return event;
+        },
+
+        /**
+         * Handles keydown events.
+         *
+         * @param  {Object} event
+         */
+        onKeydown(event) {
+            if (event.key === 'Escape') {
+                this.close();
+            }
         },
 
         onAppRendered(event) {
@@ -256,15 +268,14 @@ export default function (Courier, Components, Events) {
                     const messages = props.messages.map((item, index) => {
                         // generate message html
                         let html = item.text ? `
-                            <p class="${Courier.settings.classes.chat}-message ${item.outgoing ? `${Courier.settings.classes.chat}-message--self` : ''} courier__appear courier__anim-timing--third" data-courier-message-id="${index}">${item.text}</p>
-                        ` : '';
+                            <p class="${Courier.settings.classes.chat}-message ${item.outgoing ? `${Courier.settings.classes.chat}-message--self` : ''} courier__appear courier__anim-timing--third" data-courier-message-id="${index}">${item.text}</p>`
+                            : '';
 
                         if (item.topics) {
                             let topicsHtml;
                             // generate topics html
                             topicsHtml = item.topics.map((topic, topicIndex) => `
-                                <button class="${Courier.settings.classes.chat}-topic ${topic.active ? `${Courier.settings.classes.chat}-topic--active` : ''}" data-courier-message-id="${index}" data-courier-topic-id="${topicIndex}" ${topic.disabled ? 'disabled' : ''}>${topic.text}</button>
-                            `).join('');
+                                <button class="${Courier.settings.classes.chat}-topic ${topic.active ? `${Courier.settings.classes.chat}-topic--active` : ''}" data-courier-message-id="${index}" data-courier-topic-id="${topicIndex}" ${topic.disabled ? 'disabled' : ''}>${topic.text}</button>`).join('');
 
                             // wrap topics
                             topicsHtml = `
@@ -272,8 +283,7 @@ export default function (Courier, Components, Events) {
                                     <div class="${Courier.settings.classes.chat}-topics">
                                         ${topicsHtml}
                                     </div>
-                                </div>
-                            `;
+                                </div>`;
 
                             // merge message and topics html
                             html += topicsHtml;
@@ -289,8 +299,7 @@ export default function (Courier, Components, Events) {
                             <button class="${Courier.settings.classes.chat}-send-msg-btn" type="submit" aria-label="${props.text.sendMessage}">
                                 ${Courier.settings.images.sendMsg}
                             </button>
-                        </form>
-                        `
+                        </form>`
                         : '';
 
                     const poweredBy = props.poweredBy.show
@@ -300,12 +309,11 @@ export default function (Courier, Components, Events) {
                                 <p class="m-r--hf">${props.poweredBy.text}</p>
                                 <img src="${props.poweredBy.img.src}" alt="${props.poweredBy.img.alt}" />
                             </a>
-                        </div>
-                        `
+                        </div>`
                         : '';
 
                     return `
-                    <div class="${Courier.settings.classes.chat}-overlay">
+                    <div id="courierChatOverlay" class="${Courier.settings.classes.chat}-overlay ${Courier.settings.classes.root}__fade-in ${Courier.settings.classes.root}__anim-timing--half">
                         <div class="${Courier.settings.classes.chat}-wall ${Courier.settings.classes.root}__slide-in-bottom ${Courier.settings.classes.root}__anim-timing--half">
                             <div class="${Courier.settings.classes.chat}-header">
                                 <div class="${Courier.settings.classes.chat}-menu">
@@ -341,8 +349,7 @@ export default function (Courier, Components, Events) {
                             ${messageBox}
                             ${poweredBy}
                         </div>
-                    </div>
-                    `;
+                    </div>`;
                 },
                 attachTo: Components.App.refs.app,
                 allowHTML: true,
@@ -363,11 +370,12 @@ export default function (Courier, Components, Events) {
     Events.on('app.mounted', () => {
         Chat.bind();
 
-        /**
-         * Bind event listeners after App has been mounted and rendered for the first time
-         */
         Events.on('chat.close', () => {
             Chat.close();
+        });
+
+        Events.on('widget.clicked', () => {
+            Chat.open();
         });
     });
 
@@ -383,6 +391,13 @@ export default function (Courier, Components, Events) {
      */
     Events.on('app.click', (event) => {
         Chat.onClick(event);
+    });
+
+    /**
+     * Bind event listeners after App has been rendered
+     */
+    Events.on('app.keydown', (event) => {
+        Chat.onKeydown(event);
     });
 
     /**

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Meta -->
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+<title>Test</title>
+
+<!-- Assets -->
+<link rel="stylesheet" href="../dist/css/courier.core.css">
+<link rel="stylesheet" href="../dist/css/courier.theme.css">
+<script src="../dist/js/courier.js"></script>
+<style type="text/css">
+    .courier .courier__popup-main {
+        background: #aaefea;
+        color: #357972;
+    }
+
+    .courier .courier__popup-close-btn > svg > g {
+        fill: #74c1b9;
+    }
+
+    .courier .tx-highlight {
+        background: #f29ca7;
+        background: linear-gradient(90deg, #ffbac2 0%, #f29ca7 100%);
+    }
+</style>
+</head>
+<body>
+<script>
+	const courier = new Courier(document.body, {
+        texts: {
+            popupContent: `
+                <img class="courier courier__popup-work-area-img" src="https://static.vecteezy.com/system/resources/previews/000/139/317/large_2x/free-san-valentin-background-sale-vector.jpg" alt="Placeholder image" />
+                <p class="m-v tx-center tx-upper tx-bold tx-bigger">A coupon just for you!</p>
+                <p class="m-v tx-center tx-bigger"><span class="tx-highlight">COUPONCODE</span></p>
+                <p class="tx-center tx-smaller" style="color: #4da098">Redeem the code while checking out.</p>`
+        }
+    });
+	courier.mount();
+	// courier._components.ComponentName.function();
+</script>
+</body>
+</html>

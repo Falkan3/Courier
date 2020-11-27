@@ -1,0 +1,21 @@
+// buttons
+$btnColorInactive: #b5d4ec;
+$btnColorActive: #64b5f6;
+// main
+$mainBgColor: #fbfbfb;
+// work area
+$linkColor: #0b77ce;
+
+#{$classPrefix}__popup {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  z-index: 1001;
+
+  @import "popup/overlay"; // the main popup container
+  @import "popup/wrapper"; // the popup wrapper
+  @import "popup/main"; // the main popup container
+  @import "popup/work-area"; // the work area where the content is shown
+  @import "popup/powered-by"; // the powered by section
+  @import "popup/close-button"; // the close button
+}

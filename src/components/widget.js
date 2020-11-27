@@ -4,7 +4,6 @@ import Reef from '../libs/reefjs/reef.es';
 import { elemContains } from '../utils/dom';
 import { isHidden as widgetIsHidden, setHidden as widgetSetHidden } from '../utils/widget';
 
-
 export default function (Courier, Components, Events) {
     /**
      * Instance of the binder for DOM Events.
@@ -36,7 +35,7 @@ export default function (Courier, Components, Events) {
             const courierWidgetButton = Components.App.refs.app.elem.querySelector('#courierWidgetButton');
             if (event.target.matches('#courierWidgetButton')
                 || (elemContains(courierWidgetButton, event.target))) {
-                Components.Chat.open();
+                Events.emit('widget.clicked');
             }
             const courierWidgetHideButton = Components.App.refs.app.elem.querySelector('#courierWidgetHideButton');
             if (event.target.matches('#courierWidgetHideButton')
@@ -116,16 +115,16 @@ export default function (Courier, Components, Events) {
      */
     Events.on('app.mounted', () => {
         /**
-         * Close the widget when the chat opens
+         * Close the widget when the chat or popup opens
          */
-        Events.on('chat.opened', () => {
+        Events.on(['chat.opened', 'popup.opened'], () => {
             Widget.close();
         });
 
         /**
-         * Open the widget when the chat closes
+         * Open the widget when the chat or popup closes
          */
-        Events.on('chat.closed', () => {
+        Events.on(['chat.closed', 'popup.closed'], () => {
             Widget.refs.widget.data.hideBtnActive = true;
             Widget.open();
         });

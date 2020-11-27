@@ -3,15 +3,16 @@ import Core from '../src/index';
 import App from '../src/components/app';
 import Widget from '../src/components/widget';
 import Chat from '../src/components/chat';
+import Popup from '../src/components/popup';
 
 const COMPONENTS = {
     App,
-    Chat,
     Widget,
 };
 
 export {
-
+    Chat,
+    Popup
 };
 
 export default class Courier extends Core {

@@ -54,9 +54,12 @@
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
 
-  /* elements */
+  /* core elements */
   @import 'core/elements/widget';
+
+  /* optional elements */
   @import 'core/elements/chat';
+  @import 'core/elements/popup';
 
   /* modifiers */
   @import 'core/modifiers';

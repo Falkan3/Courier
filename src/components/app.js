@@ -1,4 +1,5 @@
-import Reef from '../libs/reefjs/reef.es';
+// eslint-disable-next-line import/no-unresolved
+import Reef from '@libs/reefjs/reef.es';
 import EventsBinder from '../core/event/events-binder';
 
 export default function (Courier, Components, Events) {
@@ -24,6 +25,7 @@ export default function (Courier, Components, Events) {
          */
         bind() {
             Binder.on('click', Components.App.refs.app.elem, event => this.onClick(event));
+            Binder.on('keydown', Components.App.refs.app.elem, event => this.onKeydown(event));
             Binder.on('render', Components.App.refs.app.elem, event => this.onRendered(event));
         },
 
@@ -32,6 +34,8 @@ export default function (Courier, Components, Events) {
          */
         unbind() {
             Binder.off('click', Components.App.refs.app.elem);
+            Binder.off('keydown', Components.App.refs.app.elem);
+            Binder.off('render', Components.App.refs.app.elem);
         },
 
         /**
@@ -41,6 +45,15 @@ export default function (Courier, Components, Events) {
          */
         onClick(event) {
             Events.emit('app.click', event);
+        },
+
+        /**
+         * Handles keydown events.
+         *
+         * @param  {Object} event
+         */
+        onKeydown(event) {
+            Events.emit('app.keydown', event);
         },
 
         /**
@@ -56,11 +69,19 @@ export default function (Courier, Components, Events) {
          * Initialize the app wrapper.
          */
         initialize() {
+            const componentHtmlArr = [];
+            if (Object.prototype.hasOwnProperty.call(Components, 'Chat')) {
+                componentHtmlArr.push(`<div id="courierChat" class="${Courier.settings.classes.chat}"></div>`);
+            }
+            if (Object.prototype.hasOwnProperty.call(Components, 'Popup')) {
+                componentHtmlArr.push(`<div id="courierPopup" class="${Courier.settings.classes.popup}"></div>`);
+            }
+
             App.refs.app = new Reef(Courier.rootElement, {
                 data: {},
                 template: props => `
                 <div id="courierRoot" class="${Courier.settings.classes.root}">
-                    <div id="courierChat" class="${Courier.settings.classes.chat}"></div>
+                    ${componentHtmlArr.join('')}
                     <div id="courierWidget" class="${Courier.settings.classes.widget}"></div>
                 </div>`,
             });
