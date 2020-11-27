@@ -12,7 +12,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0.5em 1em;
+  padding: 1.5em;
 }
 
 /*
@@ -91,7 +91,8 @@
 }
 
 %header-btn {
-  padding: 1em;
+  display: block;
+  padding: 0;
 
   & > img,
   & > svg {
