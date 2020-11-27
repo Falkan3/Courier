@@ -1,3 +1,4 @@
+/* eslint-disable import/no-extraneous-dependencies */
 import babel from 'rollup-plugin-babel';
 import banner from './banner';
 
