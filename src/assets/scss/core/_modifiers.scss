@@ -1,3 +1,6 @@
+$highlightColor1: #15a9e0;
+$highlightColor2: #6e33c7;
+
 /*
  * Text
  */
@@ -28,6 +31,16 @@
 
   &-small {
     font-size: #{get-font-size(0.5)};
+  }
+
+  &-highlight {
+    display: inline-block;
+    padding: 0.8rem 2rem;
+    border-radius: 34px;
+    background: #15a9e0;
+    background: linear-gradient(90deg, $highlightColor1 0%, $highlightColor2 100%);
+    color: #fff;
+    letter-spacing: 0.2rem;
   }
 }
 
@@ -79,6 +92,12 @@
 
     &--hf {
       margin-right: #{get-font-size(0.5)};
+    }
+  }
+
+  &-all {
+    &--auto {
+      margin: auto;
     }
   }
 }
