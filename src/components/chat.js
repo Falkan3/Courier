@@ -216,7 +216,9 @@ export default function (Courier, Components, Events) {
         },
 
         restoreMessages() {
-            const messagePath = loadMessagePath();
+            const messagePath = loadMessagePath(
+                Courier.settings.cookies.saveConversation.nameSuffix
+            );
             if (messagePath && isArray(messagePath)) {
                 messagePath.forEach((item) => {
                     this.triggerTopic(item.messageId, item.topicId);
