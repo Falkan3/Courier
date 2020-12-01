@@ -1579,7 +1579,7 @@ var EventsBinder = /*#__PURE__*/function () {
   return EventsBinder;
 }();
 
-// eslint-disable-next-line import/no-unresolved
+// eslint-disable import/no-unresolved
 function App (Courier, Components, Events) {
   /**
    * Instance of the binder for DOM Events.
@@ -2225,7 +2225,7 @@ function chat (Courier, Components, Events) {
     restoreMessages: function restoreMessages() {
       var _this4 = this;
 
-      var messagePath = loadMessagePath();
+      var messagePath = loadMessagePath(Courier.settings.cookies.saveConversation.nameSuffix);
 
       if (messagePath && isArray(messagePath)) {
         messagePath.forEach(function (item) {

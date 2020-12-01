@@ -1,6 +1,6 @@
-// eslint-disable-next-line import/no-unresolved
+/* eslint-disable import/no-unresolved */
 import Reef from '@libs/reefjs/reef.es';
-import EventsBinder from '../core/event/events-binder';
+import EventsBinder from '@core/event/events-binder';
 
 export default function (Courier, Components, Events) {
     /**

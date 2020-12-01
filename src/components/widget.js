@@ -1,8 +1,9 @@
-import { objectForEach } from '../utils/object';
-import EventsBinder from '../core/event/events-binder';
-import Reef from '../libs/reefjs/reef.es';
-import { elemContains } from '../utils/dom';
-import { isHidden as widgetIsHidden, setHidden as widgetSetHidden } from '../utils/widget';
+/* eslint-disable import/no-unresolved */
+import { objectForEach } from '@utils/object';
+import EventsBinder from '@core/event/events-binder';
+import Reef from '@libs/reefjs/reef.es';
+import { elemContains } from '@utils/dom';
+import { isHidden as widgetIsHidden, setHidden as widgetSetHidden } from '@utils/widget';
 
 export default function (Courier, Components, Events) {
     /**

@@ -1,9 +1,10 @@
-import { objectForEach, textTemplate } from '../utils/object';
-import { isArray } from '../utils/types';
-import EventsBinder from '../core/event/events-binder';
-import Reef from '../libs/reefjs/reef.es';
-import { elemContains, isScrolledToTheBottom } from '../utils/dom';
-import { loadMessagePath, replyFromScenario, saveMessagePath } from '../utils/chat';
+/* eslint-disable import/no-unresolved */
+import { objectForEach, textTemplate } from '@utils/object';
+import { isArray } from '@utils/types';
+import EventsBinder from '@core/event/events-binder';
+import Reef from '@libs/reefjs/reef.es';
+import { elemContains, isScrolledToTheBottom } from '@utils/dom';
+import { loadMessagePath, replyFromScenario, saveMessagePath } from '@utils/chat';
 
 export default function (Courier, Components, Events) {
     /**

@@ -1,7 +1,8 @@
-import { objectForEach } from '../utils/object';
-import EventsBinder from '../core/event/events-binder';
-import Reef from '../libs/reefjs/reef.es';
-import { elemContains } from '../utils/dom';
+/* eslint-disable import/no-unresolved */
+import { objectForEach } from '@utils/object';
+import EventsBinder from '@core/event/events-binder';
+import Reef from '@libs/reefjs/reef.es';
+import { elemContains } from '@utils/dom';
 
 export default function (Courier, Components, Events) {
     /**
