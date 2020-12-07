@@ -21,7 +21,10 @@
         ],
         "indent": [
             1,
-            4
+            4,
+            {
+                "MemberExpression": 0
+            }
         ],
         "semi": [
             1,
