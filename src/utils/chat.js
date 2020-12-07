@@ -1,5 +1,19 @@
 /* eslint-disable import/no-unresolved */
 import { getCookie, setCookie } from '@utils/cookies';
+import { clone } from '@utils/object';
+
+/**
+ * Get the start message from the scenario property in settings.
+ *
+ * @param  {Object} scenario    Message scenario.
+ * @return {Object|null}
+ */
+export function getStartMessage(scenario) {
+    if (scenario.start) {
+        return clone(scenario.start, true); // copy value, not reference
+    }
+    return null;
+}
 
 /**
  * Find a predefined reply from the scenario property in settings.
@@ -7,10 +21,11 @@ import { getCookie, setCookie } from '@utils/cookies';
  * @param  {Object} scenario    Message scenario.
  * @param  {string} msg         The message.
  * @param  {string} path        The topic's path.
+ * @return {Object|Array|null}
  */
 export function replyFromScenario(scenario, msg, path) {
     if (path && scenario[path]) {
-        return scenario[path];
+        return clone(scenario[path], true); // copy value, not reference
     }
     return null;
 }

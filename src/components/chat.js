@@ -1,10 +1,12 @@
 /* eslint-disable import/no-unresolved */
-import { objectForEach, textTemplate } from '@utils/object';
+import { clone, textTemplate } from '@utils/object';
 import { isArray } from '@utils/types';
 import EventsBinder from '@core/event/events-binder';
 import Reef from '@libs/reefjs/reef.es';
 import { elemContains, isScrolledToTheBottom } from '@utils/dom';
-import { loadMessagePath, replyFromScenario, saveMessagePath } from '@utils/chat';
+import {
+    getStartMessage, loadMessagePath, replyFromScenario, saveMessagePath
+} from '@utils/chat';
 
 export default function (Courier, Components, Events) {
     /**
@@ -123,7 +125,7 @@ export default function (Courier, Components, Events) {
         },
 
         startMessage() {
-            const startMessage = Courier.settings.messages.start;
+            const startMessage = getStartMessage(Courier.settings.messages);
             if (!startMessage) return;
             // send the start message after initialization
             if (isArray(startMessage)) {
@@ -216,9 +218,21 @@ export default function (Courier, Components, Events) {
             );
         },
 
+        refreshMessages() {
+            // reset sent messages and message path
+            this.refs.chat.data.messages = [];
+            const oldMessagePath = clone(this.messagePath, true);
+            this.messagePath = [];
+            // recreate message path
+            this.startMessage();
+            oldMessagePath.forEach((item) => {
+                this.triggerTopic(item.messageId, item.topicId);
+            });
+        },
+
         restoreMessages() {
             const messagePath = loadMessagePath(
-                Courier.settings.cookies.saveConversation.nameSuffix
+                Courier.settings.cookies.saveConversation.nameSuffix,
             );
             if (messagePath && isArray(messagePath)) {
                 messagePath.forEach((item) => {
@@ -278,7 +292,8 @@ export default function (Courier, Components, Events) {
                             let topicsHtml;
                             // generate topics html
                             topicsHtml = item.topics.map((topic, topicIndex) => `
-                                <button class="${Courier.settings.classes.chat}-topic ${topic.active ? `${Courier.settings.classes.chat}-topic--active` : ''}" data-courier-message-id="${index}" data-courier-topic-id="${topicIndex}" ${topic.disabled ? 'disabled' : ''}>${topic.text}</button>`).join('');
+                                <button class="${Courier.settings.classes.chat}-topic ${topic.active ? `${Courier.settings.classes.chat}-topic--active` : ''}" data-courier-message-id="${index}" data-courier-topic-id="${topicIndex}" ${topic.disabled ? 'disabled' : ''}>${topic.text}</button>`)
+                            .join('');
 
                             // wrap topics
                             topicsHtml = `
@@ -409,7 +424,7 @@ export default function (Courier, Components, Events) {
      * - on updating to remove events before remounting
      */
     Events.on(['destroy', 'update'], () => {
-        Chat.unbind();
+        // Chat.unbind();
     });
 
     /**
@@ -417,7 +432,8 @@ export default function (Courier, Components, Events) {
      * - on updating to reflect potential changes in settings
      */
     Events.on('update', () => {
-        Chat.mount();
+        // Chat.mount();
+        Chat.refreshMessages();
     });
 
     /**
@@ -425,6 +441,7 @@ export default function (Courier, Components, Events) {
      * - on destroying to remove listeners
      */
     Events.on(['destroy'], () => {
+        Chat.unbind();
         Binder.destroy();
     });
 
@@ -434,11 +451,13 @@ export default function (Courier, Components, Events) {
      * - on chat.mount.before to rerender elements and apply changes
      */
     Events.on(['destroy', 'chat.mount.before'], () => {
-        objectForEach(Chat.refs, (item) => {
-            if (item.el.parentNode) {
-                item.el.parentNode.removeChild(item.el);
-            }
-        });
+        /*
+         objectForEach(Chat.refs, (item) => {
+         if (item.el.parentNode) {
+         item.el.parentNode.removeChild(item.el);
+         }
+         });
+         */
         /*
          for (let i = 0; i < App.refs.length; i++) {
          App.refs[i].el.parentNode.removeChild(App.refs[i].el);
