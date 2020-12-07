@@ -420,6 +420,46 @@
     });
   }
   /**
+   * Clone an array or an object.
+   *
+   * @param  {Object|Array} input
+   * @param {Boolean} deep
+   * @return {Object|Array}
+   */
+
+  function clone(input) {
+    var deep = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+
+    if (isArray(input)) {
+      if (deep) {
+        var msgArr = [];
+
+        for (var i = 0, length = input.length; i < length; i++) {
+          msgArr.push(clone(input[i], true));
+        }
+
+        return msgArr;
+      }
+
+      return input.slice();
+    }
+
+    if (isObject(input)) {
+      if (deep) {
+        var clonedObj = {}; // Object.assign({}, input);
+
+        objectForEach(input, function (el, key) {
+          clonedObj[key] = clone(el, true);
+        });
+        return clonedObj;
+      }
+
+      return _extends({}, input);
+    }
+
+    return input;
+  }
+  /**
    * Replace variables in text according to the given template.
    *
    * @param  {String} text
@@ -832,7 +872,7 @@
    * @return {*}                 The immutable, encoded object
    */
 
-  var clone = function clone(obj, allowHTML) {
+  var clone$1 = function clone(obj, allowHTML) {
     // Get the object type
     var type = trueTypeOf(obj); // If an object, loop through and recursively encode
 
@@ -980,7 +1020,7 @@
 
     Object.defineProperty(_this, 'data', {
       get: function get() {
-        return _setters ? clone(_data, true) : _data;
+        return _setters ? clone$1(_data, true) : _data;
       },
       set: function set(data) {
         if (_store || _setters) return true;
@@ -1450,7 +1490,7 @@
     var elem = trueTypeOf(this.elem) === 'string' ? document.querySelector(this.elem) : this.elem;
     if (!elem) return err('The DOM element to render your template into was not found.'); // Get the data (if there is any)
 
-    var data = clone((this.store ? this.store.data : this.data) || {}, this.allowHTML); // Get the template
+    var data = clone$1((this.store ? this.store.data : this.data) || {}, this.allowHTML); // Get the template
 
     var template = trueTypeOf(this.template) === 'function' ? this.template(data, this.router ? this.router.current : null) : this.template;
     if (['string', 'number'].indexOf(trueTypeOf(template)) < 0) return; // Diff and update the DOM
@@ -1505,7 +1545,7 @@
   }; // Expose the clone method externally
 
 
-  Reef.clone = clone; // Attach internal helpers
+  Reef.clone = clone$1; // Attach internal helpers
 
   Reef._ = _; //
   // Set support
@@ -1585,7 +1625,7 @@
     return EventsBinder;
   }();
 
-  // eslint-disable import/no-unresolved
+  /* eslint-disable import/no-unresolved */
   function App (Courier, Components, Events) {
     /**
      * Instance of the binder for DOM Events.
@@ -1685,9 +1725,8 @@
       }
     };
     /**
-     * Destroy elements:
-     * - on destroy to remove rendered elements
-     * - on app.mount.before to rerender elements and apply changes
+     * Rerender App component
+     * - on mount.after event after all components have been mounted
      */
 
     Events.on('mount.after', function () {
@@ -1727,7 +1766,11 @@
 
     Events.on(['destroy', 'app.mount.before'], function () {
       App.refs = {};
-    });
+    }); // Rerender after app has been mounted
+    // Events.on('app.mount.after', () => {
+    //     App.render();
+    // });
+
     return App;
   }
 
@@ -1819,6 +1862,7 @@
     return getCookie("courier_widget_hidden".concat(nameSuffix)) === 'true'; // compare to string because the boolean has been stringified when saved in cookie
   }
 
+  /* eslint-disable import/no-unresolved */
   function Widget (Courier, Components, Events) {
     /**
      * Instance of the binder for DOM Events.
@@ -1940,16 +1984,13 @@
      * - on updating to remove events before remounting
      */
 
-    Events.on(['destroy', 'update'], function () {
-      Widget.unbind();
-    });
+    Events.on(['destroy', 'update'], function () {});
     /**
      * Remount component
      * - on updating to reflect potential changes in settings
      */
 
-    Events.on('update', function () {
-      Widget.mount();
+    Events.on('update', function () {// Widget.mount();
     });
     /**
      * Destroy binder:
@@ -1966,33 +2007,51 @@
      */
 
     Events.on(['destroy', 'widget.mount.before'], function () {
-      objectForEach(Widget.refs, function (item) {
-        if (item.el.parentNode) {
-          item.el.parentNode.removeChild(item.el);
-        }
+      /*
+      objectForEach(Widget.refs, (item) => {
+          if (item.el.parentNode) {
+              item.el.parentNode.removeChild(item.el);
+          }
       });
+       */
+
       /*
        for (let i = 0; i < App.refs.length; i++) {
        App.refs[i].el.parentNode.removeChild(App.refs[i].el);
        }
        */
-
       Widget.refs = {};
     });
     return Widget;
   }
 
+  /* eslint-disable import/no-unresolved */
+  /**
+   * Get the start message from the scenario property in settings.
+   *
+   * @param  {Object} scenario    Message scenario.
+   * @return {Object|null}
+   */
+
+  function getStartMessage(scenario) {
+    if (scenario.start) {
+      return clone(scenario.start, true); // copy value, not reference
+    }
+
+    return null;
+  }
   /**
    * Find a predefined reply from the scenario property in settings.
    *
    * @param  {Object} scenario    Message scenario.
    * @param  {string} msg         The message.
    * @param  {string} path        The topic's path.
+   * @return {Object|Array|null}
    */
 
   function replyFromScenario(scenario, msg, path) {
     if (path && scenario[path]) {
-      return scenario[path];
+      return clone(scenario[path], true); // copy value, not reference
     }
 
     return null;
@@ -2012,7 +2071,7 @@
   /**
    * Load saved message path that was selected
    *
-   * @returns Object|null
+   * @return Object|null
    */
 
   function loadMessagePath() {
@@ -2021,6 +2080,7 @@
     return cookie ? JSON.parse(cookie) : cookie;
   }
 
+  /* eslint-disable import/no-unresolved */
   function Chat (Courier, Components, Events) {
     /**
      * Instance of the binder for DOM Events.
@@ -2139,7 +2199,7 @@
       startMessage: function startMessage() {
         var _this2 = this;
 
-        var startMessage = Courier.settings.messages.start;
+        var startMessage = getStartMessage(Courier.settings.messages);
         if (!startMessage) return; // send the start message after initialization
 
         if (isArray(startMessage)) {
@@ -2228,14 +2288,27 @@
         });
         saveMessagePath(this.messagePath, Courier.settings.cookies.saveConversation.duration, Courier.settings.cookies.saveConversation.nameSuffix);
       },
-      restoreMessages: function restoreMessages() {
+      refreshMessages: function refreshMessages() {
         var _this4 = this;
+
+        // reset sent messages and message path
+        this.refs.chat.data.messages = [];
+        var oldMessagePath = clone(this.messagePath, true);
+        this.messagePath = []; // recreate message path
+
+        this.startMessage();
+        oldMessagePath.forEach(function (item) {
+          _this4.triggerTopic(item.messageId, item.topicId);
+        });
+      },
+      restoreMessages: function restoreMessages() {
+        var _this5 = this;
 
         var messagePath = loadMessagePath(Courier.settings.cookies.saveConversation.nameSuffix);
 
         if (messagePath && isArray(messagePath)) {
           messagePath.forEach(function (item) {
-            _this4.triggerTopic(item.messageId, item.topicId);
+            _this5.triggerTopic(item.messageId, item.topicId);
           });
         }
       },
@@ -2355,8 +2428,7 @@
      * - on updating to remove events before remounting
      */
 
-    Events.on(['destroy', 'update'], function () {
-      Chat.unbind();
+    Events.on(['destroy', 'update'], function () {// Chat.unbind();
     });
     /**
      * Remount component
@@ -2364,7 +2436,8 @@
      */
 
     Events.on('update', function () {
-      Chat.mount();
+      // Chat.mount();
+      Chat.refreshMessages();
     });
     /**
      * Destroy binder:
@@ -2372,6 +2445,7 @@
      */
 
     Events.on(['destroy'], function () {
+      Chat.unbind();
       Binder.destroy();
     });
     /**
@@ -2381,17 +2455,19 @@
      */
 
     Events.on(['destroy', 'chat.mount.before'], function () {
-      objectForEach(Chat.refs, function (item) {
-        if (item.el.parentNode) {
-          item.el.parentNode.removeChild(item.el);
-        }
-      });
+      /*
+       objectForEach(Chat.refs, (item) => {
+       if (item.el.parentNode) {
+       item.el.parentNode.removeChild(item.el);
+       }
+       });
+       */
+
       /*
        for (let i = 0; i < App.refs.length; i++) {
        App.refs[i].el.parentNode.removeChild(App.refs[i].el);
        }
        */
-
       Chat.refs = {};
     });
     return Chat;
