@@ -46,6 +46,37 @@ export function objectForEach(obj, callback, thisArg = window) {
 }
 
 /**
+ * Clone an array or an object.
+ *
+ * @param  {Object|Array} input
+ * @param {Boolean} deep
+ * @return {Object|Array}
+ */
+export function clone(input, deep = false) {
+    if (isArray(input)) {
+        if (deep) {
+            const msgArr = [];
+            for (let i = 0, { length } = input; i < length; i++) {
+                msgArr.push(clone(input[i], true));
+            }
+            return msgArr;
+        }
+        return input.slice();
+    }
+    if (isObject(input)) {
+        if (deep) {
+            const clonedObj = {}; // Object.assign({}, input);
+            objectForEach(input, (el, key) => {
+                clonedObj[key] = clone(el, true);
+            });
+            return clonedObj;
+        }
+        return Object.assign({}, input);
+    }
+    return input;
+}
+
+/**
  * Replace variables in text according to the given template.
  *
  * @param  {String} text
