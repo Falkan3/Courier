@@ -1,4 +1,5 @@
-import { getCookie, setCookie } from './cookies';
+/* eslint-disable import/no-unresolved */
+import { getCookie, setCookie } from '@utils/cookies';
 
 /**
  * Find a predefined reply from the scenario property in settings.
@@ -28,7 +29,7 @@ export function saveMessagePath(messagePath, duration, nameSuffix = '') {
 /**
  * Load saved message path that was selected
  *
- * @returns Object|null
+ * @return Object|null
  */
 export function loadMessagePath(nameSuffix = '') {
     const cookie = getCookie(`courier_message_path${nameSuffix}`);

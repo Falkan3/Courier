@@ -96,9 +96,8 @@ export default function (Courier, Components, Events) {
     };
 
     /**
-     * Destroy elements:
-     * - on destroy to remove rendered elements
-     * - on app.mount.before to rerender elements and apply changes
+     * Rerender App component
+     * - on mount.after event after all components have been mounted
      */
     Events.on('mount.after', () => {
         App.render();
@@ -138,6 +137,11 @@ export default function (Courier, Components, Events) {
     Events.on(['destroy', 'app.mount.before'], () => {
         App.refs = {};
     });
+
+    // Rerender after app has been mounted
+    // Events.on('app.mount.after', () => {
+    //     App.render();
+    // });
 
     return App;
 }

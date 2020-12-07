@@ -22,20 +22,6 @@ export default function (Courier, Components, Events) {
         },
 
         /**
-         * Adds click events.
-         */
-        bind() {
-
-        },
-
-        /**
-         * Removes click events.
-         */
-        unbind() {
-
-        },
-
-        /**
          * Handles click events.
          *
          * @param  {Object} event
@@ -60,13 +46,6 @@ export default function (Courier, Components, Events) {
             if (event.key === 'Escape') {
                 this.close();
             }
-        },
-
-        onAppRendered(event) {
-            // Only run for elements with the #courierPopup ID
-            // if (event.target.matches('#courierPopup')) {
-            //
-            // }
         },
 
         close() {
@@ -149,8 +128,6 @@ export default function (Courier, Components, Events) {
      * Bind event listeners after App has been mounted and rendered for the first time
      */
     Events.on('app.mounted', () => {
-        Popup.bind();
-
         Events.on('popup.close', () => {
             Popup.close();
         });
@@ -158,13 +135,6 @@ export default function (Courier, Components, Events) {
         Events.on('widget.clicked', () => {
             Popup.open();
         });
-    });
-
-    /**
-     * Bind event listeners after App has been rendered
-     */
-    Events.on('app.rendered', (event) => {
-        Popup.onAppRendered(event);
     });
 
     /**
@@ -187,7 +157,7 @@ export default function (Courier, Components, Events) {
      * - on updating to remove events before remounting
      */
     Events.on(['destroy', 'update'], () => {
-        Popup.unbind();
+
     });
 
     /**
@@ -212,11 +182,13 @@ export default function (Courier, Components, Events) {
      * - on popup.mount.before to rerender elements and apply changes
      */
     Events.on(['destroy', 'popup.mount.before'], () => {
+        /*
         objectForEach(Popup.refs, (item) => {
             if (item.el.parentNode) {
                 item.el.parentNode.removeChild(item.el);
             }
         });
+         */
         /*
          for (let i = 0; i < App.refs.length; i++) {
          App.refs[i].el.parentNode.removeChild(App.refs[i].el);

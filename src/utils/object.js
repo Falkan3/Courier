@@ -1,3 +1,6 @@
+/* eslint-disable import/no-unresolved */
+import { isArray, isObject } from '@utils/types';
+
 /**
  * Defines getter and setter property on the specified object.
  *

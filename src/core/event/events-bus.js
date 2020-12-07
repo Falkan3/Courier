@@ -1,4 +1,5 @@
-import { isArray } from '../../utils/types';
+/* eslint-disable import/no-unresolved */
+import { isArray } from '@utils/types';
 
 export default class EventsBus {
     /**

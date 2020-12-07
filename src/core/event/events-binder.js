@@ -1,4 +1,5 @@
-import { isString } from '../../utils/types';
+/* eslint-disable import/no-unresolved */
+import { isString } from '@utils/types';
 
 export default class EventsBinder {
     /**

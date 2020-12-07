@@ -144,7 +144,7 @@ export default function (Courier, Components, Events) {
      * - on updating to remove events before remounting
      */
     Events.on(['destroy', 'update'], () => {
-        Widget.unbind();
+
     });
 
     /**
@@ -152,7 +152,7 @@ export default function (Courier, Components, Events) {
      * - on updating to reflect potential changes in settings
      */
     Events.on('update', () => {
-        Widget.mount();
+        // Widget.mount();
     });
 
     /**
@@ -169,11 +169,13 @@ export default function (Courier, Components, Events) {
      * - on widget.mount.before to rerender elements and apply changes
      */
     Events.on(['destroy', 'widget.mount.before'], () => {
+        /*
         objectForEach(Widget.refs, (item) => {
             if (item.el.parentNode) {
                 item.el.parentNode.removeChild(item.el);
             }
         });
+         */
         /*
          for (let i = 0; i < App.refs.length; i++) {
          App.refs[i].el.parentNode.removeChild(App.refs[i].el);
