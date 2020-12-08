@@ -171,9 +171,7 @@ export default function (Courier, Components, Events) {
                 }
                 this.triggerPath(topic);
                 // push message path
-                if (Courier.settings.cookies.saveConversation.active) {
-                    this.pushMessagePath(messageId, topicId);
-                }
+                this.pushMessagePath(messageId, topicId);
             }
         },
 
@@ -211,11 +209,13 @@ export default function (Courier, Components, Events) {
                 messageId,
                 topicId,
             });
-            saveMessagePath(
-                this.messagePath,
-                Courier.settings.cookies.saveConversation.duration,
-                Courier.settings.cookies.saveConversation.nameSuffix,
-            );
+            if (Courier.settings.cookies.saveConversation.active) {
+                saveMessagePath(
+                    this.messagePath,
+                    Courier.settings.cookies.saveConversation.duration,
+                    Courier.settings.cookies.saveConversation.nameSuffix,
+                );
+            }
         },
 
         refreshMessages() {
