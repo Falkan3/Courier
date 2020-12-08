@@ -150,7 +150,8 @@ export default function (Courier, Components, Events) {
             this.scrollToBottom = this.chatIsScrolledToTheBottom();
         },
 
-        triggerTopic(messageId, topicId) {
+        triggerTopic(messageId, topicId, options = {}) {
+            const settings = Object.assign({ topicTriggersEnabled: true }, options);
             const { topics } = this.refs.chat.data.messages[messageId];
             const topic = topics[topicId];
             // check if any topic at this level was not already selected
@@ -165,8 +166,8 @@ export default function (Courier, Components, Events) {
                     text: topic.text,
                     outgoing: true,
                 });
-                // emit the topic's trigger, if it's set
-                if (topic.trigger) {
+                // emit the topic's trigger, if it's set, and topic triggers option is enabled
+                if (topic.trigger && settings.topicTriggersEnabled) {
                     this.topicTrigger(topic.trigger);
                 }
                 this.triggerPath(topic);
@@ -226,7 +227,7 @@ export default function (Courier, Components, Events) {
             // recreate message path
             this.startMessage();
             oldMessagePath.forEach((item) => {
-                this.triggerTopic(item.messageId, item.topicId);
+                this.triggerTopic(item.messageId, item.topicId, { topicTriggersEnabled: false });
             });
         },
 
