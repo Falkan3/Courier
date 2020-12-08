@@ -2241,9 +2241,7 @@ function Chat (Courier, Components, Events) {
 
         this.triggerPath(topic); // push message path
 
-        if (Courier.settings.cookies.saveConversation.active) {
-          this.pushMessagePath(messageId, topicId);
-        }
+        this.pushMessagePath(messageId, topicId);
       }
     },
     triggerPath: function triggerPath(topic) {
@@ -2280,7 +2278,10 @@ function Chat (Courier, Components, Events) {
         messageId: messageId,
         topicId: topicId
       });
-      saveMessagePath(this.messagePath, Courier.settings.cookies.saveConversation.duration, Courier.settings.cookies.saveConversation.nameSuffix);
+
+      if (Courier.settings.cookies.saveConversation.active) {
+        saveMessagePath(this.messagePath, Courier.settings.cookies.saveConversation.duration, Courier.settings.cookies.saveConversation.nameSuffix);
+      }
     },
     refreshMessages: function refreshMessages() {
       var _this4 = this;
