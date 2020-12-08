@@ -2074,7 +2074,6 @@ function loadMessagePath() {
   return cookie ? JSON.parse(cookie) : cookie;
 }
 
-/* eslint-disable import/no-unresolved */
 function Chat (Courier, Components, Events) {
   /**
    * Instance of the binder for DOM Events.
@@ -2218,6 +2217,12 @@ function Chat (Courier, Components, Events) {
       this.scrollToBottom = this.chatIsScrolledToTheBottom();
     },
     triggerTopic: function triggerTopic(messageId, topicId) {
+      var options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+
+      var settings = _extends({
+        topicTriggersEnabled: true
+      }, options);
+
       var topics = this.refs.chat.data.messages[messageId].topics;
       var topic = topics[topicId]; // check if any topic at this level was not already selected
 
@@ -2233,9 +2238,9 @@ function Chat (Courier, Components, Events) {
         this.sendMessage({
           text: topic.text,
           outgoing: true
-        }); // emit the topic's trigger, if it's set
+        }); // emit the topic's trigger, if it's set, and topic triggers option is enabled
 
-        if (topic.trigger) {
+        if (topic.trigger && settings.topicTriggersEnabled) {
           this.topicTrigger(topic.trigger);
         }
 
@@ -2293,7 +2298,9 @@ function Chat (Courier, Components, Events) {
 
       this.startMessage();
       oldMessagePath.forEach(function (item) {
-        _this4.triggerTopic(item.messageId, item.topicId);
+        _this4.triggerTopic(item.messageId, item.topicId, {
+          topicTriggersEnabled: false
+        });
       });
     },
     restoreMessages: function restoreMessages() {
