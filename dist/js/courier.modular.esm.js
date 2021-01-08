@@ -1,6 +1,6 @@
 /*!
  * Courier.js v0.0.1
- * (c) 2020-2020 Adam Kocić (Falkan3)
+ * (c) 2020-2021 Adam Kocić (Falkan3)
  * Released under the MIT License.
  */
 
@@ -358,6 +358,7 @@ function isArray(value) {
   return value.constructor === Array;
 }
 
+/* eslint-disable import/no-unresolved */
 /**
  * Creates and initializes specified collection of extensions.
  * Each extension receives access to instance of courier and rest of components.
@@ -523,10 +524,12 @@ function mergeOptions(defaults, settings) {
 
   if (Object.hasOwnProperty.call(settings, 'cookies')) {
     options.cookies = _extends({}, defaults.cookies, settings.cookies);
-  }
+  } // this will replace text variable keys with values
 
+
+  options.textsParsed = {};
   objectForEach(options.texts, function (value, key) {
-    options.texts[key] = textTemplate(value, options.textVars);
+    options.textsParsed[key] = textTemplate(value, options.textVars);
   });
   return options;
 }
@@ -2333,9 +2336,9 @@ function chat (Courier, Components, Events) {
             }
           },
           text: {
-            chatTitle: Courier.settings.texts.chatTitle,
-            sendMessage: Courier.settings.texts.sendMessage,
-            messagePlaceholder: Courier.settings.texts.messagePlaceholder
+            chatTitle: Courier.settings.textsParsed.chatTitle,
+            sendMessage: Courier.settings.textsParsed.sendMessage,
+            messagePlaceholder: Courier.settings.textsParsed.messagePlaceholder
           },
           poweredBy: {
             show: Courier.settings.poweredBy.show,
@@ -2523,6 +2526,9 @@ function popup (Courier, Components, Events) {
       this.refs.popup.data.active = true;
       Events.emit('popup.opened');
     },
+    refreshContent: function refreshContent() {
+      this.refs.popup.data.text.popupContent = Courier.settings.textsParsed.popupContent;
+    },
 
     /**
      * Initialize the popup.
@@ -2532,7 +2538,7 @@ function popup (Courier, Components, Events) {
         data: {
           active: false,
           text: {
-            popupContent: Courier.settings.texts.popupContent
+            popupContent: Courier.settings.textsParsed.popupContent
           },
           poweredBy: {
             show: Courier.settings.poweredBy.show,
@@ -2604,7 +2610,8 @@ function popup (Courier, Components, Events) {
    */
 
   Events.on('update', function () {
-    Popup.mount();
+    // Popup.mount();
+    Popup.refreshContent();
   });
   /**
    * Destroy binder:

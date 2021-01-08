@@ -138,9 +138,22 @@ export function mergeOptions(defaults, settings) {
         options.cookies = Object.assign({}, defaults.cookies, settings.cookies);
     }
 
+    // this will replace text variable keys with values
+    options.textsParsed = {};
     objectForEach(options.texts, (value, key) => {
-        options.texts[key] = textTemplate(value, options.textVars);
+        options.textsParsed[key] = textTemplate(value, options.textVars);
     });
 
     return options;
+}
+
+/**
+ * Apply text variables to the given text string.
+ *
+ * @param  {Object} settings
+ * @param  {string} text
+ * @return {Object}
+ */
+export function textApplyVar(settings, text) {
+    return textTemplate(text, settings.textVars);
 }

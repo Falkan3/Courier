@@ -1,5 +1,4 @@
 /* eslint-disable import/no-unresolved */
-import { objectForEach } from '@utils/object';
 import EventsBinder from '@core/event/events-binder';
 import Reef from '@libs/reefjs/reef.es';
 import { elemContains } from '@utils/dom';
@@ -58,6 +57,10 @@ export default function (Courier, Components, Events) {
             Events.emit('popup.opened');
         },
 
+        refreshContent() {
+            this.refs.popup.data.text.popupContent = Courier.settings.textsParsed.popupContent;
+        },
+
         /**
          * Initialize the popup.
          */
@@ -66,7 +69,7 @@ export default function (Courier, Components, Events) {
                 data: {
                     active: false,
                     text: {
-                        popupContent: Courier.settings.texts.popupContent,
+                        popupContent: Courier.settings.textsParsed.popupContent,
                     },
                     poweredBy: {
                         show: Courier.settings.poweredBy.show,
@@ -165,7 +168,8 @@ export default function (Courier, Components, Events) {
      * - on updating to reflect potential changes in settings
      */
     Events.on('update', () => {
-        Popup.mount();
+        // Popup.mount();
+        Popup.refreshContent();
     });
 
     /**

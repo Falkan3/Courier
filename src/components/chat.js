@@ -260,9 +260,9 @@ export default function (Courier, Components, Events) {
                         },
                     },
                     text: {
-                        chatTitle: Courier.settings.texts.chatTitle,
-                        sendMessage: Courier.settings.texts.sendMessage,
-                        messagePlaceholder: Courier.settings.texts.messagePlaceholder,
+                        chatTitle: Courier.settings.textsParsed.chatTitle,
+                        sendMessage: Courier.settings.textsParsed.sendMessage,
+                        messagePlaceholder: Courier.settings.textsParsed.messagePlaceholder,
                     },
                     poweredBy: {
                         show: Courier.settings.poweredBy.show,
