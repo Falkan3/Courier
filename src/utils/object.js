@@ -21,12 +21,12 @@ export function define(obj, prop, definition) {
  */
 export function sortKeys(obj) {
     return Object.keys(obj)
-        .sort()
-        .reduce((r, k) => {
-            r[k] = obj[k];
+    .sort()
+    .reduce((r, k) => {
+        r[k] = obj[k];
 
-            return (r[k], r);
-        }, {});
+        return (r[k], r);
+    }, {});
 }
 
 /**
@@ -38,11 +38,11 @@ export function sortKeys(obj) {
  */
 export function objectForEach(obj, callback, thisArg = window) {
     Object.keys(obj)
-        .forEach((key) => {
-            if (Object.hasOwnProperty.call(obj, key)) {
-                callback.call(thisArg, obj[key], key, obj);
-            }
-        });
+    .forEach((key) => {
+        if (Object.hasOwnProperty.call(obj, key)) {
+            callback.call(thisArg, obj[key], key, obj);
+        }
+    });
 }
 
 /**

@@ -1,5 +1,6 @@
-import { warn } from '../utils/log';
-import { isFunction } from '../utils/types';
+/* eslint-disable import/no-unresolved */
+import { warn } from '@utils/log';
+import { isFunction } from '@utils/types';
 
 /**
  * Creates and initializes specified collection of extensions.
