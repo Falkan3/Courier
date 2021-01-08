@@ -65,8 +65,11 @@
                 <p class="tx-center tx-big">Mamy dla Ciebie<br />dodatkową <span style="color: #cc3065">zniżkę</span><br />od&nbsp;aktualnej ceny produktu!</p>
                 <p class="m-v tx-center tx-big tx-bold"><span class="fx-underline">minus extra <span class="tx-bigger" style="color: #cc3065">5</span>%!</span></p>
                 <p class="tx-center">Twój kod rabatowy:</p>
-                <p class="m-v tx-center tx-bigger"><span class="tx-highlight">VASCO5</span></p>
+                <p class="m-v tx-center tx-bigger"><span class="tx-highlight">{{couponCode}}</span></p>
                 <p class="tx-center tx-smaller" style="color: #6f6f6f">Podaj ten kod rabatowy podczas składania zamówienia, aby skorzystać z&nbsp;dodatkowej zniżki.</p>`
+        },
+        textVars: {
+            couponCode: 'aaa'
         }
     });
 	courier.mount();
