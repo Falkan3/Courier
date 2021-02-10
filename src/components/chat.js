@@ -371,7 +371,7 @@ export default function (Courier, Components, Events) {
                     </div>`;
                 },
                 attachTo: Components.App.refs.app,
-                allowHTML: true,
+                allowHTML: true
             });
         },
 

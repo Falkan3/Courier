@@ -1,5 +1,4 @@
 /* eslint-disable import/no-unresolved */
-import { objectForEach } from '@utils/object';
 import EventsBinder from '@core/event/events-binder';
 import Reef from '@libs/reefjs/reef.es';
 import { elemContains } from '@utils/dom';
@@ -100,6 +99,7 @@ export default function (Courier, Components, Events) {
                     `;
                 },
                 attachTo: Components.App.refs.app,
+                allowHTML: true
             });
         },
 
@@ -170,11 +170,11 @@ export default function (Courier, Components, Events) {
      */
     Events.on(['destroy', 'widget.mount.before'], () => {
         /*
-        objectForEach(Widget.refs, (item) => {
-            if (item.el.parentNode) {
-                item.el.parentNode.removeChild(item.el);
-            }
-        });
+         objectForEach(Widget.refs, (item) => {
+         if (item.el.parentNode) {
+         item.el.parentNode.removeChild(item.el);
+         }
+         });
          */
         /*
          for (let i = 0; i < App.refs.length; i++) {
