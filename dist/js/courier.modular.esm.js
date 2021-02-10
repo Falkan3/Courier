@@ -279,6 +279,15 @@ var defaults = {
   messages: {},
 
   /**
+   * Settings that are responsible for the state of elements.
+   *
+   * @type {Object}
+   */
+  state: {
+    hideBtnActiveAtStart: false
+  },
+
+  /**
    * Collection of cookie variables.
    * All durations are in hours.
    *
@@ -456,6 +465,8 @@ function clone(input) {
 }
 /**
  * Replace variables in text according to the given template.
+ * todo: return an indicator that replace action occurred, and only update the input if it did
+ * const replaced = output.search(regex) >= 0;
  *
  * @param  {String} text
  * @param  {Object} template
@@ -465,8 +476,8 @@ function clone(input) {
 function textTemplate(text, template) {
   var output = text;
   objectForEach(template, function (value, key) {
-    var regex = new RegExp("{{".concat(key, "}}"));
-    output = output.replace(regex, value);
+    var regex = new RegExp("{{".concat(key, "}}"), 'g');
+    output = output.replaceAll(regex, value);
   });
   return output;
 }
@@ -520,6 +531,10 @@ function mergeOptions(defaults, settings) {
 
   if (Object.hasOwnProperty.call(settings, 'messages')) {
     options.messages = _extends({}, defaults.messages, settings.messages);
+  }
+
+  if (Object.hasOwnProperty.call(settings, 'state')) {
+    options.state = _extends({}, defaults.state, settings.state);
   }
 
   if (Object.hasOwnProperty.call(settings, 'cookies')) {
@@ -1879,6 +1894,10 @@ function Widget (Courier, Components, Events) {
         }
       }
 
+      if (Courier.settings.state.hideBtnActiveAtStart) {
+        this.refs.widget.data.hideBtnActive = true;
+      }
+
       Events.emit('widget.mount.after');
     },
 
@@ -1926,7 +1945,7 @@ function Widget (Courier, Components, Events) {
       Widget.refs.widget = new Reef('#courierWidget', {
         data: {
           active: true,
-          text: Courier.settings.texts.widgetGreeting,
+          text: Courier.settings.textsParsed.widgetGreeting,
           hideBtnActive: false
         },
         template: function template(props) {
@@ -1937,7 +1956,8 @@ function Widget (Courier, Components, Events) {
           var hideBtn = props.hideBtnActive ? "\n                        <button id=\"courierWidgetHideButton\" class=\"".concat(Courier.settings.classes.widget, "-hide-btn\" type=\"button\" aria-label=\"Hide widget\">\n                            ").concat(Courier.settings.images.closeBtn, "\n                        </button>\n                        ") : '';
           return "\n                    <div class=\"".concat(Courier.settings.classes.widget, "-wrapper ").concat(Courier.settings.classes.root, "__appear-bottom ").concat(Courier.settings.classes.root, "__anim-timing--half\">\n                        <button id=\"courierWidgetButton\" class=\"").concat(Courier.settings.classes.widget, "-bubble\" type=\"button\" aria-label=\"Open widget\">\n                            <div class=\"").concat(Courier.settings.classes.widget, "-img\" aria-hidden=\"true\">\n                                ").concat(Courier.settings.images.widget, "\n                            </div>\n                            <p>").concat(props.text, "</p>\n                        </button>\n                        ").concat(hideBtn, "\n                    </div>\n                    ");
         },
-        attachTo: Components.App.refs.app
+        attachTo: Components.App.refs.app,
+        allowHTML: true
       });
     },
 
@@ -2379,7 +2399,7 @@ function chat (Courier, Components, Events) {
           }).join('');
           var messageBox = props.messageBox ? "\n                        <form id=\"courierChatInteractionsForm\" class=\"".concat(Courier.settings.classes.chat, "-interactions\" autocomplete=\"off\">\n                            <input class=\"").concat(Courier.settings.classes.chat, "-message-box\" type=\"text\" name=\"message\" placeholder=\"").concat(props.text.messagePlaceholder, "\" autofocus />\n                            <button class=\"").concat(Courier.settings.classes.chat, "-send-msg-btn\" type=\"submit\" aria-label=\"").concat(props.text.sendMessage, "\">\n                                ").concat(Courier.settings.images.sendMsg, "\n                            </button>\n                        </form>") : '';
           var poweredBy = props.poweredBy.show ? "\n                        <div class=\"".concat(Courier.settings.classes.chat, "-powered-by\">\n                            <a href=\"").concat(props.poweredBy.url, "\" target=\"_blank\" rel=\"nofollow noopener noreferrer\">\n                                <p class=\"m-r--hf\">").concat(props.poweredBy.text, "</p>\n                                <img src=\"").concat(props.poweredBy.img.src, "\" alt=\"").concat(props.poweredBy.img.alt, "\" />\n                            </a>\n                        </div>") : '';
-          return "\n                    <div id=\"courierChatOverlay\" class=\"".concat(Courier.settings.classes.chat, "-overlay ").concat(Courier.settings.classes.root, "__fade-in ").concat(Courier.settings.classes.root, "__anim-timing--half\">\n                        <div class=\"").concat(Courier.settings.classes.chat, "-wall ").concat(Courier.settings.classes.root, "__slide-in-bottom ").concat(Courier.settings.classes.root, "__anim-timing--half\">\n                            <div class=\"").concat(Courier.settings.classes.chat, "-header\">\n                                <div class=\"").concat(Courier.settings.classes.chat, "-menu\">\n                                    <div>\n                                        <button id=\"courierChatOptionsBtn\" class=\"").concat(Courier.settings.classes.chat, "-options-btn\" type=\"button\" aria-label=\"Options\" disabled>\n                                            ").concat(Courier.settings.images.options, "\n                                        </button>\n                                    </div>\n                                    <div>\n                                        <p class=\"tx-bold tx-bigger\">").concat(props.text.chatTitle, "</p>\n                                    </div>\n                                    <div>\n                                        <button id=\"courierChatCloseBtn\" class=\"").concat(Courier.settings.classes.chat, "-close-btn\" type=\"button\" aria-label=\"Close\">\n                                            ").concat(Courier.settings.images.closeBtn, "\n                                        </button>\n                                    </div>\n                                </div>\n                                <div class=\"").concat(Courier.settings.classes.chat, "-identity\">\n                                    <div class=\"p-all--hf\">\n                                        <div class=\"").concat(Courier.settings.classes.chat, "-avatar ").concat(props.online ? "".concat(Courier.settings.classes.chat, "--online") : '', "\">\n                                            <img src=\"").concat(props.identity.img.src, "\" alt=\"").concat(props.identity.img.alt, "\" />\n                                        </div>\n                                    </div>\n                                    <div class=\"").concat(Courier.settings.classes.chat, "-name\">\n                                        <p>").concat(props.identity.name, "</p>\n                                        <p><a href=\"").concat(props.identity.website.url, "\" target=\"_blank\" rel=\"nofollow noopener noreferrer\">").concat(props.identity.website.name, "</a></p>\n                                    </div>\n                                </div>\n                            </div>\n                            <div id=\"courierChatWorkArea\" class=\"").concat(Courier.settings.classes.chat, "-work-area\">\n                                ").concat(messages, "\n                            </div>\n                            ").concat(messageBox, "\n                            ").concat(poweredBy, "\n                        </div>\n                    </div>");
+          return "\n                    <div id=\"courierChatOverlay\" class=\"".concat(Courier.settings.classes.chat, "-overlay ").concat(Courier.settings.classes.root, "__fade-in ").concat(Courier.settings.classes.root, "__anim-timing--half\">\n                        <div class=\"").concat(Courier.settings.classes.chat, "-wall ").concat(Courier.settings.classes.root, "__slide-in-bottom ").concat(Courier.settings.classes.root, "__anim-timing--half\">\n                            <div class=\"").concat(Courier.settings.classes.chat, "-header\">\n                                <div class=\"").concat(Courier.settings.classes.chat, "-menu\">\n                                    <div>\n                                        <button id=\"courierChatOptionsBtn\" class=\"").concat(Courier.settings.classes.chat, "-options-btn\" type=\"button\" aria-label=\"Options\" disabled>\n                                            ").concat(Courier.settings.images.options, "\n                                        </button>\n                                    </div>\n                                    <div class=\"p-h\">\n                                        <p class=\"tx-bold tx-bigger\">").concat(props.text.chatTitle, "</p>\n                                    </div>\n                                    <div>\n                                        <button id=\"courierChatCloseBtn\" class=\"").concat(Courier.settings.classes.chat, "-close-btn\" type=\"button\" aria-label=\"Close\">\n                                            ").concat(Courier.settings.images.closeBtn, "\n                                        </button>\n                                    </div>\n                                </div>\n                                <div class=\"").concat(Courier.settings.classes.chat, "-identity\">\n                                    <div class=\"p-all--hf\">\n                                        <div class=\"").concat(Courier.settings.classes.chat, "-avatar ").concat(props.online ? "".concat(Courier.settings.classes.chat, "--online") : '', "\">\n                                            <img src=\"").concat(props.identity.img.src, "\" alt=\"").concat(props.identity.img.alt, "\" />\n                                        </div>\n                                    </div>\n                                    <div class=\"").concat(Courier.settings.classes.chat, "-name\">\n                                        <p>").concat(props.identity.name, "</p>\n                                        <p><a href=\"").concat(props.identity.website.url, "\" target=\"_blank\" rel=\"nofollow noopener noreferrer\">").concat(props.identity.website.name, "</a></p>\n                                    </div>\n                                </div>\n                            </div>\n                            <div id=\"courierChatWorkArea\" class=\"").concat(Courier.settings.classes.chat, "-work-area\">\n                                ").concat(messages, "\n                            </div>\n                            ").concat(messageBox, "\n                            ").concat(poweredBy, "\n                        </div>\n                    </div>");
         },
         attachTo: Components.App.refs.app,
         allowHTML: true

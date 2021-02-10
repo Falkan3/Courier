@@ -18,7 +18,7 @@
   --courier-animate-delay: 1s;
   --courier-animate-repeat: 1; }
 
-.courier__bounce-in-left, .courier__fade-in, .courier__appear, .courier__appear-bottom, .courier__slide-in-bottom {
+.courier__fade-in, .courier__appear, .courier__appear-bottom, .courier__slide-in-bottom {
   animation-duration: var(--courier-animate-duration);
   animation-fill-mode: both; }
 
@@ -27,33 +27,6 @@
 
 .courier__anim-timing--half {
   animation-duration: calc(var(--courier-animate-duration) * 0.5); }
-
-/*
- * Bounce in from the left side
- */
-@keyframes bounceInLeft {
-  from,
-  60%,
-  75%,
-  90%,
-  to {
-    animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1); }
-  0% {
-    opacity: 0;
-    transform: translate3d(-3000px, 0, 0) scaleX(3); }
-  60% {
-    opacity: 1;
-    transform: translate3d(25px, 0, 0) scaleX(1); }
-  75% {
-    transform: translate3d(-10px, 0, 0) scaleX(0.98); }
-  90% {
-    transform: translate3d(5px, 0, 0) scaleX(0.995); }
-  to {
-    -webkit-transform: translate3d(0, 0, 0);
-    transform: translate3d(0, 0, 0); } }
-
-.courier__bounce-in-left {
-  animation-name: bounceInLeft; }
 
 /*
  * Fade in
@@ -920,6 +893,12 @@
       margin-right: 0.5em; }
   .courier .m-all--auto {
     margin: auto; }
+  .courier .p-h {
+    padding-left: 1em;
+    padding-right: 1em; }
+    .courier .p-h--hf {
+      padding-left: 0.5em;
+      padding-right: 0.5em; }
   .courier .p-all {
     padding: 1em; }
     .courier .p-all--hf {

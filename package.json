@@ -1,6 +1,6 @@
 {
     "name": "courier",
-    "version": "0.0.1",
+    "version": "0.1.0",
     "description": "A virtual assistant which allows clients to interact with a website using preselected topics.",
     "author": "Adam Kocić (Falkan3)",
     "homepage": "https://github.com/Falkan3/courier#readme",
