@@ -341,7 +341,7 @@ export default function (Courier, Components, Events) {
                                             ${Courier.settings.images.options}
                                         </button>
                                     </div>
-                                    <div>
+                                    <div class="p-h">
                                         <p class="tx-bold tx-bigger">${props.text.chatTitle}</p>
                                     </div>
                                     <div>
