@@ -78,6 +78,8 @@ export function clone(input, deep = false) {
 
 /**
  * Replace variables in text according to the given template.
+ * todo: return an indicator that replace action occurred, and only update the input if it did
+ * const replaced = output.search(regex) >= 0;
  *
  * @param  {String} text
  * @param  {Object} template
@@ -86,8 +88,8 @@ export function clone(input, deep = false) {
 export function textTemplate(text, template) {
     let output = text;
     objectForEach(template, (value, key) => {
-        const regex = new RegExp(`{{${key}}}`);
-        output = output.replace(regex, value);
+        const regex = new RegExp(`{{${key}}}`, 'g');
+        output = output.replaceAll(regex, value);
     });
     return output;
 }

@@ -70,7 +70,7 @@ export default function (Courier, Components, Events) {
             Widget.refs.widget = new Reef('#courierWidget', {
                 data: {
                     active: true,
-                    text: Courier.settings.texts.widgetGreeting,
+                    text: Courier.settings.textsParsed.widgetGreeting,
                     hideBtnActive: false,
                 },
                 template: (props) => {
