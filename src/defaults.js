@@ -108,6 +108,15 @@ export default {
     messages: {},
 
     /**
+     * Settings that are responsible for the state of elements.
+     *
+     * @type {Object}
+     */
+    state: {
+        hideBtnActiveAtStart: false,
+    },
+
+    /**
      * Collection of cookie variables.
      * All durations are in hours.
      *

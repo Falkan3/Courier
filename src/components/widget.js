@@ -23,6 +23,9 @@ export default function (Courier, Components, Events) {
                     this.hide(false);
                 }
             }
+            if (Courier.settings.state.hideBtnActiveAtStart) {
+                this.refs.widget.data.hideBtnActive = true;
+            }
             Events.emit('widget.mount.after');
         },
 

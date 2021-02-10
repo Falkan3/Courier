@@ -136,6 +136,9 @@ export function mergeOptions(defaults, settings) {
     if (Object.hasOwnProperty.call(settings, 'messages')) {
         options.messages = Object.assign({}, defaults.messages, settings.messages);
     }
+    if (Object.hasOwnProperty.call(settings, 'state')) {
+        options.state = Object.assign({}, defaults.state, settings.state);
+    }
     if (Object.hasOwnProperty.call(settings, 'cookies')) {
         options.cookies = Object.assign({}, defaults.cookies, settings.cookies);
     }
