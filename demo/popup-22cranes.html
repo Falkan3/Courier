@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<!-- Meta -->
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+	<title>Test</title>
+
+	<!-- Assets -->
+	<link rel="stylesheet" href="../dist/css/courier.core.css">
+	<!--<link rel="stylesheet" href="../dist/css/courier.theme.css">-->
+	<script src="../dist/js/courier.js"></script>
+	<style type="text/css">
+		.courier .courier__popup-main {
+			padding: 2.5em 5em;
+		}
+
+		.courier .courier__widget-wrapper {
+			right: auto;
+			left: 1em;
+		}
+
+		.courier .courier__widget-bubble {
+			flex-direction: column;
+			max-width: 10em;
+			padding: 1em;
+			background-color: #f5f5f5;
+			line-height: 1.4;
+			color: #212121;
+			box-shadow: 0 3px 6px rgba(0, 0, 0, 0.06), 0 3px 6px rgba(0, 0, 0, 0.12);
+		}
+
+		.courier .courier__widget-bubble::after {
+			border-color: #f5f5f5;
+			border-bottom-color: transparent;
+			border-right-color: transparent;
+			right: auto;
+			left: 0.5em;
+		}
+
+		.courier .courier__widget-bubble:hover,
+		.courier .courier__widget-bubble:focus {
+			background-color: #e3fbff;
+		}
+
+		.courier .courier__widget-bubble:hover::after,
+		.courier .courier__widget-bubble:focus::after {
+			border-top-color: #e3fbff;
+			border-left-color: #e3fbff;
+			border-right-color: transparent;
+		}
+
+		.courier .courier__widget-hide-btn {
+			top: -0.5em;
+			right: -0.5em;
+			width: 1.3em;
+			height: 1.3em;
+			padding: 0.3em;
+			border: solid 1px #f1f1f1;
+			background: #fff;
+			border-radius: 50%;
+		}
+
+		/* content */
+
+		.courier__popup-content-tabs,
+		.courier__popup-content-tab {
+			position: relative;
+			display: flex;
+			justify-content: center;
+		}
+
+		.courier__popup-content-tabs {
+			margin: -0.25em;
+		}
+
+		.courier__popup-content-tab {
+			display: flex;
+			flex-direction: column;
+			flex-basis: 50%;
+			flex-grow: 1;
+			padding: 0.25em;
+		}
+
+		.courier__popup-content-tab button {
+			justify-content: center;
+			flex-grow: 1;
+			transition: color cubic-bezier(0.1, 1, 0.6, 1) 0.2s;
+		}
+
+		.courier__popup-content-tab.courier__popup-content-tab--active button,
+		.courier__popup-content-tab button:hover,
+		.courier__popup-content-tab button:focus {
+			color: #1a535c;
+			cursor: pointer;
+		}
+
+		.courier__popup-content-tab button:hover {
+			cursor: pointer;
+		}
+
+		.courier__popup-content-tab-button {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			padding: 1em;
+		}
+
+		.courier__popup-content-tab-button img,
+		.courier__popup-content-tab-button svg {
+			margin-bottom: 0.5em;
+		}
+
+		.courier__popup-content-cards {
+			margin-top: 4em;
+		}
+
+		.courier__popup-content-card {
+			display: none;
+			line-height: 1.6;
+		}
+
+		.courier__popup-content-card.courier__popup-content-card--active {
+			display: block;
+		}
+
+		.courier__popup-content-card a {
+			color: #1a535c;
+			text-decoration: none;
+			transition: color cubic-bezier(0.1, 1, 0.6, 1) 0.2s;
+		}
+
+		.courier__popup-content-card a:hover,
+		.courier__popup-content-card a:focus {
+			color: #3ca9bc;
+		}
+
+		/* media queries */
+
+		@media (min-width: 479px) {
+			.courier__popup-content-tab {
+				position: relative;
+			}
+
+			.courier__popup-content-tab::after {
+				content: "";
+				position: absolute;
+				right: 0;
+				width: 2px;
+				height: 100%;
+				background: #ececec;
+			}
+
+			.courier__popup-content-tab:last-child::after {
+				content: none;
+			}
+		}
+
+		@media (max-width: 479px) {
+			.courier .courier__popup-main {
+				padding: 3em 2em;
+			}
+
+			.courier .tx-big {
+				font-size: 1.6em;
+			}
+		}
+	</style>
+</head>
+<body>
+<script>
+	const courier = new Courier(document.body, {
+		images: {
+			widget: null,
+		},
+		texts: {
+			widgetGreeting: '<p>Dzień dobry, czy potrzebujesz pomocy w&nbsp;doborze obrazów i&nbsp;ram?</p><p style="margin-top: 1rem; padding: 1rem 2rem; background: #1A535C; text-transform: uppercase; color: #fff; border-radius: 6px;">Tak</p>',
+			popupContent: `
+                <div class="courier__popup-content-tabs">
+                    <div class="courier__popup-content-tab courier__popup-content-tab--active">
+                        <button class="courier__popup-content-tab-button" data-courier-card-id="0">
+							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -56 512 512" style="width: 2em; height: 2em;">
+							  <path fill="#ddae45" d="M512 88.96c0-11.65-5.99-21.89-15.05-27.83a33.28 33.28 0 10-46.07-46.07 33.25 33.25 0 00-55.68 0 33.26 33.26 0 00-55.68 0 33.24 33.24 0 00-55.68 0 33.25 33.25 0 00-55.68 0 33.25 33.25 0 00-55.68 0 33.24 33.24 0 00-55.67 0 33.25 33.25 0 00-55.68 0 33.29 33.29 0 10-46.08 46.07 33.25 33.25 0 000 55.67 33.25 33.25 0 000 55.68 33.25 33.25 0 000 55.68 33.25 33.25 0 000 55.68 33.25 33.25 0 000 55.68 33.28 33.28 0 1046.07 46.07 33.25 33.25 0 0055.68 0 33.26 33.26 0 0055.68 0 33.24 33.24 0 0055.68 0 33.25 33.25 0 0055.68 0 33.25 33.25 0 0055.68 0 33.24 33.24 0 0055.67 0 33.25 33.25 0 0055.68 0 33.28 33.28 0 1046.07-46.07 33.25 33.25 0 000-55.68 33.27 33.27 0 000-55.68 33.25 33.25 0 000-55.68 33.24 33.24 0 000-55.68A33.26 33.26 0 00512 88.96zm0 0"/>
+							  <path fill="#f4ca62" d="M473.4 376.93a16.9 16.9 0 01-17.98-7.21 15.03 15.03 0 00-25.13 0 16.85 16.85 0 01-28.26 0 15.03 15.03 0 00-25.13 0 16.85 16.85 0 01-28.26 0 15.03 15.03 0 00-25.12 0 16.86 16.86 0 01-28.26 0 15.03 15.03 0 00-25.13 0 16.86 16.86 0 01-28.26 0 15.03 15.03 0 00-25.12 0 16.86 16.86 0 01-28.26 0 15.03 15.03 0 00-25.13 0 16.86 16.86 0 01-28.26 0 15.03 15.03 0 00-25.13 0 16.85 16.85 0 01-28.26 0 15.03 15.03 0 00-25.12 0 16.89 16.89 0 11-23.37-23.37 15.03 15.03 0 000-25.12 16.87 16.87 0 010-28.27 15.03 15.03 0 000-25.12 16.86 16.86 0 010-28.26 15.03 15.03 0 000-25.13 16.86 16.86 0 010-28.25 15.03 15.03 0 000-25.13 16.86 16.86 0 010-28.26 15.03 15.03 0 000-25.13 16.86 16.86 0 010-28.25 15.03 15.03 0 000-25.13 16.9 16.9 0 1123.37-23.37 15.03 15.03 0 0025.12 0 16.86 16.86 0 0128.26 0 15.03 15.03 0 0025.13 0 16.86 16.86 0 0128.26 0 15.03 15.03 0 0025.13 0 16.86 16.86 0 0128.26 0 15.03 15.03 0 0025.12 0 16.86 16.86 0 0128.26 0 15.03 15.03 0 0025.13 0 16.86 16.86 0 0128.26 0 15.03 15.03 0 0025.12 0 16.86 16.86 0 0128.26 0 15.03 15.03 0 0025.13 0 16.86 16.86 0 0128.26 0 15.03 15.03 0 0025.13 0A16.9 16.9 0 01486 36.31a16.9 16.9 0 01-7.21 17.99 15.03 15.03 0 000 25.13 16.86 16.86 0 010 28.25 15.03 15.03 0 000 25.13 16.86 16.86 0 010 28.26 15.03 15.03 0 000 25.13 16.86 16.86 0 010 28.25 15.03 15.03 0 000 25.13 16.86 16.86 0 010 28.26 15.03 15.03 0 000 25.12 16.86 16.86 0 010 28.27 15.03 15.03 0 000 25.12 16.9 16.9 0 01-5.38 30.58zm0 0"/>
+							  <path fill="#ccd2d6" d="M64.63 64.63h382.74V336H64.63zm0 0"/>
+							  <path fill="#fff" d="M80.3 80.3h351.4v240.04H80.3zm0 0"/>
+							  <path fill="#ddae45" d="M447.37 341.23H64.63a5.22 5.22 0 01-5.22-5.22V64.63a5.22 5.22 0 015.22-5.22h382.74a5.23 5.23 0 015.22 5.22V336a5.22 5.22 0 01-5.22 5.22zM69.86 330.8h372.28V69.86H69.86zm0 0"/>
+							</svg>
+                        	<span>Dobór obrazów i&nbsp;ram</span>
+                        </button>
+                    </div>
+                    <div class="courier__popup-content-tab">
+                         <button class="courier__popup-content-tab-button" data-courier-card-id="1">
+							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 490.67 490.67" style="width: 2em; height: 2em;">
+							  <g fill="#455a64">
+								<circle cx="394.67" cy="426.67" r="53.33"/>
+								<circle cx="181.33" cy="426.67" r="53.33"/>
+							  </g>
+							  <path fill="#ffc107" d="M488 78.28a10.66 10.66 0 00-8-3.6H96a10.67 10.67 0 00-10.45 12.8L128.2 300.8a10.67 10.67 0 0010.46 8.54c.47.03.94.03 1.4 0l320-42.67c4.81-.64 8.58-4.45 9.18-9.26l21.33-170.67c.4-3.06-.53-6.15-2.58-8.46z"/>
+							  <g fill="#fafafa">
+								<path d="M181.33 266.67c-5.21 0-9.66-3.77-10.51-8.92l-21.34-128a10.67 10.67 0 0121.04-3.5l21.33 128a10.67 10.67 0 01-10.52 12.42zM234.67 256a10.67 10.67 0 01-10.67-9.7l-10.67-117.34a10.67 10.67 0 019.62-11.61l.09-.01a10.67 10.67 0 0111.58 9.66l10.67 117.33a10.67 10.67 0 01-9.66 11.59l-.96.08zM288 245.34c-5.9 0-10.67-4.78-10.67-10.67V128a10.67 10.67 0 0121.34 0v106.67c0 5.9-4.78 10.67-10.67 10.67zM341.33 234.67h-1.2a10.67 10.67 0 01-9.48-11.73l.02-.1 10.66-96c.7-5.88 5.97-10.1 11.84-9.5a10.67 10.67 0 019.43 11.77l-10.66 96a10.67 10.67 0 01-10.6 9.56zM394.67 224a10.67 10.67 0 01-10.35-13.24l21.33-85.34a10.67 10.67 0 1120.7 5.17L405 215.92a10.67 10.67 0 01-10.34 8.08z"/>
+							  </g>
+							  <path fill="#455a64" d="M437.33 352h-246.2a74.88 74.88 0 01-73.22-60L65.92 32H10.67a10.67 10.67 0 010-21.33h64c5.07 0 9.44 3.57 10.45 8.53l53.72 268.59a53.48 53.48 0 0052.28 42.88h246.21a10.67 10.67 0 010 21.33z"/>
+							</svg>
+                         	<span>Realizacja zamówienia, płatność i&nbsp;wysyłka</span>
+                         </button>
+                    </div>
+                </div>
+
+				<div class="courier__popup-content-cards">
+					<div class="courier__popup-content-card courier__popup-content-card--active" data-courier-card-id="0">
+						<p class="tx-center tx-big m-b--db" style="line-height: 1.4;">Czy potrzebujesz pomocy w&nbsp;doborze obrazów i&nbsp;ram?</p>
+						<p class="tx-center">Jeżeli tak, zadzwoń do nas na numer <a href="tel:607103103">607&nbsp;103&nbsp;103</a><br />lub napisz wiadomość na adres <a href="mailto:info@22cranes.com">info@22cranes.com</a></p>
+					</div>
+					<div class="courier__popup-content-card" data-courier-card-id="1">
+						<p class="tx-center tx-big m-b" style="line-height: 1.4;">Czy potrzebujesz informacji dotyczącej realizacji, płatności lub wysyłki?</p>
+						<p class="tx-center">Jeżeli tak, zadzwoń do nas na numer <a href="tel:506934783">506&nbsp;934&nbsp;783</a><br />lub napisz wiadomość na adres <a href="mailto:info@22cranes.com">info@22cranes.com</a></p>
+					</div>
+				</div>`,
+		},
+		textVars: {},
+	});
+
+	courier._eventsBus.on('app.mounted', () => {
+		const courierRoot = document.querySelector('#courierRoot');
+
+		courierRoot.addEventListener('click', (e) => {
+			const tabs = courierRoot.querySelectorAll('.courier__popup-content-tab');
+			const buttons = courierRoot.querySelectorAll('.courier__popup-content-tab-button');
+			const cards = courierRoot.querySelectorAll('.courier__popup-content-card');
+
+			let buttonClicked = e.target.matches('.courier__popup-content-tab-button');
+			if (!buttonClicked) {
+				buttons.forEach((button) => {
+					if (button.contains(e.target)) {
+						buttonClicked = true;
+					}
+				});
+			}
+
+			if (buttonClicked) {
+				const button = e.target.closest('.courier__popup-content-tab-button');
+				const tab = button.closest('.courier__popup-content-tab');
+				const cardId = button.dataset.courierCardId;
+				const card = courierRoot.querySelector(`.courier__popup-content-card[data-courier-card-id=\"${cardId}\"]`);
+				tabs.forEach((tab) => {
+					tab.classList.remove('courier__popup-content-tab--active');
+				});
+				cards.forEach((card) => {
+					card.classList.remove('courier__popup-content-card--active');
+				});
+				tab.classList.add('courier__popup-content-tab--active');
+				card.classList.add('courier__popup-content-card--active');
+			}
+		});
+	});
+
+	courier.mount();
+	// courier._components.ComponentName.function();
+</script>
+</body>
+</html>
