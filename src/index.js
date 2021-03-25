@@ -1,9 +1,10 @@
+/* eslint-disable import/no-unresolved */
+import { warn } from '@utils/log';
+import { mergeOptions } from '@utils/object';
+import { isArray, isObject } from '@utils/types';
+import EventsBus from '@core/event/events-bus';
+import { mount } from '@core/index.js';
 import defaults from './defaults';
-import { warn } from './utils/log';
-import { mount } from './core/index';
-import { mergeOptions } from './utils/object';
-import { isArray, isObject } from './utils/types';
-import EventsBus from './core/event/events-bus';
 
 export default class Courier {
     /**
@@ -18,16 +19,13 @@ export default class Courier {
 
         this.disabled = false;
         this.settings = mergeOptions(defaults, options);
-        // if (isUndefined(element)) {
-        //     // shadow root enabled
-        //     if (!!(document.head.createShadowRoot || document.head.attachShadow)) {
-        //         const dummyRoot = document.createElement('div');
-        //         dummyRoot.setAttribute('id', this.settings.ids.dummyRoot);
-        //         element = dummyRoot.attachShadow({mode: 'closed'});
-        //         document.body.appendChild(dummyRoot);
-        //     } else {
-        //         element = document.body;
-        //     }
+        // let root = element || document.body;
+        // shadow root enabled
+        // if ((document.head.createShadowRoot || document.head.attachShadow)) {
+        //     const dummyRoot = document.createElement('div');
+        //     dummyRoot.setAttribute('id', this.settings.ids.dummyRoot);
+        //     root = dummyRoot.attachShadow({ mode: 'open' });
+        //     document.body.appendChild(dummyRoot);
         // }
         this.rootElement = element || document.body;
     }
