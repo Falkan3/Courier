@@ -73,6 +73,7 @@ export default function (Courier, Components, Events) {
             Widget.refs.widget = new Reef('#courierWidget', {
                 data: {
                     active: true,
+                    widgetImg: Courier.settings.images.widget,
                     text: Courier.settings.textsParsed.widgetGreeting,
                     hideBtnActive: false,
                 },
@@ -80,6 +81,14 @@ export default function (Courier, Components, Events) {
                     if (!props.active) {
                         return '';
                     }
+
+                    const widgetImg = props.widgetImg
+                        ? `
+                        <div class="${Courier.settings.classes.widget}-img" aria-hidden="true">
+                            ${Courier.settings.images.widget}
+                        </div>
+                        `
+                        : '';
 
                     const hideBtn = props.hideBtnActive
                         ? `
@@ -92,9 +101,7 @@ export default function (Courier, Components, Events) {
                     return `
                     <div class="${Courier.settings.classes.widget}-wrapper ${Courier.settings.classes.root}__appear-bottom ${Courier.settings.classes.root}__anim-timing--half">
                         <button id="courierWidgetButton" class="${Courier.settings.classes.widget}-bubble" type="button" aria-label="Open widget">
-                            <div class="${Courier.settings.classes.widget}-img" aria-hidden="true">
-                                ${Courier.settings.images.widget}
-                            </div>
+                            ${widgetImg}
                             <p>${props.text}</p>
                         </button>
                         ${hideBtn}
