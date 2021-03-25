@@ -1,90 +1,90 @@
 @function get-font-size($modifier: null, $returnUnit: null, $addUnit: true) {
-  $size: $fontSizePx;
-  $sizeBase: $fontSizePx;
-  $unit: 'px';
+	$size: $fontSizePx;
+	$sizeBase: $fontSizePx;
+	$unit: 'px';
 
-  @if ($fontSizeUnit == 'px') {
-    $sizeBase: $fontSizePx;
-    $unit: 'px';
-    $size: $sizeBase;
+	@if ($fontSizeUnit == 'px') {
+		$sizeBase: $fontSizePx;
+		$unit: 'px';
+		$size: $sizeBase;
 
-    @if ($modifier) {
-      @if ($returnUnit == '%') {
-        $size: percentage($modifier);
-        $addUnit: false;
-      }
+		@if ($modifier) {
+			@if ($returnUnit == '%') {
+				$size: percentage($modifier);
+				$addUnit: false;
+			}
 
-      @else {
-        $size: decimal-round($modifier * $sizeBase, 2);
-      }
-    }
-  }
+			@else {
+				$size: decimal-round($modifier * $sizeBase, 2);
+			}
+		}
+	}
 
-  @else if ($fontSizeUnit == 'rem') {
-    $sizeBase: $fontSizeRem;
-    $unit: 'em'; // em for child elements, rem only for root
-    $size: $sizeBase;
+	@else if ($fontSizeUnit == 'rem') {
+		$sizeBase: $fontSizeRem;
+		$unit: 'em'; // em for child elements, rem only for root
+		$size: $sizeBase;
 
-    @if ($modifier) {
-      $size: decimal-round($modifier * $sizeBase, 2);
-    }
-  }
+		@if ($modifier) {
+			$size: decimal-round($modifier * $sizeBase, 2);
+		}
+	}
 
-  @if ($addUnit) {
-    @return $size + $unit;
-  }
+	@if ($addUnit) {
+		@return $size + $unit;
+	}
 
-  @return $size;
+	@return $size;
 }
 
 @function get-font-size-core($customFontSizeUnit: null) {
-  /* force specified fontSizeUnit */
-  @if ($customFontSizeUnit) {
-    @if ($customFontSizeUnit == 'px') {
-      @return $fontSizePx + 'px';
-    }
+	/* force specified fontSizeUnit */
+	@if ($customFontSizeUnit) {
+		@if ($customFontSizeUnit == 'px') {
+			@return $fontSizePx + 'px';
+		}
 
-    @else if ($customFontSizeUnit == 'rem') {
-      @return $fontSizeRem + 'rem'; // em for child elements, rem only for root
-    }
-  }
+		@else if ($customFontSizeUnit == 'rem') {
+			@return $fontSizeRem + 'rem'; // em for child elements, rem only for root
+		}
+	}
 
-  /* use default fontSizeUnit from settings */
-  @if ($fontSizeUnit == 'px') {
-    @return $fontSizePx + 'px';
-  }
+	/* use default fontSizeUnit from settings */
+	@if ($fontSizeUnit == 'px') {
+		@return $fontSizePx + 'px';
+	}
 
-  @else if ($fontSizeUnit == 'rem') {
-    @return $fontSizeRem + 'rem'; // em for child elements, rem only for root
-  }
+	@else if ($fontSizeUnit == 'rem') {
+		@return $fontSizeRem + 'rem'; // em for child elements, rem only for root
+	}
 
-  @return $fontSizePx + 'px';
+	@return $fontSizePx + 'px';
 }
 
 @function get-font-size-core-raw($customFontSizeUnit: null) {
-  /* force specified fontSizeUnit */
-  @if ($customFontSizeUnit) {
-    @if ($customFontSizeUnit == 'px') {
-      @return $fontSizePx;
-    }
+	/* force specified fontSizeUnit */
+	@if ($customFontSizeUnit) {
+		@if ($customFontSizeUnit == 'px') {
+			@return $fontSizePx;
+		}
 
-    @else if ($customFontSizeUnit == 'rem') {
-      @return $fontSizeRem; // em for child elements, rem only for root
-    }
-  }
+		@else if ($customFontSizeUnit == 'rem') {
+			@return $fontSizeRem; // em for child elements, rem only for root
+		}
+	}
 
-  /* use default fontSizeUnit from settings */
-  @if ($fontSizeUnit) {
-    @return $fontSizePx;
-  }
+	/* use default fontSizeUnit from settings */
+	@if ($fontSizeUnit) {
+		@return $fontSizePx;
+	}
 
-  @else if ($fontSizeUnit == 'rem') {
-    @return $fontSizeRem; // em for child elements, rem only for root
-  }
+	@else if ($fontSizeUnit == 'rem') {
+		@return $fontSizeRem; // em for child elements, rem only for root
+	}
 
-  @return $fontSizePx;
+	@return $fontSizePx;
 }
 
 @function get-font-size-unit() {
-  @return $fontSizeUnit;
+	@return $fontSizeUnit;
 }

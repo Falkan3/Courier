@@ -3,26 +3,26 @@
  */
 
 :root {
-  --#{$variablePrefix}-animate-duration: 1s;
-  --#{$variablePrefix}-animate-delay: 1s;
-  --#{$variablePrefix}-animate-repeat: 1;
+	--#{$variablePrefix}-animate-duration: 1s;
+	--#{$variablePrefix}-animate-delay: 1s;
+	--#{$variablePrefix}-animate-repeat: 1;
 }
 
 %animated {
-  animation-duration: var(--#{$variablePrefix}-animate-duration);
-  animation-fill-mode: both;
+	animation-duration: var(--#{$variablePrefix}-animate-duration);
+	animation-fill-mode: both;
 }
 
 #{$classPrefix} {
-  &__anim-timing {
-    &--third {
-      animation-duration: calc(var(--#{$variablePrefix}-animate-duration) * 0.3);
-    }
+	&__anim-timing {
+		&--third {
+			animation-duration: calc(var(--#{$variablePrefix}-animate-duration) * 0.3);
+		}
 
-    &--half {
-      animation-duration: calc(var(--#{$variablePrefix}-animate-duration) * 0.5);
-    }
-  }
+		&--half {
+			animation-duration: calc(var(--#{$variablePrefix}-animate-duration) * 0.5);
+		}
+	}
 }
 
 // @import 'animations/bounce-in-left';

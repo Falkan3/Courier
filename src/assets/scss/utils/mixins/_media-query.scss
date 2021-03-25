@@ -1,199 +1,199 @@
 /* --- min --- */
 
 @mixin media-query-up($media-w) {
-  @media (min-width: #{$media-w}px) {
-    @content;
-  }
+	@media (min-width: #{$media-w}px) {
+		@content;
+	}
 }
 
 /* -- */
 
 @mixin min-x-small-devices() {
-  @media (min-width: #{$media-xs}px) {
-    @content;
-  }
+	@media (min-width: #{$media-xs}px) {
+		@content;
+	}
 }
 
 @mixin min-m-small-devices() {
-  @media (min-width: #{$media-ms}px) {
-    @content;
-  }
+	@media (min-width: #{$media-ms}px) {
+		@content;
+	}
 }
 
 @mixin min-small-devices() {
-  @media (min-width: #{$media-sm}px) {
-    @content;
-  }
+	@media (min-width: #{$media-sm}px) {
+		@content;
+	}
 }
 
 @mixin min-medium-devices() {
-  @media (min-width: #{$media-md}px) {
-    @content;
-  }
+	@media (min-width: #{$media-md}px) {
+		@content;
+	}
 }
 
 @mixin min-large-devices() {
-  @media (min-width: #{$media-lg}px) {
-    @content;
-  }
+	@media (min-width: #{$media-lg}px) {
+		@content;
+	}
 }
 
 @mixin min-x-large-devices() {
-  @media (min-width: #{$media-xl}px) {
-    @content;
-  }
+	@media (min-width: #{$media-xl}px) {
+		@content;
+	}
 }
 
 /* --- max --- */
 
 @mixin media-query-down($media-w) {
-  @media (max-width: #{$media-w - 0.02}px) {
-    @content;
-  }
+	@media (max-width: #{$media-w - 0.02}px) {
+		@content;
+	}
 }
 
 /* -- */
 
 @mixin x-small-devices() {
-  @media (max-width: #{$media-xs - 1}px) {
-    @content;
-  }
+	@media (max-width: #{$media-xs - 1}px) {
+		@content;
+	}
 }
 
 @mixin m-small-devices() {
-  @media (max-width: #{$media-ms - 1}px) {
-    @content;
-  }
+	@media (max-width: #{$media-ms - 1}px) {
+		@content;
+	}
 }
 
 @mixin small-devices() {
-  @media (max-width: #{$media-sm - 1}px) {
-    @content;
-  }
+	@media (max-width: #{$media-sm - 1}px) {
+		@content;
+	}
 }
 
 @mixin medium-devices() {
-  @media (max-width: #{$media-md - 1}px) {
-    @content;
-  }
+	@media (max-width: #{$media-md - 1}px) {
+		@content;
+	}
 }
 
 @mixin large-devices() {
-  @media (max-width: #{$media-lg - 1}px) {
-    @content;
-  }
+	@media (max-width: #{$media-lg - 1}px) {
+		@content;
+	}
 }
 
 @mixin x-large-devices() {
-  @media (max-width: #{$media-xl - 1}px) {
-    @content;
-  }
+	@media (max-width: #{$media-xl - 1}px) {
+		@content;
+	}
 }
 
 /* --- between --- */
 
 @mixin media-query-between($media-w-min, $media-w-max) {
-  @media (min-width: #{$media-w-min}) and (max-width: #{$media-w-max - 0.02}px) {
-    @content;
-  }
+	@media (min-width: #{$media-w-min}) and (max-width: #{$media-w-max - 0.02}px) {
+		@content;
+	}
 }
 
 /* --- responsive media queries generator */
 
 @mixin generate-responsive-media-queries($suffix: null) {
-  &-x-sm {
-    @if ($suffix == null) {
-      @include x-small-devices() {
-        @content;
-      }
-    }
+	&-x-sm {
+		@if ($suffix == null) {
+			@include x-small-devices() {
+				@content;
+			}
+		}
 
-    @else {
-      &-#{$suffix} {
-        @include x-small-devices() {
-          @content;
-        }
-      }
-    }
-  }
+		@else {
+			&-#{$suffix} {
+				@include x-small-devices() {
+					@content;
+				}
+			}
+		}
+	}
 
-  &-m-sm {
-    @if ($suffix == null) {
-      @include m-small-devices() {
-        @content;
-      }
-    }
+	&-m-sm {
+		@if ($suffix == null) {
+			@include m-small-devices() {
+				@content;
+			}
+		}
 
-    @else {
-      &-#{$suffix} {
-        @include m-small-devices() {
-          @content;
-        }
-      }
-    }
-  }
+		@else {
+			&-#{$suffix} {
+				@include m-small-devices() {
+					@content;
+				}
+			}
+		}
+	}
 
-  &-sm {
-    @if ($suffix == null) {
-      @include small-devices() {
-        @content;
-      }
-    }
+	&-sm {
+		@if ($suffix == null) {
+			@include small-devices() {
+				@content;
+			}
+		}
 
-    @else {
-      &-#{$suffix} {
-        @include small-devices() {
-          @content;
-        }
-      }
-    }
-  }
+		@else {
+			&-#{$suffix} {
+				@include small-devices() {
+					@content;
+				}
+			}
+		}
+	}
 
-  &-md {
-    @if ($suffix == null) {
-      @include medium-devices() {
-        @content;
-      }
-    }
+	&-md {
+		@if ($suffix == null) {
+			@include medium-devices() {
+				@content;
+			}
+		}
 
-    @else {
-      &-#{$suffix} {
-        @include medium-devices() {
-          @content;
-        }
-      }
-    }
-  }
+		@else {
+			&-#{$suffix} {
+				@include medium-devices() {
+					@content;
+				}
+			}
+		}
+	}
 
-  &-lg {
-    @if ($suffix == null) {
-      @include large-devices() {
-        @content;
-      }
-    }
+	&-lg {
+		@if ($suffix == null) {
+			@include large-devices() {
+				@content;
+			}
+		}
 
-    @else {
-      &-#{$suffix} {
-        @include large-devices() {
-          @content;
-        }
-      }
-    }
-  }
+		@else {
+			&-#{$suffix} {
+				@include large-devices() {
+					@content;
+				}
+			}
+		}
+	}
 
-  &-x-lg {
-    @if ($suffix == null) {
-      @include x-large-devices() {
-        @content;
-      }
-    }
+	&-x-lg {
+		@if ($suffix == null) {
+			@include x-large-devices() {
+				@content;
+			}
+		}
 
-    @else {
-      &-#{$suffix} {
-        @include x-large-devices() {
-          @content;
-        }
-      }
-    }
-  }
+		@else {
+			&-#{$suffix} {
+				@include x-large-devices() {
+					@content;
+				}
+			}
+		}
+	}
 }

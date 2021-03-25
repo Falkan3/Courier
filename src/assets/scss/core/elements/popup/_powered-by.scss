@@ -2,25 +2,25 @@
  * Powered by section
  */
 &-powered-by {
-  padding: 1em;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 0.6em;
+	padding: 1em;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-size: 0.6em;
 
-  a {
-    display: flex;
-    align-items: center;
-    text-decoration: none;
-    color: inherit;
+	a {
+		display: flex;
+		align-items: center;
+		text-decoration: none;
+		color: inherit;
 
-    & > p {
-      color: #e6e6e6;
-    }
+		& > p {
+			color: #e6e6e6;
+		}
 
-    & > img {
-      width: 5rem;
-      max-width: 100%;
-    }
-  }
+		& > img {
+			width: 5rem;
+			max-width: 100%;
+		}
+	}
 }

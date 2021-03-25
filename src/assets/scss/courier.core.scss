@@ -8,17 +8,17 @@
  * ----------------------------------------- */
 
 #{$classPrefix} {
-  @import 'libs/normalize';
+	@import 'libs/normalize';
 
-  /* normalize focus outline effect */
-  input,
-  textarea,
-  button,
-  a {
-    &:focus {
-      outline: solid 2px #64b5f6;
-    }
-  }
+	/* normalize focus outline effect */
+	input,
+	textarea,
+	button,
+	a {
+		&:focus {
+			outline: solid 2px #64b5f6;
+		}
+	}
 }
 
 /* -----------------------------------
@@ -32,37 +32,37 @@
  * ----------------------------------- */
 
 #{$classPrefix} {
-  font-family: 'Asap', sans-serif;
-  font-size: #{get-font-size-core('px')};
-  color: #{get-palette-hue('foreground', 1000)};
-  z-index: 1040;
+	font-family: 'Asap', sans-serif;
+	font-size: #{get-font-size-core('px')};
+	color: #{get-palette-hue('foreground', 1000)};
+	z-index: 1040;
 
-  @include medium-devices {
-    font-size: #{decimal-floor(get-font-size-core-raw() * 0.9) + 'px'};
-  }
+	@include medium-devices {
+		font-size: #{decimal-floor(get-font-size-core-raw() * 0.9) + 'px'};
+	}
 
-  @include m-small-devices {
-    font-size: #{decimal-floor(get-font-size-core-raw() * 0.8) + 'px'};
-  }
+	@include m-small-devices {
+		font-size: #{decimal-floor(get-font-size-core-raw() * 0.8) + 'px'};
+	}
 
-  & * {
-    box-sizing: border-box;
-  }
+	& * {
+		box-sizing: border-box;
+	}
 
-  /* antialias font */
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-rendering: optimizeLegibility;
+	/* antialias font */
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	text-rendering: optimizeLegibility;
 
-  /* core elements */
-  @import 'core/elements/widget';
+	/* core elements */
+	@import 'core/elements/widget';
 
-  /* optional elements */
-  @import 'core/elements/chat';
-  @import 'core/elements/popup';
+	/* optional elements */
+	@import 'core/elements/chat';
+	@import 'core/elements/popup';
 
-  /* modifiers */
-  @import 'core/modifiers';
+	/* modifiers */
+	@import 'core/modifiers';
 
-  /* root modifiers */
+	/* root modifiers */
 }

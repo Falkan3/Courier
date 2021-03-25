@@ -3,28 +3,28 @@
  */
 
 @keyframes fadeIn {
-  from,
-  to {
-    animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
-  }
+	from,
+	to {
+		animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+	}
 
-  0% {
-    opacity: 0;
-  }
+	0% {
+		opacity: 0;
+	}
 
-  to {
-    opacity: 1;
-  }
+	to {
+		opacity: 1;
+	}
 }
 
 @mixin fadeIn() {
-  @extend %animated;
+	@extend %animated;
 
-  animation-name: fadeIn;
+	animation-name: fadeIn;
 }
 
 #{$classPrefix} {
-  &__fade-in {
-    @include fadeIn;
-  }
+	&__fade-in {
+		@include fadeIn;
+	}
 }

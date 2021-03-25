@@ -1,50 +1,50 @@
 &-close-btn {
-  position: absolute;
-  right: 1rem;
-  top: 1rem;
-  display: block;
-  padding: 0;
+	position: absolute;
+	right: 1rem;
+	top: 1rem;
+	display: block;
+	padding: 0;
 
-  & > img,
-  & > svg {
-    display: block;
-    width: 1em;
-    height: 1em;
-    transition: transform cubic-bezier(0.1, 1, 0.6, 1) 0.3s;
-  }
+	& > img,
+	& > svg {
+		display: block;
+		width: 1em;
+		height: 1em;
+		transition: transform cubic-bezier(0.1, 1, 0.6, 1) 0.3s;
+	}
 
-  & > svg {
-    & > g {
-      fill: $btnColorInactive;
-      transition: fill cubic-bezier(0.1, 1, 0.6, 1) 0.3s;
-    }
-  }
+	& > svg {
+		& > g {
+			fill: $btnColorInactive;
+			transition: fill cubic-bezier(0.1, 1, 0.6, 1) 0.3s;
+		}
+	}
 
-  &:hover {
-    cursor: pointer;
-  }
+	&:hover {
+		cursor: pointer;
+	}
 
-  &:hover,
-  &:active {
-    &:enabled {
-      & > img,
-      & > svg {
-        transform: rotate(90deg);
-      }
+	&:hover,
+	&:active {
+		&:enabled {
+			& > img,
+			& > svg {
+				transform: rotate(90deg);
+			}
 
-      & > svg {
-        & > g {
-          fill: $btnColorActive;
-        }
-      }
-    }
-  }
+			& > svg {
+				& > g {
+					fill: $btnColorActive;
+				}
+			}
+		}
+	}
 
-  &:disabled {
-    & > svg {
-      & > g {
-        fill: #ddd;
-      }
-    }
-  }
+	&:disabled {
+		& > svg {
+			& > g {
+				fill: #ddd;
+			}
+		}
+	}
 }

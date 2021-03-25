@@ -1,11 +1,11 @@
 @function get-palette-hue-indexes($category) {
-  $selectedCategory: map-get($palette, $category);
+	$selectedCategory: map-get($palette, $category);
 
-  @return map-keys($selectedCategory);
+	@return map-keys($selectedCategory);
 }
 
 @function get-palette-hue($category, $hue) {
-  $selectedCategory: map-get($palette, $category);
+	$selectedCategory: map-get($palette, $category);
 
-  @return map-get($selectedCategory, $hue);
+	@return map-get($selectedCategory, $hue);
 }
