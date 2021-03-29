@@ -42,13 +42,13 @@
 
 		.courier .courier__widget-bubble:hover,
 		.courier .courier__widget-bubble:focus {
-			background-color: #e3fbff;
+			background-color: #fcf7f7;
 		}
 
 		.courier .courier__widget-bubble:hover::after,
 		.courier .courier__widget-bubble:focus::after {
-			border-top-color: #e3fbff;
-			border-left-color: #e3fbff;
+			border-top-color: #fcf7f7;
+			border-left-color: #fcf7f7;
 			border-right-color: transparent;
 		}
 
@@ -82,6 +82,11 @@
 			flex-basis: 50%;
 			flex-grow: 1;
 			padding: 0.25em;
+			transition: background-color cubic-bezier(0.1, 1, 0.6, 1) 0.3s;
+		}
+
+		.courier__popup-content-tab.courier__popup-content-tab--active {
+			background-color: #fcf7f7;
 		}
 
 		.courier__popup-content-tab button {
@@ -93,7 +98,7 @@
 		.courier__popup-content-tab.courier__popup-content-tab--active button,
 		.courier__popup-content-tab button:hover,
 		.courier__popup-content-tab button:focus {
-			color: #1a535c;
+			color: #a2000e;
 			cursor: pointer;
 		}
 
@@ -127,14 +132,22 @@
 		}
 
 		.courier__popup-content-card a {
-			color: #1a535c;
+			color: #a2000e;
 			text-decoration: none;
 			transition: color cubic-bezier(0.1, 1, 0.6, 1) 0.2s;
 		}
 
 		.courier__popup-content-card a:hover,
 		.courier__popup-content-card a:focus {
-			color: #3ca9bc;
+			color: #e91324;
+		}
+
+		.courier .tx-big {
+			font-size: 1.6em;
+		}
+
+		.courier .tx-bigger {
+			font-size: 1.4em;
 		}
 
 		/* media queries */
@@ -148,9 +161,9 @@
 				content: "";
 				position: absolute;
 				right: 0;
-				width: 2px;
+				width: 1px;
 				height: 100%;
-				background: #ececec;
+				background: #1a535c;
 			}
 
 			.courier__popup-content-tab:last-child::after {
@@ -176,24 +189,25 @@
 			widget: null,
 		},
 		texts: {
-			widgetGreeting: '<p>Dzień dobry, czy potrzebujesz pomocy w&nbsp;doborze obrazów i&nbsp;ram?</p><p style="margin-top: 1rem; padding: 1rem 2rem; background: #1A535C; text-transform: uppercase; color: #fff; border-radius: 6px;">Tak</p>',
+			widgetGreeting: '<p>Dzień dobry, czy potrzebujesz pomocy w&nbsp;doborze obrazów i&nbsp;ram?</p><p style="margin-top: 1rem; padding: 1rem 2rem; background: #a2000e; text-transform: uppercase; color: #fff; border-radius: 6px;">Tak</p>',
 			popupContent: `
                 <div class="courier__popup-content-tabs">
                     <div class="courier__popup-content-tab courier__popup-content-tab--active">
                         <button class="courier__popup-content-tab-button" data-courier-card-id="0">
-							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -56 512 512" style="width: 2em; height: 2em;">
-							  <path fill="#ddae45" d="M512 88.96c0-11.65-5.99-21.89-15.05-27.83a33.28 33.28 0 10-46.07-46.07 33.25 33.25 0 00-55.68 0 33.26 33.26 0 00-55.68 0 33.24 33.24 0 00-55.68 0 33.25 33.25 0 00-55.68 0 33.25 33.25 0 00-55.68 0 33.24 33.24 0 00-55.67 0 33.25 33.25 0 00-55.68 0 33.29 33.29 0 10-46.08 46.07 33.25 33.25 0 000 55.67 33.25 33.25 0 000 55.68 33.25 33.25 0 000 55.68 33.25 33.25 0 000 55.68 33.25 33.25 0 000 55.68 33.28 33.28 0 1046.07 46.07 33.25 33.25 0 0055.68 0 33.26 33.26 0 0055.68 0 33.24 33.24 0 0055.68 0 33.25 33.25 0 0055.68 0 33.25 33.25 0 0055.68 0 33.24 33.24 0 0055.67 0 33.25 33.25 0 0055.68 0 33.28 33.28 0 1046.07-46.07 33.25 33.25 0 000-55.68 33.27 33.27 0 000-55.68 33.25 33.25 0 000-55.68 33.24 33.24 0 000-55.68A33.26 33.26 0 00512 88.96zm0 0"/>
-							  <path fill="#f4ca62" d="M473.4 376.93a16.9 16.9 0 01-17.98-7.21 15.03 15.03 0 00-25.13 0 16.85 16.85 0 01-28.26 0 15.03 15.03 0 00-25.13 0 16.85 16.85 0 01-28.26 0 15.03 15.03 0 00-25.12 0 16.86 16.86 0 01-28.26 0 15.03 15.03 0 00-25.13 0 16.86 16.86 0 01-28.26 0 15.03 15.03 0 00-25.12 0 16.86 16.86 0 01-28.26 0 15.03 15.03 0 00-25.13 0 16.86 16.86 0 01-28.26 0 15.03 15.03 0 00-25.13 0 16.85 16.85 0 01-28.26 0 15.03 15.03 0 00-25.12 0 16.89 16.89 0 11-23.37-23.37 15.03 15.03 0 000-25.12 16.87 16.87 0 010-28.27 15.03 15.03 0 000-25.12 16.86 16.86 0 010-28.26 15.03 15.03 0 000-25.13 16.86 16.86 0 010-28.25 15.03 15.03 0 000-25.13 16.86 16.86 0 010-28.26 15.03 15.03 0 000-25.13 16.86 16.86 0 010-28.25 15.03 15.03 0 000-25.13 16.9 16.9 0 1123.37-23.37 15.03 15.03 0 0025.12 0 16.86 16.86 0 0128.26 0 15.03 15.03 0 0025.13 0 16.86 16.86 0 0128.26 0 15.03 15.03 0 0025.13 0 16.86 16.86 0 0128.26 0 15.03 15.03 0 0025.12 0 16.86 16.86 0 0128.26 0 15.03 15.03 0 0025.13 0 16.86 16.86 0 0128.26 0 15.03 15.03 0 0025.12 0 16.86 16.86 0 0128.26 0 15.03 15.03 0 0025.13 0 16.86 16.86 0 0128.26 0 15.03 15.03 0 0025.13 0A16.9 16.9 0 01486 36.31a16.9 16.9 0 01-7.21 17.99 15.03 15.03 0 000 25.13 16.86 16.86 0 010 28.25 15.03 15.03 0 000 25.13 16.86 16.86 0 010 28.26 15.03 15.03 0 000 25.13 16.86 16.86 0 010 28.25 15.03 15.03 0 000 25.13 16.86 16.86 0 010 28.26 15.03 15.03 0 000 25.12 16.86 16.86 0 010 28.27 15.03 15.03 0 000 25.12 16.9 16.9 0 01-5.38 30.58zm0 0"/>
-							  <path fill="#ccd2d6" d="M64.63 64.63h382.74V336H64.63zm0 0"/>
-							  <path fill="#fff" d="M80.3 80.3h351.4v240.04H80.3zm0 0"/>
-							  <path fill="#ddae45" d="M447.37 341.23H64.63a5.22 5.22 0 01-5.22-5.22V64.63a5.22 5.22 0 015.22-5.22h382.74a5.23 5.23 0 015.22 5.22V336a5.22 5.22 0 01-5.22 5.22zM69.86 330.8h372.28V69.86H69.86zm0 0"/>
+							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180.62 141.34" style="width: 3em; height: 3em;">
+							  <path fill="#ddae45" d="M180.62 31.38c0-4.1-2.11-7.72-5.3-9.82a11.73 11.73 0 10-16.26-16.25 11.73 11.73 0 00-19.64 0 11.73 11.73 0 00-19.65 0 11.73 11.73 0 00-19.64 0 11.73 11.73 0 00-19.64 0 11.73 11.73 0 00-19.64 0 11.73 11.73 0 00-19.64 0 11.73 11.73 0 00-19.65 0A11.73 11.73 0 000 11.74c0 4.11 2.11 7.72 5.31 9.82a11.73 11.73 0 000 19.64 11.73 11.73 0 000 19.65 11.73 11.73 0 000 19.64 11.73 11.73 0 000 19.64 11.73 11.73 0 000 19.64 11.73 11.73 0 006.43 21.57c4.11 0 7.72-2.12 9.82-5.31a11.73 11.73 0 0019.64 0 11.73 11.73 0 0019.65 0 11.73 11.73 0 0019.64 0 11.73 11.73 0 0019.64 0 11.73 11.73 0 0019.64 0 11.73 11.73 0 0019.64 0 11.73 11.73 0 0019.65 0 11.73 11.73 0 0021.56-6.43c0-4.11-2.11-7.73-5.3-9.83a11.73 11.73 0 000-19.64 11.73 11.73 0 000-19.64 11.73 11.73 0 000-19.64 11.73 11.73 0 000-19.64c3.19-2.1 5.3-5.72 5.3-9.83zm0 0"/>
+							  <path fill="#f4ca62" d="M167 132.97a5.96 5.96 0 01-6.34-2.54 5.3 5.3 0 00-8.86 0 5.95 5.95 0 01-9.97 0 5.3 5.3 0 00-8.87 0 5.95 5.95 0 01-9.97 0 5.3 5.3 0 00-8.86 0 5.95 5.95 0 01-9.97 0 5.3 5.3 0 00-8.86 0 5.95 5.95 0 01-9.97 0 5.3 5.3 0 00-8.87 0 5.95 5.95 0 01-9.97 0 5.3 5.3 0 00-8.86 0 5.95 5.95 0 01-9.97 0 5.3 5.3 0 00-8.86 0 5.95 5.95 0 01-9.97 0 5.3 5.3 0 00-8.87 0 5.96 5.96 0 11-8.24-8.24 5.3 5.3 0 000-8.87 5.95 5.95 0 010-9.97 5.3 5.3 0 000-8.86 5.95 5.95 0 010-9.97 5.3 5.3 0 000-8.87 5.95 5.95 0 010-9.96 5.3 5.3 0 000-8.87 5.95 5.95 0 010-9.97 5.3 5.3 0 000-8.86 5.95 5.95 0 010-9.97 5.3 5.3 0 000-8.87 5.96 5.96 0 118.24-8.24 5.3 5.3 0 008.87 0 5.94 5.94 0 019.97 0 5.3 5.3 0 008.86 0 5.95 5.95 0 019.97 0 5.3 5.3 0 008.86 0 5.94 5.94 0 019.97 0 5.3 5.3 0 008.87 0 5.95 5.95 0 019.97 0 5.3 5.3 0 008.86 0 5.95 5.95 0 019.97 0 5.3 5.3 0 008.86 0 5.95 5.95 0 019.97 0 5.3 5.3 0 008.87 0 5.95 5.95 0 019.97 0 5.3 5.3 0 008.86 0 5.96 5.96 0 118.24 8.24 5.3 5.3 0 000 8.87 5.95 5.95 0 010 9.97 5.3 5.3 0 000 8.86 5.94 5.94 0 010 9.97 5.3 5.3 0 000 8.87 5.95 5.95 0 010 9.96 5.3 5.3 0 000 8.87 5.95 5.95 0 010 9.97 5.3 5.3 0 000 8.86 5.95 5.95 0 010 9.97 5.3 5.3 0 000 8.87 5.96 5.96 0 01-1.9 10.78zm0 0"/>
+							  <path fill="#ccd2d6" d="M22.8 22.8h135.02v95.74H22.8zm0 0"/>
+							  <path fill="#fff" d="M28.33 28.33h123.96v84.68H28.33zm0 0"/>
+							  <path fill="#ddae45" d="M157.82 120.38H22.8a1.84 1.84 0 01-1.84-1.84V22.8c0-1.02.82-1.84 1.84-1.84h135.02c1.02 0 1.85.82 1.85 1.84v95.74c0 1.02-.83 1.84-1.85 1.84zm-133.18-3.69h131.34V24.64H24.64zm0 0"/>
+							  <path fill="#444" d="M97.21 84.33H83.54c0-13.67 7.3-18.23 12.3-20.96a15.9 15.9 0 004.1-2.73c2.28-2.28 1.37-5.47.92-6.38-1.37-3.2-4.56-6.38-10.48-6.38-9.57 0-11.4 8.65-11.4 10.48l-13.67-1.83c.91-7.74 7.75-22.33 25.07-22.33 10.48 0 19.6 5.93 23.24 14.59 3.19 7.74 1.82 15.95-3.65 21.42-2.28 2.27-5.01 3.64-7.3 5-4.1 2.29-5.46 4.57-5.46 9.12zM99.5 98a9.11 9.11 0 11-18.23 0 9.11 9.11 0 0118.23 0z"/>
 							</svg>
                         	<span>Dobór obrazów i&nbsp;ram</span>
                         </button>
                     </div>
                     <div class="courier__popup-content-tab">
                          <button class="courier__popup-content-tab-button" data-courier-card-id="1">
-							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 490.67 490.67" style="width: 2em; height: 2em;">
+							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 490.67 490.67" style="width: 3em; height: 3em;">
 							  <g fill="#455a64">
 								<circle cx="394.67" cy="426.67" r="53.33"/>
 								<circle cx="181.33" cy="426.67" r="53.33"/>
@@ -210,13 +224,13 @@
                 </div>
 
 				<div class="courier__popup-content-cards">
-					<div class="courier__popup-content-card courier__popup-content-card--active" data-courier-card-id="0">
+					<div class="courier__popup-content-card courier__popup-content-card--active courier__appear courier__anim-timing--half" data-courier-card-id="0">
 						<p class="tx-center tx-big m-b--db" style="line-height: 1.4;">Czy potrzebujesz pomocy w&nbsp;doborze obrazów i&nbsp;ram?</p>
-						<p class="tx-center">Jeżeli tak, zadzwoń do nas na numer <a href="tel:607103103">607&nbsp;103&nbsp;103</a><br />lub napisz wiadomość na adres <a href="mailto:info@22cranes.com">info@22cranes.com</a></p>
+						<p class="tx-center tx-bigger">Jeżeli tak, zadzwoń do nas na numer <a href="tel:607103103">607&nbsp;103&nbsp;103</a><br />lub napisz wiadomość na adres <a href="mailto:info@22cranes.com">info@22cranes.com</a></p>
 					</div>
-					<div class="courier__popup-content-card" data-courier-card-id="1">
+					<div class="courier__popup-content-card courier__appear courier__anim-timing--half" data-courier-card-id="1">
 						<p class="tx-center tx-big m-b" style="line-height: 1.4;">Czy potrzebujesz informacji dotyczącej realizacji, płatności lub wysyłki?</p>
-						<p class="tx-center">Jeżeli tak, zadzwoń do nas na numer <a href="tel:506934783">506&nbsp;934&nbsp;783</a><br />lub napisz wiadomość na adres <a href="mailto:info@22cranes.com">info@22cranes.com</a></p>
+						<p class="tx-center tx-bigger">Jeżeli tak, zadzwoń do nas na numer <a href="tel:506934783">506&nbsp;934&nbsp;783</a><br />lub napisz wiadomość na adres <a href="mailto:info@22cranes.com">info@22cranes.com</a></p>
 					</div>
 				</div>`,
 		},
