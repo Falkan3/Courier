@@ -25,7 +25,7 @@ export default function (Courier, Components, Events) {
          */
         bind() {
             Binder.on('click', Components.App.refs.app.elem, event => this.onClick(event));
-            Binder.on('keydown', Components.App.refs.app.elem, event => this.onKeydown(event));
+            Binder.on('keydown', Courier.rootElement, event => this.onKeydown(event));
             Binder.on('render', Components.App.refs.app.elem, event => this.onRendered(event));
         },
 
@@ -34,7 +34,7 @@ export default function (Courier, Components, Events) {
          */
         unbind() {
             Binder.off('click', Components.App.refs.app.elem);
-            Binder.off('keydown', Components.App.refs.app.elem);
+            Binder.off('keydown', Courier.rootElement);
             Binder.off('render', Components.App.refs.app.elem);
         },
 
@@ -53,7 +53,7 @@ export default function (Courier, Components, Events) {
          * @param  {Object} event
          */
         onKeydown(event) {
-            Events.emit('app.keydown', event);
+            Events.emit('root.keydown', event);
         },
 
         /**

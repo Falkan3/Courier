@@ -405,17 +405,11 @@ export default function (Courier, Components, Events) {
         Chat.onAppRendered(event);
     });
 
-    /**
-     * Bind event listeners after App has been rendered
-     */
     Events.on('app.click', (event) => {
         Chat.onClick(event);
     });
 
-    /**
-     * Bind event listeners after App has been rendered
-     */
-    Events.on('app.keydown', (event) => {
+    Events.on('root.keydown', (event) => {
         Chat.onKeydown(event);
     });
 

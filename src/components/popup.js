@@ -150,7 +150,7 @@ export default function (Courier, Components, Events) {
     /**
      * Bind event listeners after App has been rendered
      */
-    Events.on('app.keydown', (event) => {
+    Events.on('root.keydown', (event) => {
         Popup.onKeydown(event);
     });
 
