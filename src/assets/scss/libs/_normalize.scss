@@ -44,13 +44,14 @@ h1 {
 
 /**
  * Remove top and bottom margin from `p` elements.
- * Inherit line height from parents.
+ * Inherit line height and color from parents.
  */
 
 p {
 	margin-top: 0;
 	margin-bottom: 0;
 	line-height: inherit;
+	color: inherit;
 }
 
 /* Grouping content
