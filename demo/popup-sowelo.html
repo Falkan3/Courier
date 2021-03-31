@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<!-- Meta -->
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+	<title>Test</title>
+
+	<!-- Assets -->
+	<link rel="stylesheet" href="../dist/css/courier.core.css">
+	<!--<link rel="stylesheet" href="../dist/css/courier.theme.css">-->
+	<script src="../dist/js/courier.js"></script>
+	<style type="text/css">
+		.courier .courier__popup-main {
+			padding: 2.5em 5em;
+			background-color: #f6655a;
+			color: #fef2f1;
+			text-align: center;
+			line-height: 1.6;
+		}
+
+		.courier .courier__popup-close-btn > svg > g {
+			fill: #b93b32;
+		}
+
+		.courier .courier__popup-close-btn:hover:enabled > svg > g, .courier .courier__popup-close-btn:active:enabled > svg > g {
+			fill: #cd483c;
+		}
+
+		.courier .courier__popup-work-area {
+			position: relative;
+		}
+
+		/* content */
+
+		.courier__popup-content-top-img {
+			position: absolute;
+			left: 50%;
+			top: -6em;
+			transform: translateX(-50%);
+		}
+
+		.courier .tx-big {
+			font-size: 1.6em;
+		}
+
+		.courier .tx-bigger {
+			font-size: 1.4em;
+		}
+
+		/* media queries */
+
+		@media (max-width: 1199px) {
+			.courier .courier__popup-main {
+				width: 500px;
+			}
+		}
+
+		@media (max-width: 767px) {
+			.courier .courier__popup-main {
+				width: 400px;
+			}
+		}
+
+		@media (max-width: 479px) {
+			.courier .courier__popup-main {
+				padding: 3em 2em;
+			}
+
+			.courier .tx-big {
+				font-size: 1.5em;
+			}
+		}
+	</style>
+</head>
+<body>
+<script>
+	const courier = new Courier(document.body, {
+		texts: {
+			popupContent: `
+				<span class="courier__popup-content-top-img">
+					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512.92" style="width: 5em; height: 5em;">
+					  <path fill="#fed402" d="M433.35 512.92H80.45A80 80 0 018.9 397.16L185.33 44.25a80 80 0 01143.13 0L504.9 397.16a80 80 0 01-71.55 115.76zm0 0"/>
+					  <g fill="#f6655a">
+						<path d="M256.9 128.2a16 16 0 0116 16v192a16 16 0 01-32 0v-192a16 16 0 0116-16zm0 0M240.9 384.2h32v32h-32zm0 0"/>
+					  </g>
+					</svg>
+				</span>
+				<p class="tx-big m-b tx-upper">Warning!</p>
+				<p>The device you are using and the following IP address are used to multiple clicks on Google Ads!</p>
+				<p class="tx-bigger m-v">{{ip}}</p>
+				<p class="m-b">Such action constitutes as an act of unfair competition as defined in Article 15, section 1, points 5 and 2 of the Act of 16 April 1993 on unfair competition.</p>
+				<p>The identified device and IP address may be used as evidence in the case of an act of unfair competition (civil and criminal liability)</p>
+                `,
+		},
+		textVars: {
+			ip: '192.168.1.1',
+		},
+	});
+	courier.mount();
+	courier._components.Widget.hide();
+	courier._components.Popup.open();
+</script>
+</body>
+</html>
