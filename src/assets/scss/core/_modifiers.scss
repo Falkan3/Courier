@@ -35,12 +35,12 @@ $highlightColor2: #6e33c7;
 
 	&-highlight {
 		display: inline-block;
-		padding: 0.8rem 2rem;
+		padding: 0.8em 2em;
 		border-radius: 34px;
 		background: #15a9e0;
 		background: linear-gradient(90deg, $highlightColor1 0%, $highlightColor2 100%);
 		color: #fff;
-		letter-spacing: 0.2rem;
+		letter-spacing: 0.2em;
 	}
 }
 
