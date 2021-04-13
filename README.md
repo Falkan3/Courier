@@ -9,7 +9,7 @@
 Description: TBD
 
 # Features
-
+TBD
 
 # Commands
 - `npm run clean` - Remove `dist/` directory
@@ -28,6 +28,17 @@ Description: TBD
 # Installation
 TBD
 
+# Compilation
+This plugin is modular and features the following modules:
+- Chat
+- Popup
+
+Only either one of them can be active in the complete version of the Javascript file. The modular file exports all modules, which allows importing only the modules that are required.
+
+To change which module is to be compiled in the complete version:
+- Change the imported modules in the `entry/entry-complete.js` file.
+- Change the imported modules in the `src/assets/scss/courier.core.scss` file.
+- Run the build command (`npm run build`).
 
 # License
 
