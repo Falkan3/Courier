@@ -87,6 +87,11 @@ export default class Courier {
      */
     destroy() {
         this._eventsBus.emit('destroy');
+        this._eventsBus.emit('destroy:after');
+        // destroy events bus
+        this._eventsBus.destroy();
+        // remove root element
+        this.rootElement.querySelector(`.${this.settings.classes.root}`).remove();
 
         return this;
     }

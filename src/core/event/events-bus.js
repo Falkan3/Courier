@@ -65,4 +65,8 @@ export default class EventsBus {
             item(context || {});
         });
     }
+
+    destroy() {
+        this.events = {};
+    }
 }

@@ -198,6 +198,9 @@ export default function (Courier, Components, Events) {
          App.refs[i].el.parentNode.removeChild(App.refs[i].el);
          }
          */
+    });
+
+    Events.on(['destroy:after'], () => {
         Popup.refs = {};
     });
 

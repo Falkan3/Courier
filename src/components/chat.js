@@ -32,14 +32,14 @@ export default function (Courier, Components, Events) {
         },
 
         /**
-         * Adds click events.
+         * Adds events.
          */
         bind() {
             Binder.on('submit', Components.App.refs.app.elem, event => this.onSubmit(event));
         },
 
         /**
-         * Removes click events.
+         * Removes events.
          */
         unbind() {
             Binder.off('submit', Components.App.refs.app.elem);
@@ -419,7 +419,7 @@ export default function (Courier, Components, Events) {
      * - on updating to remove events before remounting
      */
     Events.on(['destroy', 'update'], () => {
-        // Chat.unbind();
+        Chat.unbind();
     });
 
     /**
@@ -436,7 +436,6 @@ export default function (Courier, Components, Events) {
      * - on destroying to remove listeners
      */
     Events.on(['destroy'], () => {
-        Chat.unbind();
         Binder.destroy();
     });
 
@@ -458,6 +457,9 @@ export default function (Courier, Components, Events) {
          App.refs[i].el.parentNode.removeChild(App.refs[i].el);
          }
          */
+    });
+
+    Events.on(['destroy:after'], () => {
         Chat.refs = {};
     });
 

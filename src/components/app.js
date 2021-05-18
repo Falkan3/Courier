@@ -21,21 +21,21 @@ export default function (Courier, Components, Events) {
         },
 
         /**
-         * Adds click events.
+         * Adds events.
          */
         bind() {
             Binder.on('click', Components.App.refs.app.elem, event => this.onClick(event));
             Binder.on('keydown', Courier.rootElement, event => this.onKeydown(event));
-            Binder.on('render', Components.App.refs.app.elem, event => this.onRendered(event));
+            Binder.on('reef:render', Components.App.refs.app.elem, event => this.onRendered(event));
         },
 
         /**
-         * Removes click events.
+         * Removes events.
          */
         unbind() {
             Binder.off('click', Components.App.refs.app.elem);
             Binder.off('keydown', Courier.rootElement);
-            Binder.off('render', Components.App.refs.app.elem);
+            Binder.off('reef:render', Components.App.refs.app.elem);
         },
 
         /**
@@ -135,6 +135,10 @@ export default function (Courier, Components, Events) {
      * - on app.mount.before to rerender elements and apply changes
      */
     Events.on(['destroy', 'app.mount.before'], () => {
+        // App.refs = {};
+    });
+
+    Events.on(['destroy:after'], () => {
         App.refs = {};
     });
 
