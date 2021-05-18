@@ -1,6 +1,7 @@
 // bubble
 $bubbleBgColor: #6874e8;
 $bubbleColor: #fff;
+$bubbleBorder: #f1f1f1;
 // buttons
 $btnColorInactive: #cfe4f5;
 $btnColorActive: #64b5f6;
@@ -17,10 +18,12 @@ $btnColorActive: #64b5f6;
 		display: flex;
 		align-items: center;
 		padding: 0.5em 1em;
+		border: solid 1px $bubbleBorder;
 		background: $bubbleBgColor;
 		color: $bubbleColor;
 		border-radius: 4px;
-		box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+		// box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+		filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.12));
 		transition: background-color cubic-bezier(0.1, 1, 0.6, 1) 0.3s;
 
 		// bubble arrow
@@ -67,9 +70,12 @@ $btnColorActive: #64b5f6;
 		position: absolute;
 		right: -0.5em;
 		top: -0.5em;
-		width: 1em;
-		height: 1em;
-		padding: 0;
+		width: 1.3em;
+		height: 1.3em;
+		padding: 0.3em;
+		border: solid 1px $bubbleBorder;
+		background: #fff;
+		border-radius: 50%;
 
 		& > img,
 		& > svg {
