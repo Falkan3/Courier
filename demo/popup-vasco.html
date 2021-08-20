@@ -1,59 +1,59 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- Meta -->
-<meta charset="UTF-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<!-- Meta -->
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-<title>Test</title>
+	<title>Test</title>
 
-<!-- Assets -->
-<link rel="stylesheet" href="../dist/css/courier.core.css">
-<link rel="stylesheet" href="../dist/css/courier.theme.css">
-<script src="../dist/js/courier.js"></script>
-<style type="text/css">
-    .courier .courier__popup-main {
-        background: #fefefe;
-        color: #494949;
-    }
+	<!-- Assets -->
+	<link rel="stylesheet" href="../dist/css/courier.core.css">
+	<link rel="stylesheet" href="../dist/css/courier.theme.css">
+	<script src="../dist/js/courier.js"></script>
+	<style>
+		.courier .courier__popup-main {
+			background: #fefefe;
+			color: #494949;
+		}
 
-    .courier .courier__popup-close-btn > svg > g {
-        fill: #cb2e63;
-    }
+		.courier .courier__popup-close-btn > svg > g {
+			fill: #cb2e63;
+		}
 
-    .courier .courier__popup-close-btn:hover:enabled > svg > g,
-    .courier .courier__popup-close-btn:active:enabled > svg > g {
-        fill: #ec80a5;
-    }
+		.courier .courier__popup-close-btn:hover:enabled > svg > g,
+		.courier .courier__popup-close-btn:active:enabled > svg > g {
+			fill: #ec80a5;
+		}
 
-    .courier .tx-highlight {
-        background: #cb2e63;
-        background: linear-gradient(90deg, #cb2e63 0%, #ec80a5 100%);
-    }
+		.courier .tx-highlight {
+			background: #cb2e63;
+			background: linear-gradient(90deg, #cb2e63 0%, #ec80a5 100%);
+		}
 
-    .courier .fx-underline {
-        position: relative;
-        display: inline-block;
-    }
+		.courier .fx-underline {
+			position: relative;
+			display: inline-block;
+		}
 
-    .courier .fx-underline::after {
-        content: "";
-        position: absolute;
-        bottom: -8px;
-        left: 50%;
-        width: 50%;
-        max-width: 100%;
-        border-bottom: solid 4px #cc3065;
-        transform: translate(-50%, -50%);
-    }
-</style>
+		.courier .fx-underline::after {
+			content: "";
+			position: absolute;
+			bottom: -8px;
+			left: 50%;
+			width: 50%;
+			max-width: 100%;
+			border-bottom: solid 4px #cc3065;
+			transform: translate(-50%, -50%);
+		}
+	</style>
 </head>
 <body>
-<script>
-	const courier = new Courier(document.body, {
-        texts: {
-            popupContent: `
+	<script>
+		const courier = new Courier(document.body, {
+			texts: {
+				popupContent: `
                 <svg class="m-b courier courier__popup-work-area-img" xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512.035 512.035" style="width: 6em; height: 6em;">
                     <g fill="#cc3065">
                         <path fill="#494949" d="M512 256c0-7.05-3.2-13.56-8.8-17.85l-16.35-12.54 12.54-16.34c4.3-5.6 5.71-12.72 3.89-19.53a22.34 22.34 0 00-13.13-14.96l-19.03-7.89 7.88-19.03c2.7-6.51 2.23-13.75-1.3-19.86s-9.56-10.14-16.55-11.06l-20.42-2.69 2.69-20.42c.92-7-1.41-13.86-6.4-18.85s-11.86-7.32-18.85-6.4l-20.42 2.69-2.69-20.42c-.92-7-4.95-13.03-11.06-16.55-6.1-3.53-13.35-4-19.86-1.3l-19.03 7.88-7.88-19.03a22.34 22.34 0 00-14.97-13.13 22.34 22.34 0 00-19.53 3.89L286.4 25.15 273.85 8.8C269.56 3.2 263.05 0 256 0s-13.56 3.2-17.85 8.8L225.6 25.16 209.27 12.6a22.34 22.34 0 00-19.53-3.89 22.34 22.34 0 00-14.96 13.13l-7.89 19.03L147.86 33A22.34 22.34 0 00128 34.3a22.34 22.34 0 00-11.06 16.55l-2.69 20.42-20.42-2.69c-6.99-.92-13.86 1.41-18.85 6.4s-7.32 11.86-6.4 18.85l2.7 20.42-20.43 2.69c-7 .92-13.02 4.95-16.55 11.06-3.53 6.1-4 13.35-1.3 19.86l7.88 19.03-19.03 7.89a22.34 22.34 0 00-13.13 14.96 22.34 22.34 0 003.89 19.53l12.54 16.34L8.8 238.15C3.2 242.44 0 248.95 0 256s3.2 13.56 8.8 17.86l16.34 12.53-12.53 16.34a22.34 22.34 0 00-3.89 19.53 22.34 22.34 0 0013.13 14.97l19.03 7.88-7.89 19.03c-2.7 6.51-2.22 13.75 1.3 19.86s9.57 10.14 16.56 11.06l20.42 2.69-2.69 20.42c-.92 7 1.41 13.86 6.4 18.85s11.86 7.32 18.85 6.4l20.42-2.69 2.69 20.42c.92 7 4.95 13.03 11.06 16.55 6.1 3.53 13.35 4 19.86 1.3l19.03-7.88 7.88 19.03a22.34 22.34 0 0014.97 13.13 22.34 22.34 0 0019.53-3.89l16.34-12.54 12.53 16.34c4.3 5.6 10.8 8.81 17.86 8.81s13.56-3.2 17.85-8.8l12.54-16.34 16.34 12.53c5.6 4.3 12.71 5.71 19.53 3.89a22.34 22.34 0 0014.96-13.13l7.89-19.03 19.02 7.89a22.34 22.34 0 0019.87-1.3 22.35 22.35 0 0011.06-16.56l2.69-20.42 20.42 2.69c6.99.92 13.86-1.41 18.85-6.4a22.34 22.34 0 006.4-18.85l-2.7-20.42 20.43-2.69c7-.92 13.02-4.95 16.55-11.06s4-13.35 1.3-19.86l-7.88-19.03 19.03-7.88a22.34 22.34 0 0013.13-14.97 22.34 22.34 0 00-3.89-19.52l-12.54-16.35 16.34-12.53c5.6-4.3 8.81-10.8 8.81-17.86zm-17.94 5.95l-22.29 17.1a7.5 7.5 0 00-1.38 10.52l17.1 22.3a7.45 7.45 0 011.3 6.5 7.45 7.45 0 01-4.38 5l-25.96 10.75a7.5 7.5 0 00-4.06 9.8l10.75 25.96c.9 2.17.75 4.58-.43 6.62s-3.19 3.38-5.52 3.69l-27.86 3.67c-4.1.54-7 4.3-6.45 8.41l3.66 27.86c.31 2.33-.47 4.62-2.13 6.28s-3.95 2.45-6.29 2.14l-27.85-3.67a7.5 7.5 0 00-8.42 6.46l-3.66 27.85a7.45 7.45 0 01-3.7 5.52 7.45 7.45 0 01-6.62.44l-25.95-10.75a7.5 7.5 0 00-9.8 4.05l-10.75 25.96a7.45 7.45 0 01-5 4.38c-2.27.6-4.64.14-6.5-1.3l-22.3-17.1a7.5 7.5 0 00-10.51 1.38l-17.1 22.3c-1.44 1.86-3.6 2.93-5.96 2.93s-4.52-1.07-5.95-2.94l-17.1-22.29a7.5 7.5 0 00-10.52-1.38l-22.3 17.1a7.45 7.45 0 01-6.5 1.3 7.45 7.45 0 01-5-4.38l-10.75-25.96a7.5 7.5 0 00-9.8-4.06l-25.96 10.76c-2.17.9-4.58.74-6.62-.44a7.45 7.45 0 01-3.69-5.52l-3.67-27.85a7.5 7.5 0 00-8.41-6.46l-27.86 3.67a7.44 7.44 0 01-6.28-2.14 7.45 7.45 0 01-2.14-6.28l3.67-27.86a7.5 7.5 0 00-6.46-8.41l-27.85-3.67c-2.33-.3-4.35-1.65-5.52-3.69s-1.34-4.45-.44-6.62l10.76-25.96a7.5 7.5 0 00-4.06-9.8l-25.96-10.75a7.45 7.45 0 01-4.38-5 7.45 7.45 0 011.3-6.5l17.1-22.3a7.5 7.5 0 00-1.38-10.51l-22.3-17.1c-1.86-1.44-2.93-3.6-2.93-5.96s1.07-4.52 2.94-5.95l22.29-17.1a7.5 7.5 0 001.38-10.52l-17.1-22.3a7.45 7.45 0 01-1.3-6.5c.61-2.28 2.2-4.1 4.38-5l25.96-10.75a7.5 7.5 0 004.06-9.8l-10.76-25.96a7.45 7.45 0 01.44-6.62 7.45 7.45 0 015.52-3.69l27.85-3.67c4.11-.54 7-4.3 6.46-8.41l-3.67-27.86c-.3-2.33.47-4.62 2.14-6.28s3.95-2.44 6.28-2.14l27.86 3.67a7.5 7.5 0 008.41-6.46l3.67-27.85a7.45 7.45 0 013.69-5.52 7.46 7.46 0 016.62-.44l25.96 10.76a7.5 7.5 0 009.8-4.06l10.75-25.96a7.45 7.45 0 015-4.38 7.45 7.45 0 016.5 1.3l22.3 17.1a7.5 7.5 0 0010.51-1.38l17.1-22.3c1.44-1.86 3.6-2.93 5.96-2.93s4.52 1.07 5.95 2.94l17.1 22.29a7.5 7.5 0 0010.52 1.38l22.3-17.1a7.45 7.45 0 016.5-1.3c2.28.61 4.1 2.2 5 4.38l10.75 25.96a7.5 7.5 0 009.8 4.06l25.96-10.75a7.45 7.45 0 016.62.43 7.45 7.45 0 013.69 5.52l3.67 27.86c.54 4.1 4.3 7 8.41 6.45l27.86-3.66a7.45 7.45 0 016.28 2.13 7.45 7.45 0 012.14 6.29l-3.67 27.85a7.5 7.5 0 006.46 8.42l27.85 3.66c2.33.31 4.35 1.66 5.52 3.7s1.34 4.44.44 6.62l-10.75 25.96a7.5 7.5 0 004.05 9.8l25.96 10.75a7.45 7.45 0 014.38 4.99c.6 2.27.14 4.64-1.3 6.5l-17.1 22.3a7.5 7.5 0 001.39 10.52l22.29 17.1c1.86 1.43 2.93 3.6 2.93 5.95s-1.07 4.52-2.94 5.95z"/>
@@ -67,13 +67,13 @@
                 <p class="tx-center">Twój kod rabatowy:</p>
                 <p class="m-v tx-center tx-bigger"><span class="tx-highlight">{{couponCode}}</span></p>
                 <p class="tx-center tx-smaller" style="color: #6f6f6f">Podaj ten kod rabatowy podczas składania zamówienia, aby skorzystać z&nbsp;dodatkowej zniżki.</p>`
-        },
-        textVars: {
-            couponCode: 'aaa'
-        }
-    });
-	courier.mount();
-	// courier._components.ComponentName.function();
-</script>
+			},
+			textVars: {
+				couponCode: 'aaa'
+			}
+		});
+		courier.mount();
+		// courier._components.ComponentName.function();
+	</script>
 </body>
 </html>

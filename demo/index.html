@@ -1,77 +1,77 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- Meta -->
-<meta charset="UTF-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <!-- Meta -->
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-<title>Test</title>
+    <title>Test</title>
 
-<!-- Assets -->
-<link rel="stylesheet" href="../dist/css/courier.core.css">
-<link rel="stylesheet" href="../dist/css/courier.theme.css">
-<script src="../dist/js/courier.js"></script>
+    <!-- Assets -->
+    <link rel="stylesheet" href="../dist/css/courier.core.css">
+    <link rel="stylesheet" href="../dist/css/courier.theme.css">
+    <script src="../dist/js/courier.js"></script>
 </head>
 <body>
-<script>
-	const courier = new Courier(document.body, {
-	    messages: {
-            start: {
-                text: 'Test message 1 with topics',
-                topics: [
-                    {
-                        text: 'Coupons',
-                        path: 'coupons',
-                    },
-                    {
-                        text: 'Sales',
-                        path: 'sales'
-                    },
-                    {
-                        text: 'Newsletter',
-                        path: 'newsletter'
-                    },
-                ],
-            },
-            coupons: {
-                text: 'Here is a list of all of our active coupons:',
-                topics: [
-                    {
-                        text: 'XXX',
-                        path: 'couponsXXX',
-                    },
-                    {
-                        text: 'YYY',
-                        path: 'couponsYYY',
-                    },
-                    {
-                        text: 'ZZZ',
-                        path: 'couponsZZZ',
-                    },
-                ],
-            },
-            couponsXXX: {
-                text: 'You have selected coupon XXX'
-            },
-            sales: {
-                text: 'Here is a list of all of our active sales:',
-                topics: [
-                    {
-                        text: 'Sale item 1'
-                    },
-                    {
-                        text: 'Sale item 2',
-                    },
-                ],
-            },
-            newsletter: {
-                text: 'Please enter your email address to subscribe to our newsletter.',
+    <script>
+        const courier = new Courier(document.body, {
+            messages: {
+                start: {
+                    text: 'Test message 1 with topics',
+                    topics: [
+                        {
+                            text: 'Coupons',
+                            path: 'coupons',
+                        },
+                        {
+                            text: 'Sales',
+                            path: 'sales'
+                        },
+                        {
+                            text: 'Newsletter',
+                            path: 'newsletter'
+                        },
+                    ],
+                },
+                coupons: {
+                    text: 'Here is a list of all of our active coupons:',
+                    topics: [
+                        {
+                            text: 'XXX',
+                            path: 'couponsXXX',
+                        },
+                        {
+                            text: 'YYY',
+                            path: 'couponsYYY',
+                        },
+                        {
+                            text: 'ZZZ',
+                            path: 'couponsZZZ',
+                        },
+                    ],
+                },
+                couponsXXX: {
+                    text: 'You have selected coupon XXX'
+                },
+                sales: {
+                    text: 'Here is a list of all of our active sales:',
+                    topics: [
+                        {
+                            text: 'Sale item 1'
+                        },
+                        {
+                            text: 'Sale item 2',
+                        },
+                    ],
+                },
+                newsletter: {
+                    text: 'Please enter your email address to subscribe to our newsletter.',
+                }
             }
-        }
-    });
-	courier.mount();
-	// courier._components.ComponentName.function();
-</script>
+        });
+        courier.mount();
+        // courier._components.ComponentName.function();
+    </script>
 </body>
 </html>

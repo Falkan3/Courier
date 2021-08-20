@@ -12,7 +12,7 @@
 	<link rel="stylesheet" href="../dist/css/courier.core.css">
 	<!--<link rel="stylesheet" href="../dist/css/courier.theme.css">-->
 	<script src="../dist/js/courier.js"></script>
-	<style type="text/css">
+	<style>
 		.courier .courier__popup-main {
 			padding: 2.5em 5em;
 		}
@@ -187,14 +187,14 @@
 	</style>
 </head>
 <body>
-<script>
-	const courier = new Courier(document.body, {
-		images: {
-			widget: null,
-		},
-		texts: {
-			widgetGreeting: '<p>Dzień dobry, czy potrzebujesz pomocy w&nbsp;doborze obrazów i&nbsp;ram?</p><p style="margin-top: 1rem; padding: 1rem 2rem; background: #a2000e; text-transform: uppercase; color: #fff; border-radius: 6px;">Tak</p>',
-			popupContent: `
+	<script>
+		const courier = new Courier(document.body, {
+			images: {
+				widget: null,
+			},
+			texts: {
+				widgetGreeting: '<p>Dzień dobry, czy potrzebujesz pomocy w&nbsp;doborze obrazów i&nbsp;ram?</p><p style="margin-top: 1rem; padding: 1rem 2rem; background: #a2000e; text-transform: uppercase; color: #fff; border-radius: 6px;">Tak</p>',
+				popupContent: `
                 <div class="courier__popup-content-tabs">
                     <div class="courier__popup-content-tab courier__popup-content-tab--active">
                         <button class="courier__popup-content-tab-button" data-courier-card-id="0">
@@ -237,46 +237,46 @@
 						<p class="tx-center tx-bigger">Jeżeli tak, zadzwoń do nas na numer <a href="tel:506934783">506&nbsp;934&nbsp;783</a><br />lub napisz wiadomość na adres <a href="mailto:info@22cranes.com">info@22cranes.com</a></p>
 					</div>
 				</div>`,
-		},
-		textVars: {},
-	});
-
-	courier._eventsBus.on('app.mounted', () => {
-		const courierRoot = document.querySelector('#courierRoot');
-
-		courierRoot.addEventListener('click', (e) => {
-			const tabs = courierRoot.querySelectorAll('.courier__popup-content-tab');
-			const buttons = courierRoot.querySelectorAll('.courier__popup-content-tab-button');
-			const cards = courierRoot.querySelectorAll('.courier__popup-content-card');
-
-			let buttonClicked = e.target.matches('.courier__popup-content-tab-button');
-			if (!buttonClicked) {
-				buttons.forEach((button) => {
-					if (button.contains(e.target)) {
-						buttonClicked = true;
-					}
-				});
-			}
-
-			if (buttonClicked) {
-				const button = e.target.closest('.courier__popup-content-tab-button');
-				const tab = button.closest('.courier__popup-content-tab');
-				const cardId = button.dataset.courierCardId;
-				const card = courierRoot.querySelector(`.courier__popup-content-card[data-courier-card-id=\"${cardId}\"]`);
-				tabs.forEach((tab) => {
-					tab.classList.remove('courier__popup-content-tab--active');
-				});
-				cards.forEach((card) => {
-					card.classList.remove('courier__popup-content-card--active');
-				});
-				tab.classList.add('courier__popup-content-tab--active');
-				card.classList.add('courier__popup-content-card--active');
-			}
+			},
+			textVars: {},
 		});
-	});
 
-	courier.mount();
-	// courier._components.ComponentName.function();
-</script>
+		courier._eventsBus.on('app.mounted', () => {
+			const courierRoot = document.querySelector('#courierRoot');
+
+			courierRoot.addEventListener('click', (e) => {
+				const tabs = courierRoot.querySelectorAll('.courier__popup-content-tab');
+				const buttons = courierRoot.querySelectorAll('.courier__popup-content-tab-button');
+				const cards = courierRoot.querySelectorAll('.courier__popup-content-card');
+
+				let buttonClicked = e.target.matches('.courier__popup-content-tab-button');
+				if (!buttonClicked) {
+					buttons.forEach((button) => {
+						if (button.contains(e.target)) {
+							buttonClicked = true;
+						}
+					});
+				}
+
+				if (buttonClicked) {
+					const button = e.target.closest('.courier__popup-content-tab-button');
+					const tab = button.closest('.courier__popup-content-tab');
+					const cardId = button.dataset.courierCardId;
+					const card = courierRoot.querySelector(`.courier__popup-content-card[data-courier-card-id=\"${cardId}\"]`);
+					tabs.forEach((tab) => {
+						tab.classList.remove('courier__popup-content-tab--active');
+					});
+					cards.forEach((card) => {
+						card.classList.remove('courier__popup-content-card--active');
+					});
+					tab.classList.add('courier__popup-content-tab--active');
+					card.classList.add('courier__popup-content-card--active');
+				}
+			});
+		});
+
+		courier.mount();
+		// courier._components.ComponentName.function();
+	</script>
 </body>
 </html>

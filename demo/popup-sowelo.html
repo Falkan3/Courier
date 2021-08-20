@@ -12,7 +12,7 @@
 	<link rel="stylesheet" href="../dist/css/courier.core.css">
 	<!--<link rel="stylesheet" href="../dist/css/courier.theme.css">-->
 	<script src="../dist/js/courier.js"></script>
-	<style type="text/css">
+	<style>
 		.courier .courier__popup-main {
 			padding: 2.5em 5em;
 			background-color: #f6655a;
@@ -76,10 +76,10 @@
 	</style>
 </head>
 <body>
-<script>
-	const courier = new Courier(document.body, {
-		texts: {
-			popupContent: `
+	<script>
+		const courier = new Courier(document.body, {
+			texts: {
+				popupContent: `
 				<span class="courier__popup-content-top-img">
 					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512.92" style="width: 5em; height: 5em;">
 					  <path fill="#fed402" d="M433.35 512.92H80.45A80 80 0 018.9 397.16L185.33 44.25a80 80 0 01143.13 0L504.9 397.16a80 80 0 01-71.55 115.76zm0 0"/>
@@ -94,14 +94,14 @@
 				<p class="m-b">Such action constitutes as an act of unfair competition as defined in Article 15, section 1, points 5 and 2 of the Act of 16 April 1993 on unfair competition.</p>
 				<p>The identified device and IP address may be used as evidence in the case of an act of unfair competition (civil and criminal liability)</p>
                 `,
-		},
-		textVars: {
-			ip: '192.168.1.1',
-		},
-	});
-	courier.mount();
-	courier._components.Widget.hide();
-	courier._components.Popup.open();
-</script>
+			},
+			textVars: {
+				ip: '192.168.1.1',
+			},
+		});
+		courier.mount();
+		courier._components.Widget.hide();
+		courier._components.Popup.open();
+	</script>
 </body>
 </html>
