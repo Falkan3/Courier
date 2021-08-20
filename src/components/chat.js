@@ -2,11 +2,11 @@
 import { clone, textTemplate } from '@utils/object';
 import { isArray } from '@utils/types';
 import EventsBinder from '@core/event/events-binder';
+import ChatTriggersModule from '@components/modules/chat-triggers';
+import ChatMessage from '@components/classes/chat-message';
 import Reef from '@libs/reefjs/reef.es';
 import { elemContains, isScrolledToTheBottom } from '@utils/dom';
-import {
-    getStartMessage, loadMessagePath, replyFromScenario, saveMessagePath
-} from '@utils/chat';
+import { loadMessagePath } from '@utils/chat';
 
 export default function (Courier, Components, Events) {
     /**
@@ -15,6 +15,7 @@ export default function (Courier, Components, Events) {
      * @type {EventsBinder}
      */
     const Binder = new EventsBinder();
+    const ChatTriggers = new ChatTriggersModule(Courier, Components, Events);
 
     const Chat = {
         refs: {},
@@ -24,7 +25,7 @@ export default function (Courier, Components, Events) {
         mount() {
             Events.emit('chat.mount.before');
             this.initialize();
-            this.startMessage();
+            ChatTriggers.startMessage();
             if (Courier.settings.cookies.saveConversation.active) {
                 this.restoreMessages();
             }
@@ -36,6 +37,7 @@ export default function (Courier, Components, Events) {
          */
         bind() {
             Binder.on('submit', Components.App.refs.app.elem, event => this.onSubmit(event));
+            Binder.on('keypress', Components.App.refs.app.elem, event => this.onKeypress(event));
         },
 
         /**
@@ -43,6 +45,7 @@ export default function (Courier, Components, Events) {
          */
         unbind() {
             Binder.off('submit', Components.App.refs.app.elem);
+            Binder.off('keypress', Components.App.refs.app.elem);
         },
 
         /**
@@ -60,7 +63,7 @@ export default function (Courier, Components, Events) {
             }
 
             if (event.target.matches('[data-courier-topic-id]')) {
-                this.triggerTopic(
+                ChatTriggers.triggerTopic(
                     event.target.dataset.courierMessageId,
                     event.target.dataset.courierTopicId,
                 );
@@ -81,6 +84,9 @@ export default function (Courier, Components, Events) {
         },
 
         onAppRendered(event) {
+            this.refs.form = Components.App.refs.app.elem.querySelector('#courierChatInteractionsForm');
+            this.refs.messageBox = Components.App.refs.app.elem.querySelector('.courier__chat-message-box');
+
             // Only run for elements with the #courierChat ID
             if (event.target.matches('#courierChat')) {
                 if (this.scrollToBottom) {
@@ -96,21 +102,31 @@ export default function (Courier, Components, Events) {
          * @param  {Object} event
          */
         onSubmit(event) {
-            const form = Components.App.refs.app.elem.querySelector('#courierChatInteractionsForm');
             if (event.target.matches('#courierChatInteractionsForm')
-                || (elemContains(form, event.target))) {
+                || (elemContains(this.refs.form, event.target))) {
                 event.preventDefault();
-                const message = form.message.value.trim();
-                if (message.length) {
-                    this.sendMessage({
-                        text: message,
-                        outgoing: true,
-                    });
-                }
-                form.message.value = '';
+                const message = this.refs.messageBox.value.trim();
+                this.sendMessage(message);
+                this.refs.messageBox.value = '';
             }
 
             return event;
+        },
+
+        /**
+         * Handles keypress events.
+         *
+         * @param  {Object} event
+         */
+        onKeypress(event) {
+            if (event.target === this.refs.messageBox) {
+                if (event.key === 'Enter' && !event.shiftKey) {
+                    event.preventDefault();
+                    const message = this.refs.messageBox.value.trim();
+                    this.sendMessage(message);
+                    this.refs.messageBox.value = '';
+                }
+            }
         },
 
         close() {
@@ -124,20 +140,22 @@ export default function (Courier, Components, Events) {
             Events.emit('chat.opened');
         },
 
-        startMessage() {
-            const startMessage = getStartMessage(Courier.settings.messages);
-            if (!startMessage) return;
-            // send the start message after initialization
-            if (isArray(startMessage)) {
-                startMessage.forEach((message) => {
-                    this.sendMessage(message);
-                });
-            } else {
-                this.sendMessage(startMessage);
+        sendMessage(message) {
+            if (Courier.settings.state.customSendMessage) {
+                Events.emit('chat.sendMessage', message);
+                return;
+            }
+            if (message.length) {
+                this.pushMessage(new ChatMessage({ text: message, outgoing: true }));
             }
         },
 
-        sendMessage(message) {
+        /**
+         * Push message to the log.
+         *
+         * @param  {ChatMessage} message
+         */
+        pushMessage(message) {
             // user can only send messages when it's their turn
             if (message.outgoing && !this.refs.chat.data.state.userTurn) return;
             // replace variables in the message using text template
@@ -148,50 +166,6 @@ export default function (Courier, Components, Events) {
             this.refs.chat.data.messages.push(message);
             // set whether after render the chat work area should be scrolled to the bottom
             this.scrollToBottom = this.chatIsScrolledToTheBottom();
-        },
-
-        triggerTopic(messageId, topicId, options = {}) {
-            const settings = Object.assign({ topicTriggersEnabled: true }, options);
-            const { topics } = this.refs.chat.data.messages[messageId];
-            const topic = topics[topicId];
-            // check if any topic at this level was not already selected
-            if (topics.filter(t => t.active).length === 0) {
-                // disable all topics for the message the topic has been triggered from
-                topics.forEach((item) => {
-                    item.disabled = true;
-                });
-                topic.active = true;
-                // send topic text as a message from the user
-                this.sendMessage({
-                    text: topic.text,
-                    outgoing: true,
-                });
-                // emit the topic's trigger, if it's set, and topic triggers option is enabled
-                if (topic.trigger && settings.topicTriggersEnabled) {
-                    this.topicTrigger(topic.trigger);
-                }
-                this.triggerPath(topic);
-                // push message path
-                this.pushMessagePath(messageId, topicId);
-            }
-        },
-
-        triggerPath(topic) {
-            // find a reply based on selected path
-            const reply = replyFromScenario(Courier.settings.messages, topic.text, topic.path);
-            if (reply) {
-                if (isArray(reply)) {
-                    reply.forEach((item) => {
-                        this.sendMessage(item);
-                    });
-                } else {
-                    this.sendMessage(reply);
-                }
-            }
-        },
-
-        topicTrigger(trigger) {
-            Events.emit(trigger);
         },
 
         chatIsScrolledToTheBottom() {
@@ -205,20 +179,6 @@ export default function (Courier, Components, Events) {
             }
         },
 
-        pushMessagePath(messageId, topicId) {
-            this.messagePath.push({
-                messageId,
-                topicId,
-            });
-            if (Courier.settings.cookies.saveConversation.active) {
-                saveMessagePath(
-                    this.messagePath,
-                    Courier.settings.cookies.saveConversation.duration,
-                    Courier.settings.cookies.saveConversation.nameSuffix,
-                );
-            }
-        },
-
         refreshMessages() {
             // reset sent messages and message path
             this.refs.chat.data.messages = [];
@@ -227,7 +187,8 @@ export default function (Courier, Components, Events) {
             // recreate message path
             this.startMessage();
             oldMessagePath.forEach((item) => {
-                this.triggerTopic(item.messageId, item.topicId, { topicTriggersEnabled: false });
+                ChatTriggers.triggerTopic(item.messageId, item.topicId,
+                    { topicTriggersEnabled: false });
             });
         },
 
@@ -237,7 +198,7 @@ export default function (Courier, Components, Events) {
             );
             if (messagePath && isArray(messagePath)) {
                 messagePath.forEach((item) => {
-                    this.triggerTopic(item.messageId, item.topicId);
+                    ChatTriggers.triggerTopic(item.messageId, item.topicId);
                 });
             }
         },
@@ -249,7 +210,7 @@ export default function (Courier, Components, Events) {
             Chat.refs.chat = new Reef('#courierChat', {
                 data: {
                     active: false,
-                    messageBox: false,
+                    messageBox: Courier.settings.state.showMessageBox,
                     online: true,
                     identity: {
                         name: Courier.settings.identity.name,
@@ -283,16 +244,16 @@ export default function (Courier, Components, Events) {
                         return '';
                     }
 
-                    const messages = props.messages.map((item, index) => {
+                    const messages = props.messages.map((message, index) => {
                         // generate message html
-                        let html = item.text ? `
-                            <p class="${Courier.settings.classes.chat}-message ${item.outgoing ? `${Courier.settings.classes.chat}-message--self` : ''} courier__appear courier__anim-timing--third" data-courier-message-id="${index}">${item.text}</p>`
+                        let html = message.text ? `
+                            <p class="${Courier.settings.classes.chat}-message ${message.outgoing ? `${Courier.settings.classes.chat}-message--self` : ''} courier__appear courier__anim-timing--third" data-courier-message-id="${index}">${message.text}</p>`
                             : '';
 
-                        if (item.topics) {
+                        if (message.topics) {
                             let topicsHtml;
                             // generate topics html
-                            topicsHtml = item.topics.map((topic, topicIndex) => `
+                            topicsHtml = message.topics.map((topic, topicIndex) => `
                                 <button class="${Courier.settings.classes.chat}-topic ${topic.active ? `${Courier.settings.classes.chat}-topic--active` : ''}" data-courier-message-id="${index}" data-courier-topic-id="${topicIndex}" ${topic.disabled ? 'disabled' : ''}>${topic.text}</button>`)
                             .join('');
 
@@ -314,7 +275,7 @@ export default function (Courier, Components, Events) {
                     const messageBox = props.messageBox
                         ? `
                         <form id="courierChatInteractionsForm" class="${Courier.settings.classes.chat}-interactions" autocomplete="off">
-                            <input class="${Courier.settings.classes.chat}-message-box" type="text" name="message" placeholder="${props.text.messagePlaceholder}" autofocus />
+                            <textarea class="${Courier.settings.classes.chat}-message-box" name="message" placeholder="${props.text.messagePlaceholder}" rows="2" autofocus></textarea>
                             <button class="${Courier.settings.classes.chat}-send-msg-btn" type="submit" aria-label="${props.text.sendMessage}">
                                 ${Courier.settings.images.sendMsg}
                             </button>
@@ -446,17 +407,15 @@ export default function (Courier, Components, Events) {
      */
     Events.on(['destroy', 'chat.mount.before'], () => {
         /*
-         objectForEach(Chat.refs, (item) => {
-         if (item.el.parentNode) {
-         item.el.parentNode.removeChild(item.el);
-         }
-         });
-         */
-        /*
-         for (let i = 0; i < App.refs.length; i++) {
-         App.refs[i].el.parentNode.removeChild(App.refs[i].el);
-         }
-         */
+        objectForEach(Chat.refs, (item) => {
+            if (item.el.parentNode) {
+                item.el.parentNode.removeChild(item.el);
+            }
+        });
+        for (let i = 0; i < App.refs.length; i++) {
+            App.refs[i].el.parentNode.removeChild(App.refs[i].el);
+        }
+        */
     });
 
     Events.on(['destroy:after'], () => {

@@ -114,6 +114,8 @@ export default {
      */
     state: {
         hideBtnActiveAtStart: false,
+        showMessageBox: false,
+        customSendMessage: false
     },
 
     /**
