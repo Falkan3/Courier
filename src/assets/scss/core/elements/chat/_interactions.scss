@@ -4,7 +4,7 @@
 &-interactions {
 	display: flex;
 	justify-content: space-between;
-	padding: 1em;
+	padding: 0.5em 0.5em 0;
 }
 
 /*
@@ -16,6 +16,7 @@
 	background-color: $sendMessageBoxBgColor;
 	border-radius: 8px;
 	line-height: 1.6;
+	resize: none;
 
 	&::placeholder {
 		font-size: 0.8em;
