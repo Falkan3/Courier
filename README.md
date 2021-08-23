@@ -1,8 +1,9 @@
 # courier
 
-![GitHub package.json version](https://img.shields.io/github/package-json/v/Falkan3/courier)
-![GitHub](https://img.shields.io/github/license/Falkan3/courier)
-[![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://GitHub.com/Falkan3/courier/graphs/commit-activity)
+![GitHub package.json version](https://img.shields.io/github/package-json/v/Falkan3/Courier?style=for-the-badge)
+![npm (scoped)](https://img.shields.io/npm/v/@trafficwatchdog/courier?style=for-the-badge)
+![GitHub](https://img.shields.io/github/license/Falkan3/Courier?style=for-the-badge)
+![David](https://img.shields.io/david/dev/Falkan3/Courier?style=for-the-badge)
 
 **This plugin is still a work in progress**
 
