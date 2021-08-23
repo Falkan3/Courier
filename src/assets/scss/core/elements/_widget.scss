@@ -12,6 +12,15 @@ $btnColorActive: #64b5f6;
 		bottom: 2em;
 		right: 1em;
 		z-index: 1001;
+
+		@at-root #{$classPrefix}--left #{$classPrefix}__widget-wrapper {
+			right: auto;
+			left: 1em;
+		}
+
+		@at-root #{$classPrefix}--widget-round #{$classPrefix}__widget-wrapper {
+			bottom: 1em;
+		}
 	}
 
 	&-bubble {
@@ -52,6 +61,17 @@ $btnColorActive: #64b5f6;
 				border-right-color: lighten($bubbleBgColor, 5%);
 			}
 		}
+
+		@at-root {
+			#{$classPrefix}--widget-round #{$classPrefix}__widget-bubble {
+				padding: 1em;
+				border-radius: 50%;
+
+				&::after {
+					content: none;
+				}
+			}
+		}
 	}
 
 	&-img {
@@ -62,16 +82,19 @@ $btnColorActive: #64b5f6;
 			display: block;
 			width: 2em;
 			height: 2em;
-			margin-right: 1em;
 		}
+	}
+
+	&-txt {
+		margin-left: 1em;
 	}
 
 	&-hide-btn {
 		position: absolute;
-		right: -0.5em;
-		top: -0.5em;
-		width: 1.3em;
-		height: 1.3em;
+		right: -0.7em;
+		top: -0.7em;
+		width: 1.5em;
+		height: 1.5em;
 		padding: 0.3em;
 		border: solid 1px $bubbleBorder;
 		background: #fff;
@@ -106,6 +129,13 @@ $btnColorActive: #64b5f6;
 				& > g {
 					fill: $btnColorActive;
 				}
+			}
+		}
+
+		@at-root {
+			#{$classPrefix}--widget-round #{$classPrefix}__widget-hide-btn {
+				right: -0.3em;
+				top: -0.3em;
 			}
 		}
 	}

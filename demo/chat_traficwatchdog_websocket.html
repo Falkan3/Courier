@@ -16,6 +16,12 @@
 <body>
     <script>
         const courier = new Courier(document.body, {
+        	modifierClasses: {
+        		root: ['courier--left', 'courier--widget-round']
+			},
+			texts: {
+        		widgetGreeting: null
+			},
             messages: {}, // todo: fetch messages from the API
             state: {
                 showMessageBox: true,

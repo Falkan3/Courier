@@ -32,7 +32,9 @@ export default {
      *
      * @type {Object}
      */
-    modifierClasses: {},
+    modifierClasses: {
+        root: []
+    },
 
     /**
      * Collection of text used in components.

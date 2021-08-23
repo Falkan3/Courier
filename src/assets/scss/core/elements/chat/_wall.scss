@@ -20,5 +20,10 @@
 
 	@include min-m-small-devices {
 		right: 1em;
+
+		@at-root #{$classPrefix}--left #{$classPrefix}__chat-wall {
+			right: auto;
+			left: 1em;
+		}
 	}
 }

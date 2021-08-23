@@ -90,6 +90,9 @@ export default function (Courier, Components, Events) {
                         `
                         : '';
 
+                    const widgetText = props.text
+                        ? `<p class="${Courier.settings.classes.widget}-txt">${props.text}</p>` : '';
+
                     const hideBtn = props.hideBtnActive
                         ? `
                         <button id="courierWidgetHideButton" class="${Courier.settings.classes.widget}-hide-btn" type="button" aria-label="Hide widget">
@@ -102,7 +105,7 @@ export default function (Courier, Components, Events) {
                     <div class="${Courier.settings.classes.widget}-wrapper ${Courier.settings.classes.root}__appear-bottom ${Courier.settings.classes.root}__anim-timing--half">
                         <button id="courierWidgetButton" class="${Courier.settings.classes.widget}-bubble" type="button" aria-label="Open widget">
                             ${widgetImg}
-                            <p>${props.text}</p>
+                            ${widgetText}
                         </button>
                         ${hideBtn}
                     </div>

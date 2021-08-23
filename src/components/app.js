@@ -76,11 +76,15 @@ export default function (Courier, Components, Events) {
             if (Object.prototype.hasOwnProperty.call(Components, 'Popup')) {
                 componentHtmlArr.push(`<div id="courierPopup" class="${Courier.settings.classes.popup}"></div>`);
             }
+            const rootClasses = [
+                Courier.settings.classes.root,
+                ...Courier.settings.modifierClasses.root
+            ];
 
             App.refs.app = new Reef(Courier.rootElement, {
                 data: {},
                 template: props => `
-                <div id="courierRoot" class="${Courier.settings.classes.root}">
+                <div id="courierRoot" class="${rootClasses.join(' ')}">
                     ${componentHtmlArr.join('')}
                     <div id="courierWidget" class="${Courier.settings.classes.widget}"></div>
                 </div>`,

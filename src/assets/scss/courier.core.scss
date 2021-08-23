@@ -28,7 +28,7 @@
 @import url('https://fonts.googleapis.com/css?family=Asap:400,700&display=swap&subset=latin-ext');
 
 /* -----------------------------------
- *  Components
+ *  Root
  * ----------------------------------- */
 
 #{$classPrefix} {
@@ -49,10 +49,9 @@
 		box-sizing: border-box;
 	}
 
-	/* antialias font */
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
-	text-rendering: optimizeLegibility;
+	/* -----------------------------------
+	 *  Components
+	 * ----------------------------------- */
 
 	/* core elements */
 	@import 'core/elements/widget';
@@ -60,6 +59,11 @@
 	/* optional elements */
 	@import 'core/elements/chat';
 	@import 'core/elements/popup';
+
+	/* antialias font */
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	text-rendering: optimizeLegibility;
 
 	/* modifiers */
 	@import 'core/modifiers';
