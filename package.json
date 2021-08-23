@@ -1,5 +1,5 @@
 {
-    "name": "@trafficwatchdog/courier",
+    "name": "@falkan3/courier",
     "version": "1.0.0",
     "description": "A virtual assistant which allows clients to interact with a website using preselected topics. Can be used as a websocket based chat client scaffolding.",
     "author": "Adam Kocić (Falkan3)",
@@ -11,6 +11,7 @@
         "type": "git",
         "url": "git+https://github.com/Falkan3/courier.git"
     },
+    "publishConfig": { "registry": "https://npm.pkg.github.com/@Falkan3" },
     "bugs": {
         "url": "https://github.com/Falkan3/courier/issues"
     },
