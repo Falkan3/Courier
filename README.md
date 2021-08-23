@@ -2,8 +2,8 @@
 
 ![GitHub package.json version](https://img.shields.io/github/package-json/v/Falkan3/Courier?style=for-the-badge)
 ![npm (scoped)](https://img.shields.io/npm/v/@trafficwatchdog/courier?style=for-the-badge)
+![npm bundle size (scoped)](https://img.shields.io/bundlephobia/minzip/@trafficwatchdog/courier?style=for-the-badge)
 ![GitHub](https://img.shields.io/github/license/Falkan3/Courier?style=for-the-badge)
-![David](https://img.shields.io/david/dev/Falkan3/Courier?style=for-the-badge)
 
 **This plugin is still a work in progress**
 
