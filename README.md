@@ -27,7 +27,130 @@ TBD
 - `npm run prepublish` - Hook for npm. Do all the checks before publishing your module.
 
 # Installation
-TBD
+Install from the command line:
+```
+npm install @falkan3/courier
+```
+
+Install via package.json:
+```
+"@falkan3/courier": "^1.0.5"
+```
+
+# Settings
+These are the available settings:
+
+> Collection of internally used HTML ids.
+> ```
+> ids: {
+>   dummyRoot: 'courierDummyRoot',
+> }
+> ```
+
+> Collection of internally used HTML classes.
+> ```
+> classes: {
+>   root: 'courier',
+>   widget: 'courier__widget',
+>   chat: 'courier__chat',
+>   popup: 'courier__popup',
+> }
+> ```
+
+> Collection of modifier classes to be applied to the specified elements
+> For example:
+> ```
+> {root: ['your-modifier-class']}
+> ```
+> ```
+> modifierClasses: {
+>   root: []
+> }
+> ```
+
+> Collection of text used in components.
+>```
+> texts: {
+>   widgetGreeting: 'Hello!',
+>	// chat
+>	chatTitle: 'Chat with us!',
+>	messagePlaceholder: 'Type something...',
+>	sendMessage: 'Send message',
+>	// popup
+>	popupContent: '',
+> }
+>```
+
+> Collection of variables which will replace placeholders in text.
+> ```
+> textVars: {}
+> ```
+
+> Collection of variables representing the identity of the service owner.
+> ```
+> identity: {
+>   name: 'Company',
+>   website: {
+>	   name: 'company.com',
+>	   url: 'https://company.com',
+>   },
+>   logo: {
+>	   src: 'https://uilogos.co/img/logomark/circle.png',
+>	   alt: 'Company logo',
+>   }
+> }
+
+> Collection of variables representing the identity of the plugin's maker.
+> ```
+> poweredBy: {
+>	 show: true,
+>	 text: 'Powered by',
+>	 img: {
+>	     src: 'https://panel.trafficwatchdog.pl/svg/logo.svg',
+>	     alt: 'TrafficWatchdog'
+>	 },
+>	 url: 'https://trafficwatchdog.pl/'
+> }
+
+> Collection of images and vector graphics.
+> ```
+> images: {
+>   widget: '...',
+>   closeBtn: '...',
+>   options: '...',
+>   sendMsg: '...',
+> }
+
+> Collection of messages and topics to be held by the chat bot.
+> ```
+> messages: {},
+> ```
+
+> Settings that are responsible for the state of elements.
+> ```
+> state: {
+>   hideBtnActiveAtStart: false,
+>   showMessageBox: false,
+>   messageBoxEnabled: true,
+>   customSendMessage: false
+> }
+> ```
+
+> Collection of cookie variables. All durations are in hours.
+> ```
+> cookies: {
+>   saveConversation: {
+>	    nameSuffix: '',
+>	    active: true,
+>	    duration: 24
+>   },
+>   hideWidget: {
+>	    nameSuffix: '',
+>	    active: true,
+>	    duration: 24
+>   }
+> }
+> ```
 
 # Compilation
 This plugin is modular and features the following modules:

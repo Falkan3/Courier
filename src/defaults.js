@@ -28,7 +28,7 @@ export default {
     /**
      * Collection of modifier classes to be applied to the specified elements
      * For example:
-     * {root: 'your-modifier-class'}
+     * {root: ['your-modifier-class']}
      *
      * @type {Object}
      */
