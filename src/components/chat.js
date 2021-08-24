@@ -146,24 +146,25 @@ export default function (Courier, Components, Events) {
                 return;
             }
             if (message.length) {
-                this.pushMessage(new ChatMessage({ text: message, outgoing: true }));
+                this.pushMessage({ text: message, outgoing: true });
             }
         },
 
         /**
          * Push message to the log.
          *
-         * @param  {ChatMessage} message
+         * @param  {Object} message
          */
         pushMessage(message) {
+            const chatMessage = new ChatMessage(message);
             // user can only send messages when it's their turn
-            if (message.outgoing && !this.refs.chat.data.state.userTurn) return;
+            if (chatMessage.outgoing && !this.refs.chat.data.state.userTurn) return;
             // replace variables in the message using text template
-            if (message.text) {
-                message.text = textTemplate(message.text, Courier.settings.textVars);
+            if (chatMessage.text) {
+                chatMessage.text = textTemplate(chatMessage.text, Courier.settings.textVars);
             }
             // push message to component data
-            this.refs.chat.data.messages.push(message);
+            this.refs.chat.data.messages.push(chatMessage);
             // set whether after render the chat work area should be scrolled to the bottom
             this.scrollToBottom = this.chatIsScrolledToTheBottom();
         },
@@ -247,7 +248,7 @@ export default function (Courier, Components, Events) {
                     const messages = props.messages.map((message, index) => {
                         // generate message html
                         let html = message.text ? `
-                            <p class="${Courier.settings.classes.chat}-message ${message.outgoing ? `${Courier.settings.classes.chat}-message--self` : ''} courier__appear courier__anim-timing--third" data-courier-message-id="${index}">${message.text}</p>`
+                            <p class="${Courier.settings.classes.chat}-message ${message.outgoing ? `${Courier.settings.classes.chat}-message--self` : ''} ${message.typeClassSuffix ? `${Courier.settings.classes.chat}-message${message.typeClassSuffix}` : ''} courier__appear courier__anim-timing--third" data-courier-message-id="${index}">${message.text}</p>`
                             : '';
 
                         if (message.topics) {

@@ -1,7 +1,6 @@
 /* eslint-disable import/no-unresolved */
 import { getStartMessage, replyFromScenario, saveMessagePath } from '@utils/chat';
 import { isArray } from '@utils/types';
-import ChatMessage from '@components/classes/chat-message';
 
 export default function (Courier, Components, Events) {
     const ChatTriggers = {
@@ -11,10 +10,10 @@ export default function (Courier, Components, Events) {
             // send the start message after initialization
             if (isArray(startMessage)) {
                 startMessage.forEach((message) => {
-                    Components.Chat.pushMessage(new ChatMessage(message));
+                    Components.Chat.pushMessage(message);
                 });
             } else {
-                Components.Chat.pushMessage(new ChatMessage(startMessage));
+                Components.Chat.pushMessage(startMessage);
             }
         },
 
@@ -50,10 +49,10 @@ export default function (Courier, Components, Events) {
             if (reply) {
                 if (isArray(reply)) {
                     reply.forEach((message) => {
-                        Components.Chat.pushMessage(new ChatMessage(message));
+                        Components.Chat.pushMessage(message);
                     });
                 } else {
-                    Components.Chat.pushMessage(new ChatMessage(reply));
+                    Components.Chat.pushMessage(reply);
                 }
             }
         },

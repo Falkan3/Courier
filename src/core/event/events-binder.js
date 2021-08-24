@@ -3,7 +3,7 @@ import { isString } from '@utils/types';
 
 export default class EventsBinder {
     /**
-     * Construct a EventsBinder instance.
+     * Construct an EventsBinder instance.
      *
      * @param {Object} listeners
      */

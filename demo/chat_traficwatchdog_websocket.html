@@ -22,7 +22,25 @@
 			texts: {
         		widgetGreeting: null
 			},
-            messages: {}, // todo: fetch messages from the API
+			identity: {
+				name: 'TrafficWatchdog',
+				website: {
+					name: 'trafficwatchdog.pl',
+					url: 'https://trafficwatchdog.pl',
+				},
+				logo: {
+					src: 'https://panel.trafficwatchdog.pl/svg/logo_cropped.svg',
+					alt: 'TrafficWatchdog logo',
+				},
+			},
+            messages: {
+				start: [
+					{
+						text: 'Hello there!',
+						type: 'system'
+					},
+				],
+			}, // fetch messages from the API
             state: {
                 showMessageBox: true,
                 customSendMessage: true,

@@ -28,6 +28,12 @@
 		border-radius: 4px 4px 0;
 	}
 
+	&--system {
+		align-self: center;
+		background-color: transparent;
+		font-style: italic;
+	}
+
 	&:last-child {
 		margin-bottom: 0;
 	}
