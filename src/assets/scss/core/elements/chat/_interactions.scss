@@ -22,6 +22,11 @@
 		font-size: 0.8em;
 		color: get-palette-hue('foreground', 500);
 	}
+
+	&:disabled {
+		background-color: $sendMessageBoxBgColorDisabled;
+		cursor: not-allowed;
+	}
 }
 
 /*
@@ -32,6 +37,7 @@
 	padding: 0.5em 1em;
 	background: transparent;
 	border-radius: 8px;
+	cursor: pointer;
 
 	& > img,
 	& > svg {
@@ -55,36 +61,36 @@
 		}
 	}
 
-	&:hover {
-		cursor: pointer;
-	}
-
-	&:hover,
-	&:active {
-		& > img,
-		& > svg {
-			transform: rotate(10deg) scale(1.1, 1.1);
-		}
-
-		& > svg {
-			& > path:nth-child(1) {
-				fill: lighten(darken($btnColorActive, 5%), 5%);
+	&:enabled {
+		&:hover,
+		&:active {
+			& > img,
+			& > svg {
+				transform: rotate(10deg) scale(1.1, 1.1);
 			}
 
-			& > path:nth-child(2) {
-				fill: lighten($btnColorActive, 5%);
+			& > svg {
+				& > path:nth-child(1) {
+					fill: lighten(darken($btnColorActive, 5%), 5%);
+				}
+
+				& > path:nth-child(2) {
+					fill: lighten($btnColorActive, 5%);
+				}
 			}
 		}
 	}
 
 	&:disabled {
+		cursor: not-allowed;
+
 		& > svg {
 			& > path:nth-child(1) {
-				fill: darken($btnColorInactive, 5%);
+				fill: mix(darken($btnColorInactive, 5%), #ddd, 50%);
 			}
 
 			& > path:nth-child(2) {
-				fill: $btnColorInactive;
+				fill: mix($btnColorInactive, #ddd, 50%);
 			}
 		}
 	}

@@ -15,6 +15,7 @@ $messageTopicPrimaryColor: #fff;
 $messageTopicSecondaryColor: #41abff;
 // interactions
 $sendMessageBoxBgColor: #f7fbff;
+$sendMessageBoxBgColorDisabled: #f1f1f1;
 
 #{$classPrefix}__chat {
 	position: fixed;
