@@ -17,6 +17,7 @@
 	border-radius: 8px;
 	line-height: 1.6;
 	resize: none;
+	transition: background-color ease-out 0.3s;
 
 	&::placeholder {
 		font-size: 0.8em;
