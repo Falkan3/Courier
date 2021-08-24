@@ -186,7 +186,7 @@ export default function (Courier, Components, Events) {
             const oldMessagePath = clone(this.messagePath, true);
             this.messagePath = [];
             // recreate message path
-            this.startMessage();
+            ChatTriggers.startMessage();
             oldMessagePath.forEach((item) => {
                 ChatTriggers.triggerTopic(item.messageId, item.topicId,
                     { topicTriggersEnabled: false });
