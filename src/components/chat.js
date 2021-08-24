@@ -238,6 +238,7 @@ export default function (Courier, Components, Events) {
                     messages: [],
                     state: {
                         userTurn: true,
+                        messageBoxEnabled: Courier.settings.state.messageBoxEnabled
                     },
                 },
                 template: (props) => {
@@ -276,8 +277,8 @@ export default function (Courier, Components, Events) {
                     const messageBox = props.messageBox
                         ? `
                         <form id="courierChatInteractionsForm" class="${Courier.settings.classes.chat}-interactions" autocomplete="off">
-                            <textarea class="${Courier.settings.classes.chat}-message-box" name="message" placeholder="${props.text.messagePlaceholder}" rows="2" autofocus></textarea>
-                            <button class="${Courier.settings.classes.chat}-send-msg-btn" type="submit" aria-label="${props.text.sendMessage}">
+                            <textarea class="${Courier.settings.classes.chat}-message-box" name="message" ${!props.state.messageBoxEnabled ? 'disabled' : ''} placeholder="${props.text.messagePlaceholder}" rows="2" autofocus></textarea>
+                            <button class="${Courier.settings.classes.chat}-send-msg-btn" type="submit" ${!props.state.messageBoxEnabled ? 'disabled' : ''} aria-label="${props.text.sendMessage}">
                                 ${Courier.settings.images.sendMsg}
                             </button>
                         </form>`
