@@ -58,14 +58,14 @@ These are the available settings:
 > ```
 
 > Collection of modifier classes to be applied to the specified elements
-> For example:
-> ```
-> {root: ['your-modifier-class']}
-> ```
 > ```
 > modifierClasses: {
 >   root: []
 > }
+> ```
+> For example:
+> ```
+> {root: ['your-modifier-class']}
 > ```
 
 > Collection of text used in components.

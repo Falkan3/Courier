@@ -50,6 +50,31 @@
 	}
 }
 
+&-dots {
+	display: flex;
+	margin: -2px;
+
+	&-dot {
+		width: 0.5em;
+		height: 0.5em;
+		background-color: rgba(33, 33, 33, 0.25);
+		margin: 2px;
+		border-radius: 50%;
+
+		&:nth-child(1) {
+			@include bounceUp1;
+		}
+
+		&:nth-child(2) {
+			@include bounceUp2;
+		}
+
+		&:nth-child(3) {
+			@include bounceUp3;
+		}
+	}
+}
+
 /*
  * Topics
  */

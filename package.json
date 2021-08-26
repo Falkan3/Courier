@@ -1,6 +1,6 @@
 {
     "name": "@falkan3/courier",
-    "version": "1.0.6",
+    "version": "1.0.7",
     "description": "A virtual assistant which allows clients to interact with a website using preselected topics. Can be used as a websocket based chat client scaffolding.",
     "author": "Adam Kocić (Falkan3)",
     "homepage": "https://github.com/Falkan3/courier#readme",
@@ -88,7 +88,8 @@
         "rollup-plugin-uglify": "^6.0.4",
         "stylelint": "^8.4.0",
         "stylelint-config-standard": "^17.0.0",
-        "stylelint-scss": "^2.5.0"
+        "stylelint-scss": "^2.5.0",
+        "throttle-debounce": "^3.0.1"
     },
     "dependencies": {},
     "abandonedDependencies": {
