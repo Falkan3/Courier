@@ -49,12 +49,12 @@ export default function (Courier, Components, Events) {
 
         close() {
             this.refs.widget.data.active = false;
-            Events.emit('widget.close');
+            Events.emit('widget.closed');
         },
 
         open() {
             this.refs.widget.data.active = true;
-            Events.emit('widget.open');
+            Events.emit('widget.opened');
         },
 
         hide(save = true) {
@@ -63,7 +63,7 @@ export default function (Courier, Components, Events) {
                 widgetSetHidden(true, Courier.settings.cookies.hideWidget.duration,
                     Courier.settings.cookies.hideWidget.nameSuffix);
             }
-            Events.emit('widget.hide');
+            Events.emit('widget.hidden');
         },
 
         /**

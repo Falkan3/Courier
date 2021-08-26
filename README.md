@@ -1,16 +1,23 @@
-# courier
+# Courier
 
 ![GitHub package.json version](https://img.shields.io/github/package-json/v/Falkan3/Courier?style=for-the-badge)
 ![npm (scoped)](https://img.shields.io/npm/v/@trafficwatchdog/courier?style=for-the-badge)
 ![npm bundle size (scoped)](https://img.shields.io/bundlephobia/minzip/@trafficwatchdog/courier?style=for-the-badge)
 ![GitHub](https://img.shields.io/github/license/Falkan3/Courier?style=for-the-badge)
 
-**This plugin is still a work in progress**
+***This plugin is still a work in progress***
 
-Description: TBD
+# Description
+Courier is a flexible, easy to use and configurable chat foundation. It can be used as:
+- A chat-bot, which talks with users using a predefined message scenario tree.
+- A fully fledged front facing chat scaffolding.
+- A popup with your custom content.
 
 # Features
-TBD
+- **Fully responsive**. Looks great on all screen sizes.
+- **Flexible**. Only import components that are needed to keep the size to a minimum.
+- **Built in widget**. Uses a widget so as not to annoy users with unprompted popups.
+- **Extendable**. Expand upon the core features by adding your own.
 
 # Commands
 - `npm run clean` - Remove `dist/` directory
@@ -34,7 +41,28 @@ npm install @falkan3/courier
 
 Install via package.json:
 ```
-"@falkan3/courier": "^1.0.5"
+"@falkan3/courier": "^1.0.7"
+```
+
+# Usage
+## Complete version
+To use the complete version, include the `courier.min.js` file and initialize the plugin:
+
+```
+<script src="/js/courier.min.js"></script>
+
+<script>
+    new Courier('#courierRoot').mount()
+</script>
+```
+
+## Modular version
+To use the modular version, import the core and the components you need and initialize the plugin:
+
+```
+import Courier, { Chat } from "@falkan3/courier/dist/js/courier.modular.esm";
+
+new Courier('#courierRoot').mount({ Chat })
 ```
 
 # Settings
@@ -58,14 +86,14 @@ These are the available settings:
 > ```
 
 > Collection of modifier classes to be applied to the specified elements
-> For example:
-> ```
-> {root: ['your-modifier-class']}
-> ```
 > ```
 > modifierClasses: {
 >   root: []
 > }
+> ```
+> For example:
+> ```
+> {root: ['your-modifier-class']}
 > ```
 
 > Collection of text used in components.
@@ -152,6 +180,39 @@ These are the available settings:
 > }
 > ```
 
+# Events
+A list of available events, emitted and listened to:
+- `mount.before`
+- `mount.after`
+- `update`
+- `destroy`
+- `destroy.after`
+- `root.keydown` - Keydown event delegation callback
+- `app.mount.before`
+- `app.mount.after`
+- `app.mounted` - App has been mounted and App.render() has been called
+- `app.rendered` - App render callback
+- `app.click` - Click event delegation callback
+- `widget.mount.before`
+- `widget.mount.after`
+- `widget.clicked`
+- `widget.closed`
+- `widget.opened`
+- `widget.hidden`
+- `chat.mount.before`
+- `chat.mount.after`
+- `chat.close`
+- `chat.closed`
+- `chat.opened`
+- `chat.sendMessage`
+- `chat.typing` - upcoming
+- `chat.stoppedTyping` - upcoming
+- `popup.mount.before`
+- `popup.mount.after`
+- `popup.close`
+- `popup.closed`
+- `popup.opened`
+
 # Compilation
 This plugin is modular and features the following modules:
 - Chat
@@ -163,6 +224,35 @@ To change which module is to be compiled in the complete version:
 - Change the imported modules in the `entry/entry-complete.js` file.
 - Change the imported modules in the `src/assets/scss/courier.core.scss` file.
 - Run the build command (`npm run build`).
+
+```
+/* Required components */
+import App from '../src/components/app';
+import Widget from '../src/components/widget';
+/* Optional components */
+import Chat from '../src/components/chat';
+// import Popup from '../src/components/popup';
+
+const COMPONENTS = {
+    /* Required */
+    App,
+    Widget,
+    /* Optional */
+    Chat,
+    // Popup,
+};
+
+export default class Courier extends Core {
+    mount(extensions = {}) {
+        return super.mount(Object.assign({}, COMPONENTS, extensions));
+    }
+}
+```
+
+# Use it as a real time chat
+In order to use Courier as a live chat, you need a websocket server and a way to store chats and messages, for example a database.
+A set of events are emitted in key functions, which can be listened to, for example `chat.opened` or `chat.sendMessage`.
+You can use them to implement websocket broadcasts. When a message is sent, you can push it to the message stack using the `Chat.pushMessage` function.
 
 # License
 

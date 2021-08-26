@@ -46,6 +46,7 @@ export default {
         // chat
         chatTitle: 'Chat with us!',
         messagePlaceholder: 'Type something...',
+        typing: 'User is typing...',
         sendMessage: 'Send message',
         // popup
         popupContent: '',

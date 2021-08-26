@@ -125,19 +125,17 @@ export default function (Courier, Components, Events) {
                     const message = this.refs.messageBox.value.trim();
                     this.sendMessage(message);
                     this.refs.messageBox.value = '';
-                } else {
-                    Events.emit('chat.typing');
                 }
             }
         },
 
         close() {
-            this.refs.chat.data.active = false;
+            this.refs.chat.data.state.active = false;
             Events.emit('chat.closed');
         },
 
         open() {
-            this.refs.chat.data.active = true;
+            this.refs.chat.data.state.active = true;
             this.scrollToBottom = true; // scroll to bottom when the chat opens
             Events.emit('chat.opened');
         },
@@ -212,9 +210,7 @@ export default function (Courier, Components, Events) {
         initialize() {
             Chat.refs.chat = new Reef('#courierChat', {
                 data: {
-                    active: false,
                     messageBox: Courier.settings.state.showMessageBox,
-                    online: true,
                     identity: {
                         name: Courier.settings.identity.name,
                         website: Courier.settings.identity.website,
@@ -225,8 +221,9 @@ export default function (Courier, Components, Events) {
                     },
                     text: {
                         chatTitle: Courier.settings.textsParsed.chatTitle,
-                        sendMessage: Courier.settings.textsParsed.sendMessage,
                         messagePlaceholder: Courier.settings.textsParsed.messagePlaceholder,
+                        typing: Courier.settings.textsParsed.typing,
+                        sendMessage: Courier.settings.textsParsed.sendMessage,
                     },
                     poweredBy: {
                         show: Courier.settings.poweredBy.show,
@@ -239,16 +236,19 @@ export default function (Courier, Components, Events) {
                     },
                     messages: [],
                     state: {
+                        active: false,
+                        online: true,
                         userTurn: true,
-                        messageBoxEnabled: Courier.settings.state.messageBoxEnabled
+                        messageBoxEnabled: Courier.settings.state.messageBoxEnabled,
+                        typing: false
                     },
                 },
                 template: (props) => {
-                    if (!props.active) {
+                    if (!props.state.active) {
                         return '';
                     }
 
-                    const messages = props.messages.map((message, index) => {
+                    let messages = props.messages.map((message, index) => {
                         // generate message html
                         let html = message.text ? `
                             <p class="${Courier.settings.classes.chat}-message ${message.outgoing ? `${Courier.settings.classes.chat}-message--self` : ''} ${message.typeClassSuffix ? `${Courier.settings.classes.chat}-message${message.typeClassSuffix}` : ''} courier__appear courier__anim-timing--third" data-courier-message-id="${index}">${message.text}</p>`
@@ -275,6 +275,11 @@ export default function (Courier, Components, Events) {
 
                         return html;
                     }).join('');
+
+                    if (props.state.typing) {
+                        const html = `<p class="${Courier.settings.classes.chat}-message courier__appear courier__anim-timing--third"><span class="courier__chat-dots"><span class="courier__chat-dots-dot"></span><span class="courier__chat-dots-dot"></span><span class="courier__chat-dots-dot"></span></span></p>`;
+                        messages += html;
+                    }
 
                     const messageBox = props.messageBox
                         ? `
@@ -317,7 +322,7 @@ export default function (Courier, Components, Events) {
                                 </div>
                                 <div class="${Courier.settings.classes.chat}-identity">
                                     <div class="p-all--hf">
-                                        <div class="${Courier.settings.classes.chat}-avatar ${props.online ? `${Courier.settings.classes.chat}--online` : ''}">
+                                        <div class="${Courier.settings.classes.chat}-avatar ${props.state.online ? `${Courier.settings.classes.chat}--online` : ''}">
                                             <img src="${props.identity.img.src}" alt="${props.identity.img.alt}" />
                                         </div>
                                     </div>
