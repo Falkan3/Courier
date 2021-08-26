@@ -125,6 +125,8 @@ export default function (Courier, Components, Events) {
                     const message = this.refs.messageBox.value.trim();
                     this.sendMessage(message);
                     this.refs.messageBox.value = '';
+                } else {
+                    Events.emit('chat.typing');
                 }
             }
         },
