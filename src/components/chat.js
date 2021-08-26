@@ -174,7 +174,7 @@ export default function (Courier, Components, Events) {
         },
 
         scrollLastMessageIntoView() {
-            const messages = Components.App.refs.app.elem.querySelectorAll('[data-courier-message-id]');
+            const messages = Components.App.refs.app.elem.querySelectorAll(`.${Courier.settings.classes.chat}-message`);
             if (messages.length) {
                 messages[messages.length - 1].scrollIntoView();
             }

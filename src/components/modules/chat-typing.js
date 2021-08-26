@@ -11,6 +11,7 @@ export default function (Courier, Components, Events) {
 
         typingAction: throttle(300, false, () => {
             Components.Chat.refs.chat.data.state.typing = true;
+            Components.Chat.scrollToBottom = Components.Chat.chatIsScrolledToTheBottom();
             Events.emit('chat.typing');
             Components.Chat.stoppedTypingAction();
         }),
