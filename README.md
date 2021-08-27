@@ -35,12 +35,12 @@ Courier is a flexible, easy to use and configurable chat foundation. It can be u
 
 # Installation
 Install from the command line:
-```
+```shell
 npm install @falkan3/courier
 ```
 
 Install via package.json:
-```
+```json
 "@falkan3/courier": "^1.0.7"
 ```
 
@@ -48,7 +48,7 @@ Install via package.json:
 ## Complete version
 To use the complete version, include the `courier.min.js` file and initialize the plugin:
 
-```
+```html
 <script src="/js/courier.min.js"></script>
 
 <script>
@@ -59,7 +59,7 @@ To use the complete version, include the `courier.min.js` file and initialize th
 ## Modular version
 To use the modular version, import the core and the components you need and initialize the plugin:
 
-```
+```js
 import Courier, { Chat } from "@falkan3/courier/dist/js/courier.modular.esm";
 
 new Courier('#courierRoot').mount({ Chat })
@@ -69,14 +69,14 @@ new Courier('#courierRoot').mount({ Chat })
 These are the available settings:
 
 > Collection of internally used HTML ids.
-> ```
+> ```json
 > ids: {
 >   dummyRoot: 'courierDummyRoot',
 > }
 > ```
 
 > Collection of internally used HTML classes.
-> ```
+> ```json
 > classes: {
 >   root: 'courier',
 >   widget: 'courier__widget',
@@ -86,18 +86,18 @@ These are the available settings:
 > ```
 
 > Collection of modifier classes to be applied to the specified elements
-> ```
+> ```json
 > modifierClasses: {
 >   root: []
 > }
 > ```
 > For example:
-> ```
+> ```json
 > {root: ['your-modifier-class']}
 > ```
 
 > Collection of text used in components.
->```
+>```json
 > texts: {
 >   widgetGreeting: 'Hello!',
 >	// chat
@@ -110,12 +110,12 @@ These are the available settings:
 >```
 
 > Collection of variables which will replace placeholders in text.
-> ```
+> ```json
 > textVars: {}
 > ```
 
 > Collection of variables representing the identity of the service owner.
-> ```
+> ```json
 > identity: {
 >   name: 'Company',
 >   website: {
@@ -129,7 +129,7 @@ These are the available settings:
 > }
 
 > Collection of variables representing the identity of the plugin's maker.
-> ```
+> ```json
 > poweredBy: {
 >	 show: true,
 >	 text: 'Powered by',
@@ -141,7 +141,7 @@ These are the available settings:
 > }
 
 > Collection of images and vector graphics.
-> ```
+> ```json
 > images: {
 >   widget: '...',
 >   closeBtn: '...',
@@ -150,12 +150,12 @@ These are the available settings:
 > }
 
 > Collection of messages and topics to be held by the chat bot.
-> ```
+> ```json
 > messages: {},
 > ```
 
 > Settings that are responsible for the state of elements.
-> ```
+> ```json
 > state: {
 >   hideBtnActiveAtStart: false,
 >   showMessageBox: false,
@@ -165,7 +165,7 @@ These are the available settings:
 > ```
 
 > Collection of cookie variables. All durations are in hours.
-> ```
+> ```json
 > cookies: {
 >   saveConversation: {
 >	    nameSuffix: '',
@@ -225,7 +225,7 @@ To change which module is to be compiled in the complete version:
 - Change the imported modules in the `src/assets/scss/courier.core.scss` file.
 - Run the build command (`npm run build`).
 
-```
+```js
 /* Required components */
 import App from '../src/components/app';
 import Widget from '../src/components/widget';

@@ -1,6 +1,6 @@
 {
     "name": "@falkan3/courier",
-    "version": "1.0.7",
+    "version": "1.0.9",
     "description": "A virtual assistant which allows clients to interact with a website using preselected topics. Can be used as a websocket based chat client scaffolding.",
     "author": "Adam Kocić (Falkan3)",
     "homepage": "https://github.com/Falkan3/courier#readme",
