@@ -69,37 +69,38 @@ new Courier('#courierRoot').mount({ Chat })
 These are the available settings:
 
 Collection of internally used HTML ids.
-```json
+```js
 ids: {
-  dummyRoot: 'courierDummyRoot',
+  dummyRoot: 'courierDummyRoot'
 }
 ```
 
 Collection of internally used HTML classes.
-```json
+```js
 classes: {
   root: 'courier',
   widget: 'courier__widget',
   chat: 'courier__chat',
-  popup: 'courier__popup',
+  popup: 'courier__popup'
 }
 ```
 
 Collection of modifier classes to be applied to the specified elements
-```json
+```js
 modifierClasses: {
   root: []
 }
 ```
+
 For example:
-```json
+```js
 {
   root: ['your-modifier-class']
 }
 ```
 
 Collection of text used in components.
-```json
+```js
 texts: {
   widgetGreeting: 'Hello!',
   // chat
@@ -107,17 +108,17 @@ texts: {
   messagePlaceholder: 'Type something...',
   sendMessage: 'Send message',
   // popup
-  popupContent: '',
+  popupContent: ''
 }
->```
+```
 
 Collection of variables which will replace placeholders in text.
-```json
+```js
 textVars: {}
 ```
 
 Collection of variables representing the identity of the service owner.
-```json
+```js
 identity: {
   name: 'Company',
   website: {
@@ -126,7 +127,7 @@ identity: {
   },
   logo: {
     src: 'https://uilogos.co/img/logomark/circle.png',
-    alt: 'Company logo',
+    alt: 'Company logo'
   }
 }
 ```
@@ -142,6 +143,7 @@ poweredBy: {
     },
     url: 'https://trafficwatchdog.pl/'
 }
+```
 
 Collection of images and vector graphics.
 ```js
@@ -149,8 +151,9 @@ images: {
   widget: '...',
   closeBtn: '...',
   options: '...',
-  sendMsg: '...',
+  sendMsg: '...'
 }
+```
 
 Collection of messages and topics to be held by the chat bot.
 ```js
