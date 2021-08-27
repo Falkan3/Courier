@@ -68,117 +68,119 @@ new Courier('#courierRoot').mount({ Chat })
 # Settings
 These are the available settings:
 
-> Collection of internally used HTML ids.
-> ```json
-> ids: {
->   dummyRoot: 'courierDummyRoot',
-> }
-> ```
+Collection of internally used HTML ids.
+```json
+ids: {
+  dummyRoot: 'courierDummyRoot',
+}
+```
 
-> Collection of internally used HTML classes.
-> ```json
-> classes: {
->   root: 'courier',
->   widget: 'courier__widget',
->   chat: 'courier__chat',
->   popup: 'courier__popup',
-> }
-> ```
+Collection of internally used HTML classes.
+```json
+classes: {
+  root: 'courier',
+  widget: 'courier__widget',
+  chat: 'courier__chat',
+  popup: 'courier__popup',
+}
+```
 
-> Collection of modifier classes to be applied to the specified elements
-> ```json
-> modifierClasses: {
->   root: []
-> }
-> ```
-> For example:
-> ```json
-> {root: ['your-modifier-class']}
-> ```
+Collection of modifier classes to be applied to the specified elements
+```json
+modifierClasses: {
+  root: []
+}
+```
+For example:
+```json
+{
+  root: ['your-modifier-class']
+}
+```
 
-> Collection of text used in components.
->```json
-> texts: {
->   widgetGreeting: 'Hello!',
->	// chat
->	chatTitle: 'Chat with us!',
->	messagePlaceholder: 'Type something...',
->	sendMessage: 'Send message',
->	// popup
->	popupContent: '',
-> }
+Collection of text used in components.
+```json
+texts: {
+  widgetGreeting: 'Hello!',
+  // chat
+  chatTitle: 'Chat with us!',
+  messagePlaceholder: 'Type something...',
+  sendMessage: 'Send message',
+  // popup
+  popupContent: '',
+}
 >```
 
-> Collection of variables which will replace placeholders in text.
-> ```json
-> textVars: {}
-> ```
+Collection of variables which will replace placeholders in text.
+```json
+textVars: {}
+```
 
-> Collection of variables representing the identity of the service owner.
-> ```json
-> identity: {
->   name: 'Company',
->   website: {
->	   name: 'company.com',
->	   url: 'https://company.com',
->   },
->   logo: {
->	   src: 'https://uilogos.co/img/logomark/circle.png',
->	   alt: 'Company logo',
->   }
-> }
+Collection of variables representing the identity of the service owner.
+```json
+identity: {
+  name: 'Company',
+  website: {
+    name: 'company.com',
+    url: 'https://company.com',
+  },
+  logo: {
+    src: 'https://uilogos.co/img/logomark/circle.png',
+    alt: 'Company logo',
+  }
+}
 
-> Collection of variables representing the identity of the plugin's maker.
-> ```json
-> poweredBy: {
->	 show: true,
->	 text: 'Powered by',
->	 img: {
->	     src: 'https://panel.trafficwatchdog.pl/svg/logo.svg',
->	     alt: 'TrafficWatchdog'
->	 },
->	 url: 'https://trafficwatchdog.pl/'
-> }
+Collection of variables representing the identity of the plugin's maker.
+```json
+poweredBy: {
+    show: true,
+    text: 'Powered by',
+    img: {
+      src: 'https://panel.trafficwatchdog.pl/svg/logo.svg',
+      alt: 'TrafficWatchdog'
+    },
+    url: 'https://trafficwatchdog.pl/'
+}
 
-> Collection of images and vector graphics.
-> ```json
-> images: {
->   widget: '...',
->   closeBtn: '...',
->   options: '...',
->   sendMsg: '...',
-> }
+Collection of images and vector graphics.
+```json
+images: {
+  widget: '...',
+  closeBtn: '...',
+  options: '...',
+  sendMsg: '...',
+}
 
-> Collection of messages and topics to be held by the chat bot.
-> ```json
-> messages: {},
-> ```
+Collection of messages and topics to be held by the chat bot.
+```json
+messages: {},
+```
 
-> Settings that are responsible for the state of elements.
-> ```json
-> state: {
->   hideBtnActiveAtStart: false,
->   showMessageBox: false,
->   messageBoxEnabled: true,
->   customSendMessage: false
-> }
-> ```
+Settings that are responsible for the state of elements.
+```json
+state: {
+  hideBtnActiveAtStart: false,
+  showMessageBox: false,
+  messageBoxEnabled: true,
+  customSendMessage: false
+}
+```
 
-> Collection of cookie variables. All durations are in hours.
-> ```json
-> cookies: {
->   saveConversation: {
->	    nameSuffix: '',
->	    active: true,
->	    duration: 24
->   },
->   hideWidget: {
->	    nameSuffix: '',
->	    active: true,
->	    duration: 24
->   }
-> }
-> ```
+Collection of cookie variables. All durations are in hours.
+```json
+cookies: {
+  saveConversation: {
+    nameSuffix: '',
+    active: true,
+    duration: 24
+  },
+  hideWidget: {
+    nameSuffix: '',
+    active: true,
+    duration: 24
+  }
+}
+```
 
 # Events
 A list of available events, emitted and listened to:
@@ -234,18 +236,18 @@ import Chat from '../src/components/chat';
 // import Popup from '../src/components/popup';
 
 const COMPONENTS = {
-    /* Required */
-    App,
-    Widget,
-    /* Optional */
-    Chat,
-    // Popup,
+  /* Required */
+  App,
+  Widget,
+  /* Optional */
+  Chat,
+  // Popup,
 };
 
 export default class Courier extends Core {
-    mount(extensions = {}) {
-        return super.mount(Object.assign({}, COMPONENTS, extensions));
-    }
+  mount(extensions = {}) {
+    return super.mount(Object.assign({}, COMPONENTS, extensions));
+  }
 }
 ```
 
