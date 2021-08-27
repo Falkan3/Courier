@@ -129,9 +129,10 @@ identity: {
     alt: 'Company logo',
   }
 }
+```
 
 Collection of variables representing the identity of the plugin's maker.
-```json
+```js
 poweredBy: {
     show: true,
     text: 'Powered by',
@@ -143,7 +144,7 @@ poweredBy: {
 }
 
 Collection of images and vector graphics.
-```json
+```js
 images: {
   widget: '...',
   closeBtn: '...',
@@ -152,12 +153,12 @@ images: {
 }
 
 Collection of messages and topics to be held by the chat bot.
-```json
+```js
 messages: {},
 ```
 
 Settings that are responsible for the state of elements.
-```json
+```js
 state: {
   hideBtnActiveAtStart: false,
   showMessageBox: false,
@@ -167,7 +168,7 @@ state: {
 ```
 
 Collection of cookie variables. All durations are in hours.
-```json
+```js
 cookies: {
   saveConversation: {
     nameSuffix: '',
