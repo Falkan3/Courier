@@ -237,7 +237,7 @@ export default function (Courier, Components, Events) {
                     messages: [],
                     state: {
                         active: false,
-                        online: true,
+                        online: Courier.settings.state.online,
                         userTurn: true,
                         messageBoxEnabled: Courier.settings.state.messageBoxEnabled,
                         typing: false
