@@ -42,6 +42,33 @@ export default class EventsBus {
         };
     }
 
+    off(event, handler) {
+        if (isArray(event)) {
+            for (let i = 0; i < event.length; i++) {
+                this.off(event[i], handler);
+            }
+        }
+
+        // If the event doesn't exist, or there's no handlers in queue, just leave
+        if (!this.hop.call(this.events, event)) {
+            return;
+        }
+
+        // Cycle through events queue and remove the handlers
+        this.events[event].forEach((item, index) => {
+            // check if the handler matches
+            if (item === handler) {
+                // remove the item from the event queue
+                this.events[event].splice(index, 1);
+            }
+        });
+
+        // If there are no more handlers after removing
+        if (!this.events[event].length) {
+            delete this.events[event];
+        }
+    }
+
     /**
      * Runs registered handlers for specified event.
      *
