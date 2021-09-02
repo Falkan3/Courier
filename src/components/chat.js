@@ -219,7 +219,7 @@ export default function (Courier, Components, Events) {
                             alt: Courier.settings.identity.logo.alt,
                         },
                     },
-                    text: {
+                    texts: {
                         chatTitle: Courier.settings.textsParsed.chatTitle,
                         messagePlaceholder: Courier.settings.textsParsed.messagePlaceholder,
                         typing: Courier.settings.textsParsed.typing,
@@ -284,8 +284,8 @@ export default function (Courier, Components, Events) {
                     const messageBox = props.messageBox
                         ? `
                         <form id="courierChatInteractionsForm" class="${Courier.settings.classes.chat}-interactions" autocomplete="off">
-                            <textarea class="${Courier.settings.classes.chat}-message-box" name="message" ${!props.state.messageBoxEnabled ? 'disabled' : ''} placeholder="${props.text.messagePlaceholder}" rows="2" autofocus></textarea>
-                            <button class="${Courier.settings.classes.chat}-send-msg-btn" type="submit" ${!props.state.messageBoxEnabled ? 'disabled' : ''} aria-label="${props.text.sendMessage}">
+                            <textarea class="${Courier.settings.classes.chat}-message-box" name="message" ${!props.state.messageBoxEnabled ? 'disabled' : ''} placeholder="${props.texts.messagePlaceholder}" rows="2" autofocus></textarea>
+                            <button class="${Courier.settings.classes.chat}-send-msg-btn" type="submit" ${!props.state.messageBoxEnabled ? 'disabled' : ''} aria-label="${props.texts.sendMessage}">
                                 ${Courier.settings.images.sendMsg}
                             </button>
                         </form>`
@@ -312,7 +312,7 @@ export default function (Courier, Components, Events) {
                                         </button>
                                     </div>
                                     <div class="p-h">
-                                        <p class="tx-bold tx-bigger">${props.text.chatTitle}</p>
+                                        <p class="tx-bold tx-bigger">${props.texts.chatTitle}</p>
                                     </div>
                                     <div>
                                         <button id="courierChatCloseBtn" class="${Courier.settings.classes.chat}-close-btn" type="button" aria-label="Close">
