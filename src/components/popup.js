@@ -114,8 +114,7 @@ export default function (Courier, Components, Events) {
                         </div>
                     </div>`;
                 },
-                attachTo: Components.App.refs.app,
-                allowHTML: true
+                attachTo: Components.App.refs.app
             });
         },
 
