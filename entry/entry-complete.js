@@ -6,6 +6,8 @@ import Widget from '../src/components/widget';
 /* Optional components */
 import Chat from '../src/components/chat';
 // import Popup from '../src/components/popup';
+/* Modules */
+import ChatTriggersModule from '../src/components/modules/chat-triggers';
 
 const COMPONENTS = {
     /* Required */
@@ -14,6 +16,8 @@ const COMPONENTS = {
     /* Optional */
     Chat,
     // Popup,
+    /* Modules */
+    ChatTriggersModule
 };
 
 export default class Courier extends Core {

@@ -4,8 +4,8 @@ import App from '../src/components/app';
 import Widget from '../src/components/widget';
 import Chat from '../src/components/chat';
 import Popup from '../src/components/popup';
-/* Classes */
-// import ChatMessage from '../src/components/classes/chat-message';
+/* Modules */
+import ChatTriggersModule from '../src/components/modules/chat-triggers';
 
 const COMPONENTS = {
     App,
@@ -15,8 +15,8 @@ const COMPONENTS = {
 export {
     Chat,
     Popup,
-    /* Classes */
-    // ChatMessage
+    /* Modules */
+    ChatTriggersModule
 };
 
 export default class Courier extends Core {

@@ -1,12 +1,9 @@
 /* eslint-disable import/no-unresolved */
 import { clone, textTemplate } from '@utils/object';
-import { isArray } from '@utils/types';
 import EventsBinder from '@core/event/events-binder';
-import ChatTriggersModule from '@components/modules/chat-triggers';
 import ChatMessage from '@components/classes/chat-message';
 import Reef from '@libs/reefjs/reef.es';
 import { elemContains, isScrolledToTheBottom } from '@utils/dom';
-import { loadMessagePath } from '@utils/chat';
 
 export default function (Courier, Components, Events) {
     /**
@@ -15,7 +12,6 @@ export default function (Courier, Components, Events) {
      * @type {EventsBinder}
      */
     const Binder = new EventsBinder();
-    const ChatTriggers = new ChatTriggersModule(Courier, Components, Events);
 
     const Chat = {
         refs: {},
@@ -25,10 +21,6 @@ export default function (Courier, Components, Events) {
         mount() {
             Events.emit('chat.mount.before');
             this.initialize();
-            ChatTriggers.startMessage();
-            if (Courier.settings.cookies.saveConversation.active) {
-                this.restoreMessages();
-            }
             Events.emit('chat.mount.after');
         },
 
@@ -60,13 +52,6 @@ export default function (Courier, Components, Events) {
                 || (elemContains(closeBtn, event.target))
                 || (event.target.matches('#courierChatOverlay'))) {
                 this.close();
-            }
-
-            if (event.target.matches('[data-courier-topic-id]')) {
-                ChatTriggers.triggerTopic(
-                    event.target.dataset.courierMessageId,
-                    event.target.dataset.courierTopicId,
-                );
             }
 
             return event;
@@ -186,22 +171,7 @@ export default function (Courier, Components, Events) {
             const oldMessagePath = clone(this.messagePath, true);
             this.messagePath = [];
             // recreate message path
-            ChatTriggers.startMessage();
-            oldMessagePath.forEach((item) => {
-                ChatTriggers.triggerTopic(item.messageId, item.topicId,
-                    { topicTriggersEnabled: false });
-            });
-        },
-
-        restoreMessages() {
-            const messagePath = loadMessagePath(
-                Courier.settings.cookies.saveConversation.nameSuffix,
-            );
-            if (messagePath && isArray(messagePath)) {
-                messagePath.forEach((item) => {
-                    ChatTriggers.triggerTopic(item.messageId, item.topicId);
-                });
-            }
+            Events.emit('chat.refreshMessages', oldMessagePath);
         },
 
         /**
@@ -342,6 +312,8 @@ export default function (Courier, Components, Events) {
                 },
                 attachTo: Components.App.refs.app
             });
+
+            Events.emit('chat.initialized');
         },
 
         /**
