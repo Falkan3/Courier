@@ -10,7 +10,7 @@
 		display: block;
 		width: 1em;
 		height: 1em;
-		transition: transform cubic-bezier(0.1, 1, 0.6, 1) 0.3s;
+		// transition: transform cubic-bezier(0.1, 1, 0.6, 1) 0.3s;
 	}
 
 	& > svg {
@@ -29,7 +29,7 @@
 		&:enabled {
 			& > img,
 			& > svg {
-				transform: rotate(90deg);
+				// transform: rotate(90deg);
 			}
 
 			& > svg {
