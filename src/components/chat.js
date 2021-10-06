@@ -4,6 +4,7 @@ import EventsBinder from '@core/event/events-binder';
 import ChatMessage from '@components/classes/chat-message';
 import Reef from '@libs/reefjs/reef.es';
 import { elemContains, isScrolledToTheBottom } from '@utils/dom';
+import { getDateTime, shortenTodaysDateTime } from '@utils/time';
 
 export default function (Courier, Components, Events) {
     /**
@@ -131,7 +132,7 @@ export default function (Courier, Components, Events) {
                 return;
             }
             if (message.length) {
-                this.pushMessage({ text: message, outgoing: true });
+                this.pushMessage({ text: message, outgoing: true, timestamp: getDateTime() });
             }
         },
 
@@ -143,7 +144,7 @@ export default function (Courier, Components, Events) {
         pushMessage(message) {
             const chatMessage = new ChatMessage(message);
             // user can only send messages when it's their turn
-            if (chatMessage.outgoing && !this.refs.chat.data.state.userTurn) return;
+            if (chatMessage.outgoing && !this.refs.chat.data.state.userTurn) return null;
             // replace variables in the message using text template
             if (chatMessage.text) {
                 chatMessage.text = textTemplate(chatMessage.text, Courier.settings.textVars);
@@ -152,6 +153,7 @@ export default function (Courier, Components, Events) {
             this.refs.chat.data.messages.push(chatMessage);
             // set whether after render the chat work area should be scrolled to the bottom
             this.scrollToBottom = this.chatIsScrolledToTheBottom();
+            return chatMessage;
         },
 
         chatIsScrolledToTheBottom() {
@@ -210,7 +212,8 @@ export default function (Courier, Components, Events) {
                         online: Courier.settings.state.online,
                         userTurn: true,
                         messageBoxEnabled: Courier.settings.state.messageBoxEnabled,
-                        typing: false
+                        showTimestamp: Courier.settings.state.showTimestamp,
+                        typing: false,
                     },
                 },
                 template: (props) => {
@@ -220,7 +223,13 @@ export default function (Courier, Components, Events) {
 
                     let messages = props.messages.map((message, index) => {
                         // generate message html
-                        let html = message.text ? `
+                        let html = '';
+
+                        html += props.state.showTimestamp && message.timestamp ? `
+                            <p class="${Courier.settings.classes.chat}-timestamp ${message.outgoing ? `${Courier.settings.classes.chat}-timestamp--self` : ''} courier__appear courier__anim-timing--third"><time datetime="${message.timestamp}"><span aria-hidden="true">${shortenTodaysDateTime(message.timestamp)}</span></time></p>
+                        ` : '';
+
+                        html += message.text ? `
                             <p class="${Courier.settings.classes.chat}-message ${message.outgoing ? `${Courier.settings.classes.chat}-message--self` : ''} ${message.typeClassSuffix ? `${Courier.settings.classes.chat}-message${message.typeClassSuffix}` : ''} courier__appear courier__anim-timing--third" data-courier-message-id="${index}">${message.text}</p>`
                             : '';
 

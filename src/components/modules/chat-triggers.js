@@ -53,7 +53,10 @@ export default function (Courier, Components, Events) {
         },
 
         triggerTopic(messageId, topicId, options = {}) {
-            const settings = Object.assign({ topicTriggersEnabled: true }, options);
+            const settings = Object.assign({
+                topicTriggersEnabled: true,
+                timestamp: getDateTime()
+            }, options);
             const { topics } = Components.Chat.refs.chat.data.messages[messageId];
             const topic = topics[topicId];
             // check if any topic at this level was not already selected
@@ -67,6 +70,7 @@ export default function (Courier, Components, Events) {
                 Components.Chat.pushMessage({
                     text: topic.text,
                     outgoing: true,
+                    timestamp: settings.timestamp
                 });
                 // emit the topic's trigger, if it's set, and topic triggers option is enabled
                 if (topic.trigger && settings.topicTriggersEnabled) {
@@ -74,7 +78,7 @@ export default function (Courier, Components, Events) {
                 }
                 this.triggerPath(topic);
                 // push message path
-                this.pushMessagePath(messageId, topicId);
+                this.pushMessagePath(messageId, topicId, settings.timestamp);
             }
         },
 
@@ -96,10 +100,11 @@ export default function (Courier, Components, Events) {
             Events.emit(trigger);
         },
 
-        pushMessagePath(messageId, topicId) {
+        pushMessagePath(messageId, topicId, timestamp) {
             Components.Chat.messagePath.push({
                 messageId,
                 topicId,
+                timestamp
             });
             if (Courier.settings.cookies.saveConversation.active) {
                 saveMessagePath(
@@ -116,7 +121,9 @@ export default function (Courier, Components, Events) {
             );
             if (messagePath && isArray(messagePath)) {
                 messagePath.forEach((item) => {
-                    this.triggerTopic(item.messageId, item.topicId);
+                    this.triggerTopic(item.messageId, item.topicId, {
+                        timestamp: item.timestamp
+                    });
                 });
             }
         },

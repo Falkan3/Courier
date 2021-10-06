@@ -119,7 +119,8 @@ export default {
         hideBtnActiveAtStart: false,
         showMessageBox: false,
         messageBoxEnabled: true,
-        customSendMessage: false
+        customSendMessage: false,
+        showTimestamp: true
     },
 
     /**

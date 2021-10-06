@@ -76,6 +76,21 @@
 }
 
 /*
+ * Timestamp
+ */
+&-timestamp {
+	display: block;
+	align-self: flex-start;
+	margin-bottom: 0.2rem;
+	font-size: 0.8em;
+	color: get-palette-hue('foreground', 800);
+
+	&--self {
+		align-self: flex-end;
+	}
+}
+
+/*
  * Topics
  */
 &-topics {
