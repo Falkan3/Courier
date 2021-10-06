@@ -16,7 +16,9 @@ export default function (Courier, Components, Events) {
 
         mount() {
             Events.emit('popup.mount.before');
-            this.initialize();
+            Events.on('mount.after', () => {
+                this.initialize();
+            });
             Events.emit('popup.mount.after');
         },
 

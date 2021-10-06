@@ -21,7 +21,9 @@ export default function (Courier, Components, Events) {
 
         mount() {
             Events.emit('chat.mount.before');
-            this.initialize();
+            Events.on('mount.after', () => {
+                this.initialize();
+            });
             Events.emit('chat.mount.after');
         },
 
