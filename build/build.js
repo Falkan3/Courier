@@ -13,7 +13,7 @@ export default {
                 // '@babel/plugin-external-helpers',
                 '@babel/plugin-transform-object-assign',
                 '@babel/plugin-proposal-class-properties',
-            ],
+            ]
         }),
     ],
 };
