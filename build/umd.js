@@ -5,5 +5,6 @@ export default Object.assign(build, {
     output: Object.assign(build.output, {
         file: 'dist/js/courier.js',
         format: 'umd',
+        inlineDynamicImports: true
     }),
 });

@@ -9,11 +9,14 @@ export default {
     },
     plugins: [
         babel({
+            exclude: 'node_modules/**',
             plugins: [
                 // '@babel/plugin-external-helpers',
                 '@babel/plugin-transform-object-assign',
                 '@babel/plugin-proposal-class-properties',
-            ]
+                '@babel/plugin-syntax-dynamic-import'
+            ],
+            // runtimeHelpers: true,
         }),
     ],
 };

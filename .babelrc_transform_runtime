@@ -5,9 +5,9 @@
                 [
                     "@babel/preset-env",
                     {
-                        "useBuiltIns": "usage",
-                        "corejs": "3.18.2",
-                        "targets": { "esmodules": true }
+                        "targets": {
+                            "esmodules": true
+                        }
                     }
                 ]
             ],
@@ -30,6 +30,12 @@
                             "@assets": "./src/assets"
                         }
                     }
+                ],
+                [
+                    "@babel/plugin-transform-runtime",
+                    {
+                        "regenerator": true
+                    }
                 ]
             ]
         },
@@ -37,12 +43,25 @@
             "presets": [
                 "env",
                 "minify",
-                "@babel/preset-env"
+                [
+                    "@babel/preset-env",
+                    {
+                        "targets": {
+                            "esmodules": true
+                        }
+                    }
+                ]
             ],
             "plugins": [
                 "add-module-exports",
                 "@babel/plugin-transform-object-assign",
-                "@babel/plugin-proposal-class-properties"
+                "@babel/plugin-proposal-class-properties",
+                [
+                    "@babel/plugin-transform-runtime",
+                    {
+                        "regenerator": true
+                    }
+                ]
             ]
         }
     }
