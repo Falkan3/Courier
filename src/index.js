@@ -50,7 +50,6 @@ export default class Courier {
         return this;
     }
 
-
     /**
      * Collects an instance `translate` transformers.
      *
