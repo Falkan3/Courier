@@ -16,10 +16,13 @@
                     "extend",
                     "use",
                     "include",
+                    "forward",
                     "content",
                     "at-root"
                 ]
             }
-        ]
+        ],
+        "no-invalid-position-at-import-rule": false,
+        "no-duplicate-selectors": false
     }
 }
