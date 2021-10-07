@@ -1,3 +1,6 @@
+@use '../../../utils/variables';
+@use 'sass:color';
+
 /*
  * Header
  */
@@ -47,7 +50,7 @@
 		border-radius: 50%;
 	}
 
-	&#{$classPrefix}__chat--online {
+	&#{variables.$classPrefix}__chat--online {
 		&::before {
 			background-color: #35d03d;
 		}
@@ -83,7 +86,7 @@
 				transition: color cubic-bezier(0.1, 1, 0.6, 1) 0.3s;
 
 				&:hover {
-					color: lighten($linkColor, 10%);
+					color: color.scale($linkColor, $lightness: 10%);
 				}
 			}
 		}

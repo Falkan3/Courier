@@ -24,6 +24,14 @@
 		cursor: pointer;
 	}
 
+	&:disabled {
+		& > svg {
+			& > g {
+				fill: #ddd;
+			}
+		}
+	}
+
 	&:hover,
 	&:active {
 		&:enabled {
@@ -36,14 +44,6 @@
 				& > g {
 					fill: $btnColorActive;
 				}
-			}
-		}
-	}
-
-	&:disabled {
-		& > svg {
-			& > g {
-				fill: #ddd;
 			}
 		}
 	}

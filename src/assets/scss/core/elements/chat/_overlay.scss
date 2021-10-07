@@ -1,8 +1,10 @@
+@use '../../../utils/mixins/media-query';
+
 /*
  * Overlay
  */
 &-overlay {
-	@include m-small-devices {
+	@include media-query.m-small-devices {
 		position: fixed;
 		top: 0;
 		left: 0;

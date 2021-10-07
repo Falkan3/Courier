@@ -1,3 +1,5 @@
+@use '../../utils/variables';
+
 /*
  * Bounce in from the left side
  */
@@ -41,7 +43,7 @@
 	animation-name: bounceInLeft;
 }
 
-#{$classPrefix} {
+#{variables.$classPrefix} {
 	&__bounce-in-left {
 		@include bounceInLeft;
 	}

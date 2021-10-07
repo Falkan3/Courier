@@ -1,3 +1,5 @@
+@use '../../utils/variables';
+
 /*
  * Appear from the bottom
  */
@@ -26,7 +28,7 @@
 	animation-name: appearBottom;
 }
 
-#{$classPrefix} {
+#{variables.$classPrefix} {
 	&__appear-bottom {
 		@include appearBottom;
 	}

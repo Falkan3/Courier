@@ -1,31 +1,33 @@
+@use '../utils/variables';
+
 /*
  * Animation mixins
  */
 
 :root {
-	--#{$variablePrefix}-animate-duration: 1s;
-	--#{$variablePrefix}-animate-delay: 1s;
-	--#{$variablePrefix}-animate-repeat: 1;
+	--#{variables.$variablePrefix}-animate-duration: 1s;
+	--#{variables.$variablePrefix}-animate-delay: 1s;
+	--#{variables.$variablePrefix}-animate-repeat: 1;
 }
 
 %animated {
-	animation-duration: var(--#{$variablePrefix}-animate-duration);
+	animation-duration: var(--#{variables.$variablePrefix}-animate-duration);
 	animation-fill-mode: both;
 }
 
-#{$classPrefix} {
+#{variables.$classPrefix} {
 	&__anim-timing {
 		&--third {
-			animation-duration: calc(var(--#{$variablePrefix}-animate-duration) * 0.3);
+			animation-duration: calc(var(--#{variables.$variablePrefix}-animate-duration) * 0.3);
 		}
 
 		&--half {
-			animation-duration: calc(var(--#{$variablePrefix}-animate-duration) * 0.5);
+			animation-duration: calc(var(--#{variables.$variablePrefix}-animate-duration) * 0.5);
 		}
 	}
 }
 
-// @import 'animations/bounce-in-left';
+@import 'animations/bounce-in-left';
 @import 'animations/fade-in';
 @import 'animations/appear';
 @import 'animations/appear-bottom';

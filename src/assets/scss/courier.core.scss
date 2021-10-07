@@ -1,5 +1,12 @@
-@import 'utils/variables';
-@import 'utils/mixins';
+@charset "utf-8";
+
+@use 'utils/variables';
+@use 'utils/mixins/media-query';
+@use 'utils/mixins/font-size';
+@use 'utils/mixins/palette';
+@use 'libs/decimal-round';
+@use 'sass:meta';
+
 @import 'utils/animations';
 
 /* ------------------------------------------
@@ -7,8 +14,9 @@
  *  under the root element
  * ----------------------------------------- */
 
-#{$classPrefix} {
-	@import 'libs/normalize';
+#{variables.$classPrefix} {
+	//@import 'libs/normalize';
+	@include meta.load-css('libs/normalize');
 
 	/* normalize focus outline effect */
 	input,
@@ -31,18 +39,18 @@
  *  Root
  * ----------------------------------- */
 
-#{$classPrefix} {
+#{variables.$classPrefix} {
 	font-family: 'Asap', sans-serif;
-	font-size: #{get-font-size-core('px')};
-	color: #{get-palette-hue('foreground', 1000)};
+	font-size: #{font-size.get-font-size-core('px')};
+	color: #{palette.get-palette-hue('foreground', 1000)};
 	z-index: 1040;
 
-	@include medium-devices {
-		font-size: #{decimal-floor(get-font-size-core-raw() * 0.9) + 'px'};
+	@include media-query.medium-devices {
+		font-size: #{decimal-round.decimal-floor(font-size.get-font-size-core-raw() * 0.9) + 'px'};
 	}
 
-	@include m-small-devices {
-		font-size: #{decimal-floor(get-font-size-core-raw() * 0.8) + 'px'};
+	@include media-query.m-small-devices {
+		font-size: #{decimal-round.decimal-floor(font-size.get-font-size-core-raw() * 0.8) + 'px'};
 	}
 
 	& * {
@@ -54,11 +62,14 @@
 	 * ----------------------------------- */
 
 	/* core elements */
-	@import 'core/elements/widget';
+	// @import 'core/elements/widget';
+	@include meta.load-css('core/elements/widget');
 
 	/* optional elements */
 	@import 'core/elements/chat';
-	@import 'core/elements/popup';
+	// @include meta.load-css('core/elements/chat');
+	// @import 'core/elements/popup';
+	@include meta.load-css('core/elements/popup');
 
 	/* antialias font */
 	-webkit-font-smoothing: antialiased;
@@ -66,7 +77,8 @@
 	text-rendering: optimizeLegibility;
 
 	/* modifiers */
-	@import 'core/modifiers';
+	// @import 'core/modifiers';
+	@include meta.load-css('core/modifiers');
 
 	/* root modifiers */
 }

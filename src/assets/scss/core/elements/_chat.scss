@@ -1,3 +1,6 @@
+@use '../../utils/variables';
+@use 'sass:meta';
+
 // $sendMsgBtnColor1: #2196f3;
 // $sendMsgBtnColor2: #64b5f6;
 // $closeBtnColor: #64b5f6; // #f44336;
@@ -19,16 +22,23 @@ $messageTopicSecondaryColor: #41abff;
 $sendMessageBoxBgColor: #f7fbff;
 $sendMessageBoxBgColorDisabled: #f1f1f1;
 
-#{$classPrefix}__chat {
+#{variables.$classPrefix}__chat {
 	position: fixed;
 	bottom: 0;
 	right: 0;
 	z-index: 1001;
 
-	@at-root #{$classPrefix}--left #{$classPrefix}__chat {
+	@at-root #{variables.$classPrefix}--left #{variables.$classPrefix}__chat {
 		right: auto;
 		left: 0;
 	}
+
+	//@include meta.load-css('chat/overlay');
+	//@include meta.load-css('chat/wall');
+	//@include meta.load-css('chat/header');
+	//@include meta.load-css('chat/work-area');
+	//@include meta.load-css('chat/interactions');
+	//@include meta.load-css('chat/powered-by');
 
 	@import "chat/overlay"; // the main chat container
 	@import "chat/wall"; // the main chat container

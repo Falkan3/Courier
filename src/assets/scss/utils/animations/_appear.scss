@@ -1,3 +1,5 @@
+@use '../../utils/variables';
+
 /*
  * Appear
  */
@@ -26,7 +28,7 @@
 	animation-name: appear;
 }
 
-#{$classPrefix} {
+#{variables.$classPrefix} {
 	&__appear {
 		@include appear;
 	}

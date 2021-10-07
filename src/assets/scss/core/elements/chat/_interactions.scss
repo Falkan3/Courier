@@ -1,3 +1,5 @@
+@use 'sass:color';
+
 /*
  * Interactions wrapper
  */
@@ -53,11 +55,25 @@
 			transition: fill cubic-bezier(0.1, 1, 0.6, 1) 0.3s;
 
 			&:nth-child(1) {
-				fill: darken($btnColorActive, 5%);
+				fill: color.scale($btnColorActive, $lightness: -5%);
 			}
 
 			&:nth-child(2) {
 				fill: $btnColorActive;
+			}
+		}
+	}
+
+	&:disabled {
+		cursor: not-allowed;
+
+		& > svg {
+			& > path:nth-child(1) {
+				fill: color.mix(color.scale($btnColorInactive, $lightness: -5%), #ddd, 50%);
+			}
+
+			& > path:nth-child(2) {
+				fill: color.mix($btnColorInactive, #ddd, 50%);
 			}
 		}
 	}
@@ -72,26 +88,12 @@
 
 			& > svg {
 				& > path:nth-child(1) {
-					fill: lighten(darken($btnColorActive, 5%), 5%);
+					fill: color.scale(color.scale($btnColorActive, $lightness: -5%), $lightness: 5%);
 				}
 
 				& > path:nth-child(2) {
-					fill: lighten($btnColorActive, 5%);
+					fill: color.scale($btnColorActive, $lightness: 5%);
 				}
-			}
-		}
-	}
-
-	&:disabled {
-		cursor: not-allowed;
-
-		& > svg {
-			& > path:nth-child(1) {
-				fill: mix(darken($btnColorInactive, 5%), #ddd, 50%);
-			}
-
-			& > path:nth-child(2) {
-				fill: mix($btnColorInactive, #ddd, 50%);
 			}
 		}
 	}

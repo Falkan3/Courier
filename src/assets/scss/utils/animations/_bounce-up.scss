@@ -1,3 +1,5 @@
+@use '../../utils/variables';
+
 /*
  * Bounce up
  */
@@ -81,7 +83,7 @@
 	animation-name: bounceUp3;
 }
 
-#{$classPrefix} {
+#{variables.$classPrefix} {
 	&__bounce-up1 {
 		@include bounceUp1;
 	}

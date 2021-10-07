@@ -1,3 +1,5 @@
+@use '../../utils/variables';
+
 /*
  * Slide in from the bottom
  */
@@ -26,7 +28,7 @@
 	animation-name: slideInBottom;
 }
 
-#{$classPrefix} {
+#{variables.$classPrefix} {
 	&__slide-in-bottom {
 		@include slideInBottom;
 	}

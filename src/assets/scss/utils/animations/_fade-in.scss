@@ -1,3 +1,5 @@
+@use '../../utils/variables';
+
 /*
  * Fade in
  */
@@ -23,7 +25,7 @@
 	animation-name: fadeIn;
 }
 
-#{$classPrefix} {
+#{variables.$classPrefix} {
 	&__fade-in {
 		@include fadeIn;
 	}
