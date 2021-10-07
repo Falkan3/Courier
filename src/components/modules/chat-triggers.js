@@ -55,7 +55,7 @@ export default function (Courier, Components, Events) {
         triggerTopic(messageId, topicId, options = {}) {
             const settings = Object.assign({
                 topicTriggersEnabled: true,
-                timestamp: getDateTime()
+                timestamp: new Date()
             }, options);
             const { topics } = Components.Chat.refs.chat.data.messages[messageId];
             const topic = topics[topicId];

@@ -4,7 +4,7 @@ import EventsBinder from '@core/event/events-binder';
 import ChatMessage from '@components/classes/chat-message';
 import Reef from '@libs/reefjs/reef.es';
 import { elemContains, isScrolledToTheBottom } from '@utils/dom';
-import { getDateTime, shortenTodaysDateTime } from '@utils/time';
+import { shortenTodaysDateTime } from '@utils/time';
 
 export default function (Courier, Components, Events) {
     /**
@@ -134,7 +134,7 @@ export default function (Courier, Components, Events) {
                 return;
             }
             if (message.length) {
-                this.pushMessage({ text: message, outgoing: true, timestamp: getDateTime() });
+                this.pushMessage({ text: message, outgoing: true, timestamp: new Date() });
             }
         },
 
