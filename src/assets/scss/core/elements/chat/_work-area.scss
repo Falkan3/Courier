@@ -1,5 +1,5 @@
-@use '../../../utils/mixins/palette';
-@use 'sass:color';
+@use "../../../utils/mixins/palette";
+@use "sass:color";
 
 /*
  * Work area
@@ -106,7 +106,7 @@
 	align-self: flex-start;
 	margin-bottom: 0.2rem;
 	font-size: 0.8em;
-	color: palette.get-palette-hue('foreground', 800);
+	color: palette.get-palette-hue("foreground", 800);
 
 	&--self {
 		align-self: flex-end;

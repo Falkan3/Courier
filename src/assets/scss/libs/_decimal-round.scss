@@ -1,4 +1,4 @@
-@use 'sass:math';
+@use "sass:math";
 
 // _decimal.scss | MIT License | gist.github.com/terkel/4373420
 
@@ -20,19 +20,19 @@
 	$n: 1;
 	// $number must be a number
 	@if type-of($number) != number {
-		@warn '#{ $number } is not a number.';
+		@warn "#{ $number } is not a number.";
 
 		@return $number;
 	}
 	// $digits must be a unitless number
 	@if type-of($digits) != number {
-		@warn '#{ $digits } is not a number.';
+		@warn "#{ $digits } is not a number.";
 
 		@return $number;
 	}
 
 	@else if not unitless($digits) {
-		@warn '#{ $digits } has a unit.';
+		@warn "#{ $digits } has a unit.";
 
 		@return $number;
 	}
@@ -54,7 +54,7 @@
 	}
 
 	@else {
-		@warn '#{ $mode } is undefined keyword.';
+		@warn "#{ $mode } is undefined keyword.";
 
 		@return $number;
 	}

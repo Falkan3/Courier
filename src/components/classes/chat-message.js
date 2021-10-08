@@ -16,7 +16,7 @@ export default class ChatMessage {
             type: undefined,
             timestamp: undefined
         };
-        const settings = Object.assign({}, defaults, options);
+        const settings = { ...defaults, ...options };
         // todo: don't set undefined properties
         // remove empty properties
         // Object.keys(settings).forEach(

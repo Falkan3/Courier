@@ -24,9 +24,9 @@ export default function (Courier, Components, Events) {
          * Adds events.
          */
         bind() {
-            Binder.on('click', Components.App.refs.app.elem, event => this.onClick(event));
-            Binder.on('keydown', Courier.rootElement, event => this.onKeydown(event));
-            Binder.on('reef:render', Components.App.refs.app.elem, event => this.onRendered(event));
+            Binder.on('click', Components.App.refs.app.elem, (event) => this.onClick(event));
+            Binder.on('keydown', Courier.rootElement, (event) => this.onKeydown(event));
+            Binder.on('reef:render', Components.App.refs.app.elem, (event) => this.onRendered(event));
         },
 
         /**
@@ -83,7 +83,7 @@ export default function (Courier, Components, Events) {
 
             App.refs.app = new Reef(Courier.rootElement, {
                 data: {},
-                template: props => `
+                template: () => `
                 <div id="courierRoot" class="${rootClasses.join(' ')}">
                     ${componentHtmlArr.join('')}
                     <div id="courierWidget" class="${Courier.settings.classes.widget}"></div>

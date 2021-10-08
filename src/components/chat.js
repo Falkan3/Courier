@@ -31,8 +31,8 @@ export default function (Courier, Components, Events) {
          * Adds events.
          */
         bind() {
-            Binder.on('submit', Components.App.refs.app.elem, event => this.onSubmit(event));
-            Binder.on('keypress', Components.App.refs.app.elem, event => this.onKeypress(event));
+            Binder.on('submit', Components.App.refs.app.elem, (event) => this.onSubmit(event));
+            Binder.on('keypress', Components.App.refs.app.elem, (event) => this.onKeypress(event));
         },
 
         /**

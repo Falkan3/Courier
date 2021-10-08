@@ -1,18 +1,18 @@
-@use '../variables';
-@use '../../libs/decimal-round';
+@use "../variables";
+@use "../../libs/decimal-round";
 
 @function get-font-size($modifier: null, $returnUnit: null, $addUnit: true) {
 	$size: variables.$fontSizePx;
 	$sizeBase: variables.$fontSizePx;
-	$unit: 'px';
+	$unit: "px";
 
-	@if (variables.$fontSizeUnit == 'px') {
+	@if (variables.$fontSizeUnit == "px") {
 		$sizeBase: variables.$fontSizePx;
-		$unit: 'px';
+		$unit: "px";
 		$size: $sizeBase;
 
 		@if ($modifier) {
-			@if ($returnUnit == '%') {
+			@if ($returnUnit == "%") {
 				$size: percentage($modifier);
 				$addUnit: false;
 			}
@@ -23,9 +23,9 @@
 		}
 	}
 
-	@else if (variables.$fontSizeUnit == 'rem') {
+	@else if (variables.$fontSizeUnit == "rem") {
 		$sizeBase: variables.$fontSizeRem;
-		$unit: 'em'; // em for child elements, rem only for root
+		$unit: "em"; // em for child elements, rem only for root
 		$size: $sizeBase;
 
 		@if ($modifier) {
@@ -50,19 +50,19 @@
 	}
 
 	/* em for child elements, rem and px only for root */
-	@if ($customFontSizeUnit == 'px') {
-		@return variables.$fontSizePx + 'px';
+	@if ($customFontSizeUnit == "px") {
+		@return variables.$fontSizePx + "px";
 	}
 
-	@else if ($customFontSizeUnit == 'rem') {
-		@return variables.$fontSizeRem + 'rem';
+	@else if ($customFontSizeUnit == "rem") {
+		@return variables.$fontSizeRem + "rem";
 	}
 
-	@else if ($customFontSizeUnit == 'em') {
-		@return variables.$fontSizeRem + 'em';
+	@else if ($customFontSizeUnit == "em") {
+		@return variables.$fontSizeRem + "em";
 	}
 
-	@return variables.$fontSizePx + 'px';
+	@return variables.$fontSizePx + "px";
 }
 
 @function get-font-size-core-raw($customFontSizeUnit: null) {
@@ -75,15 +75,15 @@
 	}
 
 	/* em for child elements, rem and px only for root */
-	@if ($fontSizeUnit == 'px') {
+	@if ($fontSizeUnit == "px") {
 		@return variables.$fontSizePx;
 	}
 
-	@else if ($fontSizeUnit == 'rem') {
+	@else if ($fontSizeUnit == "rem") {
 		@return variables.$fontSizeRem;
 	}
 
-	@else if ($fontSizeUnit == 'em') {
+	@else if ($fontSizeUnit == "em") {
 		@return variables.$fontSizeRem;
 	}
 

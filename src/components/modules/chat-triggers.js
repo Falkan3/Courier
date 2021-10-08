@@ -3,7 +3,6 @@ import {
     getStartMessage, loadMessagePath, replyFromScenario, saveMessagePath
 } from '@utils/chat';
 import { isArray } from '@utils/types';
-import { getDateTime } from '@utils/time';
 
 export default function (Courier, Components, Events) {
     const ChatTriggers = {
@@ -53,14 +52,15 @@ export default function (Courier, Components, Events) {
         },
 
         triggerTopic(messageId, topicId, options = {}) {
-            const settings = Object.assign({
+            const settings = {
                 topicTriggersEnabled: true,
-                timestamp: new Date()
-            }, options);
+                timestamp: new Date(),
+                ...options
+            };
             const { topics } = Components.Chat.refs.chat.data.messages[messageId];
             const topic = topics[topicId];
             // check if any topic at this level was not already selected
-            if (topics.filter(t => t.active).length === 0) {
+            if (topics.filter((t) => t.active).length === 0) {
                 // disable all topics for the message the topic has been triggered from
                 topics.forEach((item) => {
                     item.disabled = true;
@@ -73,7 +73,7 @@ export default function (Courier, Components, Events) {
                     timestamp: settings.timestamp
                 });
                 // emit the topic's trigger, if it's set, and topic triggers option is enabled
-                if (topic.trigger && settings.topicTriggersEnabled) {
+                if (settings.topicTriggersEnabled && topic.trigger) {
                     this.topicTrigger(topic.trigger);
                 }
                 this.triggerPath(topic);

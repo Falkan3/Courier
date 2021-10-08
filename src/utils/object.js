@@ -71,7 +71,7 @@ export function clone(input, deep = false) {
             });
             return clonedObj;
         }
-        return Object.assign({}, input);
+        return { ...input };
     }
     return input;
 }
@@ -102,7 +102,7 @@ export function textTemplate(text, template) {
  * @return {Object}
  */
 export function mergeOptions(defaults, settings) {
-    const options = Object.assign({}, defaults, settings);
+    const options = { ...defaults, ...settings };
 
     // `Object.assign` does not deeply merge objects, so we
     // have to do it manually for every nested object
@@ -110,37 +110,37 @@ export function mergeOptions(defaults, settings) {
     // it's smaller and faster than some fancy
     // merging deep-merge algorithm script.
     if (Object.hasOwnProperty.call(settings, 'ids')) {
-        options.ids = Object.assign({}, defaults.ids, settings.ids);
+        options.ids = { ...defaults.ids, ...settings.ids };
     }
     if (Object.hasOwnProperty.call(settings, 'classes')) {
-        options.classes = Object.assign({}, defaults.classes, settings.classes);
+        options.classes = { ...defaults.classes, ...settings.classes };
     }
     if (Object.hasOwnProperty.call(settings, 'breakpoints')) {
-        options.breakpoints = Object.assign({}, defaults.breakpoints, settings.breakpoints);
+        options.breakpoints = { ...defaults.breakpoints, ...settings.breakpoints };
     }
     if (Object.hasOwnProperty.call(settings, 'texts')) {
-        options.texts = Object.assign({}, defaults.texts, settings.texts);
+        options.texts = { ...defaults.texts, ...settings.texts };
     }
     if (Object.hasOwnProperty.call(settings, 'textVars')) {
-        options.textVars = Object.assign({}, defaults.textVars, settings.textVars);
+        options.textVars = { ...defaults.textVars, ...settings.textVars };
     }
     if (Object.hasOwnProperty.call(settings, 'identity')) {
-        options.identity = Object.assign({}, defaults.identity, settings.identity);
+        options.identity = { ...defaults.identity, ...settings.identity };
     }
     if (Object.hasOwnProperty.call(settings, 'poweredBy')) {
-        options.poweredBy = Object.assign({}, defaults.poweredBy, settings.poweredBy);
+        options.poweredBy = { ...defaults.poweredBy, ...settings.poweredBy };
     }
     if (Object.hasOwnProperty.call(settings, 'images')) {
-        options.images = Object.assign({}, defaults.images, settings.images);
+        options.images = { ...defaults.images, ...settings.images };
     }
     if (Object.hasOwnProperty.call(settings, 'messages')) {
-        options.messages = Object.assign({}, defaults.messages, settings.messages);
+        options.messages = { ...defaults.messages, ...settings.messages };
     }
     if (Object.hasOwnProperty.call(settings, 'state')) {
-        options.state = Object.assign({}, defaults.state, settings.state);
+        options.state = { ...defaults.state, ...settings.state };
     }
     if (Object.hasOwnProperty.call(settings, 'cookies')) {
-        options.cookies = Object.assign({}, defaults.cookies, settings.cookies);
+        options.cookies = { ...defaults.cookies, ...settings.cookies };
     }
 
     // this will replace text variable keys with values

@@ -1,13 +1,13 @@
 @charset "utf-8";
 
-@use 'utils/variables';
-@use 'utils/mixins/media-query';
-@use 'utils/mixins/font-size';
-@use 'utils/mixins/palette';
-@use 'libs/decimal-round';
-@use 'sass:meta';
+@use "utils/variables";
+@use "utils/mixins/media-query";
+@use "utils/mixins/font-size";
+@use "utils/mixins/palette";
+@use "libs/decimal-round";
+@use "sass:meta";
 
-@import 'utils/animations';
+@import "utils/animations";
 
 /* ------------------------------------------
  *  Libraries - normalize element appearance
@@ -16,7 +16,7 @@
 
 #{variables.$classPrefix} {
 	//@import 'libs/normalize';
-	@include meta.load-css('libs/normalize');
+	@include meta.load-css("libs/normalize");
 
 	/* normalize focus outline effect */
 	input,
@@ -33,16 +33,16 @@
  *  Global
  * ----------------------------------- */
 
-@import url('https://fonts.googleapis.com/css?family=Asap:400,700&display=swap&subset=latin-ext');
+@import url("https://fonts.googleapis.com/css?family=Asap:400,700&display=swap&subset=latin-ext");
 
 /* -----------------------------------
  *  Root
  * ----------------------------------- */
 
 #{variables.$classPrefix} {
-	font-family: 'Asap', sans-serif;
-	font-size: #{font-size.get-font-size-core('px')};
-	color: #{palette.get-palette-hue('foreground', 1000)};
+	font-family: "Asap", sans-serif;
+	font-size: #{font-size.get-font-size-core("px")};
+	color: #{palette.get-palette-hue("foreground", 1000)};
 	z-index: 1040;
 
 	@include media-query.medium-devices {
@@ -63,13 +63,13 @@
 
 	/* core elements */
 	// @import 'core/elements/widget';
-	@include meta.load-css('core/elements/widget');
+	@include meta.load-css("core/elements/widget");
 
 	/* optional elements */
-	@import 'core/elements/chat';
+	@import "core/elements/chat";
 	// @include meta.load-css('core/elements/chat');
 	// @import 'core/elements/popup';
-	@include meta.load-css('core/elements/popup');
+	@include meta.load-css("core/elements/popup");
 
 	/* antialias font */
 	-webkit-font-smoothing: antialiased;
@@ -78,7 +78,7 @@
 
 	/* modifiers */
 	// @import 'core/modifiers';
-	@include meta.load-css('core/modifiers');
+	@include meta.load-css("core/modifiers");
 
 	/* root modifiers */
 }

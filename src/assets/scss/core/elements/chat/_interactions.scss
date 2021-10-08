@@ -1,4 +1,4 @@
-@use 'sass:color';
+@use "sass:color";
 
 /*
  * Interactions wrapper
@@ -23,7 +23,7 @@
 
 	&::placeholder {
 		font-size: 0.8em;
-		color: get-palette-hue('foreground', 500);
+		color: get-palette-hue("foreground", 500);
 	}
 
 	&:disabled {
