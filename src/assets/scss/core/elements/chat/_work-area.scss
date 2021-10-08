@@ -68,7 +68,7 @@
 		transition: color cubic-bezier(0.1, 1, 0.6, 1) 0.3s;
 
 		&:hover {
-			color: color.scale($linkColor, $lightness: 10%);
+			color: color.scale($linkColor, $lightness: 30%);
 		}
 	}
 }
