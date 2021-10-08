@@ -90,8 +90,8 @@
 	@return variables.$fontSizePx;
 }
 
-@function get-font-size-scaled($scale: 1) {
-	@return decimal-round.decimal-floor(get-font-size-core-raw() * $scale);
+@function get-font-size-scaled($fontSizeUnit, $scale: 1) {
+	@return decimal-round.decimal-floor(get-font-size-core-raw($fontSizeUnit) * $scale);
 }
 
 @function get-font-size-unit() {
