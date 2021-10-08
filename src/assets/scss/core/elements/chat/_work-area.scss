@@ -27,11 +27,11 @@
 	/* handle */
 	&::-webkit-scrollbar-thumb {
 		background-color: $workAreaScrollbarHandleColor;
-	}
 
-	/* handle on hover */
-	&::-webkit-scrollbar-thumb:hover {
-		background-color: color.scale($workAreaScrollbarHandleColor, $lightness: -10%);
+		/* handle on hover */
+		&:hover {
+			background-color: color.scale($workAreaScrollbarHandleColor, $lightness: -10%);
+		}
 	}
 }
 
@@ -155,12 +155,6 @@
  * Carousel
  */
 &-carousel {
-	display: flex;
-	flex-direction: row;
-	flex-wrap: nowrap;
-	overflow: auto;
-	scroll-snap-type: x proximity;
-
 	/* width */
 	&::-webkit-scrollbar {
 		height: 8px;
@@ -174,18 +168,32 @@
 	/* handle */
 	&::-webkit-scrollbar-thumb {
 		background-color: $workAreaScrollbarHandleColor;
+
+		/* handle on hover */
+		&:hover {
+			background-color: color.scale($workAreaScrollbarHandleColor, $lightness: -10%);
+		}
 	}
 
-	/* handle on hover */
-	&::-webkit-scrollbar-thumb:hover {
-		background-color: color.scale($workAreaScrollbarHandleColor, $lightness: -10%);
-	}
+	/* only use without carousel library */
+	//&:not(.glide) {
+	//	display: flex;
+	//	flex-direction: row;
+	//	flex-wrap: nowrap;
+	//	overflow: auto;
+	//	scroll-snap-type: x proximity;
+	//}
 
 	&__item {
-		flex: 0 0 50%;
+		display: block;
 		margin-top: 12px;
 		margin-bottom: 12px;
-		scroll-snap-align: start;
+
+		/* only use without carousel library */
+		//&:not(.glide) {
+		//	flex: 0 0 50%;
+		//	scroll-snap-align: start;
+		//}
 
 		&:not(:first-child) {
 			margin-left: 6px;

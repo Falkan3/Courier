@@ -62,6 +62,7 @@
         "@babel/plugin-transform-runtime": "^7.15.8",
         "@babel/preset-env": "^7.12.7",
         "@babel/register": "^7.12.1",
+        "@glidejs/glide": "^3.4.1",
         "babel-jest": "^27.2.4",
         "babel-plugin-add-module-exports": "^1.0.4",
         "babel-plugin-module-resolver": "^4.0.0",

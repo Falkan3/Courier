@@ -47,4 +47,7 @@ $sendMessageBoxBgColorDisabled: #f1f1f1;
 	@import "chat/work-area"; // the work area where the messages are shown
 	@import "chat/interactions"; // the footer area including message box and message send button
 	@import "chat/powered-by"; // the powered by section
+
+	/* optional modules */
+	@import "chat/glide";
 }

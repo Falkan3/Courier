@@ -1,0 +1,38 @@
+@use "sass:color";
+
+@import "../../../../../libs/glidejs/css/glide.core.min"; // glide for carousel
+
+.glide {
+	&__slides {
+		margin-top: 0;
+		margin-bottom: 0;
+		list-style: none;
+	}
+
+	&__slide {
+		cursor: grab;
+	}
+
+	&__bullets {
+		display: flex;
+		justify-content: center;
+	}
+
+	&__bullet {
+		width: 1rem;
+		height: 1rem;
+		margin: 4px;
+		border-radius: 50%;
+		background-color: #cfcfcf;
+		transition: background-color cubic-bezier(0.1, 1, 0.6, 1) 0.3s;
+		cursor: pointer;
+
+		&:hover {
+			background-color: color.scale($btnColorActive, $lightness: 50%);
+		}
+
+		&--active {
+			background-color: $btnColorActive;
+		}
+	}
+}
