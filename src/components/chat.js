@@ -275,7 +275,7 @@ export default function (Courier, Components, Events) {
                     const poweredBy = props.poweredBy.show
                         ? `
                         <div class="${Courier.settings.classes.chat}-powered-by">
-                            <a href="${props.poweredBy.url}" target="_blank" rel="nofollow noopener noreferrer">
+                            <a href="${props.poweredBy.url}" target="_blank" rel="nofollow noreferrer">
                                 <p class="m-r--hf">${props.poweredBy.text}</p>
                                 <img src="${props.poweredBy.img.src}" alt="${props.poweredBy.img.alt}" />
                             </a>
@@ -309,7 +309,7 @@ export default function (Courier, Components, Events) {
                                     </div>
                                     <div class="${Courier.settings.classes.chat}-name">
                                         <p>${props.identity.name}</p>
-                                        <p><a href="${props.identity.website.url}" target="_blank" rel="nofollow noopener noreferrer">${props.identity.website.name}</a></p>
+                                        <p><a href="${props.identity.website.url}" target="_blank" rel="nofollow noreferrer">${props.identity.website.name}</a></p>
                                     </div>
                                 </div>
                             </div>

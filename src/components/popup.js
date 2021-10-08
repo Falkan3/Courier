@@ -92,7 +92,7 @@ export default function (Courier, Components, Events) {
                     const poweredBy = props.poweredBy.show
                         ? `
                         <div class="${Courier.settings.classes.popup}-powered-by">
-                            <a href="${props.poweredBy.url}" target="_blank" rel="nofollow noopener noreferrer">
+                            <a href="${props.poweredBy.url}" target="_blank" rel="nofollow noreferrer">
                                 <p class="m-r--hf">${props.poweredBy.text}</p>
                                 <img src="${props.poweredBy.img.src}" alt="${props.poweredBy.img.alt}" />
                             </a>
