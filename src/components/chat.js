@@ -243,7 +243,7 @@ export default function (Courier, Components, Events) {
                                             <p class="${Courier.settings.classes.chat}-carousel__item-price tx-bold">${carouselItem.price}</p>
                                         </div>
                                         <div class="${Courier.settings.classes.chat}-carousel__item-footer">
-                                            <p><a href="#" rel="noreferrer">${carouselItem.goToProduct ? carouselItem.goToProduct : Courier.settings.texts.goToProduct}</a></p>
+                                            <p><a href="${carouselItem.link}" rel="noreferrer">${carouselItem.goToProduct ? carouselItem.goToProduct : Courier.settings.texts.goToProduct}</a></p>
                                         </div>
                                     </div>
                                 </div>`;
