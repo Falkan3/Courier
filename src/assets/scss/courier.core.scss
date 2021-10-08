@@ -46,11 +46,11 @@
 	z-index: 1040;
 
 	@include media-query.medium-devices {
-		font-size: #{decimal-round.decimal-floor(font-size.get-font-size-core-raw() * 0.9) + 'px'};
+		font-size: #{decimal-round.decimal-floor(font-size.get-font-size-core-raw('px') * 0.9) + "px"};
 	}
 
 	@include media-query.m-small-devices {
-		font-size: #{decimal-round.decimal-floor(font-size.get-font-size-core-raw() * 0.8) + 'px'};
+		font-size: #{decimal-round.decimal-floor(font-size.get-font-size-core-raw('px') * 0.8) + "px"};
 	}
 
 	& * {
