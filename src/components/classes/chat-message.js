@@ -13,8 +13,8 @@ export default class ChatMessage {
             topics: undefined,
             trigger: undefined,
             outgoing: undefined,
-            type: undefined,
-            timestamp: undefined
+            type: 'text',
+            timestamp: undefined,
         };
         const settings = { ...defaults, ...options };
         // todo: don't set undefined properties
@@ -34,6 +34,9 @@ export default class ChatMessage {
         this.outgoing = settings.outgoing;
         this.type = settings.type;
         this.timestamp = settings.timestamp;
+        if (settings.carousel) {
+            this.carousel = settings.carousel;
+        }
         this.computeProperties();
     }
 
@@ -46,6 +49,10 @@ export default class ChatMessage {
         switch (this.type) {
         case 'system':
             return '--system';
+        case 'carousel':
+            return '--carousel';
+        case 'text':
+            return '--text';
         default:
             return '';
         }

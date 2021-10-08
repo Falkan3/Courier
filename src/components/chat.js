@@ -231,9 +231,35 @@ export default function (Courier, Components, Events) {
                             <p class="${Courier.settings.classes.chat}-timestamp ${message.outgoing ? `${Courier.settings.classes.chat}-timestamp--self` : ''} courier__appear courier__anim-timing--third"><time datetime="${message.timestamp}"><span aria-hidden="true">${shortenTodaysDateTime(message.timestamp)}</span></time></p>
                         ` : '';
 
-                        html += message.text ? `
+                        if (message.type === 'carousel') {
+                            let carouselItemsHtml = '';
+                            message.carousel.items.forEach((carouselItem) => {
+                                carouselItemsHtml += `
+                                <div class="${Courier.settings.classes.chat}-carousel__item">
+                                    <div class="${Courier.settings.classes.chat}-carousel__item-content">
+                                        <img class="${Courier.settings.classes.chat}-carousel__item-img" src="${carouselItem.img.src}" alt="${carouselItem.img.alt}" />
+                                        <div class="${Courier.settings.classes.chat}-carousel__item-body">
+                                            <p>${carouselItem.title}</p>
+                                            <p class="${Courier.settings.classes.chat}-carousel__item-price tx-bold">${carouselItem.price}</p>
+                                        </div>
+                                        <div class="${Courier.settings.classes.chat}-carousel__item-footer">
+                                            <p><a href="#" rel="noreferrer">${carouselItem.goToProduct ? carouselItem.goToProduct : Courier.settings.texts.goToProduct}</a></p>
+                                        </div>
+                                    </div>
+                                </div>`;
+                            });
+
+                            html += `
+                            <div class="${Courier.settings.classes.chat}-message ${message.typeClassSuffix ? `${Courier.settings.classes.chat}-message${message.typeClassSuffix}` : ''}">
+                                <div class="${Courier.settings.classes.chat}-carousel">
+                                    ${carouselItemsHtml}
+                                </div>
+                            </div>`;
+                        } else {
+                            html += message.text ? `
                             <p class="${Courier.settings.classes.chat}-message ${message.outgoing ? `${Courier.settings.classes.chat}-message--self` : ''} ${message.typeClassSuffix ? `${Courier.settings.classes.chat}-message${message.typeClassSuffix}` : ''} courier__appear courier__anim-timing--third" data-courier-message-id="${index}">${message.text}</p>`
-                            : '';
+                                : '';
+                        }
 
                         if (message.topics) {
                             let topicsHtml;

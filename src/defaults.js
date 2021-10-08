@@ -48,6 +48,7 @@ export default {
         messagePlaceholder: 'Type something...',
         typing: 'User is typing...',
         sendMessage: 'Send message',
+        goToProduct: 'Go to product',
         // popup
         popupContent: '',
     },
