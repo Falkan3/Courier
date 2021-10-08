@@ -26,7 +26,7 @@ export function dateIsToday(dateTimeString) {
 }
 
 export function shortenTodaysDateTime(dateTimeString) {
-    return dateIsToday(dateTimeString) ? getTime(dateTimeString) : dateTimeString;
+    return dateIsToday(dateTimeString) ? getTime(dateTimeString) : getDateTime(dateTimeString);
 }
 
 export default now;
