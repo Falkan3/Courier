@@ -14,7 +14,7 @@ export default class Courier {
      * @param  {Object} options
      */
     constructor(element, options = {}) {
-        this._transformers = [];
+        // this._transformers = [];
         this._eventsBus = new EventsBus();
 
         this.disabled = false;
