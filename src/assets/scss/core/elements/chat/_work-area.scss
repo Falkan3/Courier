@@ -217,9 +217,10 @@
 			display: block;
 			width: auto;
 			max-width: 100%;
-			height: 6rem;
+			height: 8rem;
 			margin-left: auto;
 			margin-right: auto;
+			padding: 0.5rem;
 		}
 
 		&-body {
@@ -227,7 +228,42 @@
 		}
 
 		&-price {
-			font-size: 1.1em;
+			position: relative;
+			display: inline-block;
+			width: auto;
+			margin-top: 4px;
+			margin-left: 1em;
+			border-left: 1px solid #6ab070;
+			border-radius: 3px 4px 4px 3px;
+			padding: 0.5rem;
+			background-color: #6ab070;
+			line-height: 1;
+			color: #fff;
+
+			&::before {
+				content: "";
+				position: absolute;
+				left: -1rem;
+				top: 50%;
+				width: 0;
+				height: 0;
+				border-top: 1em solid transparent;
+				border-bottom: 1em solid transparent;
+				border-right: 1em solid #6ab070;
+				transform: translateY(-50%);
+			}
+
+			&::after {
+				content: "";
+				position: absolute;
+				left: -0.25rem;
+				top: 50%;
+				width: 4px;
+				height: 4px;
+				border-radius: 50%;
+				background-color: #fff;
+				transform: translateY(-50%);
+			}
 		}
 
 		&-footer {

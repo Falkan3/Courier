@@ -84,7 +84,7 @@ export default function (Courier, Components, Events) {
                     perView: 1,
                     peek: {
                         before: 0,
-                        after: 75
+                        after: 150
                     }
                 }).mount({ Controls, Swipe, Images });
             }
@@ -248,14 +248,14 @@ export default function (Courier, Components, Events) {
                         if (message.type === 'carousel') {
                             let carouselItemsHtml = '';
                             let carouselBullets = '';
-                            message.carousel.items.forEach((carouselItem, index) => {
+                            message.carousel.items.forEach((carouselItem, carouselItemIndex) => {
                                 carouselItemsHtml += `
                                 <li class="${Courier.settings.classes.chat}-carousel__item glide__slide">
                                     <div class="${Courier.settings.classes.chat}-carousel__item-content">
                                         <img class="${Courier.settings.classes.chat}-carousel__item-img" src="${carouselItem.img.src}" alt="${carouselItem.img.alt}" />
                                         <div class="${Courier.settings.classes.chat}-carousel__item-body">
-                                            <p>${carouselItem.title}</p>
-                                            <p class="${Courier.settings.classes.chat}-carousel__item-price tx-bold">${carouselItem.price}</p>
+                                            <p class="tx-bigger">${carouselItem.title}</p>
+                                            <p class="${Courier.settings.classes.chat}-carousel__item-price">${carouselItem.price}</p>
                                         </div>
                                         <div class="${Courier.settings.classes.chat}-carousel__item-footer">
                                             <p><a href="${carouselItem.link}" rel="noreferrer">${carouselItem.goToProduct ? carouselItem.goToProduct : Courier.settings.texts.goToProduct}</a></p>
@@ -263,7 +263,7 @@ export default function (Courier, Components, Events) {
                                     </div>
                                 </li>`;
 
-                                carouselBullets += `<button class="glide__bullet" data-glide-dir="=${index}"></button>`;
+                                carouselBullets += `<button class="glide__bullet" data-glide-dir="=${carouselItemIndex}"></button>`;
                             });
 
                             html += `
