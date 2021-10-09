@@ -254,8 +254,8 @@ export default function (Courier, Components, Events) {
                                     <div class="${Courier.settings.classes.chat}-carousel__item-content">
                                         <img class="${Courier.settings.classes.chat}-carousel__item-img" src="${carouselItem.img.src}" alt="${carouselItem.img.alt}" />
                                         <div class="${Courier.settings.classes.chat}-carousel__item-body">
-                                            <p class="tx-bigger">${carouselItem.title}</p>
-                                            <p class="${Courier.settings.classes.chat}-carousel__item-price">${carouselItem.price}</p>
+                                            <p class="tx-bigger tx-wb">${carouselItem.title}</p>
+                                            <p class="${Courier.settings.classes.chat}-carousel__item-price tx-wb">${carouselItem.price}</p>
                                         </div>
                                         <div class="${Courier.settings.classes.chat}-carousel__item-footer">
                                             <p><a href="${carouselItem.link}" rel="noreferrer">${carouselItem.goToProduct ? carouselItem.goToProduct : Courier.settings.texts.goToProduct}</a></p>
