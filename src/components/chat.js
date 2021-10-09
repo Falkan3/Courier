@@ -3,7 +3,6 @@ import { clone, textTemplate } from '@utils/object';
 import EventsBinder from '@core/event/events-binder';
 import ChatMessage from '@components/classes/chat-message';
 import Reef from '@libs/reefjs/reef.es';
-import Glide, { Controls, Swipe, Images } from '@libs/glidejs/glide.modular.esm';
 import { elemContains, isScrolledToTheBottom } from '@utils/dom';
 import { shortenTodaysDateTime } from '@utils/time';
 
@@ -75,19 +74,6 @@ export default function (Courier, Components, Events) {
         onAppRendered(event) {
             this.refs.form = Components.App.refs.app.elem.querySelector('#courierChatInteractionsForm');
             this.refs.messageBox = Components.App.refs.app.elem.querySelector('.courier__chat-message-box');
-
-            if (this.refs.chat && (`#${event.target.id}` === this.refs.chat.elem)) {
-                // Mount glide carousels
-                new Glide('.glide', {
-                    type: 'carousel',
-                    startAt: 0,
-                    perView: 1,
-                    peek: {
-                        before: 0,
-                        after: 150
-                    }
-                }).mount({ Controls, Swipe, Images });
-            }
 
             // Only run for elements with the #courierChat ID
             if (event.target.matches('#courierChat')) {
@@ -246,38 +232,7 @@ export default function (Courier, Components, Events) {
                         ` : '';
 
                         if (message.type === 'carousel') {
-                            let carouselItemsHtml = '';
-                            let carouselBullets = '';
-                            message.carousel.items.forEach((carouselItem, carouselItemIndex) => {
-                                carouselItemsHtml += `
-                                <li class="${Courier.settings.classes.chat}-carousel__item glide__slide">
-                                    <div class="${Courier.settings.classes.chat}-carousel__item-content">
-                                        <img class="${Courier.settings.classes.chat}-carousel__item-img" src="${carouselItem.img.src}" alt="${carouselItem.img.alt}" />
-                                        <div class="${Courier.settings.classes.chat}-carousel__item-body">
-                                            <p class="tx-bigger tx-wb">${carouselItem.title}</p>
-                                            <p class="${Courier.settings.classes.chat}-carousel__item-price tx-wb">${carouselItem.price}</p>
-                                        </div>
-                                        <div class="${Courier.settings.classes.chat}-carousel__item-footer">
-                                            <p><a href="${carouselItem.link}" rel="noreferrer">${carouselItem.goToProduct ? carouselItem.goToProduct : Courier.settings.texts.goToProduct}</a></p>
-                                        </div>
-                                    </div>
-                                </li>`;
-
-                                carouselBullets += `<button class="glide__bullet" data-glide-dir="=${carouselItemIndex}"></button>`;
-                            });
-
-                            html += `
-                            <div class="${Courier.settings.classes.chat}-message ${message.typeClassSuffix ? `${Courier.settings.classes.chat}-message${message.typeClassSuffix}` : ''} glide">
-                                <div class="${Courier.settings.classes.chat}-carousel glide__track" data-glide-el="track">
-                                    <ul class="glide__slides">
-                                        ${carouselItemsHtml}
-                                    </ul>
-                                </div>
-
-                                <div class="glide__bullets" data-glide-el="controls[nav]">
-                                    ${carouselBullets}
-                                </div>
-                            </div>`;
+                            html += `<div class="${Courier.settings.classes.chat}-message ${message.typeClassSuffix ? `${Courier.settings.classes.chat}-message${message.typeClassSuffix}` : ''}" data-template="carousel" data-courier-message-id="${index}"></div>`;
                         } else {
                             html += message.text ? `
                             <p class="${Courier.settings.classes.chat}-message ${message.outgoing ? `${Courier.settings.classes.chat}-message--self` : ''} ${message.typeClassSuffix ? `${Courier.settings.classes.chat}-message${message.typeClassSuffix}` : ''} courier__appear courier__anim-timing--third" data-courier-message-id="${index}">${message.text}</p>`
