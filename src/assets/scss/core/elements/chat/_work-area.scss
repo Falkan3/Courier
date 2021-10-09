@@ -243,7 +243,7 @@
 			&::before {
 				content: "";
 				position: absolute;
-				left: -1rem;
+				left: -1em;
 				top: 50%;
 				width: 0;
 				height: 0;
@@ -256,7 +256,7 @@
 			&::after {
 				content: "";
 				position: absolute;
-				left: -0.25rem;
+				left: -0.25em;
 				top: 50%;
 				width: 4px;
 				height: 4px;
