@@ -68,11 +68,14 @@ export default function (Courier, Components, Events) {
         },
 
         onAppRendered(event) {
-            this.refs.form = Components.App.refs.app.elem.querySelector('#courierChatInteractionsForm');
-            this.refs.messageBox = Components.App.refs.app.elem.querySelector('.courier__chat-message-box');
-
             // Only run for elements with the #courierChat ID
             if (event.target.matches('#courierChat')) {
+                this.refs.form = Components.App.refs.app.elem.querySelector('#courierChatInteractionsForm');
+                if (this.refs.chat.data.state.messageBox) {
+                    this.refs.messageBox = Components.App.refs.app.elem.querySelector(`.${Courier.settings.classes.chat}-message-box`);
+                }
+                this.refs.messages = Components.App.refs.app.elem.querySelectorAll(`.${Courier.settings.classes.chat}-message`);
+
                 if (this.scrollToBottom) {
                     this.scrollLastMessageIntoView();
                     this.scrollToBottom = false;
@@ -159,9 +162,8 @@ export default function (Courier, Components, Events) {
         },
 
         scrollLastMessageIntoView() {
-            const messages = Components.App.refs.app.elem.querySelectorAll(`.${Courier.settings.classes.chat}-message`);
-            if (messages.length) {
-                messages[messages.length - 1].scrollIntoView();
+            if (this.refs.messages.length) {
+                this.refs.messages[this.refs.messages.length - 1].scrollIntoView();
             }
         },
 
