@@ -7,6 +7,7 @@ export default {
         name: 'Courier',
         banner,
     },
+    treeshake: true,
     plugins: [
         babel({
             exclude: 'node_modules/**',
