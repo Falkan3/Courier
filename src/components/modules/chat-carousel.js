@@ -5,7 +5,7 @@ import Glide, { Controls, Images, Swipe } from '@libs/glidejs/glide.modular.esm'
 export default function (Courier, Components, Events) {
     const ChatCarousel = {
         refs: {
-            carousel: null,
+            carousels: []
         },
         template: 'carousel',
 
@@ -14,12 +14,19 @@ export default function (Courier, Components, Events) {
          */
         mount() {},
 
-        initialize() {
-            this.refs.carousel = new Reef(`[data-template="${this.template}"]`, {
-                data: {},
-                template: (props, elem) => this.generateHtml(props, elem),
-                attachTo: Components.Chat.refs.chat
-            });
+        initialize() {},
+
+        initGlide(rootElem) {
+            // Mount glide carousels
+            new Glide(rootElem.querySelector('.glide'), {
+                type: 'carousel',
+                startAt: 0,
+                perView: 1,
+                peek: {
+                    before: 0,
+                    after: 150
+                }
+            }).mount({ Controls, Swipe, Images });
         },
 
         generateHtml(props, elem) {
@@ -71,18 +78,29 @@ export default function (Courier, Components, Events) {
      * Bind event listeners after App has been rendered
      */
     Events.on('app.rendered', (event) => {
-        if (event.target.dataset.template
-            && event.target.dataset.template === ChatCarousel.template) {
-            // Mount glide carousels
-            new Glide('.glide', {
-                type: 'carousel',
-                startAt: 0,
-                perView: 1,
-                peek: {
-                    before: 0,
-                    after: 150
+        if (event.target.matches('#courierChat')) {
+            // if (ChatCarousel.refs.carousels) {
+            //     ChatCarousel.refs.carousels.forEach((carousel) => {
+            //         Components.Chat.refs.chat.detach(carousel);
+            //     });
+            // }
+            // ChatCarousel.refs.carousels = [];
+
+            const carousels = Components.App.refs.app.elem.querySelectorAll(`[data-template="${ChatCarousel.template}"]`);
+            carousels.forEach((carousel) => {
+                for (let i = 0, { length } = ChatCarousel.refs.carousels.length; i < length; i++) {
+                    if (carousel === ChatCarousel.refs.carousels[i]) return;
                 }
-            }).mount({ Controls, Swipe, Images });
+                ChatCarousel.refs.carousels.push(new Reef(`[data-template="${ChatCarousel.template}"][data-courier-message-id="${carousel.dataset.courierMessageId}"]`, {
+                    data: {},
+                    template: (props, elem) => ChatCarousel.generateHtml(props, elem),
+                    attachTo: Components.Chat.refs.chat
+                }));
+            });
+        }
+
+        if (event.target.matches(`[data-template="${ChatCarousel.template}"]`)) {
+            ChatCarousel.initGlide(event.target);
         }
     });
 

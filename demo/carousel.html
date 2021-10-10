@@ -74,11 +74,67 @@
 						]
 					}
 				],
+				sendCarouselAgain: {
+					type: 'carousel',
+					carousel: {
+						items: [
+							{
+								title: 'Sneakers',
+								price: '$129.99',
+								img: {
+									src: 'https://cdn.cnn.com/cnnnext/dam/assets/200814092431-01b-michael-jordan-sneakers-auction-super-169.jpg',
+									alt: 'A pair of red sneakers'
+								},
+								link: '#'
+							},
+							{
+								title: 'Boots',
+								price: '$199.99',
+								img: {
+									src: 'https://cdn.picpng.com/boots/boots-web-30156.png',
+									alt: 'A pair of black leather boots'
+								},
+								link: '#'
+							},
+							{
+								title: 'Trainers',
+								price: '$149.99',
+								img: {
+									src: 'https://pngimg.com/uploads/running_shoes/running_shoes_PNG5798.png',
+									alt: 'A pair of red sneakers'
+								},
+								link: '#'
+							}
+						]
+					},
+					topics: [
+						{
+							text: 'Awesome!',
+							path: 'interested',
+						},
+						{
+							text: 'No, thank you.',
+							path: 'notInterested'
+						}
+					]
+				},
 				interested: {
-					text: 'Glad to help =)'
+					text: 'Glad to help =)',
+					topics: [
+						{
+							text: 'Send carousel again',
+							path: 'sendCarouselAgain',
+						},
+					]
 				},
 				notInterested: {
-					text: 'Understandable, have a nice day.'
+					text: 'Understandable, have a nice day.',
+					topics: [
+						{
+							text: 'Send carousel again',
+							path: 'sendCarouselAgain',
+						},
+					]
 				},
 			},
 			state: {

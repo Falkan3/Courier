@@ -159,7 +159,7 @@ export default function (Courier, Components, Events) {
             this.refs.chat.data.messages.push(chatMessage);
             // set whether after render the chat work area should be scrolled to the bottom
             if (settings.scrollToBottom) {
-            this.scrollToBottom = this.chatIsScrolledToTheBottom();
+                this.scrollToBottom = this.chatIsScrolledToTheBottom();
             }
             return chatMessage;
         },
@@ -236,6 +236,7 @@ export default function (Courier, Components, Events) {
                             <p class="${Courier.settings.classes.chat}-timestamp ${message.outgoing ? `${Courier.settings.classes.chat}-timestamp--self` : ''} courier__appear courier__anim-timing--third"><time datetime="${message.timestamp}"><span aria-hidden="true">${shortenTodaysDateTime(message.timestamp)}</span></time></p>
                         ` : '';
 
+                        // render different html for some message types
                         if (message.type === 'carousel') {
                             html += `<div class="${Courier.settings.classes.chat}-message ${message.typeClassSuffix ? `${Courier.settings.classes.chat}-message${message.typeClassSuffix}` : ''}" data-template="carousel" data-courier-message-id="${index}"></div>`;
                         } else {
