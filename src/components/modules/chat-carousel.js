@@ -12,11 +12,7 @@ export default function (Courier, Components, Events) {
         /**
          * Construct a ChatCarousel instance.
          */
-        mount() {
-            Events.on('mount.after', () => {
-                this.initialize();
-            });
-        },
+        mount() {},
 
         initialize() {
             this.refs.carousel = new Reef(`[data-template="${this.template}"]`, {
@@ -66,6 +62,10 @@ export default function (Courier, Components, Events) {
             return html;
         }
     };
+
+    Events.on('mount.after', () => {
+        ChatCarousel.initialize();
+    });
 
     /**
      * Bind event listeners after App has been rendered

@@ -9,34 +9,7 @@ export default function (Courier, Components, Events) {
         /**
          * Construct a ChatTriggers instance.
          */
-        mount() {
-            Events.on('chat.initialized', () => {
-                this.startMessage();
-                if (Courier.settings.cookies.saveConversation.active) {
-                    this.restoreMessages();
-                }
-            });
-
-            Events.on('chat.refreshMessages', (oldMessagePath) => {
-                // recreate message path
-                this.startMessage();
-                oldMessagePath.forEach((item) => {
-                    this.triggerTopic(item.messageId, item.topicId, {
-                        timestamp: item.timestamp,
-                        topicTriggersEnabled: false
-                    });
-                });
-            });
-
-            Events.on('app.click', (event) => {
-                if (event.target.matches('[data-courier-topic-id]')) {
-                    this.triggerTopic(
-                        event.target.dataset.courierMessageId,
-                        event.target.dataset.courierTopicId,
-                    );
-                }
-            });
-        },
+        mount() {},
 
         startMessage() {
             const startMessage = getStartMessage(Courier.settings.messages);
@@ -128,6 +101,33 @@ export default function (Courier, Components, Events) {
             }
         },
     };
+
+    Events.on('chat.initialized', () => {
+        ChatTriggers.startMessage();
+        if (Courier.settings.cookies.saveConversation.active) {
+            ChatTriggers.restoreMessages();
+        }
+    });
+
+    Events.on('chat.refreshMessages', (oldMessagePath) => {
+        // recreate message path
+        ChatTriggers.startMessage();
+        oldMessagePath.forEach((item) => {
+            ChatTriggers.triggerTopic(item.messageId, item.topicId, {
+                timestamp: item.timestamp,
+                topicTriggersEnabled: false
+            });
+        });
+    });
+
+    Events.on('app.click', (event) => {
+        if (event.target.matches('[data-courier-topic-id]')) {
+            ChatTriggers.triggerTopic(
+                event.target.dataset.courierMessageId,
+                event.target.dataset.courierTopicId,
+            );
+        }
+    });
 
     return ChatTriggers;
 }

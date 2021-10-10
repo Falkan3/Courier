@@ -15,11 +15,7 @@ export default function (Courier, Components, Events) {
         refs: {},
 
         mount() {
-            Events.emit('popup.mount.before');
-            Events.on('mount.after', () => {
-                this.initialize();
-            });
-            Events.emit('popup.mount.after');
+            Events.emit('popup.mount');
         },
 
         /**
@@ -127,6 +123,10 @@ export default function (Courier, Components, Events) {
             Popup.refs.popup.render();
         },
     };
+
+    Events.on('mount.after', () => {
+        Popup.initialize();
+    });
 
     /**
      * Bind event listeners after App has been mounted and rendered for the first time

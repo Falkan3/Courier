@@ -16,17 +16,7 @@ export default function (Courier, Components, Events) {
         refs: {},
 
         mount() {
-            Events.emit('widget.mount.before');
-            this.initialize();
-            if (Courier.settings.cookies.hideWidget.active) {
-                if (widgetIsHidden(Courier.settings.cookies.hideWidget.nameSuffix)) {
-                    this.hide(false);
-                }
-            }
-            if (Courier.settings.state.hideBtnActiveAtStart) {
-                this.refs.widget.data.hideBtnActive = true;
-            }
-            Events.emit('widget.mount.after');
+            Events.emit('widget.mount');
         },
 
         /**
@@ -122,6 +112,18 @@ export default function (Courier, Components, Events) {
             Widget.refs.widget.render();
         },
     };
+
+    Events.on('mount.after', () => {
+        Widget.initialize();
+        if (Courier.settings.cookies.hideWidget.active) {
+            if (widgetIsHidden(Courier.settings.cookies.hideWidget.nameSuffix)) {
+                Widget.hide(false);
+            }
+        }
+        if (Courier.settings.state.hideBtnActiveAtStart) {
+            Widget.refs.widget.data.hideBtnActive = true;
+        }
+    });
 
     /**
      * Bind event listeners after App has been mounted and rendered for the first time

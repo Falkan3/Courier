@@ -20,11 +20,7 @@ export default function (Courier, Components, Events) {
         messagePath: [],
 
         mount() {
-            Events.emit('chat.mount.before');
-            Events.on('mount.after', () => {
-                this.initialize();
-            });
-            Events.emit('chat.mount.after');
+            Events.emit('chat.mount');
         },
 
         /**
@@ -339,6 +335,10 @@ export default function (Courier, Components, Events) {
         },
     };
 
+    Events.on('mount.after', () => {
+        Chat.initialize();
+    });
+
     /**
      * Bind event listeners after App has been mounted and rendered for the first time
      */
@@ -363,6 +363,10 @@ export default function (Courier, Components, Events) {
 
     Events.on('app.click', (event) => {
         Chat.onClick(event);
+    });
+
+    Events.on('root.keydown', (event) => {
+        Chat.onKeydown(event);
     });
 
     Events.on('root.keydown', (event) => {

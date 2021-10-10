@@ -3,11 +3,7 @@ import { debounce, throttle } from '@libs/throttle-debounce/throttle-debounce.es
 
 export default function (Courier, Components, Events) {
     const ChatTyping = {
-        mount() {
-            Events.on('chat.sendMessage', () => {
-                this.stoppedTypingAction();
-            });
-        },
+        mount() {},
 
         typingAction: throttle(300, false, () => {
             Components.Chat.refs.chat.data.state.typing = true;
@@ -21,6 +17,10 @@ export default function (Courier, Components, Events) {
             Events.emit('chat.stoppedTyping');
         }),
     };
+
+    Events.on('chat.sendMessage', () => {
+        ChatTyping.stoppedTypingAction();
+    });
 
     return ChatTyping;
 }
