@@ -199,22 +199,19 @@ A list of available events, emitted and listened to:
 - `app.mounted` - App has been mounted and App.render() has been called
 - `app.rendered` - App render callback
 - `app.click` - Click event delegation callback
-- `widget.mount.before`
-- `widget.mount.after`
+- `widget.mount`
 - `widget.clicked`
 - `widget.closed`
 - `widget.opened`
 - `widget.hidden`
-- `chat.mount.before`
-- `chat.mount.after`
+- `chat.mount`
 - `chat.close`
 - `chat.closed`
 - `chat.opened`
 - `chat.sendMessage`
 - `chat.typing` - upcoming
 - `chat.stoppedTyping` - upcoming
-- `popup.mount.before`
-- `popup.mount.after`
+- `popup.mount`
 - `popup.close`
 - `popup.closed`
 - `popup.opened`
