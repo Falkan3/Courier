@@ -27,12 +27,18 @@
 		transition: background-color cubic-bezier(0.1, 1, 0.6, 1) 0.3s;
 		cursor: pointer;
 
-		&:hover {
+		&:hover,
+		&:focus {
 			background-color: color.scale($btnColorActive, $lightness: 50%);
 		}
 
 		&--active {
 			background-color: $btnColorActive;
+
+			&:hover,
+			&:focus {
+				background-color: color.scale($btnColorActive, $lightness: 25%);
+			}
 		}
 	}
 }
