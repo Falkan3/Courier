@@ -17,10 +17,10 @@ export default function (Courier, Components, Events) {
             // send the start message after initialization
             if (isArray(startMessage)) {
                 startMessage.forEach((message) => {
-                    Components.Chat.pushMessage(message);
+                    Components.Chat.pushMessage(message, { scrollToBottom: false });
                 });
             } else {
-                Components.Chat.pushMessage(startMessage);
+                Components.Chat.pushMessage(startMessage, { scrollToBottom: false });
             }
         },
 
@@ -28,6 +28,7 @@ export default function (Courier, Components, Events) {
             const settings = {
                 topicTriggersEnabled: true,
                 timestamp: new Date(),
+                scrollToBottom: true,
                 ...options
             };
             const { topics } = Components.Chat.refs.chat.data.messages[messageId];
@@ -43,7 +44,8 @@ export default function (Courier, Components, Events) {
                 Components.Chat.pushMessage({
                     text: topic.text,
                     outgoing: true,
-                    timestamp: settings.timestamp
+                    timestamp: settings.timestamp,
+                    scrollToBottom: settings.scrollToBottom
                 });
                 // emit the topic's trigger, if it's set, and topic triggers option is enabled
                 if (settings.topicTriggersEnabled && topic.trigger) {
@@ -95,7 +97,8 @@ export default function (Courier, Components, Events) {
             if (messagePath && isArray(messagePath)) {
                 messagePath.forEach((item) => {
                     this.triggerTopic(item.messageId, item.topicId, {
-                        timestamp: item.timestamp
+                        timestamp: item.timestamp,
+                        scrollToBottom: true
                     });
                 });
             }

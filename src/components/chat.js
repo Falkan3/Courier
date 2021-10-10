@@ -141,8 +141,13 @@ export default function (Courier, Components, Events) {
          * Push message to the log.
          *
          * @param  {Object} message
+         * @param options
          */
-        pushMessage(message) {
+        pushMessage(message, options = {}) {
+            const settings = {
+                scrollToBottom: true,
+                ...options
+            };
             const chatMessage = new ChatMessage(message);
             // user can only send messages when it's their turn
             if (chatMessage.outgoing && !this.refs.chat.data.state.userTurn) return null;
@@ -153,7 +158,9 @@ export default function (Courier, Components, Events) {
             // push message to component data
             this.refs.chat.data.messages.push(chatMessage);
             // set whether after render the chat work area should be scrolled to the bottom
+            if (settings.scrollToBottom) {
             this.scrollToBottom = this.chatIsScrolledToTheBottom();
+            }
             return chatMessage;
         },
 
