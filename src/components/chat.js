@@ -76,6 +76,8 @@ export default function (Courier, Components, Events) {
                 }
                 this.refs.messages = Components.App.refs.app.elem.querySelectorAll(`.${Courier.settings.classes.chat}-message`);
 
+                Events.emit('chat.scrollToBottom', this.scrollToBottom);
+
                 if (this.scrollToBottom) {
                     this.scrollLastMessageIntoView();
                     this.scrollToBottom = false;

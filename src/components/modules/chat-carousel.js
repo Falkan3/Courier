@@ -4,10 +4,9 @@ import Glide, { Controls, Images, Swipe } from '@libs/glidejs/glide.modular.esm'
 
 export default function (Courier, Components, Events) {
     const ChatCarousel = {
-        refs: {
-            carousels: []
-        },
+        refs: {},
         template: 'carousel',
+        scrollToBottom: false,
 
         /**
          * Construct a ChatCarousel instance.
@@ -79,18 +78,21 @@ export default function (Courier, Components, Events) {
      */
     Events.on('app.rendered', (event) => {
         if (event.target.matches('#courierChat')) {
-            // if (ChatCarousel.refs.carousels) {
-            //     ChatCarousel.refs.carousels.forEach((carousel) => {
-            //         Components.Chat.refs.chat.detach(carousel);
-            //     });
-            // }
-            // ChatCarousel.refs.carousels = [];
-
+            // remove existing reef instances
+            if (ChatCarousel.refs.carousels) {
+                ChatCarousel.refs.carousels.forEach((carousel, index) => {
+                    Components.Chat.refs.chat.detach(carousel);
+                    delete ChatCarousel.refs.carousels[index];
+                });
+            }
+            ChatCarousel.refs.carousels = [];
+            // find all templates
             const carousels = Components.App.refs.app.elem.querySelectorAll(`[data-template="${ChatCarousel.template}"]`);
             carousels.forEach((carousel) => {
                 for (let i = 0, { length } = ChatCarousel.refs.carousels.length; i < length; i++) {
                     if (carousel === ChatCarousel.refs.carousels[i]) return;
                 }
+                // initialize new reef instances
                 ChatCarousel.refs.carousels.push(new Reef(`[data-template="${ChatCarousel.template}"][data-courier-message-id="${carousel.dataset.courierMessageId}"]`, {
                     data: {},
                     template: (props, elem) => ChatCarousel.generateHtml(props, elem),
@@ -101,7 +103,19 @@ export default function (Courier, Components, Events) {
 
         if (event.target.matches(`[data-template="${ChatCarousel.template}"]`)) {
             ChatCarousel.initGlide(event.target);
+
+            if (ChatCarousel.scrollToBottom) {
+                Components.App.refs.app.elem.querySelector('#courierChatWorkArea').scrollTop += event.target.clientHeight;
+            }
         }
+    });
+
+    Events.on('chat.scrollToBottom', (state) => {
+        ChatCarousel.scrollToBottom = state;
+    });
+
+    Events.on(['destroy:after'], () => {
+        ChatCarousel.refs = {};
     });
 
     return ChatCarousel;
