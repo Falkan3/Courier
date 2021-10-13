@@ -4,7 +4,10 @@ import Glide, { Controls, Images, Swipe } from '@libs/glidejs/glide.modular.esm'
 
 export default function (Courier, Components, Events) {
     const ChatCarousel = {
-        refs: {},
+        refs: {
+            carousels: [],
+            glides: []
+        },
         template: 'carousel',
         scrollToBottom: false,
 
@@ -17,7 +20,7 @@ export default function (Courier, Components, Events) {
 
         initGlide(rootElem) {
             // Mount glide carousels
-            new Glide(rootElem.querySelector('.glide'), {
+            const glide = new Glide(rootElem.querySelector('.glide'), {
                 type: 'carousel',
                 startAt: 0,
                 perView: 1,
@@ -25,7 +28,16 @@ export default function (Courier, Components, Events) {
                     before: 0,
                     after: 150
                 }
-            }).mount({ Controls, Swipe, Images });
+            });
+            glide.mount({ Controls, Swipe, Images });
+            this.refs.glides.push(glide);
+        },
+
+        destroyGlides() {
+            this.refs.glides.forEach((glide) => {
+                glide.destroy();
+            });
+            this.refs.glides = [];
         },
 
         generateHtml(props, elem) {
@@ -77,7 +89,7 @@ export default function (Courier, Components, Events) {
      * Bind event listeners after App has been rendered
      */
     Events.on('app.rendered', (event) => {
-        if (event.target.matches('#courierChat')) {
+        if (event.target.matches('#courierChat') && Components.Chat.refs.chat.data.state.active) {
             // remove existing reef instances
             if (ChatCarousel.refs.carousels) {
                 ChatCarousel.refs.carousels.forEach((carousel, index) => {
@@ -86,11 +98,14 @@ export default function (Courier, Components, Events) {
                 });
             }
             ChatCarousel.refs.carousels = [];
+            ChatCarousel.destroyGlides();
+
             // find all templates
             const carousels = Components.App.refs.app.elem.querySelectorAll(`[data-template="${ChatCarousel.template}"]`);
             carousels.forEach((carousel) => {
-                for (let i = 0, { length } = ChatCarousel.refs.carousels.length; i < length; i++) {
-                    if (carousel === ChatCarousel.refs.carousels[i]) return;
+                for (let i = 0; i < ChatCarousel.refs.carousels.length; i++) {
+                    // skip if the carousel has been initialized as a reef instance already
+                    if (carousel.matches(ChatCarousel.refs.carousels[i].elem)) return;
                 }
                 // initialize new reef instances
                 ChatCarousel.refs.carousels.push(new Reef(`[data-template="${ChatCarousel.template}"][data-courier-message-id="${carousel.dataset.courierMessageId}"]`, {
@@ -101,7 +116,7 @@ export default function (Courier, Components, Events) {
             });
         }
 
-        if (event.target.matches(`[data-template="${ChatCarousel.template}"]`)) {
+        if (event.target.matches(`[data-template="${ChatCarousel.template}"]`) && Components.Chat.refs.chat.data.state.active) {
             ChatCarousel.initGlide(event.target);
 
             if (ChatCarousel.scrollToBottom) {
@@ -115,7 +130,10 @@ export default function (Courier, Components, Events) {
     });
 
     Events.on(['destroy:after'], () => {
-        ChatCarousel.refs = {};
+        ChatCarousel.refs = {
+            carousels: [],
+            glides: []
+        };
     });
 
     return ChatCarousel;
