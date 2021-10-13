@@ -39,6 +39,7 @@
             }
         ],
         "no-unused-vars": "warn",
-        "prefer-object-spread": "warn"
+        "prefer-object-spread": "warn",
+        "max-len": ["error", {"code": 100, "ignoreTemplateLiterals": true, "ignoreStrings": true}]
     }
 }
