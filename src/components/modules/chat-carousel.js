@@ -1,6 +1,7 @@
 /* eslint-disable import/no-unresolved */
 import Reef from '@libs/reefjs/reef.es';
 import Glide, { Controls, Images, Swipe } from '@libs/glidejs/glide.modular.esm';
+import { addAffix, formatPercentage } from '@utils/string';
 
 export default function (Courier, Components, Events) {
     const ChatCarousel = {
@@ -47,13 +48,13 @@ export default function (Courier, Components, Events) {
             let carouselItemsHtml = '';
             let carouselBullets = '';
             message.carousel.items.forEach((carouselItem, carouselItemIndex) => {
-                const priceCurrentHtml = carouselItem.price ? `
+                const priceCurrentHtml = carouselItem.price.value ? `
                 <div class="${Courier.settings.classes.chat}-carousel__item-price-wrapper">
-                    <p class="${Courier.settings.classes.chat}-carousel__item-price-tag tx-wb">${carouselItem.price}</p>
+                    <p class="${Courier.settings.classes.chat}-carousel__item-price-tag tx-wb">${addAffix(carouselItem.price.value, carouselItem.price.affix[0], carouselItem.price.affix[1])}</p>
                 </div>` : '';
-                const priceOldHtml = carouselItem.priceOld ? `
+                const priceOldHtml = carouselItem.price.old ? `
                 <div class="${Courier.settings.classes.chat}-carousel__item-price-wrapper">
-                    <p class="${Courier.settings.classes.chat}-carousel__item-price-old tx-wb">${carouselItem.priceOld}</p>
+                    <p class="${Courier.settings.classes.chat}-carousel__item-price-old tx-wb">${addAffix(carouselItem.price.old, carouselItem.price.affix[0], carouselItem.price.affix[1])}</p>
                 </div>` : '';
                 const priceHtml = priceOldHtml || priceCurrentHtml ? `
                 <div class="${Courier.settings.classes.chat}-carousel__item-price">
@@ -61,10 +62,20 @@ export default function (Courier, Components, Events) {
                     ${priceOldHtml}
                 </div>` : '';
 
+                const discountBadgeHtml = carouselItem.price.old && carouselItem.price.value ? `
+                <div class="${Courier.settings.classes.chat}-carousel__item-discount">
+                    <p class="${Courier.settings.classes.chat}-carousel__item-discount-badge">-${formatPercentage((carouselItem.price.old - carouselItem.price.value) / carouselItem.price.old)}</p>
+                </div>` : '';
+
                 carouselItemsHtml += `
                     <li class="${Courier.settings.classes.chat}-carousel__item glide__slide">
                         <div class="${Courier.settings.classes.chat}-carousel__item-content">
-                            <img class="${Courier.settings.classes.chat}-carousel__item-img" src="${carouselItem.img.src}" alt="${carouselItem.img.alt}" />
+                            <div class="${Courier.settings.classes.chat}-carousel__item-img">
+                                 <div class="${Courier.settings.classes.chat}-carousel__item-img-wrapper">
+                                    <img class="${Courier.settings.classes.chat}-carousel__item-img-content" src="${carouselItem.img.src}" alt="${carouselItem.img.alt}" />
+                                    ${discountBadgeHtml}
+                                </div>
+                            </div>
                             <div class="${Courier.settings.classes.chat}-carousel__item-body">
                                 <p class="tx-bigger tx-wb">${carouselItem.title}</p>
                                 ${priceHtml}

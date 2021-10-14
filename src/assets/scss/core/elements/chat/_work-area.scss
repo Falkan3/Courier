@@ -213,17 +213,25 @@
 			height: 100%;
 			border-radius: 4px;
 			background-color: $messageCarouselPrimaryColor;
-			box-shadow: rgba(0, 0, 0, 0.1) 0 4px 12px;
+			box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 		}
 
 		&-img {
-			display: block;
-			width: auto;
-			max-width: 100%;
-			height: 8rem;
-			margin-left: auto;
-			margin-right: auto;
+			position: relative;
 			padding: 0.5rem;
+
+			&-wrapper {
+				padding: 0.5em;
+			}
+
+			&-content {
+				display: block;
+				width: auto;
+				max-width: 100%;
+				height: 8em;
+				margin-left: auto;
+				margin-right: auto;
+			}
 		}
 
 		&-body {
@@ -285,6 +293,20 @@
 			&-old {
 				padding: 0.5em 0;
 				text-decoration: line-through;
+			}
+		}
+
+		&-discount {
+			position: absolute;
+			bottom: 0;
+			right: 0;
+
+			&-badge {
+				background: rgba(255, 174, 91, 25%);
+				color: rgb(145, 75, 4);
+				padding: 2px 0.5rem;
+				border-left: solid 3px rgb(255, 174, 91);
+				box-shadow: 0 4px 12px rgba(0, 0, 0, 35%);
 			}
 		}
 
