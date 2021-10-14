@@ -47,13 +47,27 @@ export default function (Courier, Components, Events) {
             let carouselItemsHtml = '';
             let carouselBullets = '';
             message.carousel.items.forEach((carouselItem, carouselItemIndex) => {
+                const priceCurrentHtml = carouselItem.price ? `
+                <div class="${Courier.settings.classes.chat}-carousel__item-price-wrapper">
+                    <p class="${Courier.settings.classes.chat}-carousel__item-price-tag tx-wb">${carouselItem.price}</p>
+                </div>` : '';
+                const priceOldHtml = carouselItem.priceOld ? `
+                <div class="${Courier.settings.classes.chat}-carousel__item-price-wrapper">
+                    <p class="${Courier.settings.classes.chat}-carousel__item-price-old tx-wb">${carouselItem.priceOld}</p>
+                </div>` : '';
+                const priceHtml = priceOldHtml || priceCurrentHtml ? `
+                <div class="${Courier.settings.classes.chat}-carousel__item-price">
+                    ${priceCurrentHtml}
+                    ${priceOldHtml}
+                </div>` : '';
+
                 carouselItemsHtml += `
                     <li class="${Courier.settings.classes.chat}-carousel__item glide__slide">
                         <div class="${Courier.settings.classes.chat}-carousel__item-content">
                             <img class="${Courier.settings.classes.chat}-carousel__item-img" src="${carouselItem.img.src}" alt="${carouselItem.img.alt}" />
                             <div class="${Courier.settings.classes.chat}-carousel__item-body">
                                 <p class="tx-bigger tx-wb">${carouselItem.title}</p>
-                                <p class="${Courier.settings.classes.chat}-carousel__item-price tx-wb">${carouselItem.price}</p>
+                                ${priceHtml}
                             </div>
                             <div class="${Courier.settings.classes.chat}-carousel__item-footer">
                                 <p><a href="${carouselItem.link}" rel="noreferrer">${carouselItem.goToProduct ? carouselItem.goToProduct : Courier.settings.texts.goToProduct}</a></p>
