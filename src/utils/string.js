@@ -14,6 +14,12 @@ export function extract([beg, end]) {
     };
 }
 
+export function roundNumber(value, decimalPlaces = 2) {
+    const factorOfTen = 10 ** (decimalPlaces);
+    return +(Math.round((value + Number.EPSILON) * factorOfTen) / factorOfTen)
+    .toFixed(decimalPlaces); // use +(number) to cast to a number and remove trailing zeroes
+}
+
 /**
  * Calculate a percentage and format it using settings.
  *
@@ -21,7 +27,7 @@ export function extract([beg, end]) {
  */
 export function formatPercentage(value) {
     const formattedVal = parseFloat(value);
-    return `${+(formattedVal * 100).toFixed(2)}%`; // use +(number) to cast to a number and remove trailing zeroes
+    return `${roundNumber(formattedVal) * 100}%`;
 }
 
 /**
