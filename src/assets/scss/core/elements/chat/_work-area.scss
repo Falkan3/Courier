@@ -302,10 +302,11 @@
 			right: 0;
 
 			&-badge {
-				background: rgba(255, 174, 91, 25%);
-				color: rgb(145, 75, 4);
 				padding: 2px 0.5rem;
 				border-left: solid 3px rgb(255, 174, 91);
+				background-color: rgba(255, 174, 91, 25%);
+				font-size: 1.2em;
+				color: rgb(145, 75, 4);
 				box-shadow: 0 4px 12px rgba(0, 0, 0, 35%);
 			}
 		}
