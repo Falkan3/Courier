@@ -274,7 +274,7 @@ export default function (Courier, Components, Events) {
                         messages += html;
                     }
 
-                    const messageBox = props.messageBox
+                    const messageBox = props.state.showMessageBox
                         ? `
                         <form id="courierChatInteractionsForm" class="${Courier.settings.classes.chat}-interactions" autocomplete="off">
                             <textarea class="${Courier.settings.classes.chat}-message-box" name="message" ${!props.state.messageBoxEnabled ? 'disabled' : ''} placeholder="${props.texts.messagePlaceholder}" rows="2" autofocus></textarea>
