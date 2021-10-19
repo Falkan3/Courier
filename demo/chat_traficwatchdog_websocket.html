@@ -12,6 +12,11 @@
     <link rel="stylesheet" href="../dist/css/courier.core.css">
     <link rel="stylesheet" href="../dist/css/courier.theme.css">
     <script src="../dist/js/courier.js"></script>
+	<style>
+		.courier .courier__chat-avatar > img {
+			object-fit: contain;
+		}
+	</style>
 </head>
 <body>
     <script>
@@ -44,6 +49,7 @@
             state: {
                 showMessageBox: true,
                 customSendMessage: true,
+				hideBtnActiveAtStart: true,
             },
             cookies: {
                 saveConversation: {
