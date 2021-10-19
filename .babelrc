@@ -6,9 +6,7 @@
                 [
                     "@babel/preset-env",
                     {
-                        "useBuiltIns": "usage",
-                        "corejs": "3.18.2",
-                        "targets": { "esmodules": true }
+                        "corejs": 3
                     }
                 ]
             ],
