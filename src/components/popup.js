@@ -126,6 +126,7 @@ export default function (Courier, Components, Events) {
 
     Events.on('mount.after', () => {
         Popup.initialize();
+        Popup.render();
     });
 
     /**

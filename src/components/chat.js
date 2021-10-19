@@ -349,6 +349,7 @@ export default function (Courier, Components, Events) {
 
     Events.on('mount.after', () => {
         Chat.initialize();
+        Chat.render();
     });
 
     /**

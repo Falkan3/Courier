@@ -65,7 +65,7 @@ export default function (Courier, Components, Events) {
                     active: true,
                     widgetImg: Courier.settings.images.widget,
                     text: Courier.settings.textsParsed.widgetGreeting,
-                    hideBtnActive: false,
+                    hideBtnActive: Courier.settings.state.hideBtnActiveAtStart,
                 },
                 template: (props) => {
                     if (!props.active) {
@@ -120,9 +120,7 @@ export default function (Courier, Components, Events) {
                 Widget.hide(false);
             }
         }
-        if (Courier.settings.state.hideBtnActiveAtStart) {
-            Widget.refs.widget.data.hideBtnActive = true;
-        }
+        Widget.render();
     });
 
     /**
