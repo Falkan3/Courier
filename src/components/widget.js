@@ -76,19 +76,18 @@ export default function (Courier, Components, Events) {
                         ? `
                         <div class="${Courier.settings.classes.widget}-img" aria-hidden="true">
                             ${Courier.settings.images.widget}
-                        </div>
-                        `
+                        </div>`
                         : '';
 
                     const widgetText = props.text
-                        ? `<p class="${Courier.settings.classes.widget}-txt">${props.text}</p>` : '';
+                        ? `<p class="${Courier.settings.classes.widget}-txt">${props.text}</p>`
+                        : '';
 
                     const hideBtn = props.hideBtnActive
                         ? `
                         <button id="courierWidgetHideButton" class="${Courier.settings.classes.widget}-hide-btn" type="button" aria-label="Hide widget">
                             ${Courier.settings.images.closeBtn}
-                        </button>
-                        `
+                        </button>`
                         : '';
 
                     return `

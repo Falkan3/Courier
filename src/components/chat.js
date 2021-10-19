@@ -234,16 +234,16 @@ export default function (Courier, Components, Events) {
                         // generate message html
                         let html = '';
 
-                        html += props.state.showTimestamp && message.timestamp ? `
-                            <p class="${Courier.settings.classes.chat}-timestamp ${message.outgoing ? `${Courier.settings.classes.chat}-timestamp--self` : ''} courier__appear courier__anim-timing--third"><time datetime="${message.timestamp}"><span aria-hidden="true">${shortenTodaysDateTime(message.timestamp)}</span></time></p>
-                        ` : '';
+                        html += props.state.showTimestamp && message.timestamp
+                            ? `<p class="${Courier.settings.classes.chat}-timestamp ${message.outgoing ? `${Courier.settings.classes.chat}-timestamp--self` : ''} courier__appear courier__anim-timing--third"><time datetime="${message.timestamp}"><span aria-hidden="true">${shortenTodaysDateTime(message.timestamp)}</span></time></p>`
+                            : '';
 
                         // render different html for some message types
                         if (message.type === 'carousel') {
                             html += `<div class="${Courier.settings.classes.chat}-message ${message.typeClassSuffix ? `${Courier.settings.classes.chat}-message${message.typeClassSuffix}` : ''}" data-template="carousel" data-courier-message-id="${index}"></div>`;
                         } else {
-                            html += message.text ? `
-                            <p class="${Courier.settings.classes.chat}-message ${message.outgoing ? `${Courier.settings.classes.chat}-message--self` : ''} ${message.typeClassSuffix ? `${Courier.settings.classes.chat}-message${message.typeClassSuffix}` : ''} courier__appear courier__anim-timing--third" data-courier-message-id="${index}">${message.text}</p>`
+                            html += message.text
+                                ? `<p class="${Courier.settings.classes.chat}-message ${message.outgoing ? `${Courier.settings.classes.chat}-message--self` : ''} ${message.typeClassSuffix ? `${Courier.settings.classes.chat}-message${message.typeClassSuffix}` : ''} courier__appear courier__anim-timing--third" data-courier-message-id="${index}">${message.text}</p>`
                                 : '';
                         }
 
