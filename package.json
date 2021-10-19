@@ -5,7 +5,7 @@
     "author": "Adam Kocić (Falkan3)",
     "homepage": "https://github.com/Falkan3/courier#readme",
     "main": "dist/js/courier.js",
-    "module": "dist/js/courier.esm.js",
+    "module": "dist/js/esm/modular/courier.esm.js",
     "unpkg": "dist/js/courier.js",
     "repository": {
         "type": "git",
