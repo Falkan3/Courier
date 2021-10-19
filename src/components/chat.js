@@ -71,7 +71,7 @@ export default function (Courier, Components, Events) {
             // Only run for elements with the #courierChat ID
             if (event.target.matches('#courierChat')) {
                 this.refs.form = Components.App.refs.app.elem.querySelector('#courierChatInteractionsForm');
-                if (this.refs.chat.data.state.messageBox) {
+                if (this.refs.chat.data.state.showMessageBox) {
                     this.refs.messageBox = Components.App.refs.app.elem.querySelector(`.${Courier.settings.classes.chat}-message-box`);
                 }
                 this.refs.messages = Components.App.refs.app.elem.querySelectorAll(`.${Courier.settings.classes.chat}-message`);
@@ -191,7 +191,6 @@ export default function (Courier, Components, Events) {
         initialize() {
             Chat.refs.chat = new Reef('#courierChat', {
                 data: {
-                    messageBox: Courier.settings.state.showMessageBox,
                     identity: {
                         name: Courier.settings.identity.name,
                         website: Courier.settings.identity.website,
@@ -220,6 +219,7 @@ export default function (Courier, Components, Events) {
                         active: false,
                         online: Courier.settings.state.online,
                         userTurn: true,
+                        showMessageBox: Courier.settings.state.showMessageBox,
                         messageBoxEnabled: Courier.settings.state.messageBoxEnabled,
                         showTimestamp: Courier.settings.state.showTimestamp,
                         typing: false,
