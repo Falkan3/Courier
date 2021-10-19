@@ -62,14 +62,14 @@
 	 * ----------------------------------- */
 
 	/* core elements */
-	// @import 'core/elements/widget';
-	@include meta.load-css("core/elements/widget");
+	@import 'core/elements/widget';
+	// @include meta.load-css("core/elements/widget");
 
 	/* optional elements */
 	@import "core/elements/chat";
 	// @include meta.load-css('core/elements/chat');
-	// @import 'core/elements/popup';
-	@include meta.load-css("core/elements/popup");
+	@import 'core/elements/popup';
+	// @include meta.load-css("core/elements/popup");
 
 	/* antialias font */
 	-webkit-font-smoothing: antialiased;
