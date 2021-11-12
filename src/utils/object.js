@@ -136,6 +136,9 @@ export function mergeOptions(defaults, settings) {
     if (Object.hasOwnProperty.call(settings, 'messages')) {
         options.messages = { ...defaults.messages, ...settings.messages };
     }
+    if (Object.hasOwnProperty.call(settings, 'moduleData')) {
+        options.moduleData = { ...defaults.moduleData, ...settings.moduleData };
+    }
     if (Object.hasOwnProperty.call(settings, 'state')) {
         options.state = { ...defaults.state, ...settings.state };
     }

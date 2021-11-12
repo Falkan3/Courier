@@ -41,7 +41,7 @@ npm install @falkan3/courier
 
 Install via package.json:
 ```json
-"@falkan3/courier": "^1.0.7"
+"@falkan3/courier": "^1.1.7"
 ```
 
 # Usage
@@ -160,6 +160,11 @@ Collection of messages and topics to be held by the chat bot.
 messages: {},
 ```
 
+Collection of used to supply data to optional module instances.
+```js
+moduleData: {},
+```
+
 Settings that are responsible for the state of elements.
 ```js
 state: {
@@ -235,6 +240,12 @@ import Widget from '../src/components/widget';
 /* Optional components */
 import Chat from '../src/components/chat';
 // import Popup from '../src/components/popup';
+/* Modules */
+/* Chat */
+import ChatTriggersModule from '../src/components/modules/chat-triggers';
+import ChatCarouselModule from '../src/components/modules/chat-carousel';
+/* Popup */
+// import PopupCarouselModule from '../src/components/modules/popup-carousel';
 
 const COMPONENTS = {
   /* Required */

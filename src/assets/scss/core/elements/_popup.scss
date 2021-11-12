@@ -20,4 +20,7 @@ $linkColor: #0b77ce;
 	@import "popup/work-area"; // the work area where the content is shown
 	@import "popup/powered-by"; // the powered by section
 	@import "popup/close-button"; // the close button
+
+	/* optional modules */
+	@import "../modules/glide";
 }

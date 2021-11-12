@@ -5,9 +5,12 @@ import Widget from '../src/components/widget';
 import Chat from '../src/components/chat';
 import Popup from '../src/components/popup';
 /* Modules */
+/* Chat */
 import ChatTriggersModule from '../src/components/modules/chat-triggers';
 import ChatCarouselModule from '../src/components/modules/chat-carousel';
 import ChatTypingModule from '../src/components/modules/chat-typing';
+/* Popup */
+import PopupCarouselModule from '../src/components/modules/popup-carousel';
 
 const COMPONENTS = {
     App,
@@ -18,9 +21,12 @@ export {
     Chat,
     Popup,
     /* Modules */
+    /* Chat */
     ChatTriggersModule,
     ChatCarouselModule,
-    ChatTypingModule
+    ChatTypingModule,
+    /* Popup */
+    PopupCarouselModule,
 };
 
 export default class Courier extends Core {

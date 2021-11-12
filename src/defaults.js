@@ -113,6 +113,13 @@ export default {
     messages: {},
 
     /**
+     * Collection used to supply data to optional module instances.
+     *
+     * @type {Object}
+     */
+    moduleData: {},
+
+    /**
      * Settings that are responsible for the state of elements.
      *
      * @type {Object}

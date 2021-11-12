@@ -1,12 +1,219 @@
+@use "sass:color";
+
 /*
  * Work area
  */
 &-work-area {
 	flex-grow: 1;
+	max-width: 100%;
 
 	&-img {
 		display: block;
 		max-width: 100%;
 		margin: 0 auto;
+	}
+
+	a {
+		color: $linkColor;
+		text-decoration: none;
+		transition: color cubic-bezier(0.1, 1, 0.6, 1) 0.3s;
+
+		&:hover {
+			color: color.scale($linkColor, $lightness: 30%);
+		}
+	}
+}
+
+/*
+ * Carousel
+ */
+&-carousel {
+	/* width */
+	&::-webkit-scrollbar {
+		height: 8px;
+	}
+
+	/* track */
+	&::-webkit-scrollbar-track {
+		background-color: $workAreaScrollbarTrackColor;
+	}
+
+	/* handle */
+	&::-webkit-scrollbar-thumb {
+		background-color: $workAreaScrollbarHandleColor;
+
+		/* handle on hover */
+		&:hover {
+			background-color: color.scale($workAreaScrollbarHandleColor, $lightness: -10%);
+		}
+	}
+
+	/* only use without carousel library */
+	//&:not(.glide) {
+	//	display: flex;
+	//	flex-direction: row;
+	//	flex-wrap: nowrap;
+	//	overflow: auto;
+	//	scroll-snap-type: x proximity;
+	//}
+
+	&__item {
+		display: block;
+		margin-top: 12px;
+		margin-bottom: 12px;
+
+		/* only use without carousel library */
+		//&:not(.glide) {
+		//	flex: 0 0 50%;
+		//	scroll-snap-align: start;
+		//}
+
+		&:not(:first-child) {
+			margin-left: 6px;
+		}
+
+		&:not(:last-child) {
+			margin-right: 6px;
+		}
+
+		&:last-child {
+			scroll-snap-align: end;
+		}
+
+		&-content {
+			display: flex;
+			flex-direction: column;
+			height: 100%;
+			border-radius: 4px;
+			background-color: $messageCarouselPrimaryColor;
+			box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+		}
+
+		&-img {
+			position: relative;
+			padding: 0.5rem;
+
+			&-wrapper {
+				position: relative;
+				padding: 0.5em;
+			}
+
+			&-content {
+				display: block;
+				width: auto;
+				max-width: 100%;
+				height: 8em;
+				margin-left: auto;
+				margin-right: auto;
+			}
+		}
+
+		&-body {
+			flex-grow: 1;
+			display: flex;
+			flex-direction: column;
+			justify-content: flex-end;
+			padding: 0.5em 1em;
+			text-align: center;
+		}
+
+		&-price {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			flex-wrap: wrap;
+			margin: -0.25em;
+
+			&-wrapper {
+				padding: 0.25em;
+			}
+
+			&-tag {
+				position: relative;
+				display: inline-block;
+				width: auto;
+				margin-left: 1em;
+				border-left: 1px solid #6ab070;
+				border-radius: 3px 4px 4px 3px;
+				padding: 0.5rem;
+				background-color: #6ab070;
+				line-height: 1;
+				color: #fff;
+
+				&::before {
+					content: "";
+					position: absolute;
+					left: -1em;
+					top: 50%;
+					width: 0;
+					height: 0;
+					border-top: 1em solid transparent;
+					border-bottom: 1em solid transparent;
+					border-right: 1em solid #6ab070;
+					transform: translateY(-50%);
+				}
+
+				&::after {
+					content: "";
+					position: absolute;
+					left: -0.25em;
+					top: 50%;
+					width: 4px;
+					height: 4px;
+					border-radius: 50%;
+					background-color: #fff;
+					transform: translateY(-50%);
+				}
+			}
+
+			&-old {
+				padding: 0.5em 0;
+				text-decoration: line-through;
+			}
+		}
+
+		&-discount {
+			//position: absolute;
+			//bottom: 0;
+			//right: 0;
+			//
+			//&-badge {
+			//	padding: 2px 0.5rem;
+			//	border-left: solid 3px rgb(255, 174, 91);
+			//	background-color: rgba(255, 174, 91, 25%);
+			//	font-size: 1.2em;
+			//	color: rgb(145, 75, 4);
+			//	box-shadow: 0 4px 12px rgba(0, 0, 0, 35%);
+			//}
+
+			/* individual discount badge */
+			&-individual {
+				display: flex;
+				flex-direction: column;
+
+				&-value {
+					align-self: center;
+					margin-bottom: 4px;
+					padding: 4px 1em;
+					border: solid 2px #6ab070;
+					font-size: 1.2em;
+					text-align: center;
+					color: #6ab070;
+					font-weight: bold;
+					border-radius: 34px;
+				}
+
+				&-text {
+					font-size: 0.8em;
+					text-align: center;
+				}
+			}
+		}
+
+		&-footer {
+			padding: 0.5rem;
+			border-top: solid 1px color.scale($messageCarouselPrimaryColor, $lightness: -10%);
+			text-align: center;
+		}
 	}
 }
