@@ -24,10 +24,12 @@ export function roundNumber(value, decimalPlaces = 2) {
  * Calculate a percentage and format it using settings.
  *
  * @param  {String|Number} value
+ * @param addPercent
  */
-export function formatPercentage(value) {
+export function formatPercentage(value, addPercent = true) {
     const formattedVal = parseFloat(value);
-    return `${roundNumber(formattedVal) * 100}%`;
+    const percentVal = roundNumber(formattedVal) * 100;
+    return addPercent ? `${percentVal}%` : percentVal;
 }
 
 /**

@@ -71,6 +71,7 @@ export default function (Courier, Components, Events) {
             // Only run for elements with the #courierChat ID
             if (event.target.matches('#courierChat')) {
                 this.refs.form = Components.App.refs.app.elem.querySelector('#courierChatInteractionsForm');
+                this.refs.workArea = Components.App.refs.app.elem.querySelector('#courierChatWorkArea');
                 if (this.refs.chat.data.state.showMessageBox) {
                     this.refs.messageBox = Components.App.refs.app.elem.querySelector(`.${Courier.settings.classes.chat}-message-box`);
                 }

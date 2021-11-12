@@ -72,9 +72,16 @@ export default function (Courier, Components, Events) {
                     ${priceOldHtml}
                 </div>` : '';
 
+                // const discountBadgeHtml = carouselItem.price.discount ? `
+                // <div class="${Courier.settings.classes.chat}-carousel__item-discount">
+                // eslint-disable-next-line max-len
+                //     <p class="${Courier.settings.classes.chat}-carousel__item-discount-badge">-${formatPercentage(carouselItem.price.discount)}</p>
+                // </div>` : '';
+
                 const discountBadgeHtml = carouselItem.price.discount ? `
-                <div class="${Courier.settings.classes.chat}-carousel__item-discount">
-                    <p class="${Courier.settings.classes.chat}-carousel__item-discount-badge">-${formatPercentage(carouselItem.price.discount)}</p>
+                <div class="${Courier.settings.classes.chat}-carousel__item-discount-individual">
+                <p class="${Courier.settings.classes.chat}-carousel__item-discount-individual-value">-${formatPercentage(carouselItem.price.discount, false)}<span class="tx-smaller">%</span></p>
+                    <p class="${Courier.settings.classes.chat}-carousel__item-discount-individual-text">${props.texts.individualDiscount}</p>
                 </div>` : '';
 
                 carouselItemsHtml += `
@@ -144,7 +151,11 @@ export default function (Courier, Components, Events) {
                 }
                 // initialize new reef instances
                 ChatCarousel.refs.carousels.push(new Reef(`[data-template="${ChatCarousel.template}"][data-courier-message-id="${carousel.dataset.courierMessageId}"]`, {
-                    data: {},
+                    data: {
+                        texts: {
+                            individualDiscount: Courier.settings.textsParsed.individualDiscount,
+                        },
+                    },
                     template: (props, elem) => ChatCarousel.generateHtml(props, elem),
                     attachTo: Components.Chat.refs.chat
                 }));
@@ -155,7 +166,7 @@ export default function (Courier, Components, Events) {
             ChatCarousel.initGlide(event.target);
 
             if (ChatCarousel.scrollToBottom) {
-                Components.App.refs.app.elem.querySelector('#courierChatWorkArea').scrollTop += event.target.clientHeight;
+                Components.Chat.refs.workArea.scrollTop += event.target.clientHeight;
             }
         }
     });
