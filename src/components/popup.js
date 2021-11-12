@@ -46,12 +46,12 @@ export default function (Courier, Components, Events) {
         },
 
         close() {
-            this.refs.popup.data.active = false;
+            this.refs.popup.data.state.active = false;
             Events.emit('popup.closed');
         },
 
         open() {
-            this.refs.popup.data.active = true;
+            this.refs.popup.data.state.active = true;
             Events.emit('popup.opened');
         },
 
@@ -65,7 +65,6 @@ export default function (Courier, Components, Events) {
         initialize() {
             Popup.refs.popup = new Reef('#courierPopup', {
                 data: {
-                    active: false,
                     text: {
                         popupContent: Courier.settings.textsParsed.popupContent,
                     },
@@ -78,10 +77,12 @@ export default function (Courier, Components, Events) {
                         },
                         url: Courier.settings.poweredBy.url,
                     },
-                    state: {},
+                    state: {
+                        active: false,
+                    },
                 },
                 template: (props) => {
-                    if (!props.active) {
+                    if (!props.state.active) {
                         return '';
                     }
 
