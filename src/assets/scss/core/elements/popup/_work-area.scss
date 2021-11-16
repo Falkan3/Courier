@@ -85,7 +85,7 @@
 			flex-direction: column;
 			height: 100%;
 			border-radius: 4px;
-			background-color: $messageCarouselPrimaryColor;
+			background-color: $contentCarouselPrimaryColor;
 			box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 		}
 
@@ -212,7 +212,7 @@
 
 		&-footer {
 			padding: 0.5rem;
-			border-top: solid 1px color.scale($messageCarouselPrimaryColor, $lightness: -10%);
+			border-top: solid 1px color.scale($contentCarouselPrimaryColor, $lightness: -10%);
 			text-align: center;
 		}
 	}

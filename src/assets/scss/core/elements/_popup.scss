@@ -7,6 +7,10 @@ $btnColorActive: #64b5f6;
 $mainBgColor: #fbfbfb;
 // work area
 $linkColor: #0b77ce;
+$workAreaScrollbarTrackColor: #e6e6e6;
+$workAreaScrollbarHandleColor: #b3b3b3;
+// content
+$contentCarouselPrimaryColor: #fff;
 
 #{variables.$classPrefix}__popup {
 	position: fixed;
