@@ -134,7 +134,7 @@ export default function (Courier, Components, Events) {
             // remove existing reef instances
             if (PopupCarousel.refs.carousels) {
                 PopupCarousel.refs.carousels.forEach((carousel, index) => {
-                    Components.Popup.refs.popup.detach(carousel);
+                    // Components.Popup.refs.popup.detach(carousel); // deprecated in v11
                     delete PopupCarousel.refs.carousels[index];
                 });
             }

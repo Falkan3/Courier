@@ -135,7 +135,7 @@ export default function (Courier, Components, Events) {
             // remove existing reef instances
             if (ChatCarousel.refs.carousels) {
                 ChatCarousel.refs.carousels.forEach((carousel, index) => {
-                    Components.Chat.refs.chat.detach(carousel);
+                    // Components.Chat.refs.chat.detach(carousel); // deprecated in v11
                     delete ChatCarousel.refs.carousels[index];
                 });
             }
@@ -163,11 +163,11 @@ export default function (Courier, Components, Events) {
         }
 
         if (event.target.matches(`[data-template="${ChatCarousel.template}"]`) && Components.Chat.refs.chat.data.state.active) {
-            ChatCarousel.initGlide(event.target);
+        ChatCarousel.initGlide(event.target);
 
-            if (ChatCarousel.scrollToBottom) {
-                Components.Chat.refs.workArea.scrollTop += event.target.clientHeight;
-            }
+        if (ChatCarousel.scrollToBottom) {
+            Components.Chat.refs.workArea.scrollTop += event.target.clientHeight;
+        }
         }
     });
 
