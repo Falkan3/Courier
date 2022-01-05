@@ -49,6 +49,7 @@ export default function (Courier, Components, Events) {
 
         hide(save = true) {
             this.refs.widget.data.active = false;
+            this.refs.widget.data.hidden = true;
             if (save) {
                 widgetSetHidden(true, Courier.settings.cookies.hideWidget.duration,
                     Courier.settings.cookies.hideWidget.nameSuffix);
@@ -63,6 +64,7 @@ export default function (Courier, Components, Events) {
             Widget.refs.widget = new Reef('#courierWidget', {
                 data: {
                     active: true,
+                    hidden: false,
                     widgetImg: Courier.settings.images.widget,
                     text: Courier.settings.textsParsed.widgetGreeting,
                     hideBtnActive: Courier.settings.state.hideBtnActiveAtStart,
@@ -137,8 +139,26 @@ export default function (Courier, Components, Events) {
          * Open the widget when the chat or popup closes
          */
         Events.on(['chat.closed', 'popup.closed'], () => {
-            Widget.refs.widget.data.hideBtnActive = true;
-            Widget.open();
+            if (!widgetIsHidden(Courier.settings.cookies.hideWidget.nameSuffix)
+                && !Widget.refs.widget.data.hidden) {
+                Widget.refs.widget.data.hideBtnActive = true;
+                Widget.open();
+            }
+        });
+
+        /**
+         * Add close trigger
+         */
+
+        Events.on('widget.close', () => {
+            Widget.close();
+        });
+
+        /**
+         * Add hide trigger
+         */
+        Events.on('widget.hide', (save) => {
+            Widget.hide(save);
         });
     });
 
