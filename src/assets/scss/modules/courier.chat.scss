@@ -1,0 +1,82 @@
+@charset "utf-8";
+
+@use "../utils/variables";
+@use "../utils/mixins/media-query";
+@use "../utils/mixins/font-size";
+@use "../utils/mixins/palette";
+@use "../libs/decimal-round";
+@use "sass:meta";
+
+@import "../utils/animations";
+
+/* ------------------------------------------
+ *  Libraries - normalize element appearance
+ *  under the root element
+ * ----------------------------------------- */
+
+#{variables.$classPrefix} {
+	//@import 'libs/normalize';
+	@include meta.load-css("../libs/normalize");
+
+	/* normalize focus outline effect */
+	input,
+	textarea,
+	button,
+	a {
+		&:focus {
+			outline: solid 2px #64b5f6;
+		}
+	}
+}
+
+/* -----------------------------------
+ *  Global
+ * ----------------------------------- */
+
+@import url("https://fonts.googleapis.com/css?family=Asap:400,700&display=swap&subset=latin-ext");
+
+/* -----------------------------------
+ *  Root
+ * ----------------------------------- */
+
+#{variables.$classPrefix} {
+	font-family: "Asap", sans-serif;
+	font-size: #{font-size.get-font-size-core("px")};
+	color: #{palette.get-palette-hue("foreground", 1000)};
+	z-index: 1040;
+
+	@include media-query.medium-devices {
+		font-size: #{decimal-round.decimal-floor(font-size.get-font-size-core-raw('px') * 0.9) + "px"};
+	}
+
+	@include media-query.m-small-devices {
+		font-size: #{decimal-round.decimal-floor(font-size.get-font-size-core-raw('px') * 0.8) + "px"};
+	}
+
+	& * {
+		box-sizing: border-box;
+	}
+
+	/* -----------------------------------
+	 *  Components
+	 * ----------------------------------- */
+
+	/* core elements */
+	@import '../core/elements/widget';
+	// @include meta.load-css("core/elements/widget");
+
+	/* optional elements */
+	@import "../core/elements/chat";
+	// @include meta.load-css('core/elements/chat');
+
+	/* antialias font */
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	text-rendering: optimizeLegibility;
+
+	/* modifiers */
+	// @import 'core/modifiers';
+	@include meta.load-css("../core/modifiers");
+
+	/* root modifiers */
+}
