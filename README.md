@@ -102,7 +102,7 @@ For example:
 Collection of text used in components.
 ```js
 texts: {
-  widgetGreeting: 'Hello!',
+  widgetGreeting: 'Hello {{name}}!',
   // chat
   chatTitle: 'Chat with us!',
   messagePlaceholder: 'Type something...',
@@ -112,9 +112,11 @@ texts: {
 }
 ```
 
-Collection of variables which will replace placeholders in text.
+Collection of variables which will replace placeholders (for example `{{name}}`) in text.
 ```js
-textVars: {}
+textVars: {
+  name: 'Adam'
+}
 ```
 
 Collection of variables representing the identity of the service owner.
@@ -132,7 +134,7 @@ identity: {
 }
 ```
 
-Collection of variables representing the identity of the plugin's maker.
+Collection of variables representing the identity of the plugin's supplier.
 ```js
 poweredBy: {
     show: true,
@@ -155,12 +157,12 @@ images: {
 }
 ```
 
-Collection of messages and topics to be held by the chat bot.
+Collection of messages and topics to be held by the chat bot. Example usage can be found in demo files.
 ```js
 messages: {},
 ```
 
-Collection of used to supply data to optional module instances.
+Collection of used to supply data to optional module instances. Example usage can be found in demo files.
 ```js
 moduleData: {},
 ```
@@ -171,7 +173,8 @@ state: {
   hideBtnActiveAtStart: false,
   showMessageBox: false,
   messageBoxEnabled: true,
-  customSendMessage: false
+  customSendMessage: false,
+  showTimestamp: true
 }
 ```
 
@@ -192,25 +195,37 @@ cookies: {
 ```
 
 # Events
+To emit events, use:
+```js 
+courierInstance._eventsBus.emit('eventName', context);
+```  
+To bind to events, use:
+```js 
+courierInstance._eventsBus.on('eventName', (context) => {
+
+});
+```  
 A list of available events, emitted and listened to:
-- `mount.before`
-- `mount.after`
-- `update`
+- `mount.before` - Called before components have been mounted
+- `mount.after` - Called after all components have been mounted. Also used as a callback to render components
+- `update` - Called after the update function has been called, modifying the settings
 - `destroy`
 - `destroy.after`
 - `root.keydown` - Keydown event delegation callback
-- `app.mount.before`
-- `app.mount.after`
+- `app.mount.before` - Called before the app is initialized, that is the template HTML and event bindings
+- `app.mount.after` - Called after the app HTML template is parsed and events are bound
 - `app.mounted` - App has been mounted and App.render() has been called
 - `app.rendered` - App render callback
 - `app.click` - Click event delegation callback
 - `widget.mount`
 - `widget.clicked`
+- `widget.close` - Close the widget
 - `widget.closed`
 - `widget.opened`
-- `widget.hidden`
+- `widget.hide` - Hide the widget and save hidden state to cookie
+- `widget.hidden` - Called after the hide widget logic
 - `chat.mount`
-- `chat.close`
+- `chat.close` - Close the chat
 - `chat.closed`
 - `chat.opened`
 - `chat.sendMessage`
@@ -228,6 +243,23 @@ This plugin is modular and features the following modules:
 
 Only either one of them can be active in the complete version of the Javascript file. The modular file exports all modules, which allows importing only the modules that are required.
 
+## New method
+All module bundles are now generated as separate files, in their corresponding folders in the dist directory.
+
+### JS
+UMD versions:
+- `dist/js/chat/courier.min.js`
+- `dist/js/popup/courier.min.js`
+
+ESM versions:
+- `dist/js/esm/chat/courier.esm.js`
+- `dist/js/esm/popup/courier.esm.js`
+
+### CSS
+- `css/modules/courier.chat.min.css`
+- `css/modules/courier.popup.min.css`
+
+## Old method.
 To change which module is to be compiled in the complete version:
 - Change the imported modules in the `entry/entry-complete.js` file.
 - Change the imported modules in the `src/assets/scss/courier.core.scss` file.

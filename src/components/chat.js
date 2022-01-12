@@ -235,6 +235,7 @@ export default function (Courier, Components, Events) {
                         // generate message html
                         let html = '';
 
+                        // add timestamp
                         html += props.state.showTimestamp && message.timestamp
                             ? `<p class="${Courier.settings.classes.chat}-timestamp ${message.outgoing ? `${Courier.settings.classes.chat}-timestamp--self` : ''} courier__appear courier__anim-timing--third"><time datetime="${message.timestamp}"><span aria-hidden="true">${shortenTodaysDateTime(message.timestamp)}</span></time></p>`
                             : '';
