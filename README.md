@@ -13,6 +13,11 @@ Courier is a flexible, easy to use and configurable chat foundation. It can be u
 - A fully fledged front facing chat scaffolding.
 - A popup with your custom content.
 
+# Screenshots
+![courier_chat_collage](https://user-images.githubusercontent.com/15730072/149378446-d7f0208d-b985-4aae-a852-9bb9b55bf9f4.jpg)
+![courier_popup_collage](https://user-images.githubusercontent.com/15730072/149379033-554b652b-8a31-4320-8f7a-f7db0569994d.jpg)
+
+
 # Features
 - **Fully responsive**. Looks great on all screen sizes.
 - **Flexible**. Only import components that are needed to keep the size to a minimum.
