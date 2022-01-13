@@ -4,12 +4,12 @@ import Core from '../src/index';
 import App from '../src/components/app';
 import Widget from '../src/components/widget';
 /* Optional components */
-// import Chat from '../src/components/chat';
+import Chat from '../src/components/chat';
 import Popup from '../src/components/popup';
 /* Modules */
 /* Chat */
-// import ChatTriggersModule from '../src/components/modules/chat-triggers';
-// import ChatCarouselModule from '../src/components/modules/chat-carousel';
+import ChatTriggersModule from '../src/components/modules/chat-triggers';
+import ChatCarouselModule from '../src/components/modules/chat-carousel';
 /* Popup */
 import PopupCarouselModule from '../src/components/modules/popup-carousel';
 
@@ -18,12 +18,12 @@ const COMPONENTS = {
     App,
     Widget,
     /* Optional */
-    // Chat,
+    Chat,
     Popup,
     /* Modules */
     /* Chat */
-    // ChatTriggersModule,
-    // ChatCarouselModule,
+    ChatTriggersModule,
+    ChatCarouselModule,
     /* Popup */
     PopupCarouselModule,
 };
