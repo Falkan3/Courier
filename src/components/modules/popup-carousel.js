@@ -119,7 +119,18 @@ export default function (Courier, Components, Events) {
                 </div>`;
 
             return html;
-        }
+        },
+
+        /**
+         * Render Popup Carousels.
+         */
+        render() {
+            if (PopupCarousel.refs.carousels) {
+                PopupCarousel.refs.carousels.forEach((carousel) => {
+                    carousel.render();
+                });
+            }
+        },
     };
 
     Events.on('mount.after', () => {
@@ -133,13 +144,13 @@ export default function (Courier, Components, Events) {
         if (event.target.matches('#courierPopup') && Components.Popup.refs.popup.data.state.active) {
             // remove existing reef instances
             if (PopupCarousel.refs.carousels) {
+                // PopupCarousel.destroyGlides();
                 PopupCarousel.refs.carousels.forEach((carousel, index) => {
                     // Components.Popup.refs.popup.detach(carousel); // deprecated in v11
                     delete PopupCarousel.refs.carousels[index];
                 });
             }
             PopupCarousel.refs.carousels = [];
-            PopupCarousel.destroyGlides();
 
             // find all templates
             const carousels = Components.App.refs.app.elem.querySelectorAll(`[data-template="${PopupCarousel.template}"]`);
@@ -147,6 +158,7 @@ export default function (Courier, Components, Events) {
                 for (let i = 0; i < PopupCarousel.refs.carousels.length; i++) {
                     // skip if the carousel has been initialized as a reef instance already
                     if (carousel.matches(PopupCarousel.refs.carousels[i].elem)) return;
+                    // if (carousel.isEqualNode(PopupCarousel.refs.carousels[i].elem)) return;
                 }
                 // initialize new reef instances
                 PopupCarousel.refs.carousels.push(new Reef(`[data-template="${PopupCarousel.template}"][data-module-id="${carousel.dataset.moduleId}"]`, {
@@ -161,7 +173,8 @@ export default function (Courier, Components, Events) {
             });
         }
 
-        if (event.target.matches(`[data-template="${PopupCarousel.template}"]`) && Components.Popup.refs.popup.data.state.active) {
+        if (event.target.matches(`[data-template="${PopupCarousel.template}"]`)
+            && Components.Popup.refs.popup.data.state.active) {
             PopupCarousel.initGlide(event.target);
         }
     });

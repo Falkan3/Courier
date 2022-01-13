@@ -120,7 +120,18 @@ export default function (Courier, Components, Events) {
                 </div>`;
 
             return html;
-        }
+        },
+
+        /**
+         * Render Chat Carousels.
+         */
+        render() {
+            if (ChatCarousel.refs.carousels) {
+                ChatCarousel.refs.carousels.forEach((carousel) => {
+                    carousel.render();
+                });
+            }
+        },
     };
 
     Events.on('mount.after', () => {
@@ -134,13 +145,13 @@ export default function (Courier, Components, Events) {
         if (event.target.matches('#courierChat') && Components.Chat.refs.chat.data.state.active) {
             // remove existing reef instances
             if (ChatCarousel.refs.carousels) {
+                // ChatCarousel.destroyGlides();
                 ChatCarousel.refs.carousels.forEach((carousel, index) => {
                     // Components.Chat.refs.chat.detach(carousel); // deprecated in v11
                     delete ChatCarousel.refs.carousels[index];
                 });
             }
             ChatCarousel.refs.carousels = [];
-            ChatCarousel.destroyGlides();
 
             // find all templates
             const carousels = Components.App.refs.app.elem.querySelectorAll(`[data-template="${ChatCarousel.template}"]`);
@@ -148,6 +159,7 @@ export default function (Courier, Components, Events) {
                 for (let i = 0; i < ChatCarousel.refs.carousels.length; i++) {
                     // skip if the carousel has been initialized as a reef instance already
                     if (carousel.matches(ChatCarousel.refs.carousels[i].elem)) return;
+                    // if (carousel.isEqualNode(ChatCarousel.refs.carousels[i].elem)) return;
                 }
                 // initialize new reef instances
                 ChatCarousel.refs.carousels.push(new Reef(`[data-template="${ChatCarousel.template}"][data-courier-message-id="${carousel.dataset.courierMessageId}"]`, {
@@ -162,12 +174,13 @@ export default function (Courier, Components, Events) {
             });
         }
 
-        if (event.target.matches(`[data-template="${ChatCarousel.template}"]`) && Components.Chat.refs.chat.data.state.active) {
-        ChatCarousel.initGlide(event.target);
+        if (event.target.matches(`[data-template="${ChatCarousel.template}"]`)
+            && Components.Chat.refs.chat.data.state.active) {
+            ChatCarousel.initGlide(event.target);
 
-        if (ChatCarousel.scrollToBottom) {
-            Components.Chat.refs.workArea.scrollTop += event.target.clientHeight;
-        }
+            if (ChatCarousel.scrollToBottom) {
+                Components.Chat.refs.workArea.scrollTop += event.target.clientHeight;
+            }
         }
     });
 
