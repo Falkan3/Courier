@@ -25,18 +25,17 @@ Courier is a flexible, easy to use and configurable chat foundation. It can be u
 - **Extendable**. Expand upon the core features by adding your own.
 
 # Commands
+### Build
+- `npm run build` - Build `src` files into `dist` folder.
+- `npm run build:js` - Build `src` files into `dist` folder.
+- `npm run build:css` - Build `src` files into `dist` folder.
+### Development
 - `npm run clean` - Remove `dist/` directory
 - `npm test` - Run tests with linting and coverage results.
-- `npm test:only` - Run tests without linting or coverage.
-- `npm test:watch` - Re-run tests on file changes.
-- `npm test:prod` - Run tests with minified code.
 - `npm run lint` - Run ESlint with airbnb-config.
 - `npm run lint:fix` - Run ESlint with airbnb-config and apply fixes.
 - `npm run stylelint` - Run Stylelint.
 - `npm run stylelint:fix` - Run Stylelint and apply fixes.
-- `npm run cover` - Coverage report.
-- `npm run build` - Build `src` files into `dist` folder.
-- `npm run prepublish` - Hook for npm. Do all the checks before publishing your module.
 
 # Installation
 Install from the command line:
@@ -46,7 +45,7 @@ npm install @falkan3/courier
 
 Install via package.json:
 ```json
-"@falkan3/courier": "^1.1.7"
+"@falkan3/courier": "^1.1.14"
 ```
 
 # Usage
