@@ -44,6 +44,7 @@
                         {
                             text: 'YYY',
                             path: 'couponsYYY',
+							trigger: 'testTrigger'
                         },
                         {
                             text: 'ZZZ',
@@ -68,7 +69,12 @@
                 newsletter: {
                     text: 'Please enter your email address to subscribe to our newsletter.',
                 }
-            }
+            },
+			cookies: {
+				saveConversation: {
+					active: false
+				}
+			}
         });
         courier.mount();
         // courier._components.ComponentName.function();
