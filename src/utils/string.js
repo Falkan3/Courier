@@ -28,7 +28,7 @@ export function roundNumber(value, decimalPlaces = 2) {
  */
 export function formatPercentage(value, addPercent = true) {
     const formattedVal = parseFloat(value);
-    const percentVal = roundNumber(formattedVal) * 100;
+    const percentVal = roundNumber(formattedVal * 100);
     return addPercent ? `${percentVal}%` : percentVal;
 }
 
