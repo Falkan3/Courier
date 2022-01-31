@@ -125,6 +125,7 @@ export default {
      * @type {Object}
      */
     state: {
+        widgetActiveAtStart: true,
         hideBtnActiveAtStart: false,
         online: true,
         showMessageBox: false,

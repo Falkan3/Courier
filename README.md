@@ -1,8 +1,6 @@
 # Courier
 
-![GitHub package.json version](https://img.shields.io/github/package-json/v/Falkan3/Courier?style=for-the-badge)
-![npm (scoped)](https://img.shields.io/npm/v/@trafficwatchdog/courier?style=for-the-badge)
-![npm bundle size (scoped)](https://img.shields.io/bundlephobia/minzip/@trafficwatchdog/courier?style=for-the-badge)
+![GitHub package.json version](https://img.shields.io/github/package-json/v/Falkan3/Courier?style=for-the-badge&color=orange&label=VERSION)
 ![GitHub](https://img.shields.io/github/license/Falkan3/Courier?style=for-the-badge)
 
 ***This plugin is still a work in progress***
@@ -45,7 +43,7 @@ npm install @falkan3/courier
 
 Install via package.json:
 ```json
-"@falkan3/courier": "^1.1.14"
+"@falkan3/courier": "^1.1.15"
 ```
 
 # Usage
@@ -174,6 +172,7 @@ moduleData: {},
 Settings that are responsible for the state of elements.
 ```js
 state: {
+  widgetActiveAtStart: true,
   hideBtnActiveAtStart: false,
   showMessageBox: false,
   messageBoxEnabled: true,
@@ -222,6 +221,7 @@ A list of available events, emitted and listened to:
 - `app.rendered` - App render callback
 - `app.click` - Click event delegation callback
 - `widget.mount`
+- `widget.mounted` - Widget has been mounted and Widget.render() has been called
 - `widget.clicked`
 - `widget.close` - Close the widget
 - `widget.closed`
@@ -229,6 +229,7 @@ A list of available events, emitted and listened to:
 - `widget.hide` - Hide the widget and save hidden state to cookie
 - `widget.hidden` - Called after the hide widget logic
 - `chat.mount`
+- `chat.mounted` - Chat has been mounted and Chat.render() has been called
 - `chat.close` - Close the chat
 - `chat.closed`
 - `chat.opened`
@@ -236,6 +237,7 @@ A list of available events, emitted and listened to:
 - `chat.typing` - upcoming
 - `chat.stoppedTyping` - upcoming
 - `popup.mount`
+- `popup.mounted` - Popup has been mounted and Popup.render() has been called
 - `popup.close`
 - `popup.closed`
 - `popup.opened`

@@ -63,8 +63,8 @@ export default function (Courier, Components, Events) {
         initialize() {
             Widget.refs.widget = new Reef('#courierWidget', {
                 data: {
-                    active: true,
-                    hidden: false,
+                    active: Courier.settings.state.widgetActiveAtStart,
+                    hidden: !Courier.settings.state.widgetActiveAtStart,
                     widgetImg: Courier.settings.images.widget,
                     text: Courier.settings.textsParsed.widgetGreeting,
                     hideBtnActive: Courier.settings.state.hideBtnActiveAtStart,
@@ -122,6 +122,7 @@ export default function (Courier, Components, Events) {
             }
         }
         Widget.render();
+        Events.emit('widget.mounted');
     });
 
     /**
