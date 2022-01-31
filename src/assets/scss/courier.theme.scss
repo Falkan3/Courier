@@ -1,13 +1,12 @@
-@import "utils/variables";
-@import "utils/mixins";
+@use "utils/variables";
 
 /* -----------------------------------
  *  Components
  * ----------------------------------- */
 
-#{$classPrefix} {
+#{variables.$classPrefix} {
 	/* elements */
-	#{$classPrefix}__widget {
+	#{variables.$classPrefix}__widget {
 		&-bubble {
 			background: #fff;
 			color: #212121;
