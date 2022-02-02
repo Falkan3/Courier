@@ -4,7 +4,7 @@
     
 <p align="center">
 <a href="https://github.com/Falkan3/Courier/packages/952108"><img src="https://img.shields.io/github/package-json/v/Falkan3/Courier?style=for-the-badge&color=orange&label=VERSION" alt="GitHub package.json version"></a>
-<img src="https://img.shields.io/github/license/Falkan3/Courier?style=for-the-badge" alt="License">
+<a href="https://github.com/Falkan3/Courier/blob/master/LICENSE"><img src="https://img.shields.io/github/license/Falkan3/Courier?style=for-the-badge" alt="License"></a>
 </p>
 
 <p align="center"><em><strong>This plugin is still a work in progress</strong></em></p>
