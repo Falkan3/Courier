@@ -79,6 +79,10 @@ $highlightColor2: #6e33c7;
 		&--db {
 			margin-top: #{font-size.get-font-size(2)};
 		}
+
+		&--auto {
+			margin-top: auto;
+		}
 	}
 
 	&-b {
@@ -119,6 +123,12 @@ $highlightColor2: #6e33c7;
 		&--hf {
 			padding-left: #{font-size.get-font-size(0.5)};
 			padding-right: #{font-size.get-font-size(0.5)};
+		}
+	}
+
+	&-t {
+		&--hf {
+			padding-top: #{font-size.get-font-size(0.5)};
 		}
 	}
 
