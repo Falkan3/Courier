@@ -110,7 +110,7 @@
 &-timestamp {
 	display: block;
 	align-self: flex-start;
-	margin-bottom: 0.2rem;
+	margin-bottom: 0.2em;
 	font-size: 0.8em;
 	color: palette.get-palette-hue("foreground", 800);
 
@@ -218,7 +218,7 @@
 
 		&-img {
 			position: relative;
-			padding: 0.5rem;
+			padding: 0.5em;
 
 			&-wrapper {
 				position: relative;
@@ -239,9 +239,14 @@
 			flex-grow: 1;
 			display: flex;
 			flex-direction: column;
-			justify-content: flex-end;
+			// justify-content: flex-end;
 			padding: 0.5em 1em;
 			text-align: center;
+		}
+
+		&-name {
+			margin-bottom: 0.5em;
+			line-height: 1.3;
 		}
 
 		&-price {
@@ -262,7 +267,7 @@
 				margin-left: 1em;
 				border-left: 1px solid #6ab070;
 				border-radius: 3px 4px 4px 3px;
-				padding: 0.5rem;
+				padding: 0.5em;
 				background-color: #6ab070;
 				line-height: 1;
 				color: #fff;
@@ -305,7 +310,7 @@
 			//right: 0;
 			//
 			//&-badge {
-			//	padding: 2px 0.5rem;
+			//	padding: 2px 0.5em;
 			//	border-left: solid 3px rgb(255, 174, 91);
 			//	background-color: rgba(255, 174, 91, 25%);
 			//	font-size: 1.2em;
@@ -320,6 +325,7 @@
 
 				&-value {
 					align-self: center;
+					margin-top: 4px;
 					margin-bottom: 4px;
 					padding: 4px 1em;
 					border: solid 2px #6ab070;
@@ -333,12 +339,13 @@
 				&-text {
 					font-size: 0.8em;
 					text-align: center;
+					color: #6c6c6c;
 				}
 			}
 		}
 
 		&-footer {
-			padding: 0.5rem;
+			padding: 0.5em;
 			border-top: solid 1px color.scale($messageCarouselPrimaryColor, $lightness: -10%);
 			text-align: center;
 		}

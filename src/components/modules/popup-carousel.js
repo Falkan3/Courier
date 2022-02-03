@@ -14,9 +14,11 @@ export default function (Courier, Components, Events) {
         /**
          * Construct a PopupCarousel instance.
          */
-        mount() {},
+        mount() {
+        },
 
-        initialize() {},
+        initialize() {
+        },
 
         initGlide(rootElem) {
             // Mount glide carousels
@@ -26,7 +28,7 @@ export default function (Courier, Components, Events) {
                 perView: 1,
                 peek: {
                     before: 0,
-                    after: 150
+                    after: Courier.settings.state.carouselPeek
                 }
             });
             glide.mount({ Controls, Swipe, Images });
@@ -45,6 +47,16 @@ export default function (Courier, Components, Events) {
 
             let html = '';
             let carouselItemsHtml = '';
+            const carouselArrows = `
+            <div class="glide__arrows" data-glide-el="controls">
+                <button class="slider__arrow slider__arrow--prev glide__arrow glide__arrow--prev" data-glide-dir="<">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"><path d="m0 12 10.975 11 2.848-2.828-6.176-6.176H24v-3.992H7.646l6.176-6.176L10.975 1 0 12z"/></svg>
+                </button>
+
+                <button class="slider__arrow slider__arrow--next glide__arrow glide__arrow--next" data-glide-dir=">">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"><path d="m13.025 1-2.847 2.828 6.176 6.176H0v3.992h16.354l-6.176 6.176L13.025 23 24 12z"/></svg>
+                </button>
+            </div>`;
             let carouselBullets = '';
             moduleData.carousel.items.forEach((carouselItem, carouselItemIndex) => {
                 let priceCurrentHtml = '';
@@ -66,9 +78,11 @@ export default function (Courier, Components, Events) {
                 }
 
                 const priceHtml = priceOldHtml || priceCurrentHtml ? `
-                <div class="${Courier.settings.classes.popup}-carousel__item-price">
-                    ${priceCurrentHtml}
-                    ${priceOldHtml}
+                <div class="m-t--auto p-t--hf">
+                    <div class="${Courier.settings.classes.popup}-carousel__item-price">
+                        ${priceCurrentHtml}
+                        ${priceOldHtml}
+                    </div>
                 </div>` : '';
 
                 // const discountBadgeHtml = carouselItem.price.discount ? `
@@ -88,12 +102,12 @@ export default function (Courier, Components, Events) {
                         <div class="${Courier.settings.classes.popup}-carousel__item-content">
                             <div class="${Courier.settings.classes.popup}-carousel__item-img">
                                  <div class="${Courier.settings.classes.popup}-carousel__item-img-wrapper">
-                                    <img class="${Courier.settings.classes.popup}-carousel__item-img-content" src="${carouselItem.img.src}" alt="${carouselItem.img.alt}" />
+                                    <a href="${carouselItem.link}" rel="noreferrer"><img class="${Courier.settings.classes.popup}-carousel__item-img-content" src="${carouselItem.img.src}" alt="${carouselItem.img.alt}" /></a>
                                     ${discountBadgeHtml}
                                 </div>
                             </div>
                             <div class="${Courier.settings.classes.popup}-carousel__item-body">
-                                <p class="tx-bigger tx-wb">${carouselItem.title}</p>
+                                <p class="${Courier.settings.classes.popup}-carousel__item-name tx-bold tx-wb">${carouselItem.title}</p>
                                 ${priceHtml}
                             </div>
                             <div class="${Courier.settings.classes.popup}-carousel__item-footer">
@@ -112,6 +126,8 @@ export default function (Courier, Components, Events) {
                             ${carouselItemsHtml}
                         </ul>
                     </div>
+
+                    ${carouselArrows}
 
                     <div class="glide__bullets" data-glide-el="controls[nav]">
                         ${carouselBullets}

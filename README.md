@@ -47,7 +47,7 @@ npm install @falkan3/courier
 
 Install via package.json:
 ```json
-"@falkan3/courier": "^1.1.16"
+"@falkan3/courier": "^1.1.17"
 ```
 
 # Usage
@@ -176,12 +176,13 @@ moduleData: {},
 Settings that are responsible for the state of elements.
 ```js
 state: {
-  widgetActiveAtStart: true,
-  hideBtnActiveAtStart: false,
-  showMessageBox: false,
-  messageBoxEnabled: true,
-  customSendMessage: false,
-  showTimestamp: true
+  widgetActiveAtStart: true, // Show the widget immediately after mounting
+  hideBtnActiveAtStart: false, // Show the hide widget button from the get-go
+  showMessageBox: false, // Show the "type message" box
+  messageBoxEnabled: true, // Enable the "type message" box
+  customSendMessage: false, // Use custom send message function
+  showTimestamp: true, // Show message timestamps
+  carouselPeek: 50 // The peeking width of the next carousel slide, in pixels
 }
 ```
 

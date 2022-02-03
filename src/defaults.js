@@ -131,7 +131,8 @@ export default {
         showMessageBox: false,
         messageBoxEnabled: true,
         customSendMessage: false,
-        showTimestamp: true
+        showTimestamp: true,
+        carouselPeek: 50
     },
 
     /**
