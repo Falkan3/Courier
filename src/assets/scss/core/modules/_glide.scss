@@ -1,4 +1,5 @@
 @use "sass:color";
+@use "../../utils/mixins";
 
 @import "../../../../libs/glidejs/css/glide.core.min"; // glide for carousel
 
@@ -19,9 +20,39 @@
 		justify-content: center;
 	}
 
+	&__arrows {
+		@include mixins.medium-devices {
+			display: none;
+		}
+	}
+
+	&__arrow {
+		position: absolute;
+		top: 50%;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		width: 2em;
+		height: 2em;
+		border-radius: 50%;
+		transition: all ease-in-out 0.2s;
+		box-shadow: 0 0.5em 4em 0 rgba(0, 0, 0, 50%);
+		transform: translateY(-50%);
+		z-index: 1;
+		cursor: pointer;
+
+		&--prev {
+			left: 1em;
+		}
+
+		&--next {
+			right: 1em;
+		}
+	}
+
 	&__bullet {
-		width: 1rem;
-		height: 1rem;
+		width: 1em;
+		height: 1em;
 		margin: 4px;
 		border-radius: 50%;
 		background-color: #cfcfcf;
