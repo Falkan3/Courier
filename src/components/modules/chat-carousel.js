@@ -90,25 +90,32 @@ export default function (Courier, Components, Events) {
                     </div>
                 </div>` : '';
 
+                const discountBadgeHtml = carouselItem.price.discount ? `
+                <div class="${Courier.settings.classes.chat}-carousel__item-discount">
+                    <p><span class="tx-smaller">${props.texts.individualDiscount}</span> <span class="${Courier.settings.classes.chat}-carousel__item-discount-value tx-bigger">-${formatPercentage(carouselItem.price.discount, false)}<span class="tx-smaller">%</span></span></p>
+                </div>` : '';
+
                 // const discountBadgeHtml = carouselItem.price.discount ? `
                 // <div class="${Courier.settings.classes.chat}-carousel__item-discount">
                 // eslint-disable-next-line max-len
                 //     <p class="${Courier.settings.classes.chat}-carousel__item-discount-badge">-${formatPercentage(carouselItem.price.discount)}</p>
                 // </div>` : '';
 
-                const discountBadgeHtml = carouselItem.price.discount ? `
-                <div class="${Courier.settings.classes.chat}-carousel__item-discount-individual">
-                <p class="${Courier.settings.classes.chat}-carousel__item-discount-individual-value">-${formatPercentage(carouselItem.price.discount, false)}<span class="tx-smaller">%</span></p>
-                    <p class="${Courier.settings.classes.chat}-carousel__item-discount-individual-text">${props.texts.individualDiscount}</p>
-                </div>` : '';
+                // const discountBadgeHtml = carouselItem.price.discount ? `
+                // <div class="${Courier.settings.classes.chat}-carousel__item-discount-individual">
+                // eslint-disable-next-line max-len
+                // <p class="${Courier.settings.classes.chat}-carousel__item-discount-individual-value">-${formatPercentage(carouselItem.price.discount, false)}<span class="tx-smaller">%</span></p>
+                // eslint-disable-next-line max-len
+                //     <p class="${Courier.settings.classes.chat}-carousel__item-discount-individual-text">${props.texts.individualDiscount}</p>
+                // </div>` : '';
 
                 carouselItemsHtml += `
                     <li class="${Courier.settings.classes.chat}-carousel__item glide__slide">
                         <div class="${Courier.settings.classes.chat}-carousel__item-content">
+                            ${discountBadgeHtml}
                             <div class="${Courier.settings.classes.chat}-carousel__item-img">
                                  <div class="${Courier.settings.classes.chat}-carousel__item-img-wrapper">
                                     <a href="${carouselItem.link}" rel="noreferrer"><img class="${Courier.settings.classes.chat}-carousel__item-img-content" src="${carouselItem.img.src}" alt="${carouselItem.img.alt}" /></a>
-                                    ${discountBadgeHtml}
                                 </div>
                             </div>
                             <div class="${Courier.settings.classes.chat}-carousel__item-body">

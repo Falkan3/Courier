@@ -59,14 +59,16 @@
 
 	&__item {
 		display: block;
-		margin-top: 12px;
-		margin-bottom: 12px;
+		margin-bottom: 6px;
 
 		/* only use without carousel library */
-		//&:not(.glide) {
-		//	flex: 0 0 50%;
-		//	scroll-snap-align: start;
-		//}
+		// margin-top: 12px;
+		// margin-bottom: 12px;
+		//
+		// &:not(.glide) {
+		// 	flex: 0 0 50%;
+		// 	scroll-snap-align: start;
+		// }
 
 		&:not(:first-child) {
 			margin-left: 6px;
@@ -87,6 +89,7 @@
 			border-radius: 4px;
 			background-color: $contentCarouselPrimaryColor;
 			box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+			overflow: hidden;
 		}
 
 		&-img {
@@ -172,12 +175,24 @@
 			}
 
 			&-old {
-				padding: 0.5em 0;
+				// padding: 0.5em 0;
 				text-decoration: line-through;
 			}
 		}
 
 		&-discount {
+			/* individual discount bar */
+			padding: 2px;
+			background-color: #6ab070;
+			text-align: center;
+			color: color.mix(#6ab070, #fefefe, 10%);
+
+			&-value {
+				padding: 0 6px;
+				color: color.mix(#6ab070, #fefefe, 5%);
+			}
+
+			/* badge */
 			//position: absolute;
 			//bottom: 0;
 			//right: 0;
@@ -192,35 +207,36 @@
 			//}
 
 			/* individual discount badge */
-			&-individual {
-				display: flex;
-				flex-direction: column;
-
-				&-value {
-					align-self: center;
-					margin-top: 4px;
-					margin-bottom: 4px;
-					padding: 4px 1em;
-					border: solid 2px #6ab070;
-					font-size: 1.2em;
-					text-align: center;
-					color: #6ab070;
-					font-weight: bold;
-					border-radius: 34px;
-				}
-
-				&-text {
-					font-size: 0.8em;
-					text-align: center;
-					color: #6c6c6c;
-				}
-			}
+			//&-individual {
+			//	display: flex;
+			//	flex-direction: column;
+			//
+			//	&-value {
+			//		align-self: center;
+			//		margin-top: 4px;
+			//		margin-bottom: 4px;
+			//		padding: 4px 1em;
+			//		border: solid 2px #6ab070;
+			//		font-size: 1.2em;
+			//		text-align: center;
+			//		color: #6ab070;
+			//		font-weight: bold;
+			//		border-radius: 34px;
+			//	}
+			//
+			//	&-text {
+			//		font-size: 0.8em;
+			//		text-align: center;
+			//		color: #6c6c6c;
+			//	}
+			//}
 		}
 
 		&-footer {
 			padding: 0.5em;
 			border-top: solid 1px color.scale($contentCarouselPrimaryColor, $lightness: -10%);
 			text-align: center;
+			font-size: 0.9em;
 		}
 	}
 }
