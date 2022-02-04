@@ -3,7 +3,8 @@ import { debounce, throttle } from '@libs/throttle-debounce/throttle-debounce.es
 
 export default function (Courier, Components, Events) {
     const ChatTyping = {
-        mount() {},
+        mount() {
+        },
 
         typingAction: throttle(300, false, () => {
             Components.Chat.refs.chat.data.state.typing = true;

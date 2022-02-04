@@ -15,9 +15,11 @@ export default function (Courier, Components, Events) {
         /**
          * Construct a ChatCarousel instance.
          */
-        mount() {},
+        mount() {
+        },
 
-        initialize() {},
+        initialize() {
+        },
 
         initGlide(rootElem) {
             // Mount glide carousels

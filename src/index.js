@@ -31,6 +31,44 @@ export default class Courier {
     }
 
     /**
+     * Gets value of the core options.
+     *
+     * @return {Object}
+     */
+    get settings() {
+        return this._settings;
+    }
+
+    /**
+     * Sets value of the core options.
+     *
+     * @param  {Object} object
+     */
+    set settings(object) {
+        if (isObject(object)) {
+            this._settings = object;
+        } else {
+            warn('Options must be an `object` instance.');
+        }
+    }
+
+    /**
+     * Gets value of the idle status.
+     *
+     * @return {Boolean}
+     */
+    get disabled() {
+        return this._disabled;
+    }
+
+    /**
+     * Sets value of the idle status.
+     */
+    set disabled(status) {
+        this._disabled = !!status;
+    }
+
+    /**
      * Initializes courier.
      *
      * @param {Object} components Collection of components to initialize.
@@ -129,43 +167,5 @@ export default class Courier {
         this._eventsBus.on(event, handler);
 
         return this;
-    }
-
-    /**
-     * Gets value of the core options.
-     *
-     * @return {Object}
-     */
-    get settings() {
-        return this._settings;
-    }
-
-    /**
-     * Sets value of the core options.
-     *
-     * @param  {Object} object
-     */
-    set settings(object) {
-        if (isObject(object)) {
-            this._settings = object;
-        } else {
-            warn('Options must be an `object` instance.');
-        }
-    }
-
-    /**
-     * Gets value of the idle status.
-     *
-     * @return {Boolean}
-     */
-    get disabled() {
-        return this._disabled;
-    }
-
-    /**
-     * Sets value of the idle status.
-     */
-    set disabled(status) {
-        this._disabled = !!status;
     }
 }

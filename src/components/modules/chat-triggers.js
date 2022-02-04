@@ -9,7 +9,8 @@ export default function (Courier, Components, Events) {
         /**
          * Construct a ChatTriggers instance.
          */
-        mount() {},
+        mount() {
+        },
 
         startMessage() {
             const startMessage = getStartMessage(Courier.settings.messages);
