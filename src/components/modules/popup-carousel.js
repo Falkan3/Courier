@@ -4,6 +4,9 @@ import Glide, {
     Anchors, Controls, Images, Swipe
 } from '@libs/glidejs/glide.modular.esm';
 import { addAffix, formatPercentage, roundNumber } from '@utils/string';
+import { textTemplate } from '@utils/object';
+import { elemContains, copyTextToClipboard } from '@utils/dom';
+import { clipboard as clipboardIcon } from '@utils/images';
 
 export default function (Courier, Components, Events) {
     const PopupCarousel = {
@@ -89,25 +92,29 @@ export default function (Courier, Components, Events) {
                     </div>
                 </div>` : '';
 
-                const discountBadgeHtml = carouselItem.price.discount ? `
+                let discountBadgeHtml = carouselItem.footerText ? `
                 <div class="${Courier.settings.classes.popup}-carousel-item-discount">
-                    <p><span class="tx-smaller">${props.texts.individualDiscount}</span> <span class="${Courier.settings.classes.popup}-carousel-item-discount-value tx-bigger">-${formatPercentage(carouselItem.price.discount, false)}<span class="tx-smaller">%</span></span></p>
+                    <p><span class="tx-smaller">${carouselItem.footerText}</span></p>
                 </div>` : '';
 
-                // const discountBadgeHtml = carouselItem.price.discount ? `
-                // <div class="${Courier.settings.classes.popup}-carousel-item-discount">
-                // eslint-disable-next-line max-len
-                //     <p class="${Courier.settings.classes.popup}-carousel-item-discount-badge">-${formatPercentage(carouselItem.price.discount)}</p>
-                // </div>` : '';
+                const discountBadgeValueHtml = `<span class="${Courier.settings.classes.popup}-carousel-item-discount-value tx-bigger">-${formatPercentage(carouselItem.price.discount, false)}<span class="tx-smaller">%</span></span>`;
 
-                // const discountBadgeHtml = carouselItem.price.discount ? `
-                // eslint-disable-next-line max-len
-                // <div class="${Courier.settings.classes.popup}-carousel-item-discount-individual">
-                // eslint-disable-next-line max-len
-                // <p class="${Courier.settings.classes.popup}-carousel-item-discount-individual-value">-${formatPercentage(carouselItem.price.discount, false)}<span class="tx-smaller">%</span></p>
-                // eslint-disable-next-line max-len
-                //     <p class="${Courier.settings.classes.popup}-carousel-item-discount-individual-text">${props.texts.individualDiscount}</p>
-                // </div>` : '';
+                if (discountBadgeHtml) {
+                    discountBadgeHtml = textTemplate(discountBadgeHtml, {
+                        discountValue: discountBadgeValueHtml
+                    });
+                }
+
+                const discountCodeHtml = carouselItem.discountCode ? `
+                <div class="${Courier.settings.classes.popup}-carousel-item-discount-code">
+                    <button id="courierPopupClipboardBtn" class="${Courier.settings.classes.popup}-carousel-item-discount-code-btn" data-courier-discount-code="${carouselItem.discountCode}">
+                        <span class="${Courier.settings.classes.popup}-carousel-item-discount-code-btn-container">
+                            <span class="${Courier.settings.classes.popup}-carousel-item-discount-code-value">${carouselItem.discountCode}</span>
+                            <span class="${Courier.settings.classes.popup}-carousel-item-discount-code-icon">${clipboardIcon}</span>
+                        </span>
+                    </button>
+                    <p id="courierPopupClipboardCopyMsg" class="${Courier.settings.classes.popup}-carousel-item-discount-code-copy-msg ${Courier.settings.classes.root}__fade-in">${props.texts.clipboardCopy}</p>
+                </div>` : '';
 
                 // const footerHtml = `
                 // <div class="${Courier.settings.classes.popup}-carousel-item-footer">
@@ -120,13 +127,18 @@ export default function (Courier, Components, Events) {
                         <div class="${Courier.settings.classes.popup}-carousel-item-content">
                             <div class="${Courier.settings.classes.popup}-carousel-item-img">
                                  <div class="${Courier.settings.classes.popup}-carousel-item-img-wrapper">
-                                    <a href="${carouselItem.link}" rel="noreferrer"><img class="${Courier.settings.classes.popup}-carousel-item-img-content" src="${carouselItem.img.src}" alt="${carouselItem.img.alt}" /></a>
+                                    <a href="${carouselItem.link}" rel="noreferrer" aria-label="${carouselItem.goToProduct ? carouselItem.goToProduct : Courier.settings.texts.goToProduct}">
+                                        <img class="${Courier.settings.classes.popup}-carousel-item-img-content" src="${carouselItem.img.src}" alt="${carouselItem.img.alt}" />
+                                    </a>
                                 </div>
                             </div>
                             <div class="${Courier.settings.classes.popup}-carousel-item-body">
-                                <p class="${Courier.settings.classes.popup}-carousel-item-name tx-bold tx-wb"><a class="${Courier.settings.classes.popup}-carousel-item-name-link" href="${carouselItem.link}" rel="noreferrer">${carouselItem.title}</a></p>
+                                <p class="${Courier.settings.classes.popup}-carousel-item-name tx-bold tx-wb">
+                                    <a class="${Courier.settings.classes.popup}-carousel-item-name-link" href="${carouselItem.link}" rel="noreferrer" aria-label="${carouselItem.goToProduct ? carouselItem.goToProduct : Courier.settings.texts.goToProduct}">${carouselItem.title}</a>
+                                </p>
                                 ${priceHtml}
                             </div>
+                            ${discountCodeHtml}
                             ${discountBadgeHtml}
                         </div>
                     </li>`;
@@ -195,7 +207,7 @@ export default function (Courier, Components, Events) {
                 PopupCarousel.refs.carousels.push(new Reef(`[data-template="${PopupCarousel.template}"][data-module-id="${carousel.dataset.moduleId}"]`, {
                     data: {
                         texts: {
-                            individualDiscount: Courier.settings.textsParsed.individualDiscount,
+                            clipboardCopy: Courier.settings.textsParsed.clipboardCopy,
                         },
                     },
                     template: (props, elem) => PopupCarousel.generateHtml(props, elem),
@@ -207,6 +219,19 @@ export default function (Courier, Components, Events) {
         if (event.target.matches(`[data-template="${PopupCarousel.template}"]`)
             && Components.Popup.refs.popup.data.state.active) {
             PopupCarousel.initGlide(event.target);
+        }
+    });
+
+    Events.on('app.click', (event) => {
+        const clipboardBtn = Components.App.refs.app.elem.querySelector('#courierPopupClipboardBtn');
+        if (event.target.matches('#courierPopupClipboardBtn')
+            || (elemContains(clipboardBtn, event.target))) {
+            copyTextToClipboard(clipboardBtn.dataset.courierDiscountCode);
+            const clipboardCopyMsg = Components.App.refs.app.elem.querySelector('#courierPopupClipboardCopyMsg');
+            clipboardCopyMsg.classList.add('active');
+            setTimeout(() => {
+                clipboardCopyMsg.classList.remove('active');
+            }, 1500);
         }
     });
 

@@ -35,4 +35,32 @@ export function isScrolledToTheBottom(el) {
     return el && el.scrollHeight - el.offsetHeight <= el.scrollTop;
 }
 
-export default applyClasses;
+function fallbackCopyTextToClipboard(text) {
+    const textArea = document.createElement('textarea');
+    textArea.value = text;
+
+    // Avoid scrolling to bottom
+    textArea.style.top = '0';
+    textArea.style.left = '0';
+    textArea.style.position = 'fixed';
+
+    document.body.appendChild(textArea);
+    textArea.focus();
+    textArea.select();
+
+    let success = true;
+    try {
+        success = document.execCommand('copy');
+    } catch (err) {
+        success = false;
+    }
+
+    document.body.removeChild(textArea);
+    return success;
+}
+export function copyTextToClipboard(text) {
+    if (!navigator.clipboard) {
+        return fallbackCopyTextToClipboard(text);
+    }
+    return navigator.clipboard.writeText(text).then(() => true, () => false);
+}

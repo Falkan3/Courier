@@ -237,7 +237,7 @@ export default function (Courier, Components, Events) {
 
                         // add timestamp
                         html += props.state.showTimestamp && message.timestamp
-                            ? `<p class="${Courier.settings.classes.chat}-timestamp ${message.outgoing ? `${Courier.settings.classes.chat}-timestamp--self` : ''} courier__appear courier__anim-timing--third"><time datetime="${message.timestamp}"><span aria-hidden="true">${shortenTodaysDateTime(message.timestamp)}</span></time></p>`
+                            ? `<p class="${Courier.settings.classes.chat}-timestamp ${message.outgoing ? `${Courier.settings.classes.chat}-timestamp--self` : ''} ${Courier.settings.classes.root}__appear ${Courier.settings.classes.root}__anim-timing--third"><time datetime="${message.timestamp}"><span aria-hidden="true">${shortenTodaysDateTime(message.timestamp)}</span></time></p>`
                             : '';
 
                         // render different html for some message types
@@ -245,7 +245,7 @@ export default function (Courier, Components, Events) {
                             html += `<div class="${Courier.settings.classes.chat}-message ${message.typeClassSuffix ? `${Courier.settings.classes.chat}-message${message.typeClassSuffix}` : ''}" data-template="carousel" data-courier-message-id="${index}"></div>`;
                         } else {
                             html += message.text
-                                ? `<p class="${Courier.settings.classes.chat}-message ${message.outgoing ? `${Courier.settings.classes.chat}-message--self` : ''} ${message.typeClassSuffix ? `${Courier.settings.classes.chat}-message${message.typeClassSuffix}` : ''} courier__appear courier__anim-timing--third" data-courier-message-id="${index}">${message.text}</p>`
+                                ? `<p class="${Courier.settings.classes.chat}-message ${message.outgoing ? `${Courier.settings.classes.chat}-message--self` : ''} ${message.typeClassSuffix ? `${Courier.settings.classes.chat}-message${message.typeClassSuffix}` : ''} ${Courier.settings.classes.root}__appear ${Courier.settings.classes.root}__anim-timing--third" data-courier-message-id="${index}">${message.text}</p>`
                                 : '';
                         }
 
@@ -272,7 +272,7 @@ export default function (Courier, Components, Events) {
                     }).join('');
 
                     if (props.state.typing) {
-                        const html = `<p class="${Courier.settings.classes.chat}-message courier__appear courier__anim-timing--third"><span class="courier__chat-dots"><span class="courier__chat-dots-dot"></span><span class="courier__chat-dots-dot"></span><span class="courier__chat-dots-dot"></span></span></p>`;
+                        const html = `<p class="${Courier.settings.classes.chat}-message ${Courier.settings.classes.root}__appear ${Courier.settings.classes.root}__anim-timing--third"><span class="courier__chat-dots"><span class="courier__chat-dots-dot"></span><span class="courier__chat-dots-dot"></span><span class="courier__chat-dots-dot"></span></span></p>`;
                         messages += html;
                     }
 
