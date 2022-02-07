@@ -1,4 +1,5 @@
 @use "../../../utils/mixins/palette";
+@use "../../../utils/mixins/selectors";
 @use "sass:color";
 
 /*
@@ -184,7 +185,7 @@
 	//	scroll-snap-type: x proximity;
 	//}
 
-	&__item {
+	&-item {
 		display: block;
 		margin-bottom: 6px;
 
@@ -215,7 +216,7 @@
 			height: 100%;
 			border-radius: 4px;
 			background-color: $messageCarouselPrimaryColor;
-			box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+			box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.2);
 			overflow: hidden;
 		}
 
@@ -250,6 +251,18 @@
 		&-name {
 			margin-bottom: 0.5em;
 			line-height: 1.3;
+
+			&-link {
+				@at-root {
+					#{selectors.parent-fn(&)} a#{selectors.bottom-most-fn(&)} {
+						color: inherit;
+
+						&:hover {
+							color: inherit;
+						}
+					}
+				}
+			}
 		}
 
 		&-price {
@@ -315,7 +328,7 @@
 			color: color.mix(#6ab070, #fefefe, 10%);
 
 			&-value {
-				padding: 0 6px;
+				padding: 0 3px;
 				color: color.mix(#6ab070, #fefefe, 5%);
 			}
 

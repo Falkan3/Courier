@@ -67,64 +67,67 @@ export default function (Courier, Components, Events) {
                 let priceOldHtml = '';
                 if (carouselItem.price.discount && carouselItem.price.value) {
                     priceCurrentHtml = `
-                    <div class="${Courier.settings.classes.popup}-carousel__item-price-wrapper">
-                        <p class="${Courier.settings.classes.popup}-carousel__item-price-tag tx-wb">${addAffix(roundNumber(carouselItem.price.value * (1 - carouselItem.price.discount)), carouselItem.price.affix[0], carouselItem.price.affix[1])}</p>
+                    <div class="${Courier.settings.classes.popup}-carousel-item-price-wrapper">
+                        <p class="${Courier.settings.classes.popup}-carousel-item-price-tag tx-wb">${addAffix(roundNumber(carouselItem.price.value * (1 - carouselItem.price.discount)), carouselItem.price.affix[0], carouselItem.price.affix[1])}</p>
                     </div>`;
                     priceOldHtml = `
-                    <div class="${Courier.settings.classes.popup}-carousel__item-price-wrapper">
-                        <p class="${Courier.settings.classes.popup}-carousel__item-price-old tx-wb">${addAffix(carouselItem.price.value, carouselItem.price.affix[0], carouselItem.price.affix[1])}</p>
+                    <div class="${Courier.settings.classes.popup}-carousel-item-price-wrapper">
+                        <p class="${Courier.settings.classes.popup}-carousel-item-price-old tx-wb">${addAffix(carouselItem.price.value, carouselItem.price.affix[0], carouselItem.price.affix[1])}</p>
                     </div>`;
                 } else if (carouselItem.price.value) {
                     priceCurrentHtml = `
-                    <div class="${Courier.settings.classes.popup}-carousel__item-price-wrapper">
-                        <p class="${Courier.settings.classes.popup}-carousel__item-price-tag tx-wb">${addAffix(carouselItem.price.value, carouselItem.price.affix[0], carouselItem.price.affix[1])}</p>
+                    <div class="${Courier.settings.classes.popup}-carousel-item-price-wrapper">
+                        <p class="${Courier.settings.classes.popup}-carousel-item-price-tag tx-wb">${addAffix(carouselItem.price.value, carouselItem.price.affix[0], carouselItem.price.affix[1])}</p>
                     </div>`;
                 }
 
                 const priceHtml = priceOldHtml || priceCurrentHtml ? `
                 <div class="m-t--auto p-t--hf">
-                    <div class="${Courier.settings.classes.popup}-carousel__item-price">
+                    <div class="${Courier.settings.classes.popup}-carousel-item-price">
                         ${priceCurrentHtml}
                         ${priceOldHtml}
                     </div>
                 </div>` : '';
 
                 const discountBadgeHtml = carouselItem.price.discount ? `
-                <div class="${Courier.settings.classes.popup}-carousel__item-discount">
-                    <p><span class="tx-smaller">${props.texts.individualDiscount}</span> <span class="${Courier.settings.classes.popup}-carousel__item-discount-value tx-bigger">-${formatPercentage(carouselItem.price.discount, false)}<span class="tx-smaller">%</span></span></p>
+                <div class="${Courier.settings.classes.popup}-carousel-item-discount">
+                    <p><span class="tx-smaller">${props.texts.individualDiscount}</span> <span class="${Courier.settings.classes.popup}-carousel-item-discount-value tx-bigger">-${formatPercentage(carouselItem.price.discount, false)}<span class="tx-smaller">%</span></span></p>
                 </div>` : '';
 
                 // const discountBadgeHtml = carouselItem.price.discount ? `
-                // <div class="${Courier.settings.classes.popup}-carousel__item-discount">
+                // <div class="${Courier.settings.classes.popup}-carousel-item-discount">
                 // eslint-disable-next-line max-len
-                //     <p class="${Courier.settings.classes.popup}-carousel__item-discount-badge">-${formatPercentage(carouselItem.price.discount)}</p>
+                //     <p class="${Courier.settings.classes.popup}-carousel-item-discount-badge">-${formatPercentage(carouselItem.price.discount)}</p>
                 // </div>` : '';
 
                 // const discountBadgeHtml = carouselItem.price.discount ? `
                 // eslint-disable-next-line max-len
-                // <div class="${Courier.settings.classes.popup}-carousel__item-discount-individual">
+                // <div class="${Courier.settings.classes.popup}-carousel-item-discount-individual">
                 // eslint-disable-next-line max-len
-                // <p class="${Courier.settings.classes.popup}-carousel__item-discount-individual-value">-${formatPercentage(carouselItem.price.discount, false)}<span class="tx-smaller">%</span></p>
+                // <p class="${Courier.settings.classes.popup}-carousel-item-discount-individual-value">-${formatPercentage(carouselItem.price.discount, false)}<span class="tx-smaller">%</span></p>
                 // eslint-disable-next-line max-len
-                //     <p class="${Courier.settings.classes.popup}-carousel__item-discount-individual-text">${props.texts.individualDiscount}</p>
+                //     <p class="${Courier.settings.classes.popup}-carousel-item-discount-individual-text">${props.texts.individualDiscount}</p>
                 // </div>` : '';
 
+                // const footerHtml = `
+                // <div class="${Courier.settings.classes.popup}-carousel-item-footer">
+                // eslint-disable-next-line max-len
+                //      <p><a href="${carouselItem.link}" rel="noreferrer">${carouselItem.goToProduct ? carouselItem.goToProduct : Courier.settings.texts.goToProduct}</a></p>
+                // </div>`;
+
                 carouselItemsHtml += `
-                    <li class="${Courier.settings.classes.popup}-carousel__item glide__slide">
-                        <div class="${Courier.settings.classes.popup}-carousel__item-content">
-                            ${discountBadgeHtml}
-                            <div class="${Courier.settings.classes.popup}-carousel__item-img">
-                                 <div class="${Courier.settings.classes.popup}-carousel__item-img-wrapper">
-                                    <a href="${carouselItem.link}" rel="noreferrer"><img class="${Courier.settings.classes.popup}-carousel__item-img-content" src="${carouselItem.img.src}" alt="${carouselItem.img.alt}" /></a>
+                    <li class="${Courier.settings.classes.popup}-carousel-item glide__slide">
+                        <div class="${Courier.settings.classes.popup}-carousel-item-content">
+                            <div class="${Courier.settings.classes.popup}-carousel-item-img">
+                                 <div class="${Courier.settings.classes.popup}-carousel-item-img-wrapper">
+                                    <a href="${carouselItem.link}" rel="noreferrer"><img class="${Courier.settings.classes.popup}-carousel-item-img-content" src="${carouselItem.img.src}" alt="${carouselItem.img.alt}" /></a>
                                 </div>
                             </div>
-                            <div class="${Courier.settings.classes.popup}-carousel__item-body">
-                                <p class="${Courier.settings.classes.popup}-carousel__item-name tx-bold tx-wb">${carouselItem.title}</p>
+                            <div class="${Courier.settings.classes.popup}-carousel-item-body">
+                                <p class="${Courier.settings.classes.popup}-carousel-item-name tx-bold tx-wb"><a class="${Courier.settings.classes.popup}-carousel-item-name-link" href="${carouselItem.link}" rel="noreferrer">${carouselItem.title}</a></p>
                                 ${priceHtml}
                             </div>
-                            <div class="${Courier.settings.classes.popup}-carousel__item-footer">
-                                <p><a href="${carouselItem.link}" rel="noreferrer">${carouselItem.goToProduct ? carouselItem.goToProduct : Courier.settings.texts.goToProduct}</a></p>
-                            </div>
+                            ${discountBadgeHtml}
                         </div>
                     </li>`;
 
