@@ -1,5 +1,6 @@
 @use "sass:color";
-@use "../../utils/mixins";
+@use "../../utils/mixins/media-query";
+@use "../../utils/mixins/selectors";
 
 @import "../../../../libs/glidejs/css/glide.core.min"; // glide for carousel
 
@@ -21,7 +22,17 @@
 	}
 
 	&__arrows {
-		@include mixins.medium-devices {
+		$arrows: &;
+		opacity: 0.4;
+		transition: opacity cubic-bezier(0.1, 1, 0.6, 1) 0.3s;
+
+		@at-root {
+			#{selectors.parent-fn($arrows)} .glide:hover #{selectors.bottom-most-fn($arrows)} {
+				opacity: 1;
+			}
+		}
+
+		@include media-query.medium-devices {
 			display: none;
 		}
 	}
