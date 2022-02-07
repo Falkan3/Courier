@@ -1,0 +1,74 @@
+@mixin parent {
+  @each $selector in & {
+    $l: length($selector);
+
+    @if ($l == 1) {
+      // @debug "Used parent mixin on a top-level selector";
+      @at-root & {
+        @content;
+      }
+    } @else {
+      $parent: nth($selector, 1);
+      @for $i from 2 to $l {
+        $parent: append($parent, nth($selector, $i));
+      }
+
+      @at-root #{$parent} {
+        // @debug $parent;
+        @content;
+      }
+    }
+  }
+}
+
+@function parent-fn($inputSelector, $returnSelector: true) {
+  @each $selector in $inputSelector {
+    $l: length($selector);
+
+    @if ($l == 1) {
+      // @debug "Used parent mixin on a top-level selector";
+      @if ($returnSelector) {
+        @return $selector;
+      } @else {
+        @return null;
+      }
+    } @else {
+      $parent: nth($selector, 1);
+      @for $i from 2 to $l {
+        $parent: append($parent, nth($selector, $i));
+      }
+
+      @return $parent;
+    }
+  }
+}
+
+@mixin bottom-most {
+  // @debug 'Whole selector length: ' + length(&);
+  @each $selector in & {
+    // @debug 'Selector: ' + $selector;
+    $l: length($selector);
+    @if ($l != 1) {
+      // @debug 'Bottom most selector: ' + nth($selector, $l);
+      @at-root #{nth($selector, $l)} {
+        @content;
+      }
+    } @else {
+      // @debug 'Bottom most selector: ' + $selector;
+      @at-root #{$selector} {
+        @content;
+      }
+    }
+  }
+}
+
+@function bottom-most-fn($inputSelector) {
+  @each $selector in $inputSelector {
+    $l: length($selector);
+    @if ($l != 1) {
+      @return nth($selector, $l);
+    } @else {
+      @return $selector;
+    }
+  }
+}
