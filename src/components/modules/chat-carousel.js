@@ -1,6 +1,8 @@
 /* eslint-disable import/no-unresolved */
 import Reef from '@libs/reefjs/reef.es';
-import Glide, { Controls, Images, Swipe } from '@libs/glidejs/glide.modular.esm';
+import Glide, {
+    Controls, Images, Swipe, Anchors
+} from '@libs/glidejs/glide.modular.esm';
 import { addAffix, formatPercentage, roundNumber } from '@utils/string';
 
 export default function (Courier, Components, Events) {
@@ -32,7 +34,9 @@ export default function (Courier, Components, Events) {
                     after: Courier.settings.state.carouselPeek
                 }
             });
-            glide.mount({ Controls, Swipe, Images });
+            glide.mount({
+                Controls, Swipe, Images, Anchors
+            });
             this.refs.glides.push(glide);
         },
 
