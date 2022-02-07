@@ -47,7 +47,7 @@ export default function (Courier, Components, Events) {
         onClick(event) {
             // const overlay = Components.App.refs.app.elem.querySelector('#courierChatOverlay');
             const closeBtn = Components.App.refs.app.elem.querySelector('#courierChatCloseBtn');
-            if (event.target.matches('#courierPopupCloseBtn')
+            if (event.target.matches('#courierChatCloseBtn')
                 || (elemContains(closeBtn, event.target))
                 || (event.target.matches('#courierChatOverlay'))) {
                 this.close();
