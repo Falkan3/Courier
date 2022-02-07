@@ -112,9 +112,13 @@ texts: {
   // chat
   chatTitle: 'Chat with us!',
   messagePlaceholder: 'Type something...',
+  typing: 'User is typing...',
   sendMessage: 'Send message',
+  goToProduct: 'Go to product',
   // popup
   popupContent: ''
+  // carousel
+  clipboardCopy: 'Copied to clipboard'
 }
 ```
 
