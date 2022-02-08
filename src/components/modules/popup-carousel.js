@@ -97,24 +97,26 @@ export default function (Courier, Components, Events) {
                     <p><span class="tx-smaller">${carouselItem.footerText}</span></p>
                 </div>` : '';
 
-                const discountBadgeValueHtml = `<span class="${Courier.settings.classes.popup}-carousel-item-discount-value tx-bigger">-${formatPercentage(carouselItem.price.discount, false)}<span class="tx-smaller">%</span></span>`;
+                if (carouselItem.footerText) {
+                    const discountBadgeValueHtml = `<span class="${Courier.settings.classes.popup}-carousel-item-discount-value tx-bigger">-${formatPercentage(carouselItem.price.discount, false)}<span class="tx-smaller">%</span></span>`;
 
-                if (discountBadgeHtml) {
-                    discountBadgeHtml = textTemplate(discountBadgeHtml, {
-                        discountValue: discountBadgeValueHtml,
-                        discountCode: carouselItem.discountCode
-                    });
+                    if (discountBadgeHtml) {
+                        discountBadgeHtml = textTemplate(discountBadgeHtml, {
+                            discountValue: discountBadgeValueHtml,
+                            discountCode: carouselItem.discountCode
+                        });
+                    }
                 }
 
                 const discountCodeHtml = carouselItem.discountCode ? `
                 <div class="${Courier.settings.classes.popup}-carousel-item-discount-code">
-                    <button id="courierPopupClipboardBtn" class="${Courier.settings.classes.popup}-carousel-item-discount-code-btn" data-courier-discount-code="${carouselItem.discountCode}">
+                    <button class="${Courier.settings.classes.popup}-carousel-item-discount-code-btn" data-courier-discount-code="${carouselItem.discountCode}">
                         <span class="${Courier.settings.classes.popup}-carousel-item-discount-code-btn-container">
                             <span class="${Courier.settings.classes.popup}-carousel-item-discount-code-value">${carouselItem.discountCode}</span>
                             <span class="${Courier.settings.classes.popup}-carousel-item-discount-code-icon">${clipboardIcon}</span>
                         </span>
                     </button>
-                    <p id="courierPopupClipboardCopyMsg" class="${Courier.settings.classes.popup}-carousel-item-discount-code-copy-msg ${Courier.settings.classes.root}__fade-in">${props.texts.clipboardCopy}</p>
+                    <p class="${Courier.settings.classes.popup}-carousel-item-discount-code-copy-msg ${Courier.settings.classes.root}__fade-in">${props.texts.clipboardCopy}</p>
                 </div>` : '';
 
                 // const footerHtml = `
@@ -224,11 +226,13 @@ export default function (Courier, Components, Events) {
     });
 
     Events.on('app.click', (event) => {
-        const clipboardBtn = Components.App.refs.app.elem.querySelector('#courierPopupClipboardBtn');
-        if (event.target.matches('#courierPopupClipboardBtn')
-            || (elemContains(clipboardBtn, event.target))) {
-            copyTextToClipboard(clipboardBtn.dataset.courierDiscountCode);
-            const clipboardCopyMsg = Components.App.refs.app.elem.querySelector('#courierPopupClipboardCopyMsg');
+        const carouselItem = event.target.closest(`.${Courier.settings.classes.popup}-carousel-item`);
+        if (!carouselItem) return;
+        const discountCodeBtn = carouselItem.querySelector(`.${Courier.settings.classes.popup}-carousel-item-discount-code-btn`);
+        if (event.target.isEqualNode(discountCodeBtn)
+            || (elemContains(discountCodeBtn, event.target))) {
+            copyTextToClipboard(discountCodeBtn.dataset.courierDiscountCode);
+            const clipboardCopyMsg = carouselItem.querySelector(`.${Courier.settings.classes.popup}-carousel-item-discount-code-copy-msg`);
             clipboardCopyMsg.classList.add('active');
             setTimeout(() => {
                 clipboardCopyMsg.classList.remove('active');
