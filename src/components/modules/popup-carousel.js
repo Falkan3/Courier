@@ -101,7 +101,8 @@ export default function (Courier, Components, Events) {
 
                 if (discountBadgeHtml) {
                     discountBadgeHtml = textTemplate(discountBadgeHtml, {
-                        discountValue: discountBadgeValueHtml
+                        discountValue: discountBadgeValueHtml,
+                        discountCode: carouselItem.discountCode
                     });
                 }
 
