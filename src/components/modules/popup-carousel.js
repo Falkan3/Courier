@@ -98,7 +98,7 @@ export default function (Courier, Components, Events) {
                 </div>` : '';
 
                 if (carouselItem.footerText) {
-                    const discountBadgeValueHtml = `<span class="${Courier.settings.classes.popup}-carousel-item-discount-value tx-bigger">-${formatPercentage(carouselItem.price.discount, false)}<span class="tx-smaller">%</span></span>`;
+                    const discountBadgeValueHtml = `<span class="${Courier.settings.classes.popup}-carousel-item-discount-value tx-bigger">${formatPercentage(carouselItem.price.discount, false)}<span class="tx-smaller">%</span></span>`;
 
                     if (discountBadgeHtml) {
                         discountBadgeHtml = textTemplate(discountBadgeHtml, {
