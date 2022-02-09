@@ -52,7 +52,7 @@ export default {
         // popup
         popupContent: '',
         // carousel
-        clipboardtooltip: 'Click to copy to clipboard',
+        clipboardTooltip: 'Click to copy to clipboard',
         clipboardCopy: 'Copied to clipboard',
     },
 

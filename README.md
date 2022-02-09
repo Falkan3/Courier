@@ -118,6 +118,7 @@ texts: {
   // popup
   popupContent: ''
   // carousel
+  clipboardTooltip: 'Click to copy to clipboard',
   clipboardCopy: 'Copied to clipboard'
 }
 ```
