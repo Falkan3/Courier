@@ -115,7 +115,7 @@ export default function (Courier, Components, Events) {
 
                 const discountCodeHtml = carouselItem.discountCode ? `
                 <div class="${Courier.settings.classes.chat}-carousel-item-discount-code">
-                    <button class="${Courier.settings.classes.chat}-carousel-item-discount-code-btn" data-courier-discount-code="${carouselItem.discountCode}">
+                    <button class="${Courier.settings.classes.chat}-carousel-item-discount-code-btn" title="${props.texts.clipboardtooltip}" data-courier-discount-code="${carouselItem.discountCode}">
                         <span class="${Courier.settings.classes.chat}-carousel-item-discount-code-btn-container">
                             <span class="${Courier.settings.classes.chat}-carousel-item-discount-code-value">${carouselItem.discountCode}</span>
                             <span class="${Courier.settings.classes.chat}-carousel-item-discount-code-icon">${clipboardIcon}</span>
@@ -215,6 +215,7 @@ export default function (Courier, Components, Events) {
                 ChatCarousel.refs.carousels.push(new Reef(`[data-template="${ChatCarousel.template}"][data-courier-message-id="${carousel.dataset.courierMessageId}"]`, {
                     data: {
                         texts: {
+                            clipboardtooltip: Courier.settings.textsParsed.clipboardtooltip,
                             clipboardCopy: Courier.settings.textsParsed.clipboardCopy,
                         },
                     },
