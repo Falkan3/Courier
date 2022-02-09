@@ -1,12 +1,12 @@
 /* eslint-disable import/no-unresolved */
 import Reef from '@libs/reefjs/reef.es';
 import Glide, {
-    Anchors, Controls, Images, Swipe
+    Controls, Images, Swipe, Anchors
 } from '@libs/glidejs/glide.modular.esm';
 import { addAffix, formatPercentage, roundNumber } from '@utils/string';
 import { textTemplate } from '@utils/object';
 import { elemContains, copyTextToClipboard } from '@utils/dom';
-import { clipboard as clipboardIcon } from '@utils/images';
+import { clipboard as clipboardIcon, arrowLeft as arrowLeftIcon, arrowRight as arrowRightIcon } from '@utils/images';
 
 export default function (Courier, Components, Events) {
     const PopupCarousel = {
@@ -56,13 +56,9 @@ export default function (Courier, Components, Events) {
             let carouselItemsHtml = '';
             const carouselArrows = `
             <div class="glide__arrows" data-glide-el="controls">
-                <button class="slider__arrow slider__arrow--prev glide__arrow glide__arrow--prev" data-glide-dir="<">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"><path d="m0 12 10.975 11 2.848-2.828-6.176-6.176H24v-3.992H7.646l6.176-6.176L10.975 1 0 12z"/></svg>
-                </button>
+                <button class="slider__arrow slider__arrow--prev glide__arrow glide__arrow--prev" data-glide-dir="<">${arrowLeftIcon}</button>
 
-                <button class="slider__arrow slider__arrow--next glide__arrow glide__arrow--next" data-glide-dir=">">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"><path d="m13.025 1-2.847 2.828 6.176 6.176H0v3.992h16.354l-6.176 6.176L13.025 23 24 12z"/></svg>
-                </button>
+                <button class="slider__arrow slider__arrow--next glide__arrow glide__arrow--next" data-glide-dir=">">${arrowRightIcon}</button>
             </div>`;
             let carouselBullets = '';
             moduleData.carousel.items.forEach((carouselItem, carouselItemIndex) => {
