@@ -47,7 +47,7 @@ npm install @falkan3/courier
 
 Install via package.json:
 ```json
-"@falkan3/courier": "^1.1.25"
+"@falkan3/courier": "^1.1.28"
 ```
 
 # Usage

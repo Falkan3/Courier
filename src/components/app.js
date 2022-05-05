@@ -27,6 +27,7 @@ export default function (Courier, Components, Events) {
             Binder.on('click', Components.App.refs.app.elem, (event) => this.onClick(event));
             Binder.on('keydown', Courier.rootElement, (event) => this.onKeydown(event));
             Binder.on('reef:render', Components.App.refs.app.elem, (event) => this.onRendered(event));
+            Binder.on('reef:before-render', Components.App.refs.app.elem, (event) => this.onBeforeRender(event));
         },
 
         /**
@@ -54,6 +55,15 @@ export default function (Courier, Components, Events) {
          */
         onKeydown(event) {
             Events.emit('root.keydown', event);
+        },
+
+        /**
+         * Handles render events.
+         *
+         * @param  {Object} event
+         */
+        onBeforeRender(event) {
+            Events.emit('app.beforeRender', event);
         },
 
         /**

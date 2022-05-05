@@ -180,19 +180,38 @@ export default function (Courier, Components, Events) {
     });
 
     /**
-     * Bind event listeners after App has been rendered
+     * Destroy existing instances before render
      */
-    Events.on('app.rendered', (event) => {
+    Events.on('app.beforeRender', (event) => {
         if (event.target.matches('#courierChat') && Components.Chat.refs.chat.data.state.active) {
             // remove existing reef instances
             if (ChatCarousel.refs.carousels) {
-                // ChatCarousel.destroyGlides();
+                ChatCarousel.destroyGlides();
                 ChatCarousel.refs.carousels.forEach((carousel, index) => {
-                    // Components.Chat.refs.chat.detach(carousel); // deprecated in v11
+                    Components.Chat.refs.chat.detach(carousel); // deprecated in v11
                     delete ChatCarousel.refs.carousels[index];
                 });
             }
             ChatCarousel.refs.carousels = [];
+        }
+    });
+
+    /**
+     * Initialize carousels after App has been rendered
+     */
+    Events.on('app.rendered', (event) => {
+        if (event.target.matches('#courierChat') && Components.Chat.refs.chat.data.state.active) {
+            // remove existing reef instances
+            // if (ChatCarousel.refs.carousels) {
+            //     // todo: destroy old event listeners
+            //     // todo: figure out how to destroy glide instances before the DOM has updated
+            //     // ChatCarousel.destroyGlides();
+            //     ChatCarousel.refs.carousels.forEach((carousel, index) => {
+            //         // Components.Chat.refs.chat.detach(carousel); // deprecated in v11
+            //         delete ChatCarousel.refs.carousels[index];
+            //     });
+            // }
+            // ChatCarousel.refs.carousels = [];
 
             // find all templates
             const carousels = Components.App.refs.app.elem.querySelectorAll(`[data-template="${ChatCarousel.template}"]`);
