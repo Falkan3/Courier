@@ -53,6 +53,7 @@ export function objectForEach(obj, callback, thisArg = window) {
  * @return {Object|Array}
  */
 export function clone(input, deep = false) {
+    if (input === null) return null;
     if (isArray(input)) {
         if (deep) {
             const msgArr = [];
@@ -64,6 +65,10 @@ export function clone(input, deep = false) {
         return input.slice();
     }
     if (isObject(input)) {
+        // exception for Date objects
+        if (Object.prototype.toString.call(input) === '[object Date]') {
+            return new Date(input.getTime());
+        }
         if (deep) {
             const clonedObj = {}; // Object.assign({}, input);
             objectForEach(input, (el, key) => {
