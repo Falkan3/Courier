@@ -55,6 +55,32 @@ export default function (Courier, Components, Events) {
             Events.emit('popup.opened');
         },
 
+        getTemplateData(update = false) {
+            const data = {
+                text: {
+                    popupContent: Courier.settings.textsParsed.popupContent,
+                },
+                poweredBy: {
+                    show: Courier.settings.poweredBy.show,
+                    text: Courier.settings.poweredBy.text,
+                    img: {
+                        src: Courier.settings.poweredBy.img.src,
+                        alt: Courier.settings.poweredBy.img.alt,
+                    },
+                    url: Courier.settings.poweredBy.url,
+                },
+                state: {
+                    active: false,
+                },
+            };
+
+            if (update) {
+                data.state.active = this.refs.popup.data.state.active;
+            }
+
+            return data;
+        },
+
         refreshContent() {
             this.refs.popup.data.text.popupContent = Courier.settings.textsParsed.popupContent;
         },
@@ -64,23 +90,7 @@ export default function (Courier, Components, Events) {
          */
         initialize() {
             Popup.refs.popup = new Reef('#courierPopup', {
-                data: {
-                    text: {
-                        popupContent: Courier.settings.textsParsed.popupContent,
-                    },
-                    poweredBy: {
-                        show: Courier.settings.poweredBy.show,
-                        text: Courier.settings.poweredBy.text,
-                        img: {
-                            src: Courier.settings.poweredBy.img.src,
-                            alt: Courier.settings.poweredBy.img.alt,
-                        },
-                        url: Courier.settings.poweredBy.url,
-                    },
-                    state: {
-                        active: false,
-                    },
-                },
+                data: this.getTemplateData(),
                 template: (props) => {
                     if (!props.state.active) {
                         return '';
@@ -173,7 +183,8 @@ export default function (Courier, Components, Events) {
      */
     Events.on('update', () => {
         // Popup.mount();
-        Popup.refreshContent();
+        // Popup.refreshContent();
+        Popup.refs.popup.data = Popup.getTemplateData(true);
     });
 
     /**

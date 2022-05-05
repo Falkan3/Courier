@@ -186,46 +186,58 @@ export default function (Courier, Components, Events) {
             Events.emit('chat.refreshMessages', oldMessagePath);
         },
 
+        getTemplateData(update = false) {
+            const data = {
+                identity: {
+                    name: Courier.settings.identity.name,
+                    website: Courier.settings.identity.website,
+                    img: {
+                        src: Courier.settings.identity.logo.src,
+                        alt: Courier.settings.identity.logo.alt,
+                    },
+                },
+                texts: {
+                    chatTitle: Courier.settings.textsParsed.chatTitle,
+                    messagePlaceholder: Courier.settings.textsParsed.messagePlaceholder,
+                    typing: Courier.settings.textsParsed.typing,
+                    sendMessage: Courier.settings.textsParsed.sendMessage,
+                },
+                poweredBy: {
+                    show: Courier.settings.poweredBy.show,
+                    text: Courier.settings.poweredBy.text,
+                    img: {
+                        src: Courier.settings.poweredBy.img.src,
+                        alt: Courier.settings.poweredBy.img.alt,
+                    },
+                    url: Courier.settings.poweredBy.url,
+                },
+                messages: [],
+                state: {
+                    active: false,
+                    online: Courier.settings.state.online,
+                    userTurn: true,
+                    showMessageBox: Courier.settings.state.showMessageBox,
+                    messageBoxEnabled: Courier.settings.state.messageBoxEnabled,
+                    showTimestamp: Courier.settings.state.showTimestamp,
+                    typing: false,
+                },
+            };
+
+            if (update) {
+                data.state.active = this.refs.chat.data.state.active;
+                data.state.userTurn = this.refs.chat.data.state.userTurn;
+                data.state.typing = this.refs.chat.data.state.typing;
+            }
+
+            return data;
+        },
+
         /**
          * Initialize the chat.
          */
         initialize() {
             Chat.refs.chat = new Reef('#courierChat', {
-                data: {
-                    identity: {
-                        name: Courier.settings.identity.name,
-                        website: Courier.settings.identity.website,
-                        img: {
-                            src: Courier.settings.identity.logo.src,
-                            alt: Courier.settings.identity.logo.alt,
-                        },
-                    },
-                    texts: {
-                        chatTitle: Courier.settings.textsParsed.chatTitle,
-                        messagePlaceholder: Courier.settings.textsParsed.messagePlaceholder,
-                        typing: Courier.settings.textsParsed.typing,
-                        sendMessage: Courier.settings.textsParsed.sendMessage,
-                    },
-                    poweredBy: {
-                        show: Courier.settings.poweredBy.show,
-                        text: Courier.settings.poweredBy.text,
-                        img: {
-                            src: Courier.settings.poweredBy.img.src,
-                            alt: Courier.settings.poweredBy.img.alt,
-                        },
-                        url: Courier.settings.poweredBy.url,
-                    },
-                    messages: [],
-                    state: {
-                        active: false,
-                        online: Courier.settings.state.online,
-                        userTurn: true,
-                        showMessageBox: Courier.settings.state.showMessageBox,
-                        messageBoxEnabled: Courier.settings.state.messageBoxEnabled,
-                        showTimestamp: Courier.settings.state.showTimestamp,
-                        typing: false,
-                    },
-                },
+                data: this.getTemplateData(),
                 template: (props) => {
                     if (!props.state.active) {
                         return '';
@@ -404,6 +416,7 @@ export default function (Courier, Components, Events) {
      */
     Events.on('update', () => {
         // Chat.mount();
+        Chat.refs.chat.data = Chat.getTemplateData(true);
         Chat.refreshMessages();
     });
 

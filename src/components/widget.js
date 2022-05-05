@@ -57,18 +57,29 @@ export default function (Courier, Components, Events) {
             Events.emit('widget.hidden');
         },
 
+        getTemplateData(update = false) {
+            const data = {
+                active: Courier.settings.state.widgetActiveAtStart,
+                hidden: !Courier.settings.state.widgetActiveAtStart,
+                widgetImg: Courier.settings.images.widget,
+                text: Courier.settings.textsParsed.widgetGreeting,
+                hideBtnActive: Courier.settings.state.hideBtnActiveAtStart,
+            };
+
+            if (update) {
+                data.active = this.refs.widget.data.active;
+                data.hidden = this.refs.widget.data.hidden;
+            }
+
+            return data;
+        },
+
         /**
          * Initialize the widget.
          */
         initialize() {
             Widget.refs.widget = new Reef('#courierWidget', {
-                data: {
-                    active: Courier.settings.state.widgetActiveAtStart,
-                    hidden: !Courier.settings.state.widgetActiveAtStart,
-                    widgetImg: Courier.settings.images.widget,
-                    text: Courier.settings.textsParsed.widgetGreeting,
-                    hideBtnActive: Courier.settings.state.hideBtnActiveAtStart,
-                },
+                data: this.getTemplateData(),
                 template: (props) => {
                     if (!props.active) {
                         return '';
@@ -185,6 +196,7 @@ export default function (Courier, Components, Events) {
      */
     Events.on('update', () => {
         // Widget.mount();
+        Widget.refs.widget.data = Widget.getTemplateData(true);
     });
 
     /**
