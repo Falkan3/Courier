@@ -16,9 +16,12 @@
 <body>
     <script>
         const courier = new Courier(document.body, {
+			textVars: {
+				var: 'TEST',
+			},
             messages: {
                 start: {
-                    text: 'Test message 1 with topics',
+                    text: 'Test message 1 with topics: {{var}}',
                     topics: [
                         {
                             text: 'Coupons',
