@@ -339,7 +339,9 @@
 				text-align: center;
 
 				&-btn {
+					display: inline-block;
 					padding: 0;
+					color: inherit;
 					cursor: pointer;
 
 					&-container {
@@ -357,6 +359,7 @@
 				}
 
 				&-icon {
+					$icon: &;
 					display: flex;
 					align-items: center;
 					padding: 4px 0.5em;
@@ -366,9 +369,25 @@
 					border-bottom-right-radius: 4px;
 					transition: background-color cubic-bezier(0.1, 1, 0.6, 1) 0.3s;
 
+					&#{selectors.bottom-most-fn(&)}--link {
+						background-color: $linkColor;
+
+						& > svg {
+							fill: color.mix($linkColor, #fefefe, 5%);
+						}
+					}
+
 					@at-root {
-						#{$discountCode}-btn:hover #{selectors.bottom-most-fn(&)} {
-							background-color: color.scale(#6ab070, $lightness: 10%);
+						#{$discountCode}-btn {
+							&:hover, &:focus {
+								#{selectors.bottom-most-fn($icon)} {
+									background-color: color.scale(#6ab070, $lightness: 10%);
+
+									&#{selectors.bottom-most-fn($icon)}#{selectors.bottom-most-fn($icon)}--link {
+										background-color: color.scale($linkColor, $lightness: 10%);
+									}
+								}
+							}
 						}
 					}
 

@@ -54,6 +54,7 @@ export default {
         // carousel
         clipboardTooltip: 'Click to copy to clipboard',
         clipboardCopy: 'Copied to clipboard',
+        clickToApplyDiscount: 'Click to apply discount code',
     },
 
     /**

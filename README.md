@@ -47,7 +47,7 @@ npm install @falkan3/courier
 
 Install via package.json:
 ```json
-"@falkan3/courier": "^1.1.28"
+"@falkan3/courier": "^1.1.29"
 ```
 
 # Usage
@@ -55,6 +55,7 @@ Install via package.json:
 To use the complete version, include the `courier.min.js` file and initialize the plugin:
 
 ```html
+<link rel="stylesheet" href="/css/courier.core.css">
 <script src="/js/courier.min.js"></script>
 
 <script>
@@ -275,7 +276,7 @@ ESM versions:
 - `css/modules/courier.chat.min.css`
 - `css/modules/courier.popup.min.css`
 
-## Old method.
+## Old method
 To change which module is to be compiled in the complete version:
 - Change the imported modules in the `entry/entry-complete.js` file.
 - Change the imported modules in the `src/assets/scss/courier.core.scss` file.

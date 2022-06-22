@@ -6,7 +6,10 @@ import Glide, {
 import { addAffix, formatPercentage, roundNumber } from '@utils/string';
 import { textTemplate } from '@utils/object';
 import { elemContains, copyTextToClipboard } from '@utils/dom';
-import { clipboard as clipboardIcon, arrowLeft as arrowLeftIcon, arrowRight as arrowRightIcon } from '@utils/images';
+import {
+    clipboard as clipboardIcon, link as linkIcon, arrowLeft as arrowLeftIcon,
+    arrowRight as arrowRightIcon
+} from '@utils/images';
 
 export default function (Courier, Components, Events) {
     const ChatCarousel = {
@@ -104,16 +107,35 @@ export default function (Courier, Components, Events) {
                     }
                 }
 
-                const discountCodeHtml = carouselItem.discountCode ? `
-                <div class="${Courier.settings.classes.chat}-carousel-item-discount-code">
-                    <button class="${Courier.settings.classes.chat}-carousel-item-discount-code-btn" title="${props.texts.clipboardTooltip}" data-courier-discount-code="${carouselItem.discountCode}">
-                        <span class="${Courier.settings.classes.chat}-carousel-item-discount-code-btn-container">
-                            <span class="${Courier.settings.classes.chat}-carousel-item-discount-code-value">${carouselItem.discountCode}</span>
-                            <span class="${Courier.settings.classes.chat}-carousel-item-discount-code-icon">${clipboardIcon}</span>
-                        </span>
-                    </button>
-                    <p class="${Courier.settings.classes.chat}-carousel-item-discount-code-copy-msg ${Courier.settings.classes.root}__fade-in ${Courier.settings.classes.root}__anim-timing--third">${props.texts.clipboardCopy}</p>
-                </div>` : '';
+                let discountCodeHtml = '';
+                if (carouselItem.discountCode) {
+                    if (carouselItem.discountLink) {
+                        discountCodeHtml = `
+                        <div class="${Courier.settings.classes.chat}-carousel-item-discount-code">
+                            <a class="${Courier.settings.classes.chat}-carousel-item-discount-code-btn" href="${carouselItem.discountLink}" title="${props.texts.clickToApplyDiscount}" data-courier-discount-code="${carouselItem.discountCode}">
+                                <span class="${Courier.settings.classes.chat}-carousel-item-discount-code-btn-container">
+                                    <span class="${Courier.settings.classes.chat}-carousel-item-discount-code-value">${carouselItem.discountCode}</span>
+                                    <span class="${Courier.settings.classes.chat}-carousel-item-discount-code-icon ${Courier.settings.classes.chat}-carousel-item-discount-code-icon--link">${linkIcon}</span>
+                                </span>
+                            </a>
+                        </div>`;
+
+                        discountCodeHtml = textTemplate(discountCodeHtml, {
+                            discountLink: carouselItem.discountLink
+                        });
+                    } else {
+                        discountCodeHtml = `
+                        <div class="${Courier.settings.classes.chat}-carousel-item-discount-code">
+                            <button class="${Courier.settings.classes.chat}-carousel-item-discount-code-btn" title="${props.texts.clipboardTooltip}" data-courier-discount-code="${carouselItem.discountCode}">
+                                <span class="${Courier.settings.classes.chat}-carousel-item-discount-code-btn-container">
+                                    <span class="${Courier.settings.classes.chat}-carousel-item-discount-code-value">${carouselItem.discountCode}</span>
+                                    <span class="${Courier.settings.classes.chat}-carousel-item-discount-code-icon">${clipboardIcon}</span>
+                                </span>
+                            </button>
+                            <p class="${Courier.settings.classes.chat}-carousel-item-discount-code-copy-msg ${Courier.settings.classes.root}__fade-in ${Courier.settings.classes.root}__anim-timing--third">${props.texts.clipboardCopy}</p>
+                        </div>`;
+                    }
+                }
 
                 // const footerHtml = `
                 // <div class="${Courier.settings.classes.chat}-carousel-item-footer">
@@ -227,6 +249,7 @@ export default function (Courier, Components, Events) {
                         texts: {
                             clipboardTooltip: Courier.settings.textsParsed.clipboardTooltip,
                             clipboardCopy: Courier.settings.textsParsed.clipboardCopy,
+                            clickToApplyDiscount: Courier.settings.textsParsed.clickToApplyDiscount,
                         },
                     },
                     template: (props, elem) => ChatCarousel.generateHtml(props, elem),
@@ -252,7 +275,7 @@ export default function (Courier, Components, Events) {
     Events.on('app.click', (event) => {
         const carouselItem = event.target.closest(`.${Courier.settings.classes.chat}-carousel-item`);
         if (!carouselItem) return;
-        const discountCodeBtn = carouselItem.querySelector(`.${Courier.settings.classes.chat}-carousel-item-discount-code-btn`);
+        const discountCodeBtn = carouselItem.querySelector(`button.${Courier.settings.classes.chat}-carousel-item-discount-code-btn`);
         if (event.target.isEqualNode(discountCodeBtn)
             || (elemContains(discountCodeBtn, event.target))) {
             copyTextToClipboard(discountCodeBtn.dataset.courierDiscountCode);
