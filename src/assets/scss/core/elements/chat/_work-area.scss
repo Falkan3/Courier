@@ -273,6 +273,7 @@
 			margin: -0.25em;
 
 			&-wrapper {
+				position: relative;
 				padding: 0.25em;
 			}
 
@@ -317,6 +318,17 @@
 			&-old {
 				// padding: 0.5em 0;
 				text-decoration: line-through;
+			}
+
+			&-discount-percentage {
+				position: absolute;
+				top: 0;
+				left: 50%;
+				width: 100%;
+				font-size: 0.9em;
+				font-weight: bold;
+				color: #dd3d47;
+				transform: translate(-50%, -50%);
 			}
 		}
 

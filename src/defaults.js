@@ -135,7 +135,8 @@ export default {
         messageBoxEnabled: true,
         customSendMessage: false,
         showTimestamp: true,
-        carouselPeek: 50
+        carouselPeek: 50,
+        showDiscountPercentage: true,
     },
 
     /**

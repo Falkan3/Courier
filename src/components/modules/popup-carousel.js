@@ -66,13 +66,20 @@ export default function (Courier, Components, Events) {
             moduleData.carousel.items.forEach((carouselItem, carouselItemIndex) => {
                 let priceCurrentHtml = '';
                 let priceOldHtml = '';
+                let discountPercentage = '';
                 if (carouselItem.price.discount && carouselItem.price.value) {
                     priceCurrentHtml = `
                     <div class="${Courier.settings.classes.popup}-carousel-item-price-wrapper">
                         <p class="${Courier.settings.classes.popup}-carousel-item-price-tag tx-wb">${addAffix(roundNumber(carouselItem.price.value * (1 - carouselItem.price.discount)), carouselItem.price.affix[0], carouselItem.price.affix[1])}</p>
                     </div>`;
+                    if (Courier.settings.state.showDiscountPercentage) {
+                        discountPercentage = `
+                        <p class="${Courier.settings.classes.popup}-carousel-item-price-discount-percentage">-${formatPercentage(carouselItem.price.discount)}</p>
+                        `;
+                    }
                     priceOldHtml = `
                     <div class="${Courier.settings.classes.popup}-carousel-item-price-wrapper">
+                        ${discountPercentage}
                         <p class="${Courier.settings.classes.popup}-carousel-item-price-old tx-wb">${addAffix(carouselItem.price.value, carouselItem.price.affix[0], carouselItem.price.affix[1])}</p>
                     </div>`;
                 } else if (carouselItem.price.value) {

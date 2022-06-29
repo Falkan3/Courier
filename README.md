@@ -47,7 +47,7 @@ npm install @falkan3/courier
 
 Install via package.json:
 ```json
-"@falkan3/courier": "^1.1.29"
+"@falkan3/courier": "^1.1.30"
 ```
 
 # Usage
@@ -120,7 +120,8 @@ texts: {
   popupContent: ''
   // carousel
   clipboardTooltip: 'Click to copy to clipboard',
-  clipboardCopy: 'Copied to clipboard'
+  clipboardCopy: 'Copied to clipboard',
+  clickToApplyDiscount: 'Click to apply discount code',
 }
 ```
 
@@ -189,6 +190,7 @@ state: {
   customSendMessage: false, // Use custom send message function
   showTimestamp: true, // Show message timestamps
   carouselPeek: 50 // The peeking width of the next carousel slide, in pixels
+  showDiscountPercentage: true, // Show the discount percentage above carousel item old price
 }
 ```
 
