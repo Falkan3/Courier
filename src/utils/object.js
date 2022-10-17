@@ -2,6 +2,17 @@
 import { isArray, isObject } from '@utils/types';
 
 /**
+ * Return the last item of an array.
+ *
+ * @param arr
+ * @returns {*}
+ */
+export function arrLastItem(arr) {
+    const length = arr.length;
+    return length > 0 ? arr[arr.length - 1] : null;
+}
+
+/**
  * Defines getter and setter property on the specified object.
  *
  * @param  {Object} obj         Object where property has to be defined.
@@ -94,7 +105,7 @@ export function textTemplate(text, template) {
     let output = text;
     objectForEach(template, (value, key) => {
         const regex = new RegExp(`{{${key}}}`, 'g');
-        output = output.replaceAll(regex, value);
+        output      = output.replaceAll(regex, value);
     });
     return output;
 }

@@ -3,6 +3,7 @@ import {
     getStartMessage, loadMessagePath, replyFromScenario, saveMessagePath
 } from '@utils/chat';
 import { isArray } from '@utils/types';
+import { arrLastItem } from '@utils/object';
 
 export default function (Courier, Components, Events) {
     const ChatTriggers = {
@@ -59,6 +60,11 @@ export default function (Courier, Components, Events) {
         },
 
         triggerPath(topic) {
+            // disable all previous message topics
+            const lastMessage = arrLastItem(Components.Chat.refs.chat.data.messages);
+            if (lastMessage) {
+                this.disableTopics(lastMessage);
+            }
             // find a reply based on selected path
             const reply = replyFromScenario(Courier.settings.messages, topic.text, topic.path);
             if (reply) {
@@ -70,6 +76,17 @@ export default function (Courier, Components, Events) {
                     Components.Chat.pushMessage(reply);
                 }
             }
+        },
+
+        disableTopics(message) {
+            const { topics } = message;
+            if (topics) {
+                topics.forEach((item) => {
+                    item.disabled = true;
+                });
+                return true;
+            }
+            return false;
         },
 
         topicTrigger(trigger) {

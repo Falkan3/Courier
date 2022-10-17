@@ -47,7 +47,7 @@ npm install @falkan3/courier
 
 Install via package.json:
 ```json
-"@falkan3/courier": "^1.1.30"
+"@falkan3/courier": "^1.1.31"
 ```
 
 # Usage
@@ -189,7 +189,7 @@ state: {
   messageBoxEnabled: true, // Enable the "type message" box
   customSendMessage: false, // Use custom send message function
   showTimestamp: true, // Show message timestamps
-  carouselPeek: 50 // The peeking width of the next carousel slide, in pixels
+  carouselPeek: 50, // The peeking width of the next carousel slide, in pixels
   showDiscountPercentage: true, // Show the discount percentage above carousel item old price
 }
 ```
