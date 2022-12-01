@@ -376,28 +376,28 @@
 					align-items: center;
 					padding: 4px 0.5em;
 					border-left: none;
-					background-color: #6ab070;
+					background-color: $linkColor; // #6ab070;
 					border-top-right-radius: 4px;
 					border-bottom-right-radius: 4px;
 					transition: background-color cubic-bezier(0.1, 1, 0.6, 1) 0.3s;
 
-					&#{selectors.bottom-most-fn(&)}--link {
-						background-color: $linkColor;
-
-						& > svg {
-							fill: color.mix($linkColor, #fefefe, 5%);
-						}
-					}
+					//&#{selectors.bottom-most-fn(&)}--link {
+					//	background-color: $linkColor;
+					//
+					//	& > svg {
+					//		fill: color.mix($linkColor, #fefefe, 5%);
+					//	}
+					//}
 
 					@at-root {
 						#{$discountCode}-btn {
 							&:hover, &:focus {
 								#{selectors.bottom-most-fn($icon)} {
-									background-color: color.scale(#6ab070, $lightness: 10%);
+									background-color: color.scale($linkColor, $lightness: 10%); // color.scale(#6ab070, $lightness: 10%);
 
-									&#{selectors.bottom-most-fn($icon)}#{selectors.bottom-most-fn($icon)}--link {
-										background-color: color.scale($linkColor, $lightness: 10%);
-									}
+									//&#{selectors.bottom-most-fn($icon)}#{selectors.bottom-most-fn($icon)}--link {
+									//	background-color: color.scale($linkColor, $lightness: 10%);
+									//}
 								}
 							}
 						}
@@ -406,7 +406,7 @@
 					& > svg {
 						width: 1em;
 						height: 1em;
-						fill: color.mix(#6ab070, #fefefe, 5%);
+						fill: color.mix($linkColor, #fefefe, 5%); // color.mix(#6ab070, #fefefe, 5%);
 					}
 				}
 
