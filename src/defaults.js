@@ -137,6 +137,7 @@ export default {
         showTimestamp: true,
         carouselPeek: 50,
         showDiscountPercentage: true,
+        clipboardCopyMsgDuration: 2500
     },
 
     /**

@@ -288,9 +288,14 @@ export default function (Courier, Components, Events) {
             copyTextToClipboard(discountCodeBtn.dataset.courierDiscountCode);
             const clipboardCopyMsg = carouselItem.querySelector(`.${Courier.settings.classes.chat}-carousel-item-discount-code-copy-msg`);
             clipboardCopyMsg.classList.add('active');
+            // calculate optimal tooltip visibility duration based on message length
+            const timeoutDuration = Math.max(Courier.settings.state.clipboardCopyMsgDuration,
+                (Math.round(
+                    (Courier.settings.textsParsed.clipboardCopy.length / 20) * 100
+                ) / 100) * 1000);
             setTimeout(() => {
                 clipboardCopyMsg.classList.remove('active');
-            }, 1500);
+            }, timeoutDuration);
         }
     });
 
