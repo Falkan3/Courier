@@ -49,7 +49,7 @@ jobs:
                 continue-on-error: true
                 run: npm list
 
-            -   name: Install dependencies
+            -   name: Install dependencies and build assets
                 run: npm install
 
 #             -   name: Build # Build is run after installing packages
@@ -58,12 +58,13 @@ jobs:
             -   name: Archive production artifacts
                 uses: actions/upload-artifact@v3
                 with:
-                    name: dist-without-markdown
+                    name: dist-with-index
                     path: |
+                        index.html
                         dist
-                        !dist/**/*.md
                         
-            - uses: actions/upload-artifact@master
+            - name: Upload production artifacts archive
+              uses: actions/upload-artifact@master
               with:
                   name: page
                   path: build
@@ -78,13 +79,15 @@ jobs:
         runs-on: ubuntu-latest
         needs: build
         steps:
-            -   uses: actions/download-artifact@master
+            -   name: Download production artifacts archive
+                uses: actions/download-artifact@master
                 with:
                     name: page
                     path: .
             -   name: Setup Pages
                 uses: actions/configure-pages@v2
-            -   uses: actions/upload-pages-artifact@v1
+            -   name: Upload production artifacts archive
+                uses: actions/upload-pages-artifact@v1
                 with:
                     path: .
             -   name: Deploy to GitHub Pages
