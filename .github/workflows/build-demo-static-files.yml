@@ -55,20 +55,14 @@ jobs:
 #             -   name: Build # Build is run after installing packages
 #                 run: npm run build
 
-            -   name: Archive production artifacts
-                uses: actions/upload-artifact@v3
+            -   name: Upload production artifacts archive
+                uses: actions/upload-artifact@master
                 with:
-                    name: dist-with-index
+                    name: page
                     path: |
                         index.html
                         dist
-                        
-            - name: Upload production artifacts archive
-              uses: actions/upload-artifact@master
-              with:
-                  name: page
-                  path: build
-                  if-no-files-found: error
+                    if-no-files-found: error
     
     
     # Deployment job
