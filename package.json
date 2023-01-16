@@ -3,7 +3,7 @@
     "version": "1.1.33",
     "description": "A flexible, easy to use and configurable chat foundation. Can be used as a virtual assistant which allows clients to interact with a website using preselected topics, or as a websocket based chat scaffolding.",
     "author": "Adam Kocić (Falkan3)",
-    "homepage": "https://github.com/Falkan3/courier#readme",
+    "homepage": "https://falkan3.github.io/Courier/",
     "main": "dist/js/courier.js",
     "module": "dist/js/esm/modular/courier.esm.js",
     "unpkg": "dist/js/courier.js",
@@ -50,7 +50,9 @@
         "build:js:modules": "npm run build:esm:modules && npm run build:umd:modules",
         "build": "npm run build:css && npm run build:js",
         "build--deprecated": "cross-env BABEL_ENV=production babel src --out-dir dist",
-        "prepublish": "npm run clean && npm run test && npm run build"
+        "prepublish": "npm run clean && npm run test && npm run build",
+        "predeploy": "npm run build",
+        "deploy": "gh-pages -d build"
     },
     "watch": {
         "test": "{src,tests}/**/*.js",
@@ -87,6 +89,7 @@
         "eslint-plugin-import": "^2.26.0",
         "eslint-plugin-jsx-a11y": "^6.6.1",
         "eslint-plugin-react": "^7.31.11",
+        "gh-pages": "^4.0.0",
         "jest": "^27.5.1",
         "jsdom": "^18.1.1",
         "npm-watch": "^0.11.0",
