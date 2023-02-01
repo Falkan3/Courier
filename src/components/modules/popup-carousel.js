@@ -7,7 +7,8 @@ import { addAffix, formatPercentage, roundNumber } from '@utils/string';
 import { textTemplate } from '@utils/object';
 import { elemContains, copyTextToClipboard } from '@utils/dom';
 import {
-    clipboard as clipboardIcon, arrowLeft as arrowLeftIcon, arrowRight as arrowRightIcon, link as linkIcon
+    clipboard as clipboardIcon, arrowLeft as arrowLeftIcon,
+    arrowRight as arrowRightIcon, link as linkIcon
 } from '@utils/images';
 
 export default function (Courier, Components, Events) {
@@ -260,10 +261,12 @@ export default function (Courier, Components, Events) {
             const clipboardCopyMsg = carouselItem.querySelector(`.${Courier.settings.classes.popup}-carousel-item-discount-code-copy-msg`);
             clipboardCopyMsg.classList.add('active');
             // calculate optimal tooltip visibility duration based on message length
-            const timeoutDuration = Math.max(Courier.settings.state.clipboardCopyMsgDuration,
+            const timeoutDuration = Math.max(
+                Courier.settings.state.clipboardCopyMsgDuration,
                 (Math.round(
                     (Courier.settings.textsParsed.clipboardCopy.length / 20) * 100
-                ) / 100) * 1000);
+                ) / 100) * 1000
+            );
             setTimeout(() => {
                 clipboardCopyMsg.classList.remove('active');
             }, timeoutDuration);
