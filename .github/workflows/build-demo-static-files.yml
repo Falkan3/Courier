@@ -26,8 +26,8 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             -   name: Checkout
-                uses: actions/checkout@v3
-            -   uses: actions/setup-node@v3
+                uses: actions/checkout@v4
+            -   uses: actions/setup-node@v4
                 with:
                     node-version: '20'
             -   name: Cache node modules
@@ -74,14 +74,14 @@ jobs:
         needs: build
         steps:
             -   name: Download production artifacts archive
-                uses: actions/download-artifact@master
+                uses: actions/download-artifact@v4
                 with:
                     name: page
                     path: .
             -   name: Setup Pages
-                uses: actions/configure-pages@v2
+                uses: actions/configure-pages@v4
             -   name: Upload production artifacts archive
-                uses: actions/upload-pages-artifact@v1
+                uses: actions/upload-pages-artifact@v3
                 with:
                     path: .
             -   name: Deploy to GitHub Pages
