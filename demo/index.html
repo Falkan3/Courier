@@ -24,7 +24,7 @@
 			},
             messages: {
                 start: {
-                    text: 'Test message 1 with topics: {{var}}',
+                    text: 'Test message 1 with topics',
                     topics: [
                         {
                             text: 'Coupons',
@@ -44,7 +44,7 @@
                     text: 'Here is a list of all of our active coupons:',
                     topics: [
                         {
-                            text: 'XXX',
+                            text: '{{var}}',
                             path: 'couponsXXX',
                         },
                         {
@@ -58,13 +58,13 @@
                         },
                     ],
                 },
-                couponsXXX: [
+				couponsXXX: [
 					{
-						text: 'You have selected couponXXX'
+						text: 'You have selected {{var}}'
 					},
 					{
 						type: 'coupon',
-						text: 'couponXXX'
+						text: '{{var}}'
 					},
 				],
                 sales: {
