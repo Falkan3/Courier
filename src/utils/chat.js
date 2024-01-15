@@ -52,14 +52,23 @@ export function loadMessagePath(nameSuffix = '') {
     return cookie ? JSON.parse(cookie) : cookie;
 }
 
-export function copyCouponCodeToClipboard(parentEl, discountCode, options = {}) {
+export function copyCouponCodeToClipboard(component, parentEl, discountCode, options = {}) {
     const settings = {
-        copyMsg: 'Code copied to clipboard',
-        msgDuration: 1000,
+        copyMsg: component.settings.textsParsed.clipboardCopy,
+        msgDuration: component.settings.state.clipboardCopyMsgDuration,
         ...options
     };
     copyTextToClipboard(discountCode);
-    parentEl.classList.add('active');
+
+    // add copy message element
+    let copyMessageEl = parentEl.querySelector(`.${component.settings.classes.chat}-discount-code-copy-msg`);
+    if (copyMessageEl === null) {
+        copyMessageEl = document.createElement('p');
+        copyMessageEl.classList.add(`${component.settings.classes.chat}-discount-code-copy-msg`, `${component.settings.classes.root}__fade-in`, `${component.settings.classes.root}__anim-timing--third`, 'active');
+        copyMessageEl.innerText = settings.copyMsg;
+        parentEl.append(copyMessageEl);
+    }
+
     // calculate optimal tooltip visibility duration based on message length
     const timeoutDuration = Math.max(
         settings.msgDuration,
@@ -67,8 +76,9 @@ export function copyCouponCodeToClipboard(parentEl, discountCode, options = {}) 
             (settings.copyMsg.length / 20) * 100
         ) / 100) * 1000
     );
+
     setTimeout(() => {
-        parentEl.classList.remove('active');
+        copyMessageEl.remove();
     }, timeoutDuration);
 }
 

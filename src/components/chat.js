@@ -3,7 +3,7 @@ import { clone, textTemplate } from '@utils/object';
 import EventsBinder from '@core/event/events-binder';
 import ChatMessage from '@components/classes/chat-message';
 import Reef from '@libs/reefjs/reef.es';
-import { copyTextToClipboard, elemContains, isScrolledToTheBottom } from '@utils/dom';
+import { elemContains, isScrolledToTheBottom } from '@utils/dom';
 import { shortenTodaysDateTime } from '@utils/time';
 import { clipboard as clipboardIcon } from '@utils/images';
 import { copyCouponCodeToClipboard } from '@utils/chat.js';
@@ -60,14 +60,11 @@ export default function (Courier, Components, Events) {
             const discountCodeBtn = message.querySelector(`button.${Courier.settings.classes.chat}-discount-code-btn`);
             if (event.target.isEqualNode(discountCodeBtn)
                 || (elemContains(discountCodeBtn, event.target))) {
-                const clipboardCopyMsg = message.querySelector(`.${Courier.settings.classes.chat}-discount-code-copy-msg`);
+                const parentEl = message.querySelector(`.${Courier.settings.classes.chat}-discount-code`);
                 copyCouponCodeToClipboard(
-                    clipboardCopyMsg,
-                    discountCodeBtn.dataset.courierDiscountCode,
-                    {
-                        copyMsg: Courier.settings.textsParsed.clipboardCopy,
-                        msgDuration: Courier.settings.state.clipboardCopyMsgDuration
-                    }
+                    Courier,
+                    parentEl,
+                    discountCodeBtn.dataset.courierDiscountCode
                 );
             }
 
@@ -211,8 +208,8 @@ export default function (Courier, Components, Events) {
                     website: Courier.settings.identity.website,
                     img: {
                         src: Courier.settings.identity.logo.src,
-                        alt: Courier.settings.identity.logo.alt,
-                    },
+                        alt: Courier.settings.identity.logo.alt
+                    }
                 },
                 texts: {
                     chatTitle: Courier.settings.textsParsed.chatTitle,
@@ -220,16 +217,16 @@ export default function (Courier, Components, Events) {
                     typing: Courier.settings.textsParsed.typing,
                     sendMessage: Courier.settings.textsParsed.sendMessage,
                     clipboardTooltip: Courier.settings.textsParsed.clipboardTooltip,
-                    clipboardCopy: Courier.settings.textsParsed.clipboardCopy,
+                    clipboardCopy: Courier.settings.textsParsed.clipboardCopy
                 },
                 poweredBy: {
                     show: Courier.settings.poweredBy.show,
                     text: Courier.settings.poweredBy.text,
                     img: {
                         src: Courier.settings.poweredBy.img.src,
-                        alt: Courier.settings.poweredBy.img.alt,
+                        alt: Courier.settings.poweredBy.img.alt
                     },
-                    url: Courier.settings.poweredBy.url,
+                    url: Courier.settings.poweredBy.url
                 },
                 messages: [],
                 state: {
@@ -239,8 +236,8 @@ export default function (Courier, Components, Events) {
                     showMessageBox: Courier.settings.state.showMessageBox,
                     messageBoxEnabled: Courier.settings.state.messageBoxEnabled,
                     showTimestamp: Courier.settings.state.showTimestamp,
-                    typing: false,
-                },
+                    typing: false
+                }
             };
 
             if (update) {
@@ -285,7 +282,6 @@ export default function (Courier, Components, Events) {
                                             <span class="${Courier.settings.classes.chat}-discount-code-icon">${clipboardIcon}</span>
                                         </span>
                                     </button>
-                                    <p class="${Courier.settings.classes.chat}-discount-code-copy-msg ${Courier.settings.classes.root}__fade-in ${Courier.settings.classes.root}__anim-timing--third">${props.texts.clipboardCopy}</p>
                                 </div>
                             </div>`;
                         } else {
@@ -391,7 +387,7 @@ export default function (Courier, Components, Events) {
          */
         render() {
             Chat.refs.chat.render();
-        },
+        }
     };
 
     Events.on('mount.after', () => {

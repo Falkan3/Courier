@@ -140,7 +140,6 @@ export default function (Courier, Components, Events) {
                                     <span class="${Courier.settings.classes.chat}-discount-code-icon">${clipboardIcon}</span>
                                 </span>
                             </button>
-                            <p class="${Courier.settings.classes.chat}-discount-code-copy-msg ${Courier.settings.classes.root}__fade-in ${Courier.settings.classes.root}__anim-timing--third">${props.texts.clipboardCopy}</p>
                         </div>`;
                     }
                 }
@@ -286,14 +285,11 @@ export default function (Courier, Components, Events) {
         const discountCodeBtn = carouselItem.querySelector(`button.${Courier.settings.classes.chat}-discount-code-btn`);
         if (event.target.isEqualNode(discountCodeBtn)
             || (elemContains(discountCodeBtn, event.target))) {
-            const clipboardCopyMsg = carouselItem.querySelector(`.${Courier.settings.classes.chat}-discount-code-copy-msg`);
+            const parentEl = carouselItem.querySelector(`.${Courier.settings.classes.chat}-discount-code`);
             copyCouponCodeToClipboard(
-                clipboardCopyMsg,
-                discountCodeBtn.dataset.courierDiscountCode,
-                {
-                    copyMsg: Courier.settings.textsParsed.clipboardCopy,
-                    msgDuration: Courier.settings.state.clipboardCopyMsgDuration
-                }
+                Courier,
+                parentEl,
+                discountCodeBtn.dataset.courierDiscountCode
             );
         }
     });
