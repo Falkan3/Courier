@@ -173,6 +173,11 @@ export default function (Courier, Components, Events) {
             if (chatMessage.text) {
                 chatMessage.text = textTemplate(chatMessage.text, Courier.settings.textVars);
             }
+            if (chatMessage.topics) {
+                chatMessage.topics.forEach((topic) => {
+                    topic.text = textTemplate(topic.text, Courier.settings.textVars);
+                });
+            }
             // push message to component data
             this.refs.chat.data.messages.push(chatMessage);
             // set whether after render the chat work area should be scrolled to the bottom
