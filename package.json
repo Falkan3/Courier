@@ -27,7 +27,7 @@
     ],
     "scripts": {
         "clean": "rimraf dist",
-        "test": "jest \"tests/.*/.*\\.test\\.js\" --config jest.config.js",
+        "test": "jest \"tests/.*/.*\\.test\\.js\" --config jest.config.cjs",
         "lint": "eslint {src,tests}/**/*.js",
         "lint:base": "eslint src tests",
         "lint:fix": "eslint {src,tests}/**/*.js --fix",
