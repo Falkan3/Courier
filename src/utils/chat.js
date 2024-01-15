@@ -1,6 +1,7 @@
 /* eslint-disable import/no-unresolved */
 import { getCookie, setCookie } from '@utils/cookies';
 import { clone } from '@utils/object';
+import { copyTextToClipboard } from '@utils/dom.js';
 
 /**
  * Get the start message from the scenario property in settings.
@@ -49,6 +50,26 @@ export function saveMessagePath(messagePath, duration, nameSuffix = '') {
 export function loadMessagePath(nameSuffix = '') {
     const cookie = getCookie(`courier_message_path${nameSuffix}`);
     return cookie ? JSON.parse(cookie) : cookie;
+}
+
+export function copyCouponCodeToClipboard(parentEl, discountCode, options = {}) {
+    const settings = {
+        copyMsg: 'Code copied to clipboard',
+        msgDuration: 1000,
+        ...options
+    };
+    copyTextToClipboard(discountCode);
+    parentEl.classList.add('active');
+    // calculate optimal tooltip visibility duration based on message length
+    const timeoutDuration = Math.max(
+        settings.msgDuration,
+        (Math.round(
+            (settings.copyMsg.length / 20) * 100
+        ) / 100) * 1000
+    );
+    setTimeout(() => {
+        parentEl.classList.remove('active');
+    }, timeoutDuration);
 }
 
 export default replyFromScenario;

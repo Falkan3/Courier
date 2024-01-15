@@ -10,6 +10,7 @@ import {
     clipboard as clipboardIcon, link as linkIcon, arrowLeft as arrowLeftIcon,
     arrowRight as arrowRightIcon
 } from '@utils/images';
+import { copyCouponCodeToClipboard } from '@utils/chat.js';
 
 export default function (Courier, Components, Events) {
     const ChatCarousel = {
@@ -118,11 +119,11 @@ export default function (Courier, Components, Events) {
                 if (carouselItem.discountCode) {
                     if (carouselItem.discountLink) {
                         discountCodeHtml = `
-                        <div class="${Courier.settings.classes.chat}-carousel-item-discount-code">
-                            <a class="${Courier.settings.classes.chat}-carousel-item-discount-code-btn" href="${carouselItem.discountLink}" title="${props.texts.clickToApplyDiscount}" data-courier-discount-code="${carouselItem.discountCode}">
-                                <span class="${Courier.settings.classes.chat}-carousel-item-discount-code-btn-container">
-                                    <span class="${Courier.settings.classes.chat}-carousel-item-discount-code-value">${carouselItem.discountCode}</span>
-                                    <span class="${Courier.settings.classes.chat}-carousel-item-discount-code-icon ${Courier.settings.classes.chat}-carousel-item-discount-code-icon--link">${linkIcon}</span>
+                        <div class="${Courier.settings.classes.chat}-discount-code">
+                            <a class="${Courier.settings.classes.chat}-discount-code-btn" href="${carouselItem.discountLink}" title="${props.texts.clickToApplyDiscount}" data-courier-discount-code="${carouselItem.discountCode}">
+                                <span class="${Courier.settings.classes.chat}-discount-code-btn-container">
+                                    <span class="${Courier.settings.classes.chat}-discount-code-value">${carouselItem.discountCode}</span>
+                                    <span class="${Courier.settings.classes.chat}-discount-code-icon ${Courier.settings.classes.chat}-discount-code-icon--link">${linkIcon}</span>
                                 </span>
                             </a>
                         </div>`;
@@ -132,14 +133,14 @@ export default function (Courier, Components, Events) {
                         });
                     } else {
                         discountCodeHtml = `
-                        <div class="${Courier.settings.classes.chat}-carousel-item-discount-code">
-                            <button class="${Courier.settings.classes.chat}-carousel-item-discount-code-btn" title="${props.texts.clipboardTooltip}" data-courier-discount-code="${carouselItem.discountCode}">
-                                <span class="${Courier.settings.classes.chat}-carousel-item-discount-code-btn-container">
-                                    <span class="${Courier.settings.classes.chat}-carousel-item-discount-code-value">${carouselItem.discountCode}</span>
-                                    <span class="${Courier.settings.classes.chat}-carousel-item-discount-code-icon">${clipboardIcon}</span>
+                        <div class="${Courier.settings.classes.chat}-discount-code ${Courier.settings.classes.chat}-carousel-item-discount-code">
+                            <button class="${Courier.settings.classes.chat}-discount-code-btn" title="${props.texts.clipboardTooltip}" data-courier-discount-code="${carouselItem.discountCode}">
+                                <span class="${Courier.settings.classes.chat}-discount-code-btn-container">
+                                    <span class="${Courier.settings.classes.chat}-discount-code-value">${carouselItem.discountCode}</span>
+                                    <span class="${Courier.settings.classes.chat}-discount-code-icon">${clipboardIcon}</span>
                                 </span>
                             </button>
-                            <p class="${Courier.settings.classes.chat}-carousel-item-discount-code-copy-msg ${Courier.settings.classes.root}__fade-in ${Courier.settings.classes.root}__anim-timing--third">${props.texts.clipboardCopy}</p>
+                            <p class="${Courier.settings.classes.chat}-discount-code-copy-msg ${Courier.settings.classes.root}__fade-in ${Courier.settings.classes.root}__anim-timing--third">${props.texts.clipboardCopy}</p>
                         </div>`;
                     }
                 }
@@ -282,22 +283,18 @@ export default function (Courier, Components, Events) {
     Events.on('app.click', (event) => {
         const carouselItem = event.target.closest(`.${Courier.settings.classes.chat}-carousel-item`);
         if (!carouselItem) return;
-        const discountCodeBtn = carouselItem.querySelector(`button.${Courier.settings.classes.chat}-carousel-item-discount-code-btn`);
+        const discountCodeBtn = carouselItem.querySelector(`button.${Courier.settings.classes.chat}-discount-code-btn`);
         if (event.target.isEqualNode(discountCodeBtn)
             || (elemContains(discountCodeBtn, event.target))) {
-            copyTextToClipboard(discountCodeBtn.dataset.courierDiscountCode);
-            const clipboardCopyMsg = carouselItem.querySelector(`.${Courier.settings.classes.chat}-carousel-item-discount-code-copy-msg`);
-            clipboardCopyMsg.classList.add('active');
-            // calculate optimal tooltip visibility duration based on message length
-            const timeoutDuration = Math.max(
-                Courier.settings.state.clipboardCopyMsgDuration,
-                (Math.round(
-                    (Courier.settings.textsParsed.clipboardCopy.length / 20) * 100
-                ) / 100) * 1000
+            const clipboardCopyMsg = carouselItem.querySelector(`.${Courier.settings.classes.chat}-discount-code-copy-msg`);
+            copyCouponCodeToClipboard(
+                clipboardCopyMsg,
+                discountCodeBtn.dataset.courierDiscountCode,
+                {
+                    copyMsg: Courier.settings.textsParsed.clipboardCopy,
+                    msgDuration: Courier.settings.state.clipboardCopyMsgDuration
+                }
             );
-            setTimeout(() => {
-                clipboardCopyMsg.classList.remove('active');
-            }, timeoutDuration);
         }
     });
 

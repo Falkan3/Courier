@@ -3,8 +3,10 @@ import { clone, textTemplate } from '@utils/object';
 import EventsBinder from '@core/event/events-binder';
 import ChatMessage from '@components/classes/chat-message';
 import Reef from '@libs/reefjs/reef.es';
-import { elemContains, isScrolledToTheBottom } from '@utils/dom';
+import { copyTextToClipboard, elemContains, isScrolledToTheBottom } from '@utils/dom';
 import { shortenTodaysDateTime } from '@utils/time';
+import { clipboard as clipboardIcon } from '@utils/images';
+import { copyCouponCodeToClipboard } from '@utils/chat.js';
 
 export default function (Courier, Components, Events) {
     /**
@@ -51,6 +53,22 @@ export default function (Courier, Components, Events) {
                 || (elemContains(closeBtn, event.target))
                 || (event.target.matches('#courierChatOverlay'))) {
                 this.close();
+            }
+
+            const message = event.target.closest(`.${Courier.settings.classes.chat}-message`);
+            if (!message) return event;
+            const discountCodeBtn = message.querySelector(`button.${Courier.settings.classes.chat}-discount-code-btn`);
+            if (event.target.isEqualNode(discountCodeBtn)
+                || (elemContains(discountCodeBtn, event.target))) {
+                const clipboardCopyMsg = message.querySelector(`.${Courier.settings.classes.chat}-discount-code-copy-msg`);
+                copyCouponCodeToClipboard(
+                    clipboardCopyMsg,
+                    discountCodeBtn.dataset.courierDiscountCode,
+                    {
+                        copyMsg: Courier.settings.textsParsed.clipboardCopy,
+                        msgDuration: Courier.settings.state.clipboardCopyMsgDuration
+                    }
+                );
             }
 
             return event;
@@ -201,6 +219,8 @@ export default function (Courier, Components, Events) {
                     messagePlaceholder: Courier.settings.textsParsed.messagePlaceholder,
                     typing: Courier.settings.textsParsed.typing,
                     sendMessage: Courier.settings.textsParsed.sendMessage,
+                    clipboardTooltip: Courier.settings.textsParsed.clipboardTooltip,
+                    clipboardCopy: Courier.settings.textsParsed.clipboardCopy,
                 },
                 poweredBy: {
                     show: Courier.settings.poweredBy.show,
@@ -255,6 +275,19 @@ export default function (Courier, Components, Events) {
                         // render different html for some message types
                         if (message.type === 'carousel') {
                             html += `<div class="${Courier.settings.classes.chat}-message ${message.typeClassSuffix ? `${Courier.settings.classes.chat}-message${message.typeClassSuffix}` : ''}" data-template="carousel" data-courier-message-id="${index}"></div>`;
+                        } else if (message.type === 'coupon') {
+                            html += `
+                            <div class="${Courier.settings.classes.chat}-message ${message.typeClassSuffix ? `${Courier.settings.classes.chat}-message${message.typeClassSuffix}` : ''}" data-template="coupon" data-courier-message-id="${index}">
+                                <div class="${Courier.settings.classes.chat}-discount-code">
+                                    <button class="${Courier.settings.classes.chat}-discount-code-btn" title="${props.texts.clipboardTooltip}" data-courier-discount-code="${message.text}">
+                                        <span class="${Courier.settings.classes.chat}-discount-code-btn-container">
+                                            <span class="${Courier.settings.classes.chat}-discount-code-value">${message.text}</span>
+                                            <span class="${Courier.settings.classes.chat}-discount-code-icon">${clipboardIcon}</span>
+                                        </span>
+                                    </button>
+                                    <p class="${Courier.settings.classes.chat}-discount-code-copy-msg ${Courier.settings.classes.root}__fade-in ${Courier.settings.classes.root}__anim-timing--third">${props.texts.clipboardCopy}</p>
+                                </div>
+                            </div>`;
                         } else {
                             html += message.text
                                 ? `<p class="${Courier.settings.classes.chat}-message ${message.outgoing ? `${Courier.settings.classes.chat}-message--self` : ''} ${message.typeClassSuffix ? `${Courier.settings.classes.chat}-message${message.typeClassSuffix}` : ''} ${Courier.settings.classes.root}__appear ${Courier.settings.classes.root}__anim-timing--third" data-courier-message-id="${index}">${message.text}</p>`

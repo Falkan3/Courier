@@ -8,7 +8,7 @@ import { isArray, isObject } from '@utils/types';
  * @returns {*}
  */
 export function arrLastItem(arr) {
-    const length = arr.length;
+    const { length } = arr;
     return length > 0 ? arr[arr.length - 1] : null;
 }
 
@@ -105,7 +105,7 @@ export function textTemplate(text, template) {
     let output = text;
     objectForEach(template, (value, key) => {
         const regex = new RegExp(`{{${key}}}`, 'g');
-        output      = output.replaceAll(regex, value);
+        output = output.replaceAll(regex, value);
     });
     return output;
 }

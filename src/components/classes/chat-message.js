@@ -51,6 +51,8 @@ export default class ChatMessage {
             return '--system';
         case 'carousel':
             return '--carousel';
+        case 'coupon':
+            return '--coupon';
         case 'text':
             return '--text';
         default:

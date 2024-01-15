@@ -16,6 +16,9 @@
 <body>
     <script>
         const courier = new Courier(document.body, {
+			texts: {
+				clipboardCopy: 'Discount code copied'
+			},
 			textVars: {
 				var: 'TEST',
 			},
@@ -55,9 +58,15 @@
                         },
                     ],
                 },
-                couponsXXX: {
-                    text: 'You have selected coupon XXX'
-                },
+                couponsXXX: [
+					{
+						text: 'You have selected couponXXX'
+					},
+					{
+						type: 'coupon',
+						text: 'couponXXX'
+					},
+				],
                 sales: {
                     text: 'Here is a list of all of our active sales:',
                     topics: [
