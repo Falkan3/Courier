@@ -281,10 +281,10 @@ export default function (Courier, Components, Events) {
                             html += `
                             <div class="${Courier.settings.classes.chat}-message ${message.typeClassSuffix ? `${Courier.settings.classes.chat}-message${message.typeClassSuffix}` : ''}" data-template="coupon" data-courier-message-id="${index}">
                                 <div class="${Courier.settings.classes.chat}-discount-code">
-                                    <button class="${Courier.settings.classes.chat}-discount-code-btn" title="${props.texts.clipboardTooltip}" data-courier-discount-code="${message.text}">
+                                    <button class="${Courier.settings.classes.chat}-discount-code-btn" data-courier-tooltip="${props.texts.clipboardTooltip}" data-courier-discount-code="${message.text}">
                                         <span class="${Courier.settings.classes.chat}-discount-code-btn-container">
                                             <span class="${Courier.settings.classes.chat}-discount-code-value">${message.text}</span>
-                                            <span class="${Courier.settings.classes.chat}-discount-code-icon">${clipboardIcon}</span>
+                                            <span class="${Courier.settings.classes.chat}-discount-code-icon">${clipboardIcon}<span class="${Courier.settings.classes.chat}-discount-code-icon-text">${props.texts.clipboardTooltip}</span></span>
                                         </span>
                                     </button>
                                 </div>

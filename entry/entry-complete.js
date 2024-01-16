@@ -12,6 +12,8 @@ import ChatTriggersModule from '../src/components/modules/chat-triggers';
 import ChatCarouselModule from '../src/components/modules/chat-carousel';
 /* Popup */
 import PopupCarouselModule from '../src/components/modules/popup-carousel';
+/* General */
+import TooltipsModule from '../src/components/modules/tooltips';
 
 const COMPONENTS = {
     /* Required */
@@ -26,6 +28,8 @@ const COMPONENTS = {
     ChatCarouselModule,
     /* Popup */
     PopupCarouselModule,
+    /* General */
+    TooltipsModule
 };
 
 export default class Courier extends Core {

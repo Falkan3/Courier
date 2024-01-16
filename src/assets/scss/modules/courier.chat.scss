@@ -70,6 +70,9 @@
 	@import "../core/elements/chat";
 	// @include meta.load-css('core/elements/chat');
 
+	/* optional modules - root elements */
+	@import "../core/modules/tooltip";
+
 	/* antialias font */
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;

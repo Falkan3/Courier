@@ -5,7 +5,7 @@ import Glide, {
 } from '@libs/glidejs/glide.modular.esm';
 import { addAffix, formatPercentage, roundNumber } from '@utils/string';
 import { textTemplate } from '@utils/object';
-import { elemContains, copyTextToClipboard } from '@utils/dom';
+import { elemContains } from '@utils/dom';
 import {
     clipboard as clipboardIcon, link as linkIcon, arrowLeft as arrowLeftIcon,
     arrowRight as arrowRightIcon
@@ -120,7 +120,7 @@ export default function (Courier, Components, Events) {
                     if (carouselItem.discountLink) {
                         discountCodeHtml = `
                         <div class="${Courier.settings.classes.chat}-discount-code">
-                            <a class="${Courier.settings.classes.chat}-discount-code-btn" href="${carouselItem.discountLink}" title="${props.texts.clickToApplyDiscount}" data-courier-discount-code="${carouselItem.discountCode}">
+                            <a class="${Courier.settings.classes.chat}-discount-code-btn" href="${carouselItem.discountLink}" data-courier-tooltip="${props.texts.clickToApplyDiscount}" data-courier-discount-code="${carouselItem.discountCode}">
                                 <span class="${Courier.settings.classes.chat}-discount-code-btn-container">
                                     <span class="${Courier.settings.classes.chat}-discount-code-value">${carouselItem.discountCode}</span>
                                     <span class="${Courier.settings.classes.chat}-discount-code-icon ${Courier.settings.classes.chat}-discount-code-icon--link">${linkIcon}</span>
@@ -134,10 +134,10 @@ export default function (Courier, Components, Events) {
                     } else {
                         discountCodeHtml = `
                         <div class="${Courier.settings.classes.chat}-discount-code ${Courier.settings.classes.chat}-carousel-item-discount-code">
-                            <button class="${Courier.settings.classes.chat}-discount-code-btn" title="${props.texts.clipboardTooltip}" data-courier-discount-code="${carouselItem.discountCode}">
+                            <button class="${Courier.settings.classes.chat}-discount-code-btn" data-courier-tooltip="${props.texts.clipboardTooltip}" data-courier-discount-code="${carouselItem.discountCode}">
                                 <span class="${Courier.settings.classes.chat}-discount-code-btn-container">
                                     <span class="${Courier.settings.classes.chat}-discount-code-value">${carouselItem.discountCode}</span>
-                                    <span class="${Courier.settings.classes.chat}-discount-code-icon">${clipboardIcon}</span>
+                                    <span class="${Courier.settings.classes.chat}-discount-code-icon">${clipboardIcon}<span class="${Courier.settings.classes.chat}-discount-code-icon-text">${props.texts.clipboardTooltip}</span></span>
                                 </span>
                             </button>
                         </div>`;

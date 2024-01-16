@@ -2,6 +2,7 @@
 import { getCookie, setCookie } from '@utils/cookies';
 import { clone } from '@utils/object';
 import { copyTextToClipboard } from '@utils/dom.js';
+import { debounce } from '@libs/throttle-debounce/index.js';
 
 /**
  * Get the start message from the scenario property in settings.
@@ -77,9 +78,10 @@ export function copyCouponCodeToClipboard(component, parentEl, discountCode, opt
         ) / 100) * 1000
     );
 
-    setTimeout(() => {
-        copyMessageEl.remove();
-    }, timeoutDuration);
+    debounce(timeoutDuration, () => {
+        copyMessageEl.classList.add(`${component.settings.classes.root}__fade-out`);
+        copyMessageEl.addEventListener('animationend', () => copyMessageEl.remove());
+    })();
 }
 
 export default replyFromScenario;

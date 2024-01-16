@@ -7,6 +7,8 @@ import Chat from '../src/components/chat';
 /* Modules */
 import ChatTriggersModule from '../src/components/modules/chat-triggers';
 import ChatCarouselModule from '../src/components/modules/chat-carousel';
+/* General */
+import TooltipsModule from '../src/components/modules/tooltips';
 
 const COMPONENTS = {
     App,
@@ -15,6 +17,7 @@ const COMPONENTS = {
     /* Modules */
     ChatTriggersModule,
     ChatCarouselModule,
+    TooltipsModule,
 };
 
 export default class Courier extends Core {

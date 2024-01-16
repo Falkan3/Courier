@@ -1,0 +1,32 @@
+@use "../../utils/variables";
+
+/*
+ * Fade out
+ */
+
+@keyframes fadeOut {
+	from,
+	to {
+		animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+	}
+
+	0% {
+		opacity: 1;
+	}
+
+	to {
+		opacity: 0;
+	}
+}
+
+@mixin fadeOut() {
+	@extend %animated;
+
+	animation-name: fadeOut;
+}
+
+#{variables.$classPrefix} {
+	&__fade-out {
+		@include fadeOut;
+	}
+}

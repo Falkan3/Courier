@@ -76,6 +76,9 @@
 	@import 'core/elements/popup';
 	// @include meta.load-css("core/elements/popup");
 
+	/* optional modules - root elements */
+	@import "core/modules/tooltip";
+
 	/* antialias font */
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;

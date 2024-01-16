@@ -119,7 +119,7 @@ texts: {
   // popup
   popupContent: ''
   // carousel
-  clipboardTooltip: 'Click to copy to clipboard',
+  clipboardTooltip: 'Copy',
   clipboardCopy: 'Copied to clipboard',
   clickToApplyDiscount: 'Click to apply discount code',
 }

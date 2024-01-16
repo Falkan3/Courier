@@ -11,6 +11,8 @@ import ChatCarouselModule from '../src/components/modules/chat-carousel';
 import ChatTypingModule from '../src/components/modules/chat-typing';
 /* Popup */
 import PopupCarouselModule from '../src/components/modules/popup-carousel';
+/* General */
+import TooltipsModule from '../src/components/modules/tooltips';
 
 const COMPONENTS = {
     App,
@@ -27,6 +29,8 @@ export {
     ChatTypingModule,
     /* Popup */
     PopupCarouselModule,
+    /* General */
+    TooltipsModule
 };
 
 export default class Courier extends Core {
