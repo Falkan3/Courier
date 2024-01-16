@@ -1,6 +1,7 @@
 @charset "utf-8";
 
 @use "../utils/variables";
+@use "../utils/mixins/order";
 @use "../utils/mixins/media-query";
 @use "../utils/mixins/font-size";
 @use "../utils/mixins/palette";
@@ -43,7 +44,7 @@
 	font-family: "Asap", sans-serif;
 	font-size: #{font-size.get-font-size-core("px")};
 	color: #{palette.get-palette-hue("foreground", 1000)};
-	z-index: 1040;
+	z-index: order.get-order('main');
 
 	@include media-query.medium-devices {
 		font-size: #{decimal-round.decimal-floor(font-size.get-font-size-core-raw('px') * 0.9) + "px"};

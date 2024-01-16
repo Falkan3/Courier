@@ -62,6 +62,14 @@ $palette: (
 	)
 );
 
+$order: (
+	root : 0,
+	overlay: 1001,
+	widget: 1002,
+	main: 1040,
+	front: 1041,
+);
+
 /* RESPONSIVE BREAKPOINTS */
 $media-xs: 480;
 $media-ms: 768;

@@ -1,4 +1,5 @@
 @use "../../utils/variables";
+@use "../../utils/mixins/order";
 @use "sass:meta";
 
 // todo: move the colors to the palette file
@@ -29,7 +30,7 @@ $sendMessageBoxBgColorDisabled: #f1f1f1;
 	position: fixed;
 	bottom: 0;
 	right: 0;
-	z-index: 1001;
+	z-index: order.get-order('main');
 
 	@at-root #{variables.$classPrefix}--left #{variables.$classPrefix}__chat {
 		right: auto;

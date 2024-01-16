@@ -1,4 +1,5 @@
 @use "../../utils/variables";
+@use "../../utils/mixins/order";
 
 // buttons
 $btnColorInactive: #b5d4ec;
@@ -16,7 +17,7 @@ $contentCarouselPrimaryColor: #fff;
 	position: fixed;
 	bottom: 0;
 	right: 0;
-	z-index: 1001;
+	z-index: order.get-order('main');
 
 	@import "popup/overlay"; // the main popup container
 	@import "popup/wrapper"; // the popup wrapper

@@ -1,3 +1,4 @@
+@use "../../../utils/mixins/order";
 @use "../../../utils/mixins/palette";
 @use "../../../utils/mixins/selectors";
 @use "sass:color";
@@ -433,6 +434,7 @@
 			font-size: 0.9em;
 			transform: translateX(-50%);
 			box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.2);
+			z-index: order.get-order('front');
 
 			&:not(.active) {
 				display: none;
