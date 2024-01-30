@@ -249,6 +249,7 @@ A list of available events, emitted and listened to:
 - `chat.sendMessage`
 - `chat.typing` - upcoming
 - `chat.stoppedTyping` - upcoming
+- `chat.clear` - Clear all chat messages and reinitialize the message scenario
 - `popup.mount`
 - `popup.mounted` - Popup has been mounted and Popup.render() has been called
 - `popup.close`

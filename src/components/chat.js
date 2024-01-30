@@ -6,7 +6,7 @@ import Reef from '@libs/reefjs/reef.es';
 import { elemContains, isScrolledToTheBottom } from '@utils/dom';
 import { shortenTodaysDateTime } from '@utils/time';
 import { clipboard as clipboardIcon } from '@utils/images';
-import { copyCouponCodeToClipboard } from '@utils/chat.js';
+import { clearMessagePath, copyCouponCodeToClipboard } from '@utils/chat.js';
 
 export default function (Courier, Components, Events) {
     /**
@@ -204,6 +204,14 @@ export default function (Courier, Components, Events) {
             this.messagePath = [];
             // recreate message path
             Events.emit('chat.refreshMessages', oldMessagePath);
+        },
+
+        clearMessages() {
+            // reset sent messages and message path
+            this.refs.chat.data.messages = [];
+            this.messagePath = [];
+            clearMessagePath(Courier.settings.cookies.saveConversation.nameSuffix);
+            Events.emit('chat.refreshMessages', this.messagePath);
         },
 
         getTemplateData(update = false) {
@@ -413,6 +421,10 @@ export default function (Courier, Components, Events) {
 
         Events.on('widget.clicked', () => {
             Chat.open();
+        });
+
+        Events.on('chat.clear', () => {
+            Chat.clearMessages();
         });
     });
 

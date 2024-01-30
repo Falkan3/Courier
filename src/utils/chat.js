@@ -1,5 +1,5 @@
 /* eslint-disable import/no-unresolved */
-import { getCookie, setCookie } from '@utils/cookies';
+import { getCookie, setCookie, eraseCookie } from '@utils/cookies';
 import { clone } from '@utils/object';
 import { copyTextToClipboard } from '@utils/dom.js';
 import { debounce } from '@libs/throttle-debounce/index.js';
@@ -51,6 +51,10 @@ export function saveMessagePath(messagePath, duration, nameSuffix = '') {
 export function loadMessagePath(nameSuffix = '') {
     const cookie = getCookie(`courier_message_path${nameSuffix}`);
     return cookie ? JSON.parse(cookie) : cookie;
+}
+
+export function clearMessagePath(nameSuffix = '') {
+    eraseCookie(`courier_message_path${nameSuffix}`);
 }
 
 export function copyCouponCodeToClipboard(component, parentEl, discountCode, options = {}) {
