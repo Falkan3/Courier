@@ -148,9 +148,9 @@ export default function (Courier, Components, Events) {
         setTooltipPosition(tooltipObj, options = {}) {
             const tooltipEl = tooltipObj.tooltip;
             if (this.settings.followMouse) {
-                // const tooltipWidth = tooltipEl.offsetWidth;
+                const tooltipWidth = tooltipEl.offsetWidth;
                 // const tooltipHeight = tooltipEl.offsetHeight;
-                const posX = `${options.mouseX}px`;
+                const posX = `${options.mouseX + tooltipWidth / 2}px`;
                 const posY = `${options.mouseY - 10}px`;
                 tooltipEl.style.top = posY;
                 tooltipEl.style.left = posX;
@@ -179,9 +179,9 @@ export default function (Courier, Components, Events) {
                 posX = 0;
                 // posX += -tooltipRect.x;
             }
-            if ((tooltipRect.x + tooltipRect.width) > window.innerWidth) {
+            if ((tooltipRect.x + tooltipRect.width / 2) > window.innerWidth) {
                 // Out on the right
-                posX = window.innerWidth - tooltipRect.width;
+                posX = window.innerWidth - (tooltipRect.width / 2);
                 // posX -= (tooltipRect.x + tooltipRect.width) - window.innerWidth;
             }
             if (tooltipRect.y < 0) {
@@ -191,7 +191,7 @@ export default function (Courier, Components, Events) {
             }
 
             // Apply corrected position
-            tooltipEl.style.top = `${posY}px`;
+            tooltipEl.style.top = `${posY - 10}px`;
             tooltipEl.style.left = `${posX}px`;
         },
 
