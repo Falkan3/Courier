@@ -139,7 +139,7 @@ export default function (Courier, Components, Events) {
                                     <span class="${Courier.settings.classes.popup}-carousel-item-discount-code-icon">${clipboardIcon}</span>
                                 </span>
                             </button>
-                            <p class="${Courier.settings.classes.popup}-carousel-item-discount-code-copy-msg ${Courier.settings.classes.root}__fade-in ${Courier.settings.classes.root}__anim-timing--third">${props.texts.clipboardCopy}</p>
+                            <p class="${Courier.settings.classes.popup}-carousel-item-discount-code-copy-msg ${Courier.settings.classes.root}__fade-in ${Courier.settings.classes.root}__anim-timing--third">${props.texts.clipboardButton}</p>
                         </div>`;
                     }
                 }
@@ -235,6 +235,7 @@ export default function (Courier, Components, Events) {
                 PopupCarousel.refs.carousels.push(new Reef(`[data-template="${PopupCarousel.template}"][data-module-id="${carousel.dataset.moduleId}"]`, {
                     data: {
                         texts: {
+                            clipboardButton: Courier.settings.textsParsed.clipboardButton,
                             clipboardTooltip: Courier.settings.textsParsed.clipboardTooltip,
                             clipboardCopy: Courier.settings.textsParsed.clipboardCopy,
                         },

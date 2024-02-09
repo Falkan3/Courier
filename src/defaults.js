@@ -54,7 +54,8 @@ export default {
         // popup
         popupContent: '',
         // carousel
-        clipboardTooltip: 'Copy',
+        clipboardButton: 'Copy',
+        clipboardTooltip: 'Click to copy',
         clipboardCopy: 'Copied to clipboard',
         clickToApplyDiscount: 'Click to apply discount code',
     },

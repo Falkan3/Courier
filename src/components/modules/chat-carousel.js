@@ -137,7 +137,7 @@ export default function (Courier, Components, Events) {
                             <button class="${Courier.settings.classes.chat}-discount-code-btn" data-courier-tooltip="${props.texts.clipboardTooltip}" data-courier-discount-code="${carouselItem.discountCode}">
                                 <span class="${Courier.settings.classes.chat}-discount-code-btn-container">
                                     <span class="${Courier.settings.classes.chat}-discount-code-value">${carouselItem.discountCode}</span>
-                                    <span class="${Courier.settings.classes.chat}-discount-code-icon">${clipboardIcon}<span class="${Courier.settings.classes.chat}-discount-code-icon-text">${props.texts.clipboardTooltip}</span></span>
+                                    <span class="${Courier.settings.classes.chat}-discount-code-icon">${clipboardIcon}<span class="${Courier.settings.classes.chat}-discount-code-icon-text">${props.texts.clipboardButton}</span></span>
                                 </span>
                             </button>
                         </div>`;
@@ -254,6 +254,7 @@ export default function (Courier, Components, Events) {
                 ChatCarousel.refs.carousels.push(new Reef(`[data-template="${ChatCarousel.template}"][data-courier-message-id="${carousel.dataset.courierMessageId}"]`, {
                     data: {
                         texts: {
+                            clipboardButton: Courier.settings.textsParsed.clipboardButton,
                             clipboardTooltip: Courier.settings.textsParsed.clipboardTooltip,
                             clipboardCopy: Courier.settings.textsParsed.clipboardCopy,
                             clickToApplyDiscount: Courier.settings.textsParsed.clickToApplyDiscount,
