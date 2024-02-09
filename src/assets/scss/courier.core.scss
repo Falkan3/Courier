@@ -46,14 +46,14 @@
 	font-family: "Asap", sans-serif;
 	font-size: #{font-size.get-font-size-core("px")};
 	color: #{palette.get-palette-hue("foreground", 1000)};
-	z-index: order.get-order('main');
+	z-index: order.get-order("main");
 
 	@include media-query.medium-devices {
-		font-size: #{decimal-round.decimal-floor(font-size.get-font-size-core-raw('px') * 0.9) + "px"};
+		font-size: #{decimal-round.decimal-floor(font-size.get-font-size-core-raw("px") * 0.9) + "px"};
 	}
 
 	@include media-query.m-small-devices {
-		font-size: #{decimal-round.decimal-floor(font-size.get-font-size-core-raw('px') * 0.8) + "px"};
+		font-size: #{decimal-round.decimal-floor(font-size.get-font-size-core-raw("px") * 0.8) + "px"};
 	}
 
 	*,

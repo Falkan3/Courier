@@ -17,5 +17,5 @@
 	background-color: #fff;
 	box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.2);
 	transform: translate(-50%, -50%);
-	z-index: order.get-order('front');
+	z-index: order.get-order("front");
 }

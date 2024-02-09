@@ -444,7 +444,7 @@
 			color: #212121;
 			transform: translateX(-50%);
 			box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.2);
-			z-index: order.get-order('front');
+			z-index: order.get-order("front");
 
 			&:not(.active) {
 				display: none;

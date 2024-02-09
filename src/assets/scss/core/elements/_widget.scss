@@ -15,7 +15,7 @@ $btnColorActive: #64b5f6;
 		position: fixed;
 		bottom: 2em;
 		right: 1em;
-		z-index: order.get-order('widget');
+		z-index: order.get-order("widget");
 
 		@at-root #{variables.$classPrefix}--left #{variables.$classPrefix}__widget-wrapper {
 			right: auto;

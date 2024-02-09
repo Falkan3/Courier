@@ -17,7 +17,7 @@ $contentCarouselPrimaryColor: #fff;
 	position: fixed;
 	bottom: 0;
 	right: 0;
-	z-index: order.get-order('main');
+	z-index: order.get-order("main");
 
 	@import "popup/overlay"; // the main popup container
 	@import "popup/wrapper"; // the popup wrapper
