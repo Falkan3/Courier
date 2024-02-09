@@ -44,6 +44,8 @@ export default {
     texts: {
         widgetGreeting: 'Hello!',
         // chat
+        close: 'Close',
+        options: 'Options',
         chatTitle: 'Chat with us!',
         messagePlaceholder: 'Type something...',
         typing: 'User is typing...',

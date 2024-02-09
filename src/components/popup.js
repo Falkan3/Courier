@@ -58,6 +58,7 @@ export default function (Courier, Components, Events) {
         getTemplateData(update = false) {
             const data = {
                 text: {
+                    close: Courier.settings.textsParsed.close,
                     popupContent: Courier.settings.textsParsed.popupContent,
                 },
                 poweredBy: {
@@ -111,7 +112,7 @@ export default function (Courier, Components, Events) {
                         <div id="courierPopupWrapper" class="${Courier.settings.classes.popup}-wrapper ${Courier.settings.classes.root}__appear-bottom ${Courier.settings.classes.root}__anim-timing--half">
                             <div class="${Courier.settings.classes.popup}-wrapper-inner">
                                 <div class="${Courier.settings.classes.popup}-main">
-                                    <button id="courierPopupCloseBtn" class="${Courier.settings.classes.popup}-close-btn" type="button" aria-label="Close">
+                                    <button id="courierPopupCloseBtn" class="${Courier.settings.classes.popup}-close-btn" type="button" aria-label="${props.texts.close}">
                                         ${Courier.settings.images.closeBtn}
                                     </button>
                                     <div id="courierPopupWorkArea" class="${Courier.settings.classes.popup}-work-area">

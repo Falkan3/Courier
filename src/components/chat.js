@@ -225,6 +225,8 @@ export default function (Courier, Components, Events) {
                     }
                 },
                 texts: {
+                    close: Courier.settings.textsParsed.close,
+                    options: Courier.settings.textsParsed.options,
                     chatTitle: Courier.settings.textsParsed.chatTitle,
                     messagePlaceholder: Courier.settings.textsParsed.messagePlaceholder,
                     typing: Courier.settings.textsParsed.typing,
@@ -356,7 +358,7 @@ export default function (Courier, Components, Events) {
                             <div class="${Courier.settings.classes.chat}-header">
                                 <div class="${Courier.settings.classes.chat}-menu">
                                     <div>
-                                        <button id="courierChatOptionsBtn" class="${Courier.settings.classes.chat}-options-btn" type="button" aria-label="Options" disabled>
+                                        <button id="courierChatOptionsBtn" class="${Courier.settings.classes.chat}-options-btn" type="button" aria-label="${props.texts.options}" disabled>
                                             ${Courier.settings.images.options}
                                         </button>
                                     </div>
@@ -364,7 +366,7 @@ export default function (Courier, Components, Events) {
                                         <p class="tx-bold tx-bigger">${props.texts.chatTitle}</p>
                                     </div>
                                     <div>
-                                        <button id="courierChatCloseBtn" class="${Courier.settings.classes.chat}-close-btn" type="button" aria-label="Close">
+                                        <button id="courierChatCloseBtn" class="${Courier.settings.classes.chat}-close-btn" type="button" aria-label="${props.texts.close}">
                                             ${Courier.settings.images.closeBtn}
                                         </button>
                                     </div>

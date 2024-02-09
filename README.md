@@ -111,6 +111,8 @@ Collection of text used in components.
 texts: {
   widgetGreeting: 'Hello {{name}}!',
   // chat
+  close: 'Close',
+  options: 'Options',
   chatTitle: 'Chat with us!',
   messagePlaceholder: 'Type something...',
   typing: 'User is typing...',
