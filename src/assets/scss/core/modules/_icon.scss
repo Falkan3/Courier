@@ -1,0 +1,11 @@
+&__icon {
+	display: inline-block;
+	vertical-align: middle;
+	margin: 0 4px;
+
+	& > svg {
+		display: block;
+		width: 1em;
+		height: 1em;
+	}
+}

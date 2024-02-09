@@ -111,6 +111,24 @@ export function textTemplate(text, template) {
 }
 
 /**
+ *
+ * @param  {String} text
+ * @param  {Object} settings
+ * @return {String}
+ */
+export function parseSpecialTags(text, settings) {
+    const rules = [
+        [/#info#/g, `<span class="${settings.classes.root}__icon">${settings.images.info}</span>`],
+        [/#tooltip#\((.*)\)(.*)#/g, '<span data-courier-tooltip="$1">$2</span>']
+    ];
+    let output = text;
+    rules.forEach(([rule, template]) => {
+        output = output.replace(rule, template);
+    });
+    return output;
+}
+
+/**
  * Merges passed settings object with default options.
  *
  * @param  {Object} defaults

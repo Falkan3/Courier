@@ -1,5 +1,5 @@
 /* eslint-disable import/no-unresolved */
-import { clone, textTemplate } from '@utils/object';
+import { clone, parseSpecialTags, textTemplate } from '@utils/object';
 import EventsBinder from '@core/event/events-binder';
 import ChatMessage from '@components/classes/chat-message';
 import Reef from '@libs/reefjs/reef.es';
@@ -352,7 +352,7 @@ export default function (Courier, Components, Events) {
                         </div>`
                         : '';
 
-                    return `
+                    return parseSpecialTags(`
                     <div id="courierChatOverlay" class="${Courier.settings.classes.chat}-overlay ${Courier.settings.classes.root}__fade-in ${Courier.settings.classes.root}__anim-timing--half">
                         <div class="${Courier.settings.classes.chat}-wall ${Courier.settings.classes.root}__slide-in-bottom ${Courier.settings.classes.root}__anim-timing--half">
                             <div class="${Courier.settings.classes.chat}-header">
@@ -389,7 +389,7 @@ export default function (Courier, Components, Events) {
                             ${messageBox}
                             ${poweredBy}
                         </div>
-                    </div>`;
+                    </div>`, Courier.settings);
                 },
                 attachTo: Components.App.refs.app
             });
