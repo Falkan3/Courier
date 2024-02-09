@@ -130,12 +130,13 @@
 &-topics {
 	position: relative;
 	display: flex;
-	// flex-wrap: wrap;
+	flex-wrap: wrap;
 	margin: -4px;
 	justify-content: center;
 }
 
 &-topic {
+	flex: 0 0 auto;
 	padding: 0.5em 1em;
 	background-color: $messageTopicPrimaryColor;
 	border: solid 2px $messageTopicSecondaryColor;
