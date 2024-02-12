@@ -19,8 +19,22 @@ export default function (Courier, Components, Events) {
         },
         settings: {
             // delay: 100,
-            throttle: 10,
+            throttle: {
+                mouse: 10,
+                scroll: 1
+            },
             followMouse: true
+        },
+        state: {
+            scheduledAnimationFrame: false,
+            scroll: {
+                x: 0,
+                y: 0
+            },
+            mouse: {
+                x: 0,
+                y: 0
+            }
         },
 
         /**
@@ -34,17 +48,27 @@ export default function (Courier, Components, Events) {
          * Adds events.
          */
         bind() {
-            Binder.on('mouseenter', Components.App.refs.app.elem, throttle(this.settings.throttle, (event) => {
+            Binder.on('mouseenter', Components.App.refs.app.elem, throttle(this.settings.throttle.mouse, (event) => {
+                this.setMousePosition(event.clientX, event.clientY);
                 this.onMouseEnterMouseLeave(event);
                 this.onMouseEnter(event);
             }, { noLeading: false, noTrailing: false }), true);
-            Binder.on('mouseleave', Components.App.refs.app.elem, throttle(this.settings.throttle, (event) => {
+            Binder.on('mouseleave', Components.App.refs.app.elem, throttle(this.settings.throttle.mouse, (event) => {
                 this.onMouseEnterMouseLeave(event);
                 this.onMouseLeave(event);
             }, { noLeading: false, noTrailing: false }), true);
             Binder.on('mousemove', document.body, (event) => {
+                this.setMousePosition(event.clientX, event.clientY);
                 this.onMouseMove(event);
             }, true);
+            Binder.on('scroll', window, (event) => {
+                this.setScrollPosition(window.scrollX, window.scrollY);
+                this.state.scheduledAnimationFrame = true;
+                window.requestAnimationFrame(() => {
+                    this.state.scheduledAnimationFrame = false;
+                    this.onScroll(event);
+                });
+            });
         },
 
         /**
@@ -54,6 +78,7 @@ export default function (Courier, Components, Events) {
             Binder.off('mouseenter', Components.App.refs.app.elem, true);
             Binder.off('mouseleave', Components.App.refs.app.elem, true);
             Binder.off('mousemove', document.body, true);
+            Binder.off('scroll', window);
         },
 
         /**
@@ -80,7 +105,7 @@ export default function (Courier, Components, Events) {
             return id;
         },
 
-        showTooltip(el, options = {}) {
+        showTooltip(el) {
             const id = el.dataset.tpId;
             if (Object.prototype.hasOwnProperty.call(this.refs.tooltips, id)) {
                 return this.refs.tooltips[id];
@@ -109,10 +134,7 @@ export default function (Courier, Components, Events) {
             this.refs.activeTooltips.push(id);
 
             // move the tooltip with the mouse
-            this.setTooltipPosition(obj, {
-                mouseX: options.mouseX ?? null,
-                mouseY: options.mouseY ?? null
-            });
+            this.setTooltipPosition(obj);
 
             return obj;
         },
@@ -145,13 +167,13 @@ export default function (Courier, Components, Events) {
             // this.refs.tooltips.splice(tooltipIndex, 1);
         },
 
-        setTooltipPosition(tooltipObj, options = {}) {
+        setTooltipPosition(tooltipObj) {
             const tooltipEl = tooltipObj.tooltip;
             if (this.settings.followMouse) {
                 const tooltipWidth = tooltipEl.offsetWidth;
                 // const tooltipHeight = tooltipEl.offsetHeight;
-                const posX = `${options.mouseX + tooltipWidth / 2}px`;
-                const posY = `${options.mouseY - 10}px`;
+                const posX = `${this.state.scroll.x + this.state.mouse.x + tooltipWidth / 2}px`;
+                const posY = `${this.state.scroll.y + this.state.mouse.y - 10}px`;
                 tooltipEl.style.top = posY;
                 tooltipEl.style.left = posX;
                 this.adjustTooltipBounds(tooltipObj);
@@ -170,8 +192,8 @@ export default function (Courier, Components, Events) {
             // Get calculated tooltip coordinates and size
             const tooltipRect = tooltipEl.getBoundingClientRect();
 
-            let posX = tooltipRect.x;
-            let posY = tooltipRect.y;
+            let posX = this.state.scroll.x + tooltipRect.x;
+            let posY = this.state.scroll.y + tooltipRect.y;
 
             // Corrections if out of window
             if (tooltipRect.x < 0) {
@@ -179,10 +201,10 @@ export default function (Courier, Components, Events) {
                 posX = 0;
                 // posX += -tooltipRect.x;
             }
-            if ((tooltipRect.x + tooltipRect.width / 2) > window.innerWidth) {
+            if ((tooltipRect.x + tooltipRect.width / 2) > document.body.clientWidth) {
                 // Out on the right
-                posX = window.innerWidth - (tooltipRect.width / 2);
-                // posX -= (tooltipRect.x + tooltipRect.width) - window.innerWidth;
+                posX = document.body.clientWidth - (tooltipRect.width / 2);
+                // posX -= (tooltipRect.x + tooltipRect.width) - document.body.clientWidth;
             }
             if (tooltipRect.y < 0) {
                 // Out on the top
@@ -209,6 +231,16 @@ export default function (Courier, Components, Events) {
             delete this.refs.timers[id];
         },
 
+        setScrollPosition(mouseX, mouseY) {
+            this.state.scroll.x = mouseX;
+            this.state.scroll.y = mouseY;
+        },
+
+        setMousePosition(mouseX, mouseY) {
+            this.state.mouse.x = mouseX;
+            this.state.mouse.y = mouseY;
+        },
+
         onMouseEnterMouseLeave(event) {
             const el = event.target.closest('[data-courier-tooltip]');
             if (!el) {
@@ -225,14 +257,11 @@ export default function (Courier, Components, Events) {
 
             this.setId(el);
 
-            this.showTooltip(el, {
-                mouseX: event.clientX,
-                mouseY: event.clientY
-            });
+            this.showTooltip(el);
 
             // use this when using an appear delay
             // const timeout = setTimeout(() => {
-            //     this.showTooltip(el, event.clientX, event.clientY);
+            //     this.showTooltip(el);
             // }, this.settings.delay);
             // // set disappear timer
             // this.refs.timers[el.dataset.tpId] = {
@@ -253,13 +282,7 @@ export default function (Courier, Components, Events) {
                 }
 
                 if (this.settings.followMouse) {
-                    this.setTooltipPosition(
-                        this.refs.tooltips[id],
-                        {
-                            mouseX: event.clientX,
-                            mouseY: event.clientY
-                        }
-                    );
+                    this.setTooltipPosition(this.refs.tooltips[id]);
                 }
             });
         },
@@ -268,6 +291,12 @@ export default function (Courier, Components, Events) {
             if (event.target.matches('[data-courier-tooltip]')) {
                 this.hideTooltip(event.target.dataset.tpId);
             }
+        },
+
+        onScroll() {
+            this.refs.activeTooltips.forEach((id) => {
+                this.setTooltipPosition(this.refs.tooltips[id]);
+            });
         }
     };
 
