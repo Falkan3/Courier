@@ -8,13 +8,14 @@
 	max-width: clamp(6em, 20em, 100%);
 	height: auto;
 	min-height: 25px;
-	padding: 4px 0.5em;
+	padding: 8px 1em;
 	border-radius: 4px;
+	font-family: "Asap", sans-serif;
 	font-size: #{font-size.get-font-size(0.9)};
 	line-height: 1.4;
 	text-align: center;
-	color: #3b3d48;
-	background-color: #fff;
+	color: #fff;
+	background-color: #1f2937;
 	box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.2);
 	transform: translate(-50%, -50%);
 	z-index: order.get-order("front");
