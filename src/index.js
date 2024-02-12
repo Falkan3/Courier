@@ -4,6 +4,7 @@ import { mergeOptions } from '@utils/object';
 import { isArray, isObject } from '@utils/types';
 import EventsBus from '@core/event/events-bus';
 import { mount } from '@core/index.js';
+// import { injectGlobalStyles } from '@core/inject-global-styles.js';
 import defaults from './defaults';
 
 export default class Courier {
@@ -14,6 +15,9 @@ export default class Courier {
      * @param  {Object} options
      */
     constructor(element, options = {}) {
+        // inject global styles
+        // injectGlobalStyles();
+
         // this._transformers = [];
         this._eventsBus = new EventsBus();
 
