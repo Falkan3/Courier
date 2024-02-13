@@ -1,5 +1,6 @@
 @use "../../../utils/variables";
 @use "../../../utils/mixins/media-query/media-query-width";
+@use "../../../utils/mixins/media-query/media-query-height";
 
 /*
  * Wall container
@@ -13,8 +14,8 @@
 	justify-content: space-between;
 	width: 400px;
 	max-width: 100vw;
-	height: 550px;
-	max-height: 80vh;
+	height: 800px;
+	max-height: 95vh;
 	background: #fff;
 	border-top-left-radius: 16px;
 	border-top-right-radius: 16px;
@@ -23,6 +24,11 @@
 
 	@include media-query-width.min-m-small-devices {
 		right: 1em;
+		max-height: 100vh;
+
+		@include media-query-height.media-query-up(1000) {
+			max-height: 80vh;
+		}
 
 		@at-root #{variables.$classPrefix}--left #{variables.$classPrefix}__chat-wall {
 			right: auto;
