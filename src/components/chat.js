@@ -217,6 +217,7 @@ export default function (Courier, Components, Events) {
         getTemplateData(update = false) {
             const data = {
                 identity: {
+                    show: Courier.settings.identity.show,
                     name: Courier.settings.identity.name,
                     website: Courier.settings.identity.website,
                     img: {
@@ -352,6 +353,21 @@ export default function (Courier, Components, Events) {
                         </div>`
                         : '';
 
+                    const identity = props.identity.show
+                        ? `
+                        <div class="${Courier.settings.classes.chat}-identity">
+                            <div class="p-all--hf">
+                                <div class="${Courier.settings.classes.chat}-avatar ${props.state.online ? `${Courier.settings.classes.chat}--online` : ''}">
+                                    <img src="${props.identity.img.src}" alt="${props.identity.img.alt}" />
+                                </div>
+                            </div>
+                            <div class="${Courier.settings.classes.chat}-name">
+                                <p>${props.identity.name}</p>
+                                <p><a href="${props.identity.website.url}" target="_blank" rel="nofollow noreferrer">${props.identity.website.name}</a></p>
+                            </div>
+                        </div>`
+                        : '';
+
                     return parseSpecialTags(`
                     <div id="courierChatOverlay" class="${Courier.settings.classes.chat}-overlay ${Courier.settings.classes.root}__fade-in ${Courier.settings.classes.root}__anim-timing--half">
                         <div class="${Courier.settings.classes.chat}-wall ${Courier.settings.classes.root}__slide-in-bottom ${Courier.settings.classes.root}__anim-timing--half">
@@ -371,17 +387,7 @@ export default function (Courier, Components, Events) {
                                         </button>
                                     </div>
                                 </div>
-                                <div class="${Courier.settings.classes.chat}-identity">
-                                    <div class="p-all--hf">
-                                        <div class="${Courier.settings.classes.chat}-avatar ${props.state.online ? `${Courier.settings.classes.chat}--online` : ''}">
-                                            <img src="${props.identity.img.src}" alt="${props.identity.img.alt}" />
-                                        </div>
-                                    </div>
-                                    <div class="${Courier.settings.classes.chat}-name">
-                                        <p>${props.identity.name}</p>
-                                        <p><a href="${props.identity.website.url}" target="_blank" rel="nofollow noreferrer">${props.identity.website.name}</a></p>
-                                    </div>
-                                </div>
+                                ${identity}
                             </div>
                             <div id="courierChatWorkArea" class="${Courier.settings.classes.chat}-work-area">
                                 ${messages}

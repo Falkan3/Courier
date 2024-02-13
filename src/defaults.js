@@ -73,6 +73,7 @@ export default {
      * @type {Object}
      */
     identity: {
+        show: true,
         name: 'Company',
         website: {
             name: 'company.com',

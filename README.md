@@ -138,6 +138,7 @@ textVars: {
 Collection of variables representing the identity of the service owner.
 ```js
 identity: {
+  show: true,
   name: 'Company',
   website: {
     name: 'company.com',
