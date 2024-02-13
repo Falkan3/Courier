@@ -23,7 +23,10 @@ export default function (Courier, Components, Events) {
                 mouse: 10,
                 scroll: 1
             },
-            followMouse: true
+            followMouse: true,
+            offset: {
+                y: -10
+            }
         },
         state: {
             scheduledAnimationFrame: false,
@@ -173,7 +176,7 @@ export default function (Courier, Components, Events) {
                 const tooltipWidth = tooltipEl.offsetWidth;
                 // const tooltipHeight = tooltipEl.offsetHeight;
                 const posX = `${this.state.scroll.x + this.state.mouse.x + tooltipWidth / 2}px`;
-                const posY = `${this.state.scroll.y + this.state.mouse.y - 10}px`;
+                const posY = `${this.state.scroll.y + this.state.mouse.y + this.settings.offset.y}px`;
                 tooltipEl.style.top = posY;
                 tooltipEl.style.left = posX;
                 this.adjustTooltipBounds(tooltipObj);
@@ -208,12 +211,12 @@ export default function (Courier, Components, Events) {
             }
             if (tooltipRect.y < 0) {
                 // Out on the top
-                posY = 0;
+                posY = (tooltipRect.height / 2) - this.settings.offset.y;
                 // posY += -tooltipRect.y;
             }
 
             // Apply corrected position
-            tooltipEl.style.top = `${posY - 10}px`;
+            tooltipEl.style.top = `${posY + this.settings.offset.y}px`;
             tooltipEl.style.left = `${posX}px`;
         },
 
