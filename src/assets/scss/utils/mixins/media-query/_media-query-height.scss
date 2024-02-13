@@ -1,0 +1,25 @@
+@use "../../../utils/variables";
+
+/* --- min --- */
+
+@mixin media-query-up($media-h) {
+	@media (min-height: #{$media-h}px) {
+		@content;
+	}
+}
+
+/* --- max --- */
+
+@mixin media-query-down($media-h) {
+	@media (max-height: #{$media-h - 0.02}px) {
+		@content;
+	}
+}
+
+/* --- between --- */
+
+@mixin media-query-between($media-h-min, $media-h-max) {
+	@media (min-height: #{$media-h-min}px) and (max-height: #{$media-h-max - 0.02}px) {
+		@content;
+	}
+}

@@ -1,10 +1,10 @@
-@use "../../../utils/mixins/media-query";
+@use "../../../utils/mixins/media-query/media-query-width";
 
 /*
  * Overlay
  */
 &-overlay {
-	@include media-query.m-small-devices {
+	@include media-query-width.m-small-devices {
 		position: fixed;
 		top: 0;
 		left: 0;

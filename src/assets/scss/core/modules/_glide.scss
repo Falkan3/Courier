@@ -1,5 +1,5 @@
 @use "sass:color";
-@use "../../utils/mixins/media-query";
+@use "../../utils/mixins/media-query/media-query-width";
 @use "../../utils/mixins/selectors";
 
 @import "../../../../libs/glidejs/css/glide.core.min"; // glide for carousel
@@ -32,7 +32,7 @@
 			}
 		}
 
-		@include media-query.medium-devices {
+		@include media-query-width.medium-devices {
 			display: none;
 		}
 	}

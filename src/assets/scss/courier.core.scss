@@ -2,7 +2,7 @@
 
 @use "utils/variables";
 @use "utils/mixins/order";
-@use "utils/mixins/media-query";
+@use "utils/mixins/media-query/media-query-width";
 @use "utils/mixins/font-size";
 @use "utils/mixins/palette";
 @use "libs/decimal-round";
@@ -48,11 +48,11 @@
 	color: #{palette.get-palette-hue("foreground", 1000)};
 	z-index: order.get-order("main");
 
-	@include media-query.medium-devices {
+	@include media-query-width.medium-devices {
 		font-size: #{decimal-round.decimal-floor(font-size.get-font-size-core-raw("px") * 0.9) + "px"};
 	}
 
-	@include media-query.m-small-devices {
+	@include media-query-width.m-small-devices {
 		font-size: #{decimal-round.decimal-floor(font-size.get-font-size-core-raw("px") * 0.8) + "px"};
 	}
 

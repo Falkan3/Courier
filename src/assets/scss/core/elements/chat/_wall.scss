@@ -1,5 +1,5 @@
 @use "../../../utils/variables";
-@use "../../../utils/mixins/media-query";
+@use "../../../utils/mixins/media-query/media-query-width";
 
 /*
  * Wall container
@@ -21,7 +21,7 @@
 	box-shadow: 0 3px 6px rgba(0, 0, 0, 0.12), 0 0 6px rgba(0, 0, 0, 0.18);
 	// overflow: auto;
 
-	@include media-query.min-m-small-devices {
+	@include media-query-width.min-m-small-devices {
 		right: 1em;
 
 		@at-root #{variables.$classPrefix}--left #{variables.$classPrefix}__chat-wall {
