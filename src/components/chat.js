@@ -222,7 +222,8 @@ export default function (Courier, Components, Events) {
                     website: Courier.settings.identity.website,
                     img: {
                         src: Courier.settings.identity.logo.src,
-                        alt: Courier.settings.identity.logo.alt
+                        alt: Courier.settings.identity.logo.alt,
+                        svg: Courier.settings.identity.logo.svg
                     }
                 },
                 texts: {
@@ -353,12 +354,16 @@ export default function (Courier, Components, Events) {
                         </div>`
                         : '';
 
+                    const identityImg = props.identity.img.svg
+                        ? `${props.identity.img.svg}`
+                        : `<img src="${props.identity.img.src}" alt="${props.identity.img.alt}" />`;
+
                     const identity = props.identity.show
                         ? `
                         <div class="${Courier.settings.classes.chat}-identity">
                             <div class="p-all--hf">
                                 <div class="${Courier.settings.classes.chat}-avatar ${props.state.online ? `${Courier.settings.classes.chat}--online` : ''}">
-                                    <img src="${props.identity.img.src}" alt="${props.identity.img.alt}" />
+                                    ${identityImg}
                                 </div>
                             </div>
                             <div class="${Courier.settings.classes.chat}-name">
