@@ -10,6 +10,9 @@ export default function (Courier, Components, Events) {
      */
     const Binder = new EventsBinder();
 
+    const leaveEvents = ['touchend', 'touchcancel'];
+    const moveEvents = ['mousemove', 'touchmove'];
+
     const Tooltips = {
         currId: 1,
         refs: {
@@ -24,6 +27,7 @@ export default function (Courier, Components, Events) {
                 scroll: 1
             },
             followMouse: true,
+            holdMinTime: 500,
             offset: {
                 y: -10
             }
@@ -37,6 +41,9 @@ export default function (Courier, Components, Events) {
             mouse: {
                 x: 0,
                 y: 0
+            },
+            touch: {
+                holdStartTimestamp: null,
             }
         },
 
@@ -51,19 +58,39 @@ export default function (Courier, Components, Events) {
          * Adds events.
          */
         bind() {
-            Binder.on('mouseenter', Components.App.refs.app.elem, throttle(this.settings.throttle.mouse, (event) => {
-                this.setMousePosition(event.clientX, event.clientY);
-                this.onMouseEnterMouseLeave(event);
-                this.onMouseEnter(event);
-            }, { noLeading: false, noTrailing: false }), true);
-            Binder.on('mouseleave', Components.App.refs.app.elem, throttle(this.settings.throttle.mouse, (event) => {
-                this.onMouseEnterMouseLeave(event);
-                this.onMouseLeave(event);
-            }, { noLeading: false, noTrailing: false }), true);
-            Binder.on('mousemove', document.body, (event) => {
-                this.setMousePosition(event.clientX, event.clientY);
+            Binder.on(
+                'mouseenter',
+                Components.App.refs.app.elem,
+                throttle(this.settings.throttle.mouse, (event) => {
+                    this.setCursorPosition(event);
+                    // this.onMouseEnterMouseLeave(event);
+                    this.onMouseEnter(event);
+                }, { noLeading: false, noTrailing: false }),
+                true
+            );
+            Binder.on(
+                'touchstart',
+                Components.App.refs.app.elem,
+                (event) => {
+                    this.setCursorPosition(event);
+                    // this.onMouseEnterMouseLeave(event);
+                    this.onTouchStart(event);
+                },
+                true
+            );
+            Binder.on(moveEvents, document.body, (event) => {
+                this.setCursorPosition(event);
                 this.onMouseMove(event);
             }, true);
+            Binder.on(
+                leaveEvents,
+                Components.App.refs.app.elem,
+                (event) => {
+                    // this.onMouseEnterMouseLeave(event);
+                    this.onMouseLeave(event);
+                },
+                true
+            );
             Binder.on('scroll', window, (event) => {
                 this.setScrollPosition(window.scrollX, window.scrollY);
                 this.state.scheduledAnimationFrame = true;
@@ -79,8 +106,9 @@ export default function (Courier, Components, Events) {
          */
         unbind() {
             Binder.off('mouseenter', Components.App.refs.app.elem, true);
-            Binder.off('mouseleave', Components.App.refs.app.elem, true);
-            Binder.off('mousemove', document.body, true);
+            Binder.off('touchstart', Components.App.refs.app.elem, true);
+            Binder.off(leaveEvents, Components.App.refs.app.elem, true);
+            Binder.off(moveEvents, document.body, true);
             Binder.off('scroll', window);
         },
 
@@ -92,6 +120,10 @@ export default function (Courier, Components, Events) {
         onClick(event) {
             const closestTooltip = event.target.closest('[data-courier-tooltip]');
             if (closestTooltip) {
+                if (closestTooltip.tagName !== 'BUTTON' && event.pointerType === 'touch') {
+                    event.preventDefault();
+                    return;
+                }
                 this.hideTooltip(closestTooltip.dataset.tpId);
             }
         },
@@ -103,7 +135,7 @@ export default function (Courier, Components, Events) {
 
             const id = this.currId;
             this.currId += 1;
-            // set ref IDs
+            // Set ref IDs
             el.dataset.tpId = id;
             return id;
         },
@@ -115,7 +147,7 @@ export default function (Courier, Components, Events) {
             }
 
             const attId = `tp-${id}`;
-            // create tooltip element
+            // Create tooltip element
             const tooltip = document.createElement('div');
             tooltip.classList.add(`${Courier.settings.classes.root}__tooltip`);
             tooltip.setAttribute('role', 'tooltip');
@@ -147,7 +179,7 @@ export default function (Courier, Components, Events) {
                 return;
             }
 
-            // clear active tooltip
+            // Clear active tooltip
             const activeTooltipIndex = this.findActiveTooltipIndexByParent(
                 this.refs.tooltips[id].parent
             );
@@ -156,8 +188,8 @@ export default function (Courier, Components, Events) {
             }
             this.refs.activeTooltips.splice(activeTooltipIndex, 1);
 
-            // clear appear timer
-            this.clearTimer(id);
+            // Clear appear timer
+            // this.clearTimer(id);
 
             const tooltipObj = this.refs.tooltips[id];
 
@@ -176,12 +208,12 @@ export default function (Courier, Components, Events) {
                 const tooltipWidth = tooltipEl.offsetWidth;
                 // const tooltipHeight = tooltipEl.offsetHeight;
                 const posX = `${this.state.scroll.x + this.state.mouse.x + tooltipWidth / 2}px`;
-                const posY = `${this.state.scroll.y + this.state.mouse.y + this.settings.offset.y}px`;
+                const posY = `${this.state.scroll.y + this.state.mouse.y}px`;
                 tooltipEl.style.top = posY;
                 tooltipEl.style.left = posX;
                 this.adjustTooltipBounds(tooltipObj);
             } else {
-                // position the tooltip in the root element's center
+                // Position the tooltip in the root element's center
                 const {
                     x, y, width, height
                 } = tooltipObj.parent.getBoundingClientRect();
@@ -199,9 +231,9 @@ export default function (Courier, Components, Events) {
             let posY = this.state.scroll.y + tooltipRect.y;
 
             // Corrections if out of window
-            if (tooltipRect.x < 0) {
+            if ((tooltipRect.x - tooltipRect.width / 2) < 0) {
                 // Out on the left
-                posX = 0;
+                posX = tooltipRect.width / 2;
                 // posX += -tooltipRect.x;
             }
             if ((tooltipRect.x + tooltipRect.width / 2) > document.body.clientWidth) {
@@ -209,9 +241,14 @@ export default function (Courier, Components, Events) {
                 posX = document.body.clientWidth - (tooltipRect.width / 2);
                 // posX -= (tooltipRect.x + tooltipRect.width) - document.body.clientWidth;
             }
-            if (tooltipRect.y < 0) {
+            if ((tooltipRect.y - tooltipRect.height / 2) < 0) {
                 // Out on the top
                 posY = (tooltipRect.height / 2) - this.settings.offset.y;
+                // posY += -tooltipRect.y;
+            }
+            if ((tooltipRect.y + tooltipRect.height / 2) > document.documentElement.clientHeight) {
+                // Out on the bottom
+                posY = document.documentElement.clientHeight - (tooltipRect.height / 2);
                 // posY += -tooltipRect.y;
             }
 
@@ -224,33 +261,41 @@ export default function (Courier, Components, Events) {
             return this.refs.activeTooltips.findIndex((id) => id === el.dataset.tpId);
         },
 
-        clearTimer(id) {
-            if (!Object.prototype.hasOwnProperty.call(this.refs.timers, id)) {
-                return;
-            }
-
-            clearTimeout(this.refs.timers[id].timeout);
-            // this.refs.timers.splice(timerIndex, 1);
-            delete this.refs.timers[id];
-        },
+        // clearTimer(id) {
+        //     if (!Object.prototype.hasOwnProperty.call(this.refs.timers, id)) {
+        //         return;
+        //     }
+        //
+        //     clearTimeout(this.refs.timers[id].timeout);
+        //     // this.refs.timers.splice(timerIndex, 1);
+        //     delete this.refs.timers[id];
+        // },
 
         setScrollPosition(mouseX, mouseY) {
             this.state.scroll.x = mouseX;
             this.state.scroll.y = mouseY;
         },
 
-        setMousePosition(mouseX, mouseY) {
-            this.state.mouse.x = mouseX;
-            this.state.mouse.y = mouseY;
+        setCursorPosition(event) {
+            if (event.touches) {
+                this.setMousePosition(event.touches[0].clientX, event.touches[0].clientY);
+            } else {
+                this.setMousePosition(event.clientX, event.clientY);
+            }
         },
 
-        onMouseEnterMouseLeave(event) {
-            const el = event.target.closest('[data-courier-tooltip]');
-            if (!el) {
-                return;
-            }
-            this.clearTimer(el.dataset.tpId);
+        setMousePosition(x, y) {
+            this.state.mouse.x = x;
+            this.state.mouse.y = y;
         },
+
+        // onMouseEnterMouseLeave(event) {
+        //     const el = event.target.closest('[data-courier-tooltip]');
+        //     if (!el) {
+        //         return;
+        //     }
+        //     this.clearTimer(el.dataset.tpId);
+        // },
 
         onMouseEnter(event) {
             const el = event.target.closest('[data-courier-tooltip]');
@@ -259,10 +304,9 @@ export default function (Courier, Components, Events) {
             }
 
             this.setId(el);
-
             this.showTooltip(el);
 
-            // use this when using an appear delay
+            // Use this when using an appear delay
             // const timeout = setTimeout(() => {
             //     this.showTooltip(el);
             // }, this.settings.delay);
@@ -271,6 +315,15 @@ export default function (Courier, Components, Events) {
             //     timeout,
             //     parent: el
             // };
+        },
+
+        onTouchStart(event) {
+            const el = event.target.closest('[data-courier-tooltip]');
+            if (!el) {
+                return;
+            }
+
+            this.state.touch.holdStartTimestamp = (new Date()).getTime();
         },
 
         onMouseMove(event) {
@@ -291,9 +344,29 @@ export default function (Courier, Components, Events) {
         },
 
         onMouseLeave(event) {
-            if (event.target.matches('[data-courier-tooltip]')) {
-                this.hideTooltip(event.target.dataset.tpId);
+            const target = document.elementFromPoint(this.state.mouse.x, this.state.mouse.y);
+            const el = event.target.closest('[data-courier-tooltip]');
+
+            if (event.touches && el) {
+                if (el.tagName !== 'BUTTON'
+                    || ((new Date()).getTime()
+                        - this.state.touch.holdStartTimestamp
+                        >= this.settings.holdMinTime)) {
+                    this.setId(el);
+                    this.showTooltip(el);
+                }
             }
+            this.state.touch.holdStartTimestamp = null;
+
+            if (!this.refs.activeTooltips.length) {
+                return;
+            }
+
+            this.refs.activeTooltips.forEach((id) => {
+                if (!this.refs.tooltips[id].parent.contains(target)) {
+                    this.hideTooltip(id);
+                }
+            });
         },
 
         onScroll() {
