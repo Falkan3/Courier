@@ -145,8 +145,9 @@ identity: {
     url: 'https://company.com',
   },
   logo: {
-    src: 'https://uilogos.co/img/logomark/circle.png',
-    alt: 'Company logo'
+    src: '...',
+    alt: 'Logo',
+    svg: '...'
   }
 }
 ```
