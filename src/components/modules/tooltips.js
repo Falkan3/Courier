@@ -10,7 +10,7 @@ export default function (Courier, Components, Events) {
      */
     const Binder = new EventsBinder();
 
-    // const enterEvents = ['mouseenter', 'touchstart'];
+    const enterEvents = ['mouseenter']; // touchstart
     const leaveEvents = ['touchend', 'touchcancel'];
     const moveEvents = ['mousemove', 'touchmove'];
 
@@ -60,13 +60,13 @@ export default function (Courier, Components, Events) {
          */
         bind() {
             Binder.on(
-                'mouseenter',
+                enterEvents,
                 Components.App.refs.app.elem,
                 throttle(this.settings.throttle.mouse, (event) => {
                     this.setCursorPosition(event);
                     // this.onMouseEnterMouseLeave(event);
                     this.onMouseEnter(event);
-                }, { noLeading: false, noTrailing: false }),
+                }),
                 { capture: true, passive: true }
             );
             // Binder.on(
@@ -101,7 +101,7 @@ export default function (Courier, Components, Events) {
          * Removes events.
          */
         unbind() {
-            Binder.off('mouseenter', Components.App.refs.app.elem, { capture: true, passive: true });
+            Binder.off(enterEvents, Components.App.refs.app.elem, { capture: true, passive: true });
             // Binder.off('touchstart', Components.App.refs.app.elem, {
             //     capture: true,
             //     passive: false
@@ -120,14 +120,17 @@ export default function (Courier, Components, Events) {
          * @param  {Object} event
          */
         onClick(event) {
-            const closestTooltip = event.target.closest('[data-courier-tooltip]');
-            if (closestTooltip) {
-                if (closestTooltip.tagName !== 'BUTTON' && event.pointerType === 'touch') {
-                    event.preventDefault();
-                    return;
-                }
-                this.hideTooltip(closestTooltip.dataset.tpId);
-            }
+            this.setCursorPosition(event);
+            this.onMouseEnter(event);
+
+            // const closestTooltip = event.target.closest('[data-courier-tooltip]');
+            // if (closestTooltip) {
+            //     if (closestTooltip.tagName !== 'BUTTON') {
+            //         // .preventDefault();
+            //         return;
+            //     }
+            //     this.hideTooltip(closestTooltip.dataset.tpId);
+            // }
         },
 
         setId(el) {
@@ -326,6 +329,13 @@ export default function (Courier, Components, Events) {
             }
 
             this.state.touch.holdStartTimestamp = (new Date()).getTime();
+
+            if (el.tagName === 'BUTTON') {
+                return;
+            }
+
+            this.setId(el);
+            this.showTooltip(el);
         },
 
         onMouseMove(event) {
@@ -362,6 +372,7 @@ export default function (Courier, Components, Events) {
             const target = document.elementFromPoint(this.state.mouse.x, this.state.mouse.y);
             // const el = event.target.closest('[data-courier-tooltip]');
 
+            // Apply tooltip show delay for buttons
             // if (el
             //     && (el.tagName !== 'BUTTON'
             //     || ((new Date()).getTime()
@@ -371,8 +382,10 @@ export default function (Courier, Components, Events) {
             //     this.showTooltip(el);
             // }
 
+            // Reset touch hold timer
             // this.state.touch.holdStartTimestamp = null;
 
+            // Hide active tooltips that weren't touched
             if (!this.refs.activeTooltips.length) {
                 return;
             }
