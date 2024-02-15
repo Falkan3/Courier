@@ -238,12 +238,12 @@ export default function (Courier, Components, Events) {
             // Corrections if out of window
             if ((tooltipRect.x - tooltipRect.width / 2) < 0) {
                 // Out on the left
-                posX = tooltipRect.width / 2;
+                posX = this.state.scroll.x + tooltipRect.width / 2;
                 // posX += -tooltipRect.x;
             }
             if ((tooltipRect.x + tooltipRect.width / 2) > document.body.clientWidth) {
                 // Out on the right
-                posX = document.body.clientWidth - (tooltipRect.width / 2);
+                posX = this.state.scroll.x + document.body.clientWidth - (tooltipRect.width / 2);
                 // posX -= (tooltipRect.x + tooltipRect.width) - document.body.clientWidth;
             }
             if ((tooltipRect.y - tooltipRect.height / 2) < 0) {
@@ -253,7 +253,9 @@ export default function (Courier, Components, Events) {
             }
             if ((tooltipRect.y + tooltipRect.height / 2) > document.documentElement.clientHeight) {
                 // Out on the bottom
-                posY = document.documentElement.clientHeight - (tooltipRect.height / 2);
+                posY = this.state.scroll.y
+                    + document.documentElement.clientHeight
+                    - (tooltipRect.height / 2);
                 // posY += -tooltipRect.y;
             }
 
