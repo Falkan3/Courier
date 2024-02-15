@@ -245,7 +245,7 @@ export default function (Courier, Components, Events) {
             }
             if ((tooltipRect.y - tooltipRect.height / 2) < 0) {
                 // Out on the top
-                posY = (tooltipRect.height / 2) - this.settings.offset.y;
+                posY = this.state.scroll.y + (tooltipRect.height / 2) - this.settings.offset.y;
                 // posY += -tooltipRect.y;
             }
             if ((tooltipRect.y + tooltipRect.height / 2) > document.documentElement.clientHeight) {
