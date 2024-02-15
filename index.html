@@ -12,6 +12,30 @@
 	<link rel="stylesheet" href="dist/css/modules/courier.chat.css">
 	<link rel="stylesheet" href="dist/css/courier.theme.css">
 	<script src="dist/js/chat/courier.js"></script>
+
+	<style>
+		body {
+			min-height: 3000px;
+		}
+
+		.courier .courier__widget-bubble:hover, .courier .courier__widget-bubble:focus {
+			background-color: #0085fe;
+			color: #fff;
+		}
+
+		.courier .courier__widget-bubble:hover::after, .courier .courier__widget-bubble:focus::after {
+			border-top-color: #0085fe;
+			border-right-color: #0085fe;
+		}
+
+		.courier .courier__widget-bubble:hover .courier__widget-img svg > path:nth-child(1), .courier .courier__widget-bubble:focus .courier__widget-img svg > path:nth-child(1) {
+			fill: #fff;
+		}
+
+		.courier .courier__widget-bubble:hover .courier__widget-img svg > path:nth-child(2), .courier .courier__widget-bubble:focus .courier__widget-img svg > path:nth-child(2) {
+			fill: #0085fe;
+		}
+	</style>
 </head>
 <body>
     <script>
