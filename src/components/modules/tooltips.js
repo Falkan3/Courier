@@ -10,6 +10,7 @@ export default function (Courier, Components, Events) {
      */
     const Binder = new EventsBinder();
 
+    // const enterEvents = ['mouseenter', 'touchstart'];
     const leaveEvents = ['touchend', 'touchcancel'];
     const moveEvents = ['mousemove', 'touchmove'];
 
@@ -66,31 +67,26 @@ export default function (Courier, Components, Events) {
                     // this.onMouseEnterMouseLeave(event);
                     this.onMouseEnter(event);
                 }, { noLeading: false, noTrailing: false }),
-                true
+                { capture: true, passive: true }
             );
-            Binder.on(
-                'touchstart',
-                Components.App.refs.app.elem,
-                (event) => {
-                    this.setCursorPosition(event);
-                    // this.onMouseEnterMouseLeave(event);
-                    this.onTouchStart(event);
-                },
-                true
-            );
+            // Binder.on(
+            //     'touchstart',
+            //     Components.App.refs.app.elem,
+            //     (event) => {
+            //         this.setCursorPosition(event);
+            //         // this.onMouseEnterMouseLeave(event);
+            //         this.onTouchStart(event);
+            //     },
+            //     { capture: true, passive: false }
+            // );
             Binder.on(moveEvents, document.body, (event) => {
                 this.setCursorPosition(event);
                 this.onMouseMove(event);
             }, true);
-            Binder.on(
-                leaveEvents,
-                Components.App.refs.app.elem,
-                (event) => {
-                    // this.onMouseEnterMouseLeave(event);
-                    this.onMouseLeave(event);
-                },
-                true
-            );
+            Binder.on(leaveEvents, Components.App.refs.app.elem, (event) => {
+                // this.onMouseEnterMouseLeave(event);
+                this.onTouchLeave(event);
+            }, { capture: true, passive: false });
             Binder.on('scroll', window, (event) => {
                 this.setScrollPosition(window.scrollX, window.scrollY);
                 this.state.scheduledAnimationFrame = true;
@@ -105,9 +101,15 @@ export default function (Courier, Components, Events) {
          * Removes events.
          */
         unbind() {
-            Binder.off('mouseenter', Components.App.refs.app.elem, true);
-            Binder.off('touchstart', Components.App.refs.app.elem, true);
-            Binder.off(leaveEvents, Components.App.refs.app.elem, true);
+            Binder.off('mouseenter', Components.App.refs.app.elem, { capture: true, passive: true });
+            // Binder.off('touchstart', Components.App.refs.app.elem, {
+            //     capture: true,
+            //     passive: false
+            // });
+            Binder.off(leaveEvents, Components.App.refs.app.elem, {
+                capture: true,
+                passive: false
+            });
             Binder.off(moveEvents, document.body, true);
             Binder.off('scroll', window);
         },
@@ -343,20 +345,33 @@ export default function (Courier, Components, Events) {
             });
         },
 
-        onMouseLeave(event) {
-            const target = document.elementFromPoint(this.state.mouse.x, this.state.mouse.y);
-            const el = event.target.closest('[data-courier-tooltip]');
-
-            if (event.touches && el) {
-                if (el.tagName !== 'BUTTON'
-                    || ((new Date()).getTime()
-                        - this.state.touch.holdStartTimestamp
-                        >= this.settings.holdMinTime)) {
-                    this.setId(el);
-                    this.showTooltip(el);
-                }
+        onMouseLeave() {
+            if (!this.refs.activeTooltips.length) {
+                return;
             }
-            this.state.touch.holdStartTimestamp = null;
+
+            const target = document.elementFromPoint(this.state.mouse.x, this.state.mouse.y);
+            this.refs.activeTooltips.forEach((id) => {
+                if (!this.refs.tooltips[id].parent.contains(target)) {
+                    this.hideTooltip(id);
+                }
+            });
+        },
+
+        onTouchLeave() {
+            const target = document.elementFromPoint(this.state.mouse.x, this.state.mouse.y);
+            // const el = event.target.closest('[data-courier-tooltip]');
+
+            // if (el
+            //     && (el.tagName !== 'BUTTON'
+            //     || ((new Date()).getTime()
+            //         - this.state.touch.holdStartTimestamp
+            //         >= this.settings.holdMinTime))) {
+            //     this.setId(el);
+            //     this.showTooltip(el);
+            // }
+
+            // this.state.touch.holdStartTimestamp = null;
 
             if (!this.refs.activeTooltips.length) {
                 return;
