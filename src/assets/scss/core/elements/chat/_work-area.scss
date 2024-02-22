@@ -155,6 +155,10 @@
 		background-color: $messageTopicSecondaryColor;
 		color: $messageTopicPrimaryColor;
 	}
+
+	&--full-w {
+		flex: 1 0 100%;
+	}
 }
 
 /*
