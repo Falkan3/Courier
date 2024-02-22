@@ -310,8 +310,14 @@ export default function (Courier, Components, Events) {
                         if (message.topics) {
                             let topicsHtml;
                             // generate topics html
-                            topicsHtml = message.topics.map((topic, topicIndex) => `
-                                <button class="${Courier.settings.classes.chat}-topic ${topic.active ? `${Courier.settings.classes.chat}-topic--active` : ''}" data-courier-message-id="${index}" data-courier-topic-id="${topicIndex}" ${topic.disabled ? 'disabled' : ''}>${topic.text}</button>`)
+                            topicsHtml = message.topics.map((topic, topicIndex) => {
+                                let topicHtml = `
+                                <button class="${Courier.settings.classes.chat}-topic ${topic.active ? `${Courier.settings.classes.chat}-topic--active` : ''} ${topic.fullWidth ? `${Courier.settings.classes.chat}-topic--full-w` : ''}" data-courier-message-id="${index}" data-courier-topic-id="${topicIndex}" ${topic.disabled ? 'disabled' : ''}>${topic.text}</button>`;
+                                if (topic.breakLine) {
+                                    topicHtml += `<div class="${Courier.settings.classes.root}__flex-break-row"></div>`;
+                                }
+                                return topicHtml;
+                            })
                             .join('');
 
                             // wrap topics

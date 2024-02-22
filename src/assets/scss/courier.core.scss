@@ -66,6 +66,8 @@
 	 *  Components
 	 * ----------------------------------- */
 
+	@import 'core/modules/flex';
+
 	/* core elements */
 	@import 'core/elements/widget';
 	// @include meta.load-css("core/elements/widget");

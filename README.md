@@ -72,6 +72,18 @@ import Courier, { Chat } from "@falkan3/courier/dist/js/courier.modular.esm";
 new Courier('#courierRoot').mount({ Chat })
 ```
 
+You can use specific module css if you're only using one of them.
+
+Chat:
+```html
+<link rel="stylesheet" href="/css/modules/courier.chat.css">
+```
+
+Popup:
+```html
+<link rel="stylesheet" href="/css/modules/courier.popup.css">
+```
+
 # Settings
 These are the available settings:
 
@@ -177,7 +189,22 @@ images: {
 
 Collection of messages and topics to be held by the chat bot. Example usage can be found in demo files.
 ```js
-messages: {},
+messages: {
+  start: [
+      {
+          text: 'Hi! Check out these awesome products!',
+          topics: [
+              {
+                  text: 'Awesome!', // Message text that will be sent
+                  path: 'interested', // Path to direct to
+                  fullWidth: (bool), // The topic will be full width
+                  breakLine: (bool) // Line will be broken after this topic
+              },
+          ]
+      },
+  ],
+  interested: {...}
+},
 ```
 
 Collection of used to supply data to optional module instances. Example usage can be found in demo files.
