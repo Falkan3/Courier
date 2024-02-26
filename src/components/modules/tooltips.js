@@ -430,6 +430,13 @@ export default function (Courier, Components, Events) {
     });
 
     /**
+     * Bind event listeners after root has been updated and binder cleared
+     */
+    Events.on('update', () => {
+        Tooltips.bind();
+    });
+
+    /**
      * Destroy binder:
      * - on destroying to remove listeners
      */

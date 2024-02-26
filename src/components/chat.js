@@ -481,6 +481,7 @@ export default function (Courier, Components, Events) {
      */
     Events.on('update', () => {
         // Chat.mount();
+        Chat.bind();
         Chat.refs.chat.data = Chat.getTemplateData(true);
         Chat.refreshMessages();
     });
