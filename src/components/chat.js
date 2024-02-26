@@ -188,7 +188,7 @@ export default function (Courier, Components, Events) {
         },
 
         chatIsScrolledToTheBottom() {
-            return isScrolledToTheBottom(Components.App.refs.app.elem.querySelector('#courierChatWorkArea'));
+            return isScrolledToTheBottom(this.refs.workArea);
         },
 
         scrollLastMessageIntoView() {
