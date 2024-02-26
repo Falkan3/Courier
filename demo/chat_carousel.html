@@ -48,7 +48,10 @@
 				goToProduct: 'Go to product',
 				clipboardButton: 'Copy',
 				clipboardTooltip: 'Click to copy',
-				clipboardCopy: 'Discount code copied'
+				clipboardCopy: 'Discount code copied',
+			},
+			textVars: {
+				couponCode: 'CouponXYZ'
 			},
 			identity: {
 				name: 'AI companion #tooltip#(This is an AI helper that will assist you in our store.)#info##',
@@ -56,7 +59,10 @@
 			messages: {
 				start: [
 					{
-						text: 'Hi! Check out these awesome products!',
+						text: 'Hi! We have a 10% discount coupon code for you #couponCode#{{couponCode}}#',
+					},
+					{
+						text: 'Also, check out these awesome products!',
 					},
 					{
 						type: 'carousel',
