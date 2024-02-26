@@ -38,6 +38,7 @@ Courier is a flexible, easy to use and configurable chat foundation. It can be u
 - `npm run lint:fix` - Run ESlint with airbnb-config and apply fixes.
 - `npm run stylelint` - Run Stylelint.
 - `npm run stylelint:fix` - Run Stylelint and apply fixes.
+- `npm i -g npm-check-updates` `ncu -u && npm i` - Update all npm packages to their latest versions
 
 # Installation
 Install from the command line:
