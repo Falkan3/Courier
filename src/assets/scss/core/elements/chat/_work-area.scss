@@ -370,6 +370,16 @@
 		padding: 0 1em 0.5em;
 		text-align: center;
 
+		&--inline {
+			display: inline-block;
+			padding: 4px;
+
+			@at-root & #{selectors.bottom-most-fn($discountCode)}-value {
+				border: none;
+				background-color: #fefefe;
+			}
+		}
+
 		&-btn {
 			display: inline-block;
 			padding: 0;
@@ -447,6 +457,7 @@
 			background-color: #fff;
 			font-size: 0.9em;
 			color: #212121;
+			white-space: nowrap;
 			transform: translateX(-50%);
 			box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.2);
 			z-index: order.get-order("front");

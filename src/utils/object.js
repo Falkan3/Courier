@@ -1,5 +1,6 @@
 /* eslint-disable import/no-unresolved */
 import { isArray, isObject } from '@utils/types';
+import { clipboard as clipboardIcon } from '@utils/images';
 
 /**
  * Return the last item of an array.
@@ -114,12 +115,22 @@ export function textTemplate(text, template) {
  *
  * @param  {String} text
  * @param  {Object} settings
+ * @param  {Object} props
  * @return {String}
  */
-export function parseSpecialTags(text, settings) {
+export function parseSpecialTags(text, settings, props) {
     const rules = [
         [/#info#/g, `<span class="${settings.classes.root}__icon">${settings.images.info}</span>`],
-        [/#tooltip#\((.*)\)(.*)#/g, '<span data-courier-tooltip="$1">$2</span>']
+        [/#tooltip#\((.*)\)(.*)#/g, '<span data-courier-tooltip="$1">$2</span>'],
+        [/#couponCode#(.*)#/g, `
+        <span class="${settings.classes.chat}-discount-code ${settings.classes.chat}-discount-code--inline">
+            <button class="${settings.classes.chat}-discount-code-btn" data-courier-tooltip="${props.texts.clipboardTooltip}" data-courier-discount-code="$1">
+                <span class="${settings.classes.chat}-discount-code-btn-container">
+                    <span class="${settings.classes.chat}-discount-code-value">$1</span>
+                    <span class="${settings.classes.chat}-discount-code-icon">${clipboardIcon}<span class="${settings.classes.chat}-discount-code-icon-text">${props.texts.clipboardButton}</span></span>
+                </span>
+            </button>
+        </span>`],
     ];
     let output = text;
     rules.forEach(([rule, template]) => {

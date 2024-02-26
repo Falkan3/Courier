@@ -407,7 +407,7 @@ export default function (Courier, Components, Events) {
                             ${messageBox}
                             ${poweredBy}
                         </div>
-                    </div>`, Courier.settings);
+                    </div>`, Courier.settings, props);
                 },
                 attachTo: Components.App.refs.app
             });
