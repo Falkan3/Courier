@@ -57,7 +57,7 @@ export default function (Courier, Components, Events) {
 
         getTemplateData(update = false) {
             const data = {
-                text: {
+                texts: {
                     close: Courier.settings.textsParsed.close,
                     popupContent: Courier.settings.textsParsed.popupContent,
                 },
@@ -83,7 +83,7 @@ export default function (Courier, Components, Events) {
         },
 
         refreshContent() {
-            this.refs.popup.data.text.popupContent = Courier.settings.textsParsed.popupContent;
+            this.refs.popup.data.texts.popupContent = Courier.settings.textsParsed.popupContent;
         },
 
         /**
@@ -116,7 +116,7 @@ export default function (Courier, Components, Events) {
                                         ${Courier.settings.images.closeBtn}
                                     </button>
                                     <div id="courierPopupWorkArea" class="${Courier.settings.classes.popup}-work-area">
-                                        ${props.text.popupContent}
+                                        ${props.texts.popupContent}
                                     </div>
                                 </div>
                                 ${poweredBy}
