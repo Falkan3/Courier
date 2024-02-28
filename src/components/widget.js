@@ -51,8 +51,11 @@ export default function (Courier, Components, Events) {
             this.refs.widget.data.active = false;
             this.refs.widget.data.hidden = true;
             if (save) {
-                widgetSetHidden(true, Courier.settings.cookies.hideWidget.duration,
-                    Courier.settings.cookies.hideWidget.nameSuffix);
+                widgetSetHidden(
+                    true,
+                    Courier.settings.cookies.hideWidget.duration,
+                    Courier.settings.cookies.hideWidget.nameSuffix
+                );
             }
             Events.emit('widget.hidden');
         },
