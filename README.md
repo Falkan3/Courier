@@ -148,6 +148,11 @@ textVars: {
 }
 ```
 
+Special variables available inside carousel items (used only for discount badge):
+
+- `discountCode` - The discount code for the given item
+- `discountValue` - The calculated value of the discount as a percentage string, for example "35%"
+
 Collection of variables representing the identity of the service owner.
 ```js
 identity: {
