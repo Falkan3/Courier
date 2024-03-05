@@ -18,11 +18,14 @@ $btnColorActive: #64b5f6;
 		position: fixed;
 		right: 1em;
 		bottom: 1em;
+		margin-left: 1em;
 		z-index: order.get-order("widget");
 
 		@at-root #{variables.$classPrefix}--left #{variables.$classPrefix}__widget-wrapper {
 			right: auto;
 			left: 1em;
+			margin-left: 0;
+			margin-right: 1em;
 		}
 
 		//@at-root #{variables.$classPrefix}--widget-round #{variables.$classPrefix}__widget-wrapper {
