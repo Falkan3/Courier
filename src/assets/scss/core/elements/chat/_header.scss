@@ -46,9 +46,9 @@
 		top: 0;
 		width: 14px;
 		height: 14px;
-		background-color: #bbb;
 		border: 2px solid #fff;
 		border-radius: 50%;
+		background-color: #bbb;
 	}
 
 	&#{variables.$classPrefix}__chat--online {
@@ -75,7 +75,7 @@
 
 	& > p {
 		&:nth-child(1) {
-			font-weight: bold;
+			font-weight: 500;
 		}
 
 		&:nth-child(2) {
