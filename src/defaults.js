@@ -43,6 +43,10 @@ export default {
      */
     texts: {
         widgetGreeting: 'Hello!',
+        widgetGreetingTitle: 'AI helper',
+        widgetName: 'Robby',
+        openWidget: 'Open widget',
+        hideWidget: 'Hide widget',
         // chat
         close: 'Close',
         options: 'Options',
@@ -143,7 +147,8 @@ export default {
         showTimestamp: true,
         carouselPeek: 50,
         showDiscountPercentage: true,
-        clipboardCopyMsgDuration: 2500
+        clipboardCopyMsgDuration: 2500,
+        widgetStyle: 'simple' // simple, advanced
     },
 
     /**

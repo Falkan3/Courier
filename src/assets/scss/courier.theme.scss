@@ -1,4 +1,5 @@
 @use "utils/variables";
+@use "utils/mixins/selectors";
 
 /* -----------------------------------
  *  Components
@@ -7,22 +8,32 @@
 #{variables.$classPrefix} {
 	/* elements */
 	#{variables.$classPrefix}__widget {
+		$widget: &;
+
 		&-bubble {
 			background: #fff;
 			color: #212121;
 
-			&::after {
-				border-top-color: #fff;
-				border-right-color: #fff;
-			}
-
 			&:hover,
 			&:focus {
 				background-color: #ffde51;
+			}
 
-				&::after {
-					border-top-color: #ffde51;
-					border-right-color: #ffde51;
+			@at-root {
+				#{selectors.parent-fn(&)} #{selectors.bottom-most-fn($widget)}-wrapper--simple #{selectors.bottom-most-fn(&)},
+				#{variables.$classPrefix}--widget-tailed #{selectors.bottom-most-fn(&)} {
+					&::after {
+						border-top-color: #fff;
+						border-right-color: #fff;
+					}
+
+					&:hover,
+					&:focus {
+						&::after {
+							border-top-color: #ffde51;
+							border-right-color: #ffde51;
+						}
+					}
 				}
 			}
 		}

@@ -122,7 +122,13 @@ For example:
 Collection of text used in components.
 ```js
 texts: {
+  // widget
   widgetGreeting: 'Hello {{name}}!',
+  openWidget: 'Open widget', 
+  hideWidget: 'Hide widget',
+  // widget - advanced
+  widgetGreetingTitle: 'AI helper',
+  widgetName: 'Robby',
   // chat
   close: 'Close',
   options: 'Options',
@@ -132,7 +138,7 @@ texts: {
   sendMessage: 'Send message',
   goToProduct: 'Go to product',
   // popup
-  popupContent: ''
+  popupContent: '', // HTML rendered inside popup
   // carousel
   clipboardButton: 'Copy',
   clipboardTooltip: 'Click to copy',
@@ -229,6 +235,7 @@ state: {
   showTimestamp: true, // Show message timestamps
   carouselPeek: 50, // The peeking width of the next carousel slide, in pixels
   showDiscountPercentage: true, // Show the discount percentage above carousel item old price
+  widgetStyle: 'simple' (default) | 'advanced' // Used to switch widget appearance
 }
 ```
 

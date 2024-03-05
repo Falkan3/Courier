@@ -1,5 +1,6 @@
 @use "../../utils/variables";
 @use "../../utils/mixins/order";
+@use "../../utils/mixins/selectors";
 @use "sass:color";
 
 // bubble
@@ -11,10 +12,12 @@ $btnColorInactive: #cfe4f5;
 $btnColorActive: #64b5f6;
 
 #{variables.$classPrefix}__widget {
+	$widget: &;
+
 	&-wrapper {
 		position: fixed;
-		bottom: 2em;
 		right: 1em;
+		bottom: 1em;
 		z-index: order.get-order("widget");
 
 		@at-root #{variables.$classPrefix}--left #{variables.$classPrefix}__widget-wrapper {
@@ -22,34 +25,60 @@ $btnColorActive: #64b5f6;
 			left: 1em;
 		}
 
-		@at-root #{variables.$classPrefix}--widget-round #{variables.$classPrefix}__widget-wrapper {
-			bottom: 1em;
+		//@at-root #{variables.$classPrefix}--widget-round #{variables.$classPrefix}__widget-wrapper {
+		//	bottom: 1em;
+		//}
+
+		@at-root #{variables.$classPrefix}--widget-tailed #{variables.$classPrefix}__widget-wrapper {
+			bottom: 2em;
 		}
 	}
 
 	&-bubble {
-		display: flex;
-		align-items: center;
 		padding: 0.5em 1em;
 		border: solid 1px $bubbleBorder;
-		background: $bubbleBgColor;
-		color: $bubbleColor;
 		border-radius: 4px;
+		text-align: left;
+		color: $bubbleColor;
+		background: $bubbleBgColor;
 		// box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+		transition: background-color cubic-bezier(0.1, 1, 0.6, 1) 0.3s, color cubic-bezier(0.1, 1, 0.6, 1) 0.3s;
 		filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.12));
-		transition: background-color cubic-bezier(0.1, 1, 0.6, 1) 0.3s;
 
-		// bubble arrow
-		&::after {
-			content: "";
-			position: absolute;
-			bottom: calc(-1em + 3px);
-			right: 0.5em;
-			display: block;
-			border: solid 0.5em $bubbleBgColor;
-			border-bottom-color: transparent;
-			border-left-color: transparent;
-			transition: border-color cubic-bezier(0.1, 1, 0.6, 1) 0.3s;
+		@at-root {
+			//#{selectors.parent-fn(&)} #{selectors.bottom-most-fn($widget)}-wrapper--simple #{selectors.bottom-most-fn(&)} {
+			//	padding: 0.5em 1em;
+			//}
+
+			#{selectors.parent-fn(&)} #{selectors.bottom-most-fn($widget)}-wrapper--advanced #{selectors.bottom-most-fn(&)} {
+				position: relative;
+				padding: 1.5em;
+				background-color: #fff;
+				color: #212121;
+
+				&:hover, &:focus {
+					background-color: #0085fe;
+					color: #fff;
+				}
+			}
+		}
+
+		// Bubble arrow
+		@at-root {
+			#{selectors.parent-fn(&)} #{selectors.bottom-most-fn($widget)}-wrapper--simple #{selectors.bottom-most-fn(&)},
+			#{variables.$classPrefix}--widget-tailed #{selectors.bottom-most-fn(&)} {
+				&::after {
+					content: "";
+					position: absolute;
+					right: 0.5em;
+					bottom: calc(-1em + 3px);
+					display: block;
+					border: solid 0.5em $bubbleBgColor;
+					border-bottom-color: transparent;
+					border-left-color: transparent;
+					transition: border-color cubic-bezier(0.1, 1, 0.6, 1) 0.3s;
+				}
+			}
 		}
 
 		&:hover {
@@ -87,22 +116,106 @@ $btnColorActive: #64b5f6;
 			width: 2em;
 			height: 2em;
 		}
+
+		@at-root {
+			$root: #{selectors.parent-fn(&)};
+
+			&#{selectors.bottom-most-fn(&)}--big {
+				& > img,
+				& > svg {
+					display: block;
+					width: 2.5em;
+					height: 2.5em;
+				}
+			}
+
+			#{selectors.parent-fn(&)} #{selectors.bottom-most-fn($widget)}-wrapper--advanced #{selectors.bottom-most-fn(&)} {
+				position: relative;
+				padding: 6px;
+				border-radius: 50%;
+				background-color: #dcd0ff;
+
+				&::before {
+					content: "";
+					position: absolute;
+					right: -3px;
+					top: -3px;
+					width: 14px;
+					height: 14px;
+					border: 2px solid #fff;
+					border-radius: 50%;
+					background-color: #bbb;
+				}
+			}
+
+			#{selectors.parent-fn(&)} #{selectors.bottom-most-fn($widget)}-wrapper--advanced #{variables.$classPrefix}__widget--online #{selectors.bottom-most-fn(&)} {
+				&::before {
+					background-color: #35d03d;
+				}
+			}
+		}
 	}
 
-	&-txt {
+	// Start style: Simple
+
+	&-greeting {
 		margin-left: 1em;
 	}
 
+	// End style: Simple
+
+	// Start style: Advanced
+
+	&-greeting-wrapper {
+		display: flex;
+		align-items: center;
+	}
+
+	&-greeting-title {
+		margin-left: 1em;
+		font-size: 1.2em;
+		font-weight: 500;
+	}
+
+	&-greeting-msg {
+		max-width: 20rem;
+		margin-top: 0.8em;
+		line-height: 1.4;
+		// color: #525b76;
+		transition: color cubic-bezier(0.1, 1, 0.6, 1) 0.3s;
+
+		@at-root {
+			#{selectors.parent-fn(&)} #{selectors.bottom-most-fn($widget)}-bubble:hover #{selectors.bottom-most-fn(&)} {
+				color: #e2e6f7;
+			}
+		}
+	}
+
+	&-name {
+		margin-top: 0.5em;
+		font-size: 0.9em;
+		color: #727c9a;
+		transition: color cubic-bezier(0.1, 1, 0.6, 1) 0.3s;
+
+		@at-root {
+			#{selectors.parent-fn(&)} #{selectors.bottom-most-fn($widget)}-bubble:hover #{selectors.bottom-most-fn(&)} {
+				color: #e2e6f7;
+			}
+		}
+	}
+
+	// End style: Advanced
+
 	&-hide-btn {
 		position: absolute;
-		right: -0.7em;
 		top: -0.7em;
+		right: -0.7em;
 		width: 1.5em;
 		height: 1.5em;
 		padding: 0.3em;
 		border: solid 1px $bubbleBorder;
-		background: #fff;
 		border-radius: 50%;
+		background: #fff;
 
 		& > img,
 		& > svg {

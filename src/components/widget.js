@@ -3,6 +3,7 @@ import EventsBinder from '@core/event/events-binder';
 import Reef from '@libs/reefjs/reef.es';
 import { elemContains } from '@utils/dom';
 import { isHidden as widgetIsHidden, setHidden as widgetSetHidden } from '@utils/widget';
+import { parseSpecialTags } from '@utils/object.js';
 
 export default function (Courier, Components, Events) {
     /**
@@ -38,18 +39,18 @@ export default function (Courier, Components, Events) {
         },
 
         close() {
-            this.refs.widget.data.active = false;
+            this.refs.widget.data.state.active = false;
             Events.emit('widget.closed');
         },
 
         open() {
-            this.refs.widget.data.active = true;
+            this.refs.widget.data.state.active = true;
             Events.emit('widget.opened');
         },
 
         hide(save = true) {
-            this.refs.widget.data.active = false;
-            this.refs.widget.data.hidden = true;
+            this.refs.widget.data.state.active = false;
+            this.refs.widget.data.state.hidden = true;
             if (save) {
                 widgetSetHidden(
                     true,
@@ -62,16 +63,27 @@ export default function (Courier, Components, Events) {
 
         getTemplateData(update = false) {
             const data = {
-                active: Courier.settings.state.widgetActiveAtStart,
-                hidden: !Courier.settings.state.widgetActiveAtStart,
                 widgetImg: Courier.settings.images.widget,
-                text: Courier.settings.textsParsed.widgetGreeting,
-                hideBtnActive: Courier.settings.state.hideBtnActiveAtStart,
+                texts: {
+                    widgetGreetingTitle: Courier.settings.textsParsed.widgetGreetingTitle,
+                    widgetGreeting: Courier.settings.textsParsed.widgetGreeting,
+                    name: Courier.settings.textsParsed.widgetName,
+                    openWidget: Courier.settings.textsParsed.openWidget,
+                    hideWidget: Courier.settings.textsParsed.hideWidget,
+                },
+                state: {
+                    active: Courier.settings.state.widgetActiveAtStart,
+                    hidden: !Courier.settings.state.widgetActiveAtStart,
+                    style: Courier.settings.state.widgetStyle,
+                    hideBtnActive: Courier.settings.state.hideBtnActiveAtStart,
+                    online: Courier.settings.state.online,
+                }
             };
 
             if (update) {
-                data.active = this.refs.widget.data.active;
-                data.hidden = this.refs.widget.data.hidden;
+                data.state.active = this.refs.widget.data.state.active;
+                data.state.hidden = this.refs.widget.data.state.hidden;
+                data.state.online = this.refs.widget.data.state.online;
             }
 
             return data;
@@ -84,34 +96,20 @@ export default function (Courier, Components, Events) {
             Widget.refs.widget = new Reef('#courierWidget', {
                 data: this.getTemplateData(),
                 template: (props) => {
-                    if (!props.active) {
+                    if (!props.state.active) {
                         return '';
                     }
 
-                    const widgetImg = props.widgetImg
+                    const hideBtn = props.state.hideBtnActive
                         ? `
-                        <div class="${Courier.settings.classes.widget}-img" aria-hidden="true">
-                            ${Courier.settings.images.widget}
-                        </div>`
-                        : '';
-
-                    const widgetText = props.text
-                        ? `<p class="${Courier.settings.classes.widget}-txt">${props.text}</p>`
-                        : '';
-
-                    const hideBtn = props.hideBtnActive
-                        ? `
-                        <button id="courierWidgetHideButton" class="${Courier.settings.classes.widget}-hide-btn" type="button" aria-label="Hide widget">
+                        <button id="courierWidgetHideButton" class="${Courier.settings.classes.widget}-hide-btn" type="button" aria-label="${props.texts.hideWidget}">
                             ${Courier.settings.images.closeBtn}
                         </button>`
                         : '';
 
                     return `
-                    <div class="${Courier.settings.classes.widget}-wrapper ${Courier.settings.classes.root}__appear-bottom ${Courier.settings.classes.root}__anim-timing--half">
-                        <button id="courierWidgetButton" class="${Courier.settings.classes.widget}-bubble" type="button" aria-label="Open widget">
-                            ${widgetImg}
-                            ${widgetText}
-                        </button>
+                    <div class="${Courier.settings.classes.widget}-wrapper ${Courier.settings.classes.widget}-wrapper--${props.state.style} ${Courier.settings.classes.root}__appear-bottom ${Courier.settings.classes.root}__anim-timing--half">
+                        ${this.getHtml(props.state.style, props)}
                         ${hideBtn}
                     </div>
                     `;
@@ -125,6 +123,72 @@ export default function (Courier, Components, Events) {
          */
         render() {
             Widget.refs.widget.render();
+        },
+
+        getHtml(style, props) {
+            let html = '';
+
+            switch (style) {
+            case 'simple': {
+                const widgetImg = props.widgetImg
+                    ? `
+                        <span class="${Courier.settings.classes.widget}-img" aria-hidden="true">
+                            ${Courier.settings.images.widget}
+                        </span>`
+                    : '';
+
+                const widgetText = props.texts.widgetGreeting
+                    ? `<p class="${Courier.settings.classes.widget}-greeting">${props.texts.widgetGreeting}</p>`
+                    : '';
+
+                html = `
+                    <button id="courierWidgetButton" class="${Courier.settings.classes.widget}-bubble" type="button" aria-label="${props.texts.openWidget}">
+                        <span class="${Courier.settings.classes.widget}-greeting-wrapper">
+                            ${widgetImg}
+                            ${widgetText}
+                        </span>
+                    </button>
+                    `;
+                break;
+            }
+            case 'advanced': {
+                const widgetImg = props.widgetImg
+                    ? `
+                        <span class="${Courier.settings.classes.widget}-img" aria-hidden="true">
+                            ${Courier.settings.images.widget}
+                        </span>`
+                    : '';
+
+                const widgetTitle = props.texts.widgetGreetingTitle
+                    ? `<p class="${Courier.settings.classes.widget}-greeting-title">${props.texts.widgetGreetingTitle}</p>`
+                    : '';
+
+                const widgetText = props.texts.widgetGreeting
+                    ? `<p class="${Courier.settings.classes.widget}-greeting-msg">${props.texts.widgetGreeting}</p>`
+                    : '';
+
+                const name = props.texts.name
+                    ? `<p class="${Courier.settings.classes.widget}-name">${props.texts.name}</p>`
+                    : '';
+
+                html = `
+                    <button id="courierWidgetButton" class="${Courier.settings.classes.widget}-bubble ${props.state.online ? `${Courier.settings.classes.widget}--online` : ''}" type="button" aria-label="${props.texts.openWidget}">
+                        <span class="${Courier.settings.classes.widget}-greeting-wrapper">
+                            ${widgetImg}
+                            ${widgetTitle}
+                        </span>
+
+                        ${widgetText}
+                        ${name}
+                    </button>
+                    `;
+                break;
+            }
+            default:
+                break;
+            }
+
+            return parseSpecialTags(html, Courier.settings, props);
         },
     };
 
@@ -155,8 +219,8 @@ export default function (Courier, Components, Events) {
          */
         Events.on(['chat.closed', 'popup.closed'], () => {
             if (!widgetIsHidden(Courier.settings.cookies.hideWidget.nameSuffix)
-                && !Widget.refs.widget.data.hidden) {
-                Widget.refs.widget.data.hideBtnActive = true;
+                && !Widget.refs.widget.data.state.hidden) {
+                Widget.refs.widget.data.state.hideBtnActive = true;
                 Widget.open();
             }
         });
