@@ -55,7 +55,7 @@ $btnColorActive: #64b5f6;
 
 			#{selectors.parent-fn(&)} #{selectors.bottom-most-fn($widget)}-wrapper--advanced #{selectors.bottom-most-fn(&)} {
 				position: relative;
-				padding: 1.5em;
+				padding: 0.8em 1.5em;
 				background-color: #fff;
 				color: #212121;
 
