@@ -8,6 +8,11 @@ import {
 } from '@utils/widget';
 import { parseSpecialTags } from '@utils/object.js';
 
+export const WidgetStyles = Object.freeze({
+    SIMPLE: 'simple',
+    ADVANCED: 'advanced'
+});
+
 export default function (Courier, Components, Events) {
     /**
      * Instance of the binder for DOM Events.
@@ -37,7 +42,7 @@ export default function (Courier, Components, Events) {
             const courierWidgetHideButton = Components.App.refs.app.elem.querySelector('#courierWidgetHideButton');
             if (event.target.matches('#courierWidgetHideButton')
                 || (elemContains(courierWidgetHideButton, event.target))) {
-                if (this.refs.widget.data.state.minimalized) {
+                if (!Widget.canBeMinimalized() || this.refs.widget.data.state.minimalized) {
                     this.hide();
                 } else {
                     this.minimalize();
@@ -65,6 +70,10 @@ export default function (Courier, Components, Events) {
                 );
             }
             Events.emit('widget.minimalized');
+        },
+
+        canBeMinimalized() {
+            return this.refs.widget.data.state.style === WidgetStyles.ADVANCED;
         },
 
         hide(save = true) {
@@ -149,31 +158,8 @@ export default function (Courier, Components, Events) {
         getHtml(style, props) {
             let html = '';
 
-            if (props.state.minimalized) {
-                const widgetImg = props.widgetImg
-                    ? `
-                        <span class="${Courier.settings.classes.widget}-img" aria-hidden="true">
-                            ${Courier.settings.images.widget}
-                        </span>`
-                    : '';
-
-                const name = props.texts.name
-                    ? `<p class="${Courier.settings.classes.widget}-name">${props.texts.name}</p>`
-                    : '';
-
-                return `
-                    <button id="courierWidgetButton" class="${Courier.settings.classes.widget}-bubble ${props.state.online ? `${Courier.settings.classes.widget}--online` : ''}" type="button" aria-label="${props.texts.openWidget}">
-                        <span class="${Courier.settings.classes.widget}-greeting-wrapper">
-                            ${widgetImg}
-                        </span>
-
-                        ${name}
-                    </button>
-                    `;
-            }
-
             switch (style) {
-            case 'simple': {
+            case WidgetStyles.SIMPLE: {
                 const widgetImg = props.widgetImg
                     ? `
                         <span class="${Courier.settings.classes.widget}-img" aria-hidden="true">
@@ -195,7 +181,7 @@ export default function (Courier, Components, Events) {
                     `;
                 break;
             }
-            case 'advanced': {
+            case WidgetStyles.ADVANCED: {
                 const widgetImg = props.widgetImg
                     ? `
                         <span class="${Courier.settings.classes.widget}-img" aria-hidden="true">
@@ -203,16 +189,32 @@ export default function (Courier, Components, Events) {
                         </span>`
                     : '';
 
+                const name = props.texts.name
+                    ? `<p class="${Courier.settings.classes.widget}-name">${props.texts.name}</p>`
+                    : '';
+
+                // Return the minimalized version
+
+                if (props.state.minimalized) {
+                    return `
+                    <button id="courierWidgetButton" class="${Courier.settings.classes.widget}-bubble ${props.state.online ? `${Courier.settings.classes.widget}--online` : ''}" type="button" aria-label="${props.texts.openWidget}">
+                        <span class="${Courier.settings.classes.widget}-greeting-wrapper">
+                            ${widgetImg}
+                        </span>
+
+                        ${name}
+                    </button>
+                    `;
+                }
+
+                // If not minimalized - continue
+
                 const widgetTitle = props.texts.widgetGreetingTitle
                     ? `<p class="${Courier.settings.classes.widget}-greeting-title">${props.texts.widgetGreetingTitle}</p>`
                     : '';
 
                 const widgetText = props.texts.widgetGreeting
                     ? `<p class="${Courier.settings.classes.widget}-greeting-msg">${props.texts.widgetGreeting}</p>`
-                    : '';
-
-                const name = props.texts.name
-                    ? `<p class="${Courier.settings.classes.widget}-name">${props.texts.name}</p>`
                     : '';
 
                 html = `
@@ -238,7 +240,7 @@ export default function (Courier, Components, Events) {
 
     Events.on('mount.after', () => {
         Widget.initialize();
-        if (Courier.settings.cookies.minimalizeWidget.active) {
+        if (Widget.canBeMinimalized() && Courier.settings.cookies.minimalizeWidget.active) {
             if (widgetIsMinimalized(Courier.settings.cookies.minimalizeWidget.nameSuffix)) {
                 Widget.minimalize(false);
             }
@@ -287,6 +289,9 @@ export default function (Courier, Components, Events) {
          * Add minimalize trigger
          */
         Events.on('widget.minimalize', (save) => {
+            if (!Widget.canBeMinimalized()) {
+                return;
+            }
             Widget.minimalize(save);
         });
 
