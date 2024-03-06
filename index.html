@@ -1,137 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- Meta -->
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<!-- Meta -->
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-    <title>Test</title>
+<title>Test</title>
 
-    <!-- Assets -->
-	<link rel="stylesheet" href="dist/css/modules/courier.chat.css">
-	<link rel="stylesheet" href="dist/css/courier.theme.css">
-	<script src="dist/js/chat/courier.js"></script>
-
-	<style>
-		body {
-			min-height: 3000px;
-		}
-
-		.courier .courier__widget-bubble:hover, .courier .courier__widget-bubble:focus {
-			background-color: #0085fe;
-			color: #fff;
-		}
-
-		.courier .courier__widget-bubble:hover::after, .courier .courier__widget-bubble:focus::after {
-			border-top-color: #0085fe;
-			border-right-color: #0085fe;
-		}
-
-		.courier .courier__widget-bubble:hover .courier__widget-img svg > path:nth-child(1), .courier .courier__widget-bubble:focus .courier__widget-img svg > path:nth-child(1) {
-			fill: #fff;
-		}
-
-		.courier .courier__widget-bubble:hover .courier__widget-img svg > path:nth-child(2), .courier .courier__widget-bubble:focus .courier__widget-img svg > path:nth-child(2) {
-			fill: #0085fe;
-		}
-	</style>
+<!-- Assets -->
+<link rel="stylesheet" href="dist/css/modules/courier.chat.css">
+<script src="dist/js/chat/courier.js"></script>
+<style>
+	body {
+		min-height: 3000px;
+	}
+</style>
 </head>
 <body>
-    <script>
-		const courier = new Courier(document.body, {
-			images: {
-				widget: '<svg xmlns="http://www.w3.org/2000/svg" width="250" height="250" viewBox="0 0 66.146 66.146"><path fill="#0085fe" fill-rule="evenodd" d="M66.146 33.073a33.073 33.073 0 0 1-33.073 33.073A33.073 33.073 0 0 1 0 33.073 33.073 33.073 0 0 1 33.073 0a33.073 33.073 0 0 1 33.073 33.073Z"/><path fill="#fff" d="M12.84 46.514c1.472-.024 2.951.048 4.418-.038.747-.395.85-1.356 1.256-2.04.387-.957.931-2.127 2.158-2.07 3.97.012 7.94-.027 11.91.019 1.431.2 1.672 1.772 2.249 2.833.247.661.64 1.473 1.495 1.296 1.343-.025 2.695.049 4.033-.038.393-.5-.285-1.124-.423-1.667l-12.83-27.97c-.631-.952-1.434.115-1.604.822l-13 28.345a.333.333 0 0 0 .339.508zm9.314-9.99c1.333-2.838 2.615-5.7 3.98-8.52.67-.814 1.033.63 1.3 1.119 1.155 2.55 2.365 5.077 3.484 7.642.244 1.065-1.087.843-1.75.859-2.181-.013-4.364.025-6.544-.02-.557-.034-.722-.653-.47-1.08zM45.437 17.43v28.533c.049.768.935.503 1.453.55 1.1-.023 2.21.05 3.306-.038.523-.32.254-1.019.321-1.534v-27.51c-.048-.767-.934-.503-1.452-.55-1.101.023-2.21-.05-3.306.038-.212.07-.332.3-.322.512z"/></svg>'
-			},
-			texts: {
-				widgetGreeting: 'Hello there!',
-				chatTitle: 'An awesome product carousel #tooltip#(Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis dolor neque, accumsan posuere ultrices ac, gravida ac eros. Nam at gravida felis.)#info##',
-				goToProduct: 'Go to product',
-				clipboardButton: 'Copy',
-				clipboardTooltip: 'Click to copy',
-				clipboardCopy: 'Discount code copied',
-			},
-			textVars: {
-				couponCode: 'CouponXYZ'
-			},
-			identity: {
-				name: 'AI companion #tooltip#(This is an AI helper that will assist you in our store.)#info##',
-			},
-			messages: {
-				start: [
-					{
-						text: 'Hi! We have a 10% discount coupon code for you #couponCode#{{couponCode}}#',
-					},
-					{
-						text: 'Also, check out these awesome products!',
-					},
-					{
-						type: 'carousel',
-						carousel: {
-							items: [
-								{
-									title: 'Sneakers',
-									price: {
-										value: 199.99,
-										discount: 0.35,
-										affix: ['$', true]
-									},
-									img: {
-										src: 'https://cdn.cnn.com/cnnnext/dam/assets/200814092431-01b-michael-jordan-sneakers-auction-super-169.jpg',
-										alt: 'A pair of red sneakers'
-									},
-									link: '#',
-									discountCode: 'promo_code_2022',
-									footerText: 'Your individual discount: {{discountValue}}'
-								},
-								{
-									title: 'Boots',
-									price: {
-										value: 249.99,
-										discount: 0.2,
-										affix: ['$', true]
-									},
-									img: {
-										src: 'https://cdn.picpng.com/boots/boots-web-30156.png',
-										alt: 'A pair of black leather boots'
-									},
-									link: '#',
-									discountCode: 'urawsum',
-								},
-								{
-									title: 'Trainers',
-									price: {
-										value: 149.99,
-										affix: ['$', true]
-									},
-									img: {
-										src: 'https://pngimg.com/uploads/running_shoes/running_shoes_PNG5798.png',
-										alt: 'A pair of red sneakers'
-									},
-									link: '#',
-									discountCode: 'urawsum',
-									discountLink: '#'
-								}
-							]
-						},
-						topics: [
-							{
-								text: 'Awesome!',
-								path: 'interested'
-							},
-							{
-								text: 'No, thank you.',
-								path: 'notInterested'
-							},
-							{
-								text: 'Close chat',
-								trigger: 'chat.close',
-								breakLine: true
-							}
-						]
-					}
-				],
-				sendCarouselAgain: {
+<script>
+	const courier = new Courier(document.body, {
+		images: {
+			widget: '<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 26.458 26.458"><path fill="#2a90ee" fill-rule="evenodd" d="M23.892 16.431c0 5.584-4.774 8.986-10.663 8.986S2.567 22.015 2.567 16.431c0-5.584 4.773-10.415 10.662-10.415 5.889 0 10.663 4.831 10.663 10.415z"/><g><path fill="#3b585e" d="M13.228 10.225c-1.743 0-4.224.13-5.54.78C5.651 12.01 5.14 13.91 5.14 15.77c.001 1.86.512 3.76 2.547 4.766 1.317.65 3.798.777 5.541.777 1.743 0 4.227-.127 5.543-.777 2.036-1.006 2.546-2.906 2.547-4.766 0-1.86-.511-3.76-2.547-4.765-1.316-.65-3.8-.78-5.543-.78z" /><path fill="#062c4e" d="M14.89 17.19a1.661 1.661 0 0 1-3.322 0c0-.918.744-.281 1.661-.281.918 0 1.662-.637 1.662.28z"/><circle cx="8.865" cy="13.942" r="1" fill="#8fcfde"/><circle cx="17.593" cy="13.942" r="1" fill="#8fcfde"/></g><path fill="#0b467e" fill-rule="evenodd" d="M25.039 13.072H23.43v5.971h1.608s1.42-.56 1.42-1.257V14.33c0-.696-1.42-1.257-1.42-1.257zm-23.619 0h1.607v5.971H1.42S0 18.483 0 17.786V14.33c0-.696 1.42-1.257 1.42-1.257Z"/><path fill="#727178" d="M13.23 3.252c-4.819.244-9.386 1.318-10.203 9.82H1.42C1.717 4.334 7.87 1.668 13.23 1.67m0 0c5.358-.002 11.511 2.664 11.809 11.402H23.43c-.816-8.502-5.384-9.576-10.202-9.82"/><path fill="none" stroke="#80aaba" stroke-linecap="round" stroke-width="1" d="m1.898 17.447 7.14 2.229h1.843"/></svg>'
+		},
+		texts: {
+			widgetGreetingTitle: 'AI assistant',
+			widgetGreeting: 'We have a special discount just for you.',
+			chatTitle: 'An awesome product carousel %%tooltip%(Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis dolor neque, accumsan posuere ultrices ac, gravida ac eros. Nam at gravida felis.)%%info%%%%',
+			goToProduct: 'Go to product',
+			clipboardButton: 'Copy',
+			clipboardTooltip: 'Click to copy',
+			clipboardCopy: 'Discount code copied',
+		},
+		textVars: {
+			couponCode: 'CouponXYZ'
+		},
+		identity: {
+			name: 'AI companion %%tooltip%(This is an AI helper that will assist you in our store.)%%info%%%%',
+		},
+		messages: {
+			start: [
+				{
+					text: 'Hi! We have a 10% discount coupon code for you %%couponCode%{{couponCode}}%%',
+				},
+				{
+					text: 'Also, check out these awesome products!',
+				},
+				{
 					type: 'carousel',
 					carousel: {
 						items: [
@@ -146,7 +61,9 @@
 									src: 'https://cdn.cnn.com/cnnnext/dam/assets/200814092431-01b-michael-jordan-sneakers-auction-super-169.jpg',
 									alt: 'A pair of red sneakers'
 								},
-								link: '#'
+								link: '#',
+								discountCode: 'promo_code_2022',
+								footerText: 'Your individual discount: {{discountValue}}'
 							},
 							{
 								title: 'Boots',
@@ -159,7 +76,8 @@
 									src: 'https://cdn.picpng.com/boots/boots-web-30156.png',
 									alt: 'A pair of black leather boots'
 								},
-								link: '#'
+								link: '#',
+								discountCode: 'urawsum',
 							},
 							{
 								title: 'Trainers',
@@ -171,51 +89,115 @@
 									src: 'https://pngimg.com/uploads/running_shoes/running_shoes_PNG5798.png',
 									alt: 'A pair of red sneakers'
 								},
-								link: '#'
+								link: '#',
+								discountCode: 'urawsum',
+								discountLink: '#'
 							}
 						]
 					},
 					topics: [
 						{
 							text: 'Awesome!',
-							path: 'interested',
+							path: 'interested'
 						},
 						{
 							text: 'No, thank you.',
 							path: 'notInterested'
+						},
+						{
+							text: 'Close chat',
+							trigger: 'chat.close',
+							breakLine: true
+						}
+					]
+				}
+			],
+			sendCarouselAgain: {
+				type: 'carousel',
+				carousel: {
+					items: [
+						{
+							title: 'Sneakers',
+							price: {
+								value: 199.99,
+								discount: 0.35,
+								affix: ['$', true]
+							},
+							img: {
+								src: 'https://cdn.cnn.com/cnnnext/dam/assets/200814092431-01b-michael-jordan-sneakers-auction-super-169.jpg',
+								alt: 'A pair of red sneakers'
+							},
+							link: '#'
+						},
+						{
+							title: 'Boots',
+							price: {
+								value: 249.99,
+								discount: 0.2,
+								affix: ['$', true]
+							},
+							img: {
+								src: 'https://cdn.picpng.com/boots/boots-web-30156.png',
+								alt: 'A pair of black leather boots'
+							},
+							link: '#'
+						},
+						{
+							title: 'Trainers',
+							price: {
+								value: 149.99,
+								affix: ['$', true]
+							},
+							img: {
+								src: 'https://pngimg.com/uploads/running_shoes/running_shoes_PNG5798.png',
+								alt: 'A pair of red sneakers'
+							},
+							link: '#'
 						}
 					]
 				},
-				interested: {
-					text: 'Glad to help =)',
-					topics: [
-						{
-							text: 'Send carousel again',
-							path: 'sendCarouselAgain',
-						},
-					]
-				},
-				notInterested: {
-					text: 'Understandable, have a nice day.',
-					topics: [
-						{
-							text: 'Send carousel again',
-							path: 'sendCarouselAgain',
-						},
-					]
-				},
+				topics: [
+					{
+						text: 'Awesome!',
+						path: 'interested',
+					},
+					{
+						text: 'No, thank you.',
+						path: 'notInterested'
+					}
+				]
 			},
-			state: {
-				hideBtnActiveAtStart: true,
+			interested: {
+				text: 'Glad to help =)',
+				topics: [
+					{
+						text: 'Send carousel again',
+						path: 'sendCarouselAgain',
+					},
+				]
 			},
-			cookies: {
-				saveConversation: {
-					active: false
-				}
+			notInterested: {
+				text: 'Understandable, have a nice day.',
+				topics: [
+					{
+						text: 'Send carousel again',
+						path: 'sendCarouselAgain',
+					},
+				]
 			},
-		});
-		courier.mount();
-		// courier._components.ComponentName.function();
-    </script>
+		},
+		state: {
+			hideBtnActiveAtStart: true,
+			widgetStyle: 'advanced'
+		},
+		cookies: {
+			saveConversation: {
+				active: false
+			}
+		},
+	});
+	courier.mount();
+	// courier._components.ComponentName.function();
+</script>
 </body>
 </html>
