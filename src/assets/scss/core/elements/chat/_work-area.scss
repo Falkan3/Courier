@@ -454,9 +454,9 @@
 			bottom: calc(100% + 0.5em);
 			padding: 4px 0.5em;
 			border-radius: 4px;
-			background-color: #fff;
+			background-color: $linkColor;
 			font-size: 0.9em;
-			color: #212121;
+			color: color.mix($linkColor, #fefefe, 5%);
 			white-space: nowrap;
 			transform: translateX(-50%);
 			box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.2);
