@@ -4,8 +4,8 @@
 @use "sass:color";
 
 // bubble
-$bubbleBgColor: #6874e8;
-$bubbleColor: #fff;
+$bubbleBgColor: #fff;
+$bubbleColor: #212121;
 $bubbleBorder: #f1f1f1;
 // buttons
 $btnColorInactive: #cfe4f5;
@@ -56,8 +56,6 @@ $btnColorActive: #64b5f6;
 			#{selectors.parent-fn(&)} #{selectors.bottom-most-fn($widget)}-wrapper--advanced #{selectors.bottom-most-fn(&)} {
 				position: relative;
 				padding: 0.8em 1.5em;
-				background-color: #fff;
-				color: #212121;
 
 				&:hover, &:focus {
 					background-color: #0085fe;
@@ -68,7 +66,7 @@ $btnColorActive: #64b5f6;
 
 		// Bubble arrow
 		@at-root {
-			#{selectors.parent-fn(&)} #{selectors.bottom-most-fn($widget)}-wrapper--simple #{selectors.bottom-most-fn(&)},
+			#{selectors.parent-fn(&)}:not(#{variables.$classPrefix}--widget-round) #{selectors.bottom-most-fn($widget)}-wrapper--simple #{selectors.bottom-most-fn(&)},
 			#{variables.$classPrefix}--widget-tailed #{selectors.bottom-most-fn(&)} {
 				&::after {
 					content: "";
@@ -102,10 +100,6 @@ $btnColorActive: #64b5f6;
 			#{variables.$classPrefix}--widget-round #{variables.$classPrefix}__widget-bubble {
 				padding: 1em;
 				border-radius: 50%;
-
-				&::after {
-					content: none;
-				}
 			}
 		}
 	}
