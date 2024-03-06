@@ -2,7 +2,10 @@
 import EventsBinder from '@core/event/events-binder';
 import Reef from '@libs/reefjs/reef.es';
 import { elemContains } from '@utils/dom';
-import { isHidden as widgetIsHidden, setHidden as widgetSetHidden } from '@utils/widget';
+import {
+    isMinimalized as widgetIsMinimalized, setMinimalized as widgetSetMinimalized,
+    isHidden as widgetIsHidden, setHidden as widgetSetHidden
+} from '@utils/widget';
 import { parseSpecialTags } from '@utils/object.js';
 
 export default function (Courier, Components, Events) {
@@ -34,7 +37,11 @@ export default function (Courier, Components, Events) {
             const courierWidgetHideButton = Components.App.refs.app.elem.querySelector('#courierWidgetHideButton');
             if (event.target.matches('#courierWidgetHideButton')
                 || (elemContains(courierWidgetHideButton, event.target))) {
-                this.hide();
+                if (this.refs.widget.data.state.minimalized) {
+                    this.hide();
+                } else {
+                    this.minimalize();
+                }
             }
         },
 
@@ -46,6 +53,18 @@ export default function (Courier, Components, Events) {
         open() {
             this.refs.widget.data.state.active = true;
             Events.emit('widget.opened');
+        },
+
+        minimalize(save = true) {
+            this.refs.widget.data.state.minimalized = true;
+            if (save) {
+                widgetSetMinimalized(
+                    true,
+                    Courier.settings.cookies.minimalizeWidget.duration,
+                    Courier.settings.cookies.minimalizeWidget.nameSuffix
+                );
+            }
+            Events.emit('widget.minimalized');
         },
 
         hide(save = true) {
@@ -73,6 +92,7 @@ export default function (Courier, Components, Events) {
                 },
                 state: {
                     active: Courier.settings.state.widgetActiveAtStart,
+                    minimalized: false,
                     hidden: !Courier.settings.state.widgetActiveAtStart,
                     style: Courier.settings.state.widgetStyle,
                     hideBtnActive: Courier.settings.state.hideBtnActiveAtStart,
@@ -82,6 +102,7 @@ export default function (Courier, Components, Events) {
 
             if (update) {
                 data.state.active = this.refs.widget.data.state.active;
+                data.state.minimalized = this.refs.widget.data.state.minimalized;
                 data.state.hidden = this.refs.widget.data.state.hidden;
                 data.state.online = this.refs.widget.data.state.online;
             }
@@ -127,6 +148,29 @@ export default function (Courier, Components, Events) {
 
         getHtml(style, props) {
             let html = '';
+
+            if (props.state.minimalized) {
+                const widgetImg = props.widgetImg
+                    ? `
+                        <span class="${Courier.settings.classes.widget}-img" aria-hidden="true">
+                            ${Courier.settings.images.widget}
+                        </span>`
+                    : '';
+
+                const name = props.texts.name
+                    ? `<p class="${Courier.settings.classes.widget}-name">${props.texts.name}</p>`
+                    : '';
+
+                return `
+                    <button id="courierWidgetButton" class="${Courier.settings.classes.widget}-bubble ${props.state.online ? `${Courier.settings.classes.widget}--online` : ''}" type="button" aria-label="${props.texts.openWidget}">
+                        <span class="${Courier.settings.classes.widget}-greeting-wrapper">
+                            ${widgetImg}
+                        </span>
+
+                        ${name}
+                    </button>
+                    `;
+            }
 
             switch (style) {
             case 'simple': {
@@ -194,6 +238,11 @@ export default function (Courier, Components, Events) {
 
     Events.on('mount.after', () => {
         Widget.initialize();
+        if (Courier.settings.cookies.minimalizeWidget.active) {
+            if (widgetIsMinimalized(Courier.settings.cookies.minimalizeWidget.nameSuffix)) {
+                Widget.minimalize(false);
+            }
+        }
         if (Courier.settings.cookies.hideWidget.active) {
             if (widgetIsHidden(Courier.settings.cookies.hideWidget.nameSuffix)) {
                 Widget.hide(false);
@@ -208,10 +257,11 @@ export default function (Courier, Components, Events) {
      */
     Events.on('app.mounted', () => {
         /**
-         * Close the widget when the chat or popup opens
+         * Close the widget when the chat or popup opens, and set state to minimalized
          */
         Events.on(['chat.opened', 'popup.opened'], () => {
             Widget.close();
+            Widget.minimalize();
         });
 
         /**
@@ -231,6 +281,13 @@ export default function (Courier, Components, Events) {
 
         Events.on('widget.close', () => {
             Widget.close();
+        });
+
+        /**
+         * Add minimalize trigger
+         */
+        Events.on('widget.minimalize', (save) => {
+            Widget.minimalize(save);
         });
 
         /**
