@@ -27,10 +27,10 @@ export default function (Courier, Components, Events) {
                 mouse: 10,
                 scroll: 1
             },
-            followMouse: true,
+            followMouse: false,
             holdMinTime: 500,
             offset: {
-                y: -10
+                y: 10
             }
         },
         state: {
@@ -219,11 +219,14 @@ export default function (Courier, Components, Events) {
                 this.adjustTooltipBounds(tooltipObj);
             } else {
                 // Position the tooltip in the root element's center
+                const tooltipWidth = tooltipEl.offsetWidth;
+                const tooltipHeight = tooltipEl.offsetHeight;
                 const {
                     x, y, width, height
                 } = tooltipObj.parent.getBoundingClientRect();
-                tooltipEl.style.left = `${Math.floor(x + width / 2)}px`;
-                tooltipEl.style.top = `${Math.floor(y - height)}px`;
+                tooltipEl.style.left = `${this.state.scroll.x + Math.floor(x + (width / 2) + (tooltipWidth / 2))}px`;
+                tooltipEl.style.top = `${this.state.scroll.y + Math.floor(y + height + tooltipHeight)}px`;
+                this.adjustTooltipBounds(tooltipObj);
             }
         },
 
