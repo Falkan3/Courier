@@ -148,6 +148,7 @@ export default {
         carouselPeek: 50,
         showDiscountPercentage: true,
         clipboardCopyMsgDuration: 2500,
+        maxMessageLength: 300,
         widgetStyle: 'simple' // simple, advanced
     },
 

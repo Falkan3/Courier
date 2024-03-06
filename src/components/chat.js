@@ -254,7 +254,8 @@ export default function (Courier, Components, Events) {
                     showMessageBox: Courier.settings.state.showMessageBox,
                     messageBoxEnabled: Courier.settings.state.messageBoxEnabled,
                     showTimestamp: Courier.settings.state.showTimestamp,
-                    typing: false
+                    typing: false,
+                    maxMessageLength: Courier.settings.state.maxMessageLength
                 }
             };
 
@@ -344,7 +345,7 @@ export default function (Courier, Components, Events) {
                     const messageBox = props.state.showMessageBox
                         ? `
                         <form id="courierChatInteractionsForm" class="${Courier.settings.classes.chat}-interactions" autocomplete="off">
-                            <textarea class="${Courier.settings.classes.chat}-message-box" name="message" ${!props.state.messageBoxEnabled ? 'disabled' : ''} placeholder="${props.texts.messagePlaceholder}" rows="2" autofocus></textarea>
+                            <textarea class="${Courier.settings.classes.chat}-message-box" name="message" ${!props.state.messageBoxEnabled ? 'disabled' : ''} placeholder="${props.texts.messagePlaceholder}" rows="2" maxlength="${props.state.maxMessageLength}" autofocus></textarea>
                             <button class="${Courier.settings.classes.chat}-send-msg-btn" type="submit" ${!props.state.messageBoxEnabled ? 'disabled' : ''} aria-label="${props.texts.sendMessage}">
                                 ${Courier.settings.images.sendMsg}
                             </button>
