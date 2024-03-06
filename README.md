@@ -235,6 +235,7 @@ state: {
   showTimestamp: true, // Show message timestamps
   carouselPeek: 50, // The peeking width of the next carousel slide, in pixels
   showDiscountPercentage: true, // Show the discount percentage above carousel item old price
+  clipboardCopyMsgDuration: 2500, // The duration of the copy message shown after clicking a coupon code button
   maxMessageLength: 300, // Max length of a message typed into the message box
   widgetStyle: 'simple' (default) | 'advanced' // Used to switch widget appearance
 }
