@@ -166,6 +166,12 @@ $btnColorActive: #64b5f6;
 	&-greeting-wrapper {
 		display: flex;
 		align-items: center;
+
+		@at-root {
+			#{selectors.parent-fn(&)} #{selectors.bottom-most-fn($widget)}-wrapper--advanced #{variables.$classPrefix}__widget--minimalized #{selectors.bottom-most-fn(&)} {
+				justify-content: center;
+			}
+		}
 	}
 
 	&-greeting-title {

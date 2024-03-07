@@ -197,7 +197,7 @@ export default function (Courier, Components, Events) {
 
                 if (props.state.minimalized) {
                     return `
-                    <button id="courierWidgetButton" class="${Courier.settings.classes.widget}-bubble ${props.state.online ? `${Courier.settings.classes.widget}--online` : ''}" type="button" aria-label="${props.texts.openWidget}">
+                    <button id="courierWidgetButton" class="${Courier.settings.classes.widget}-bubble ${Courier.settings.classes.widget}--minimalized ${props.state.online ? `${Courier.settings.classes.widget}--online` : ''}" type="button" aria-label="${props.texts.openWidget}">
                         <span class="${Courier.settings.classes.widget}-greeting-wrapper">
                             ${widgetImg}
                         </span>
