@@ -61,6 +61,10 @@ $btnColorActive: #64b5f6;
 					background-color: #0085fe;
 					color: #fff;
 				}
+
+				&#{variables.$classPrefix}__widget--minimalized {
+					padding: 0.8em 1em;
+				}
 			}
 		}
 
