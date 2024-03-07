@@ -249,6 +249,11 @@ cookies: {
     active: true,
     duration: 24
   },
+  minimalizeWidget: {
+    nameSuffix: '',
+    active: true,
+    duration: 24
+  },
   hideWidget: {
     nameSuffix: '',
     active: true,
