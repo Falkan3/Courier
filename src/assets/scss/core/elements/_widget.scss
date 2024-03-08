@@ -1,15 +1,18 @@
 @use "../../utils/variables";
-@use "../../utils/mixins/order";
+@use "../../utils/mixins/palette";
 @use "../../utils/mixins/selectors";
+@use "../../utils/mixins/order";
 @use "sass:color";
 
 // bubble
 $bubbleBgColor: #fff;
 $bubbleColor: #212121;
 $bubbleBorder: #f1f1f1;
+$bubbleIconBg: #d0edff;
 // buttons
+$btnColor: palette.get-palette-hue('accent-1', 500);
 $btnColorInactive: #cfe4f5;
-$btnColorActive: #64b5f6;
+$btnColorActive: palette.get-palette-hue('accent-1', 100);
 
 #{variables.$classPrefix}__widget {
 	$widget: &;
@@ -58,7 +61,7 @@ $btnColorActive: #64b5f6;
 				padding: 0.8em 1.5em;
 
 				&:hover, &:focus {
-					background-color: #0085fe;
+					background-color: palette.get-palette-hue('accent-1', 500);
 					color: #fff;
 				}
 
@@ -134,7 +137,7 @@ $btnColorActive: #64b5f6;
 				position: relative;
 				padding: 6px;
 				border-radius: 50%;
-				background-color: #dcd0ff;
+				background-color: $bubbleIconBg;
 
 				&::before {
 					content: "";

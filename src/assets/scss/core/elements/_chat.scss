@@ -1,4 +1,5 @@
 @use "../../utils/variables";
+@use "../../utils/mixins/palette";
 @use "../../utils/mixins/order";
 @use "sass:meta";
 
@@ -9,10 +10,11 @@
 // $closeBtnColor: #64b5f6; // #f44336;
 // $optionsBtnColor: #64b5f6; // #000;
 // buttons
+$btnColor: palette.get-palette-hue('accent-1', 500);
 $btnColorInactive: #b5d4ec;
-$btnColorActive: #64b5f6;
+$btnColorActive: palette.get-palette-hue('accent-1', 100);
 // work area
-$linkColor: #0b77ce;
+$linkColor: palette.get-palette-hue('accent-1', 500);
 $workAreaBgColor: #fbfbfb;
 $workAreaScrollbarTrackColor: #e6e6e6;
 $workAreaScrollbarHandleColor: #b3b3b3;
@@ -20,7 +22,7 @@ $workAreaScrollbarHandleColor: #b3b3b3;
 $messageBgColorIncoming: #e6e6e6;
 $messageBgColorOutgoing: #ddf0ff;
 $messageTopicPrimaryColor: #fff;
-$messageTopicSecondaryColor: #41abff;
+$messageTopicSecondaryColor: palette.get-palette-hue('accent-1', 100);
 $messageCarouselPrimaryColor: #fff;
 // interactions
 $sendMessageBoxBgColor: #f7fbff;

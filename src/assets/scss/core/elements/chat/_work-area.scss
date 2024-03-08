@@ -408,16 +408,16 @@
 			flex: 1 0 auto;
 			padding: 4px 0.5em;
 			border-left: none;
-			background-color: $linkColor; // #6ab070;
+			background-color: $btnColor; // #6ab070;
 			border-top-right-radius: 4px;
 			border-bottom-right-radius: 4px;
 			transition: background-color cubic-bezier(0.1, 1, 0.6, 1) 0.3s;
 
 			//&#{selectors.bottom-most-fn(&)}--link {
-			//	background-color: $linkColor;
+			//	background-color: $btnColor;
 			//
 			//	& > svg {
-			//		fill: color.mix($linkColor, #fefefe, 5%);
+			//		fill: color.mix($btnColor, #fefefe, 5%);
 			//	}
 			//}
 
@@ -425,10 +425,10 @@
 				#{$discountCode}-btn {
 					&:hover, &:focus {
 						#{selectors.bottom-most-fn($icon)} {
-							background-color: color.scale($linkColor, $lightness: 10%); // color.scale(#6ab070, $lightness: 10%);
+							background-color: color.scale($btnColor, $lightness: 10%); // color.scale(#6ab070, $lightness: 10%);
 
 							//&#{selectors.bottom-most-fn($icon)}#{selectors.bottom-most-fn($icon)}--link {
-							//	background-color: color.scale($linkColor, $lightness: 10%);
+							//	background-color: color.scale($btnColor, $lightness: 10%);
 							//}
 						}
 					}
@@ -438,13 +438,13 @@
 			&-text {
 				margin-left: 0.5em;
 				font-size: 0.8em;
-				color: color.mix($linkColor, #fefefe, 5%);
+				color: color.mix($btnColor, #fefefe, 5%);
 			}
 
 			& > svg {
 				width: 1em;
 				height: 1em;
-				fill: color.mix($linkColor, #fefefe, 5%); // color.mix(#6ab070, #fefefe, 5%);
+				fill: color.mix($btnColor, #fefefe, 5%); // color.mix(#6ab070, #fefefe, 5%);
 			}
 		}
 
@@ -454,9 +454,9 @@
 			bottom: calc(100% + 0.5em);
 			padding: 4px 0.5em;
 			border-radius: 4px;
-			background-color: $linkColor;
+			background-color: $btnColor;
 			font-size: 0.9em;
-			color: color.mix($linkColor, #fefefe, 5%);
+			color: color.mix($btnColor, #fefefe, 5%);
 			white-space: nowrap;
 			transform: translateX(-50%);
 			box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.2);

@@ -1,4 +1,5 @@
 @use "sass:color";
+@use "../../utils/mixins/palette";
 @use "../../utils/mixins/media-query/media-query-width";
 @use "../../utils/mixins/selectors";
 
@@ -86,7 +87,7 @@
 		height: 1em;
 		margin: 4px;
 		border-radius: 50%;
-		background-color: #cfcfcf;
+		background-color: palette.get-palette-hue('interface', 300);
 		transition: background-color cubic-bezier(0.1, 1, 0.6, 1) 0.3s;
 		cursor: pointer;
 
@@ -96,11 +97,11 @@
 		}
 
 		&--active {
-			background-color: $btnColorActive;
+			background-color: $btnColor;
 
 			&:hover,
 			&:focus {
-				background-color: color.scale($btnColorActive, $lightness: 25%);
+				background-color: $btnColorActive;
 			}
 		}
 	}
