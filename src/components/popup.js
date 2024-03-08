@@ -32,6 +32,8 @@ export default function (Courier, Components, Events) {
                 || (event.target.matches('#courierPopupWrapper'))) {
                 this.close();
             }
+
+            return event;
         },
 
         /**

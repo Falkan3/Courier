@@ -5,11 +5,12 @@ import Glide, {
 } from '@libs/glidejs/glide.modular.esm';
 import { addAffix, formatPercentage, roundNumber } from '@utils/string';
 import { textTemplate } from '@utils/object';
-import { elemContains, copyTextToClipboard } from '@utils/dom';
+import { elemContains } from '@utils/dom';
 import {
     clipboard as clipboardIcon, arrowLeft as arrowLeftIcon,
     arrowRight as arrowRightIcon, link as linkIcon
 } from '@utils/images';
+import { copyCouponCodeToClipboard } from '@utils/popup.js';
 
 export default function (Courier, Components, Events) {
     const PopupCarousel = {
@@ -118,11 +119,11 @@ export default function (Courier, Components, Events) {
                 if (carouselItem.discountCode) {
                     if (carouselItem.discountLink) {
                         discountCodeHtml = `
-                        <div class="${Courier.settings.classes.popup}-carousel-item-discount-code">
-                            <a class="${Courier.settings.classes.popup}-carousel-item-discount-code-btn" href="${carouselItem.discountLink}" title="${props.texts.clickToApplyDiscount}" data-courier-discount-code="${carouselItem.discountCode}">
-                                <span class="${Courier.settings.classes.popup}-carousel-item-discount-code-btn-container">
-                                    <span class="${Courier.settings.classes.popup}-carousel-item-discount-code-value">${carouselItem.discountCode}</span>
-                                    <span class="${Courier.settings.classes.popup}-carousel-item-discount-code-icon ${Courier.settings.classes.popup}-carousel-item-discount-code-icon--link">${linkIcon}</span>
+                        <div class="${Courier.settings.classes.popup}-discount-code">
+                            <a class="${Courier.settings.classes.popup}-discount-code-btn" href="${carouselItem.discountLink}" data-courier-tooltip="${props.texts.clickToApplyDiscount}" data-courier-discount-code="${carouselItem.discountCode}">
+                                <span class="${Courier.settings.classes.popup}-discount-code-btn-container">
+                                    <span class="${Courier.settings.classes.popup}-discount-code-value">${carouselItem.discountCode}</span>
+                                    <span class="${Courier.settings.classes.popup}-discount-code-icon ${Courier.settings.classes.popup}-discount-code-icon--link">${linkIcon}</span>
                                 </span>
                             </a>
                         </div>`;
@@ -132,14 +133,13 @@ export default function (Courier, Components, Events) {
                         });
                     } else {
                         discountCodeHtml = `
-                        <div class="${Courier.settings.classes.popup}-carousel-item-discount-code">
-                            <button class="${Courier.settings.classes.popup}-carousel-item-discount-code-btn" title="${props.texts.clipboardTooltip}" data-courier-discount-code="${carouselItem.discountCode}">
-                                <span class="${Courier.settings.classes.popup}-carousel-item-discount-code-btn-container">
-                                    <span class="${Courier.settings.classes.popup}-carousel-item-discount-code-value">${carouselItem.discountCode}</span>
-                                    <span class="${Courier.settings.classes.popup}-carousel-item-discount-code-icon">${clipboardIcon}</span>
+                        <div class="${Courier.settings.classes.popup}-discount-code">
+                            <button class="${Courier.settings.classes.popup}-discount-code-btn" data-courier-tooltip="${props.texts.clipboardTooltip}" data-courier-discount-code="${carouselItem.discountCode}">
+                                <span class="${Courier.settings.classes.popup}-discount-code-btn-container">
+                                    <span class="${Courier.settings.classes.popup}-discount-code-value">${carouselItem.discountCode}</span>
+                                    <span class="${Courier.settings.classes.popup}-discount-code-icon">${clipboardIcon}<span class="${Courier.settings.classes.popup}-discount-code-icon-text">${props.texts.clipboardButton}</span></span>
                                 </span>
                             </button>
-                            <p class="${Courier.settings.classes.popup}-carousel-item-discount-code-copy-msg ${Courier.settings.classes.root}__fade-in ${Courier.settings.classes.root}__anim-timing--third">${props.texts.clipboardButton}</p>
                         </div>`;
                     }
                 }
@@ -255,22 +255,15 @@ export default function (Courier, Components, Events) {
     Events.on('app.click', (event) => {
         const carouselItem = event.target.closest(`.${Courier.settings.classes.popup}-carousel-item`);
         if (!carouselItem) return;
-        const discountCodeBtn = carouselItem.querySelector(`button.${Courier.settings.classes.popup}-carousel-item-discount-code-btn`);
+        const discountCodeBtn = carouselItem.querySelector(`button.${Courier.settings.classes.popup}-discount-code-btn`);
         if (event.target.isEqualNode(discountCodeBtn)
             || (elemContains(discountCodeBtn, event.target))) {
-            copyTextToClipboard(discountCodeBtn.dataset.courierDiscountCode);
-            const clipboardCopyMsg = carouselItem.querySelector(`.${Courier.settings.classes.popup}-carousel-item-discount-code-copy-msg`);
-            clipboardCopyMsg.classList.add('active');
-            // calculate optimal tooltip visibility duration based on message length
-            const timeoutDuration = Math.max(
-                Courier.settings.state.clipboardCopyMsgDuration,
-                (Math.round(
-                    (Courier.settings.textsParsed.clipboardCopy.length / 20) * 100
-                ) / 100) * 1000
+            const parentEl = carouselItem.querySelector(`.${Courier.settings.classes.popup}-discount-code`);
+            copyCouponCodeToClipboard(
+                Courier,
+                parentEl,
+                discountCodeBtn.dataset.courierDiscountCode
             );
-            setTimeout(() => {
-                clipboardCopyMsg.classList.remove('active');
-            }, timeoutDuration);
         }
     });
 
