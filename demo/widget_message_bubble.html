@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Meta -->
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <title>Test</title>
+
+    <!-- Assets -->
+	<link rel="stylesheet" href="../dist/css/modules/courier.chat.css">
+	<link rel="stylesheet" href="../dist/css/widget-message-bubble.theme.css">
+	<script src="../dist/js/chat/courier.js"></script>
+	<style>
+		body {
+			min-height: 3000px;
+			background-color: #ddd;
+		}
+	</style>
+</head>
+<body>
+    <script>
+		const courier = new Courier(document.body, {
+			texts: {
+				widgetGreetingTitle: 'AI assistant',
+				widgetGreeting: 'We have a special discount just for you.',
+				chatTitle: 'An awesome product carousel %%tooltip%(Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis dolor neque, accumsan posuere ultrices ac, gravida ac eros. Nam at gravida felis.)%%info%%%%',
+				goToProduct: 'Go to product',
+				clipboardButton: 'Copy',
+				clipboardTooltip: 'Click to copy',
+				clipboardCopy: 'Discount code copied',
+			},
+			textVars: {
+				couponCode: 'CouponXYZ'
+			},
+			identity: {
+				name: 'AI companion %%tooltip%(This is an AI helper that will assist you in our store.)%%info%%%%',
+			},
+			messages: {
+				start: [
+					{
+						text: 'Hi! We have a 10% discount coupon code for you %%couponCode%{{couponCode}}%%',
+					},
+					{
+						text: 'Also, check out these awesome products!',
+					},
+					{
+						type: 'carousel',
+						carousel: {
+							items: [
+								{
+									title: 'Sneakers',
+									price: {
+										value: 199.99,
+										discount: 0.35,
+										affix: ['$', true]
+									},
+									img: {
+										src: 'https://cdn.cnn.com/cnnnext/dam/assets/200814092431-01b-michael-jordan-sneakers-auction-super-169.jpg',
+										alt: 'A pair of red sneakers'
+									},
+									link: '#',
+									discountCode: 'promo_code_2022',
+									footerText: 'Your individual discount: {{discountValue}}'
+								},
+								{
+									title: 'Boots',
+									price: {
+										value: 249.99,
+										discount: 0.2,
+										affix: ['$', true]
+									},
+									img: {
+										src: 'https://cdn.picpng.com/boots/boots-web-30156.png',
+										alt: 'A pair of black leather boots'
+									},
+									link: '#',
+									discountCode: 'urawsum',
+								},
+								{
+									title: 'Trainers',
+									price: {
+										value: 149.99,
+										affix: ['$', true]
+									},
+									img: {
+										src: 'https://pngimg.com/uploads/running_shoes/running_shoes_PNG5798.png',
+										alt: 'A pair of red sneakers'
+									},
+									link: '#',
+									discountCode: 'urawsum',
+									discountLink: '#'
+								}
+							]
+						},
+						topics: [
+							{
+								text: 'Awesome!',
+								path: 'interested'
+							},
+							{
+								text: 'No, thank you.',
+								path: 'notInterested'
+							}
+						]
+					}
+				],
+				sendCarouselAgain: {
+					type: 'carousel',
+					carousel: {
+						items: [
+							{
+								title: 'Sneakers',
+								price: {
+									value: 199.99,
+									discount: 0.35,
+									affix: ['$', true]
+								},
+								img: {
+									src: 'https://cdn.cnn.com/cnnnext/dam/assets/200814092431-01b-michael-jordan-sneakers-auction-super-169.jpg',
+									alt: 'A pair of red sneakers'
+								},
+								link: '#'
+							},
+							{
+								title: 'Boots',
+								price: {
+									value: 249.99,
+									discount: 0.2,
+									affix: ['$', true]
+								},
+								img: {
+									src: 'https://cdn.picpng.com/boots/boots-web-30156.png',
+									alt: 'A pair of black leather boots'
+								},
+								link: '#'
+							},
+							{
+								title: 'Trainers',
+								price: {
+									value: 149.99,
+									affix: ['$', true]
+								},
+								img: {
+									src: 'https://pngimg.com/uploads/running_shoes/running_shoes_PNG5798.png',
+									alt: 'A pair of red sneakers'
+								},
+								link: '#'
+							}
+						]
+					},
+					topics: [
+						{
+							text: 'Awesome!',
+							path: 'interested'
+						},
+						{
+							text: 'No, thank you.',
+							path: 'notInterested'
+						},
+						{
+							text: 'Close chat',
+							trigger: 'chat.close',
+							breakLine: true
+						}
+					]
+				},
+				interested: {
+					text: 'Glad to help =)',
+					topics: [
+						{
+							text: 'Send carousel again',
+							path: 'sendCarouselAgain'
+						},
+					]
+				},
+				notInterested: {
+					text: 'Understandable, have a nice day.',
+					topics: [
+						{
+							text: 'Send carousel again',
+							path: 'sendCarouselAgain'
+						},
+					]
+				},
+			},
+			state: {
+				hideBtnActiveAtStart: true,
+				widgetStyle: 'advanced'
+			},
+			cookies: {
+				saveConversation: {
+					active: false
+				}
+			},
+		});
+		courier.mount();
+		// courier._components.ComponentName.function();
+    </script>
+</body>
+</html>
