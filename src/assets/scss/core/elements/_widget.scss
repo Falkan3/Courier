@@ -48,14 +48,13 @@ $btnColorActive: palette.get-palette-hue('accent-1', 100);
 		text-align: left;
 		color: $bubbleColor;
 		// box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
-		transition: background-color cubic-bezier(0.1, 1, 0.6, 1) 0.3s, color cubic-bezier(0.1, 1, 0.6, 1) 0.3s;
+		transition: background-color cubic-bezier(0.1, 1, 0.6, 1) 0.3s, color cubic-bezier(0.1, 1, 0.6, 1) 0.3s, border-color cubic-bezier(0.1, 1, 0.6, 1) 0.3s;
 		filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.12));
 
 		@at-root {
 			//#{selectors.parent-fn(&)} #{selectors.bottom-most-fn($widget)}-wrapper--simple #{selectors.bottom-most-fn(&)} {
 			//	padding: 0.5em 1em;
 			//}
-
 			#{selectors.parent-fn(&)} #{selectors.bottom-most-fn($widget)}-wrapper--advanced #{selectors.bottom-most-fn(&)} {
 				position: relative;
 				padding: 0.8em 1.5em;
@@ -86,21 +85,23 @@ $btnColorActive: palette.get-palette-hue('accent-1', 100);
 					border-left-color: transparent;
 					transition: border-color cubic-bezier(0.1, 1, 0.6, 1) 0.3s;
 				}
+
+				&:hover, &:focus {
+					&::after {
+						border-top-color: palette.get-palette-hue('accent-1', 500); // color.scale($bubbleBgColor, $lightness: 5%);
+						border-right-color: palette.get-palette-hue('accent-1', 500); // color.scale($bubbleBgColor, $lightness: 5%);
+					}
+				}
 			}
+		}
+
+		&:hover, &:focus {
+			background-color: palette.get-palette-hue('accent-1', 500); // color.scale($bubbleBgColor, $lightness: 5%);
+			color: #fff;
 		}
 
 		&:hover {
 			cursor: pointer;
-		}
-
-		&:hover,
-		&:focus {
-			background-color: color.scale($bubbleBgColor, $lightness: 5%);
-
-			&::after {
-				border-top-color: color.scale($bubbleBgColor, $lightness: 5%);
-				border-right-color: color.scale($bubbleBgColor, $lightness: 5%);
-			}
 		}
 
 		@at-root {
