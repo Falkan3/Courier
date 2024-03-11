@@ -10,28 +10,32 @@
 	#{variables.$classPrefix}__widget {
 		$widget: &;
 
-		&-bubble {
-			background: #fff;
-			color: #212121;
+		&-wrapper--simple {
+			$wrapper: &;
 
-			&:hover,
-			&:focus {
-				background-color: #ffde51;
-			}
+			#{selectors.bottom-most-fn($widget)}-bubble {
+				background: #fff;
+				color: #212121;
 
-			@at-root {
-				#{selectors.parent-fn(&)} #{selectors.bottom-most-fn($widget)}-wrapper--simple #{selectors.bottom-most-fn(&)},
-				#{variables.$classPrefix}--widget-tailed #{selectors.bottom-most-fn(&)} {
-					&::after {
-						border-top-color: #fff;
-						border-right-color: #fff;
-					}
+				&:hover,
+				&:focus {
+					background-color: #ffde51;
+				}
 
-					&:hover,
-					&:focus {
+				@at-root {
+					#{variables.$classPrefix}:not(.courier--widget-round) #{selectors.bottom-most-fn($wrapper)} #{selectors.bottom-most-fn(&)},
+					#{variables.$classPrefix}--widget-tailed #{selectors.bottom-most-fn(&)} {
 						&::after {
-							border-top-color: #ffde51;
-							border-right-color: #ffde51;
+							border-top-color: #fff;
+							border-right-color: #fff;
+						}
+
+						&:hover,
+						&:focus {
+							&::after {
+								border-top-color: #ffde51;
+								border-right-color: #ffde51;
+							}
 						}
 					}
 				}
