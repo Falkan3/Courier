@@ -97,7 +97,7 @@ export default function (Courier, Components, Events) {
                     widgetGreeting: Courier.settings.textsParsed.widgetGreeting,
                     name: Courier.settings.textsParsed.widgetName,
                     openWidget: Courier.settings.textsParsed.openWidget,
-                    hideWidget: Courier.settings.textsParsed.hideWidget,
+                    hideWidget: Courier.settings.textsParsed.hideWidget
                 },
                 state: {
                     active: Courier.settings.state.widgetActiveAtStart,
@@ -105,7 +105,7 @@ export default function (Courier, Components, Events) {
                     hidden: !Courier.settings.state.widgetActiveAtStart,
                     style: Courier.settings.state.widgetStyle,
                     hideBtnActive: Courier.settings.state.hideBtnActiveAtStart,
-                    online: Courier.settings.state.online,
+                    online: Courier.settings.state.online
                 }
             };
 
@@ -235,7 +235,7 @@ export default function (Courier, Components, Events) {
             }
 
             return parseSpecialTags(html, Courier.settings, props);
-        },
+        }
     };
 
     Events.on('mount.after', () => {
@@ -270,12 +270,17 @@ export default function (Courier, Components, Events) {
          * Open the widget when the chat or popup closes
          */
         Events.on(['chat.closed', 'popup.closed'], () => {
-            if (Courier.settings.cookies.hideWidget.active
-                && !widgetIsHidden(Courier.settings.cookies.hideWidget.nameSuffix)
-                && !Widget.refs.widget.data.state.hidden) {
-                Widget.refs.widget.data.state.hideBtnActive = true;
-                Widget.open();
+            if (Widget.refs.widget.data.state.hidden) {
+                return;
             }
+
+            if (Courier.settings.cookies.hideWidget.active
+                && widgetIsHidden(Courier.settings.cookies.hideWidget.nameSuffix)) {
+                return;
+            }
+
+            Widget.refs.widget.data.state.hideBtnActive = true;
+            Widget.open();
         });
 
         /**
