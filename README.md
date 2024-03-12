@@ -291,7 +291,7 @@ A list of available events, emitted and listened to:
 - `widget.close` - Close the widget
 - `widget.closed`
 - `widget.opened`
-- `widget.hide` - Hide the widget and save hidden state to cookie
+- `widget.hide` - Hide the widget, pass an argument to save hidden state to cookie (true by default)
 - `widget.hidden` - Called after the hide widget logic
 - `chat.mount`
 - `chat.mounted` - Chat has been mounted and Chat.render() has been called
