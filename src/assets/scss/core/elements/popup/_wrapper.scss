@@ -11,6 +11,7 @@
 	margin: auto;
 	padding: 1em;
 	overflow: auto;
+	overscroll-behavior: contain;
 
 	&-inner {
 		max-width: 100%;
