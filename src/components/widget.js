@@ -270,7 +270,8 @@ export default function (Courier, Components, Events) {
          * Open the widget when the chat or popup closes
          */
         Events.on(['chat.closed', 'popup.closed'], () => {
-            if (!widgetIsHidden(Courier.settings.cookies.hideWidget.nameSuffix)
+            if (Courier.settings.cookies.hideWidget.active
+                && !widgetIsHidden(Courier.settings.cookies.hideWidget.nameSuffix)
                 && !Widget.refs.widget.data.state.hidden) {
                 Widget.refs.widget.data.state.hideBtnActive = true;
                 Widget.open();
