@@ -42,7 +42,7 @@ $btnColorActive: palette.get-palette-hue('accent-1', 100);
 
 	&-bubble {
 		padding: 0.5em 1em;
-		border: solid 1px $bubbleBorder;
+		// border: solid 1px $bubbleBorder;
 		border-radius: 4px;
 		background-color: $bubbleBgColor;
 		text-align: left;
