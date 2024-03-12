@@ -44,7 +44,7 @@ export default {
     texts: {
         widgetGreeting: 'Hello!',
         widgetGreetingTitle: 'AI helper',
-        widgetName: 'Robby',
+        widgetName: '',
         openWidget: 'Open widget',
         hideWidget: 'Hide widget',
         // chat

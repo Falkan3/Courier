@@ -128,7 +128,7 @@ texts: {
   hideWidget: 'Hide widget',
   // widget - advanced
   widgetGreetingTitle: 'AI helper',
-  widgetName: 'Robby',
+  widgetName: '',
   // chat
   close: 'Close',
   options: 'Options',
