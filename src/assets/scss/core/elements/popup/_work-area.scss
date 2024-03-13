@@ -217,8 +217,18 @@
 			}
 
 			&-old {
+				position: relative;
 				// padding: 0.5em 0;
-				text-decoration: line-through;
+				// text-decoration: line-through;
+
+				&::after {
+					content: "";
+					position: absolute;
+					top: 50%;
+					display: block;
+					width: 100%;
+					border-top: solid 1px currentColor;
+				}
 			}
 
 			&-discount-percentage {
