@@ -229,6 +229,8 @@ Settings that are responsible for the state of elements.
 state: {
   widgetActiveAtStart: true, // Show the widget immediately after mounting
   hideBtnActiveAtStart: false, // Show the hide widget button from the get-go
+  online: true, // Change the avatar dot color to indicate the online state
+  showOptionsButton: false, // Show the options button in chat header
   showMessageBox: false, // Show the "type message" box
   messageBoxEnabled: true, // Enable the "type message" box
   customSendMessage: false, // Use custom send message function
