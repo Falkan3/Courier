@@ -39,11 +39,16 @@
 	border-radius: 50%;
 	line-height: 3em;
 
+	&#{selectors.bottom-most-fn(&)}--sm {
+		width: 2.5em;
+		height: 2.5em;
+	}
+
 	&::before {
 		content: "";
 		position: absolute;
-		right: 0;
-		top: 0;
+		right: -5px;
+		top: -5px;
 		width: 17px;
 		height: 17px;
 		border: 2px solid #fff;
