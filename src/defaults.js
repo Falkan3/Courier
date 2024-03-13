@@ -141,6 +141,7 @@ export default {
         widgetActiveAtStart: true,
         hideBtnActiveAtStart: false,
         online: true,
+        showOptionsButton: false,
         showMessageBox: false,
         messageBoxEnabled: true,
         customSendMessage: false,
