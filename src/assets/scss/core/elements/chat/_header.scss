@@ -1,4 +1,5 @@
 @use "../../../utils/variables";
+@use "../../../utils/mixins/selectors";
 @use "sass:color";
 
 /*
@@ -16,7 +17,8 @@
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	padding: 1.5em;
+	margin: 0 -0.5em;
+	padding: 1.5em 1.5em 1em;
 }
 
 /*
@@ -25,7 +27,8 @@
 &-identity {
 	display: flex;
 	align-items: center;
-	padding: 0.5em 1em;
+	margin: 0 -0.5em;
+	padding: 0.5em 1.5em;
 	border-top: solid 1px rgba(0, 0, 0, 0.05);
 }
 
