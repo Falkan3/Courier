@@ -50,7 +50,8 @@
 	margin-bottom: 1em;
 
 	&--text {
-		align-self: flex-start;
+		// align-self: flex-start;
+		margin-right: auto;
 		padding: 0.5em 1em;
 		border-radius: 4px 4px 4px 0;
 		background-color: $messageBgColorIncoming;
@@ -58,13 +59,17 @@
 		// outgoing messages (self modifier) styles
 		@at-root #{selector-unify(&, #{$message}--self)} {
 			align-self: flex-end;
+			margin-left: auto;
+			margin-right: unset;
 			background-color: $messageBgColorOutgoing;
 			border-radius: 4px 4px 0;
 		}
 	}
 
 	&--system {
-		align-self: center;
+		// align-self: center;
+		margin-left: auto;
+		margin-right: auto;
 		background-color: transparent;
 		text-align: center;
 		font-style: italic;
@@ -115,13 +120,16 @@
  */
 &-timestamp {
 	display: block;
-	align-self: flex-start;
+	// align-self: flex-start;
+	margin-right: auto;
 	margin-bottom: 0.2em;
 	font-size: 0.8em;
 	color: palette.get-palette-hue("foreground", 800);
 
 	&--self {
-		align-self: flex-end;
+		// align-self: flex-end;
+		margin-left: auto;
+		margin-right: unset;
 	}
 }
 
