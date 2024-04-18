@@ -14,11 +14,14 @@
  * Menu
  */
 &-menu {
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	margin: 0 -0.5em;
-	padding: 1.5em 1.5em 1em;
+	padding: 1em 1.5em 0.5em; // 1.5em 1.5em 1em;
+
+	&-row {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		margin: 0 -0.5em;
+	}
 }
 
 /*

@@ -403,15 +403,17 @@ export default function (Courier, Components, Events) {
                         <div class="${Courier.settings.classes.chat}-wall ${Courier.settings.classes.root}__slide-in-bottom ${Courier.settings.classes.root}__anim-timing--half">
                             <div class="${Courier.settings.classes.chat}-header">
                                 <div class="${Courier.settings.classes.chat}-menu">
-                                    ${optionsBtn}
-                                    ${headerAvatar}
-                                    <div class="p-h--hf">
-                                        <p class="tx-bold tx-bigger">${props.texts.chatTitle}</p>
-                                    </div>
-                                    <div class="p-h--hf">
-                                        <button id="courierChatCloseBtn" class="${Courier.settings.classes.chat}-close-btn" type="button" aria-label="${props.texts.close}">
-                                            ${Courier.settings.images.closeBtn}
-                                        </button>
+                                    <div class="${Courier.settings.classes.chat}-menu-row">
+                                        ${optionsBtn}
+                                        ${headerAvatar}
+                                        <div class="p-h--hf">
+                                            <p class="tx-bold tx-bigger">${props.texts.chatTitle}</p>
+                                        </div>
+                                        <div class="p-h--hf">
+                                            <button id="courierChatCloseBtn" class="${Courier.settings.classes.chat}-close-btn" type="button" aria-label="${props.texts.close}">
+                                                ${Courier.settings.images.closeBtn}
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
                                 ${identity}
