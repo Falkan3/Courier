@@ -121,7 +121,7 @@ export function textTemplate(text, template) {
 export function parseSpecialTags(text, settings, props) {
     const rules = [
         [/%%info%%/g, `<span class="${settings.classes.root}__icon">${settings.images.info}</span>`],
-        [/%%tooltip%\((.*)\)(.*?)%%/g, '<span data-courier-tooltip="$1">$2</span>'],
+        [/%%tooltip%\((.*)\)(.*?)%%/g, `<span class="${settings.classes.root}__tooltip-wrapper" data-courier-tooltip="$1">$2</span>`],
         [/%%couponCode%(.*?)%%/g, `
         <span class="${settings.classes.chat}-discount-code ${settings.classes.chat}-discount-code--inline">
             <button class="${settings.classes.chat}-discount-code-btn" data-courier-tooltip="${props.texts.clipboardTooltip}" data-courier-discount-code="$1">
