@@ -114,6 +114,7 @@ $btnColorActive: palette.get-palette-hue('accent-1', 100);
 	}
 
 	&-img {
+		flex: 0 0 auto;
 		display: block;
 
 		& > img,
@@ -184,9 +185,11 @@ $btnColorActive: palette.get-palette-hue('accent-1', 100);
 	}
 
 	&-greeting-title {
+		flex: 1 0 0;
 		margin-left: 1em;
 		font-size: 1.2em;
 		font-weight: 500;
+		word-break: break-word;
 	}
 
 	&-greeting-msg {
