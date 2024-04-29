@@ -94,6 +94,30 @@ export function clone(input, deep = false) {
 }
 
 /**
+ * Merge defaults with user options
+ * @private
+ * @param {Object} target Object to be extended
+ * @param {Object} source
+ * @returns {Object} Merged values of target and source
+ */
+export function mergeDeep(target, source) {
+    let output = { ...target };
+    if (isObject(target) && isObject(source)) {
+        Object.keys(source).forEach((key) => {
+            if (isObject(source[key])) {
+                if (!(key in target)) Object.assign(output, { [key]: source[key] });
+                else output[key] = mergeDeep(target[key], source[key]);
+            } else {
+                Object.assign(output, { [key]: source[key] });
+            }
+        });
+    } else {
+        output = source;
+    }
+    return output;
+}
+
+/**
  * Replace variables in text according to the given template.
  * todo: return an indicator that replace action occurred, and only update the input if it did
  * const replaced = output.search(regex) >= 0;
@@ -188,7 +212,8 @@ export function mergeOptions(defaults, settings) {
         options.state = { ...defaults.state, ...settings.state };
     }
     if (Object.hasOwnProperty.call(settings, 'cookies')) {
-        options.cookies = { ...defaults.cookies, ...settings.cookies };
+        options.cookies = mergeDeep(defaults.cookies, settings.cookies);
+        // { ...defaults.cookies, ...settings.cookies }
     }
 
     // this will replace text variable keys with values
