@@ -1,4 +1,5 @@
 @use "sass:color";
+@use "../../../utils/mixins/palette";
 
 /*
  * Interactions wrapper
@@ -23,7 +24,7 @@
 
 	&::placeholder {
 		font-size: 0.8em;
-		color: get-palette-hue("foreground", 500);
+		color: palette.get-palette-hue("foreground", 500);
 	}
 
 	&:disabled {
