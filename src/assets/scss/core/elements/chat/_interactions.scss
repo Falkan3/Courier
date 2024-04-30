@@ -16,12 +16,12 @@
 &-message-box {
 	width: 100%;
 	padding: 0.5em 1em;
-	background-color: $sendMessageBoxBgColor;
 	border-radius: 8px;
+	background-color: $sendMessageBoxBgColor;
 	font-size: 16px; // set font size to 16px to avoid Safari zoom on focus
 	line-height: 1.6;
-	resize: none;
 	transition: background-color ease-out 0.3s;
+	resize: none;
 
 	&::placeholder {
 		font-size: 0.8em;
@@ -40,8 +40,8 @@
 &-send-msg-btn {
 	margin-left: 0.5em;
 	padding: 0.5em 1em;
-	background: transparent;
 	border-radius: 8px;
+	background: transparent;
 	cursor: pointer;
 
 	& > img,

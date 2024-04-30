@@ -29,9 +29,7 @@
 		@warn "#{ $digits } is not a number.";
 
 		@return $number;
-	}
-
-	@else if not unitless($digits) {
+	} @else if not unitless($digits) {
 		@warn "#{ $digits } has a unit.";
 
 		@return $number;
@@ -43,17 +41,11 @@
 
 	@if $mode == round {
 		@return math.div(math.round($number * $n), $n);
-	}
-
-	@else if $mode == ceil {
+	} @else if $mode == ceil {
 		@return math.div(math.ceil($number * $n), $n);
-	}
-
-	@else if $mode == floor {
+	} @else if $mode == floor {
 		@return math.div(math.floor($number * $n), $n);
-	}
-
-	@else {
+	} @else {
 		@warn "#{ $mode } is undefined keyword.";
 
 		@return $number;

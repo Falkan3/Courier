@@ -15,15 +15,11 @@
 			@if ($returnUnit == "%") {
 				$size: percentage($modifier);
 				$addUnit: false;
-			}
-
-			@else {
+			} @else {
 				$size: decimal-round.decimal-round($modifier * $sizeBase, 2);
 			}
 		}
-	}
-
-	@else if (variables.$fontSizeUnit == "rem") {
+	} @else if (variables.$fontSizeUnit == "rem") {
 		$sizeBase: variables.$fontSizeRem;
 		$unit: "em"; // em for child elements, rem only for root
 		$size: $sizeBase;
@@ -52,13 +48,9 @@
 	/* em for child elements, rem and px only for root */
 	@if ($customFontSizeUnit == "px") {
 		@return variables.$fontSizePx + "px";
-	}
-
-	@else if ($customFontSizeUnit == "rem") {
+	} @else if ($customFontSizeUnit == "rem") {
 		@return variables.$fontSizeRem + "rem";
-	}
-
-	@else if ($customFontSizeUnit == "em") {
+	} @else if ($customFontSizeUnit == "em") {
 		@return variables.$fontSizeRem + "em";
 	}
 
@@ -77,13 +69,9 @@
 	/* em for child elements, rem and px only for root */
 	@if ($fontSizeUnit == "px") {
 		@return variables.$fontSizePx;
-	}
-
-	@else if ($fontSizeUnit == "rem") {
+	} @else if ($fontSizeUnit == "rem") {
 		@return variables.$fontSizeRem;
-	}
-
-	@else if ($fontSizeUnit == "em") {
+	} @else if ($fontSizeUnit == "em") {
 		@return variables.$fontSizeRem;
 	}
 

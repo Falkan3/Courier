@@ -10,11 +10,11 @@
 // $closeBtnColor: #64b5f6; // #f44336;
 // $optionsBtnColor: #64b5f6; // #000;
 // buttons
-$btnColor: palette.get-palette-hue('accent-1', 500);
+$btnColor: palette.get-palette-hue("accent-1", 500);
 $btnColorInactive: #b5d4ec;
-$btnColorActive: palette.get-palette-hue('accent-1', 100);
+$btnColorActive: palette.get-palette-hue("accent-1", 100);
 // work area
-$linkColor: palette.get-palette-hue('accent-1', 500);
+$linkColor: palette.get-palette-hue("accent-1", 500);
 $workAreaBgColor: #fbfbfb;
 $workAreaScrollbarTrackColor: #e6e6e6;
 $workAreaScrollbarHandleColor: #b3b3b3;
@@ -22,7 +22,7 @@ $workAreaScrollbarHandleColor: #b3b3b3;
 $messageBgColorIncoming: #e6e6e6;
 $messageBgColorOutgoing: #ddf0ff;
 $messageTopicPrimaryColor: #fff;
-$messageTopicSecondaryColor: palette.get-palette-hue('accent-1', 100);
+$messageTopicSecondaryColor: palette.get-palette-hue("accent-1", 100);
 $messageCarouselPrimaryColor: #fff;
 // interactions
 $sendMessageBoxBgColor: #f7fbff;
@@ -30,8 +30,8 @@ $sendMessageBoxBgColorDisabled: #f1f1f1;
 
 #{variables.$classPrefix}__chat {
 	position: fixed;
-	bottom: 0;
 	right: 0;
+	bottom: 0;
 	height: 100%;
 	z-index: order.get-order("main");
 

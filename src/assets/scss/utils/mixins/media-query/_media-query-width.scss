@@ -108,9 +108,7 @@
 			@include x-small-devices() {
 				@content;
 			}
-		}
-
-		@else {
+		} @else {
 			&-#{$suffix} {
 				@include x-small-devices() {
 					@content;
@@ -124,9 +122,7 @@
 			@include m-small-devices() {
 				@content;
 			}
-		}
-
-		@else {
+		} @else {
 			&-#{$suffix} {
 				@include m-small-devices() {
 					@content;
@@ -140,9 +136,7 @@
 			@include small-devices() {
 				@content;
 			}
-		}
-
-		@else {
+		} @else {
 			&-#{$suffix} {
 				@include small-devices() {
 					@content;
@@ -156,9 +150,7 @@
 			@include medium-devices() {
 				@content;
 			}
-		}
-
-		@else {
+		} @else {
 			&-#{$suffix} {
 				@include medium-devices() {
 					@content;
@@ -172,9 +164,7 @@
 			@include large-devices() {
 				@content;
 			}
-		}
-
-		@else {
+		} @else {
 			&-#{$suffix} {
 				@include large-devices() {
 					@content;
@@ -188,9 +178,7 @@
 			@include x-large-devices() {
 				@content;
 			}
-		}
-
-		@else {
+		} @else {
 			&-#{$suffix} {
 				@include x-large-devices() {
 					@content;

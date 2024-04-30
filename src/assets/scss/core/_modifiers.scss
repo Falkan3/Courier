@@ -117,12 +117,12 @@ $highlightColor2: #6e33c7;
  */
 .p {
 	&-h {
-		padding-left: #{font-size.get-font-size(1)};
 		padding-right: #{font-size.get-font-size(1)};
+		padding-left: #{font-size.get-font-size(1)};
 
 		&--hf {
-			padding-left: #{font-size.get-font-size(0.5)};
 			padding-right: #{font-size.get-font-size(0.5)};
+			padding-left: #{font-size.get-font-size(0.5)};
 		}
 	}
 

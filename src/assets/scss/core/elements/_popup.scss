@@ -3,13 +3,13 @@
 @use "../../utils/mixins/order";
 
 // buttons
-$btnColorActive: palette.get-palette-hue('accent-1', 500);
+$btnColorActive: palette.get-palette-hue("accent-1", 500);
 $btnColorInactive: #b5d4ec;
 $btnColorActive: #64b5f6;
 // main
 $mainBgColor: #fbfbfb;
 // work area
-$linkColor: palette.get-palette-hue('accent-1', 500);
+$linkColor: palette.get-palette-hue("accent-1", 500);
 $workAreaScrollbarTrackColor: #e6e6e6;
 $workAreaScrollbarHandleColor: #b3b3b3;
 // content
@@ -17,8 +17,8 @@ $contentCarouselPrimaryColor: #fff;
 
 #{variables.$classPrefix}__popup {
 	position: fixed;
-	bottom: 0;
 	right: 0;
+	bottom: 0;
 	z-index: order.get-order("main");
 
 	@import "popup/overlay"; // the main popup container

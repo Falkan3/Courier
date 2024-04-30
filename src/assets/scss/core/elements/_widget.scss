@@ -10,9 +10,9 @@ $bubbleColor: #212121;
 $bubbleBorder: #f1f1f1;
 $bubbleIconBg: #d0edff;
 // buttons
-$btnColor: palette.get-palette-hue('accent-1', 500);
+$btnColor: palette.get-palette-hue("accent-1", 500);
 $btnColorInactive: #a9c1d3;
-$btnColorActive: palette.get-palette-hue('accent-1', 100);
+$btnColorActive: palette.get-palette-hue("accent-1", 100);
 
 #{variables.$classPrefix}__widget {
 	$widget: &;
@@ -60,8 +60,8 @@ $btnColorActive: palette.get-palette-hue('accent-1', 100);
 				padding: 0.8em 1.5em;
 
 				&:hover, &:focus {
-					background-color: palette.get-palette-hue('accent-1', 500);
-					border-color: palette.get-palette-hue('accent-1', 500);
+					background-color: palette.get-palette-hue("accent-1", 500);
+					border-color: palette.get-palette-hue("accent-1", 500);
 					color: #fff;
 				}
 
@@ -89,15 +89,15 @@ $btnColorActive: palette.get-palette-hue('accent-1', 100);
 
 				&:hover, &:focus {
 					&::after {
-						border-top-color: palette.get-palette-hue('accent-1', 500); // color.scale($bubbleBgColor, $lightness: 5%);
-						border-right-color: palette.get-palette-hue('accent-1', 500); // color.scale($bubbleBgColor, $lightness: 5%);
+						border-top-color: palette.get-palette-hue("accent-1", 500); // color.scale($bubbleBgColor, $lightness: 5%);
+						border-right-color: palette.get-palette-hue("accent-1", 500); // color.scale($bubbleBgColor, $lightness: 5%);
 					}
 				}
 			}
 		}
 
 		&:hover, &:focus {
-			background-color: palette.get-palette-hue('accent-1', 500); // color.scale($bubbleBgColor, $lightness: 5%);
+			background-color: palette.get-palette-hue("accent-1", 500); // color.scale($bubbleBgColor, $lightness: 5%);
 			color: #fff;
 		}
 
@@ -114,8 +114,8 @@ $btnColorActive: palette.get-palette-hue('accent-1', 100);
 	}
 
 	&-img {
-		flex: 0 0 auto;
 		display: block;
+		flex: 0 0 auto;
 
 		& > img,
 		& > svg {
