@@ -18,6 +18,7 @@
 	padding: 0.5em 1em;
 	background-color: $sendMessageBoxBgColor;
 	border-radius: 8px;
+	font-size: 16px; // set font size to 16px to avoid Safari zoom on focus
 	line-height: 1.6;
 	resize: none;
 	transition: background-color ease-out 0.3s;
