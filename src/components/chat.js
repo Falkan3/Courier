@@ -2,7 +2,7 @@
 import { clone, parseSpecialTags, textTemplate } from '@utils/object';
 import EventsBinder from '@core/event/events-binder';
 import ChatMessage from '@components/classes/chat-message';
-import Reef from '@libs/reefjs/reef.es';
+import { component as Reef, signal } from '@libs/reefjs/reef.es';
 import { elemContains, isScrolledToTheBottom } from '@utils/dom';
 import { shortenTodaysDateTime } from '@utils/time';
 import { clipboard as clipboardIcon } from '@utils/images';
@@ -18,10 +18,12 @@ export default function (Courier, Components, Events) {
 
     const Chat = {
         refs: {},
+        templateData: null,
         scrollToBottom: false,
         messagePath: [],
 
         mount() {
+            this.templateData = this.getTemplateData();
             Events.emit('chat.mount');
         },
 
@@ -82,22 +84,19 @@ export default function (Courier, Components, Events) {
             }
         },
 
-        onAppRendered(event) {
-            // Only run for elements with the #courierChat ID
-            if (event.target.matches('#courierChat')) {
-                this.refs.form = Components.App.refs.app.elem.querySelector('#courierChatInteractionsForm');
-                this.refs.workArea = Components.App.refs.app.elem.querySelector('#courierChatWorkArea');
-                if (this.refs.chat.data.state.showMessageBox) {
-                    this.refs.messageBox = Components.App.refs.app.elem.querySelector(`.${Courier.settings.classes.chat}-message-box`);
-                }
-                this.refs.messages = Components.App.refs.app.elem.querySelectorAll(`.${Courier.settings.classes.chat}-message`);
+        onAppRendered() {
+            this.refs.form = Components.App.refs.app.elem.querySelector('#courierChatInteractionsForm');
+            this.refs.workArea = Components.App.refs.app.elem.querySelector('#courierChatWorkArea');
+            if (this.templateData.state.showMessageBox) {
+                this.refs.messageBox = Components.App.refs.app.elem.querySelector(`.${Courier.settings.classes.chat}-message-box`);
+            }
+            this.refs.messages = Components.App.refs.app.elem.querySelectorAll(`.${Courier.settings.classes.chat}-message`);
 
-                Events.emit('chat.scrollToBottom', this.scrollToBottom);
+            Events.emit('chat.scrollToBottom', this.scrollToBottom);
 
-                if (this.scrollToBottom) {
-                    this.scrollLastMessageIntoView();
-                    this.scrollToBottom = false;
-                }
+            if (this.scrollToBottom) {
+                this.scrollLastMessageIntoView();
+                this.scrollToBottom = false;
             }
         },
 
@@ -135,12 +134,12 @@ export default function (Courier, Components, Events) {
         },
 
         close() {
-            this.refs.chat.data.state.active = false;
+            this.templateData.state.active = false;
             Events.emit('chat.closed');
         },
 
         open() {
-            this.refs.chat.data.state.active = true;
+            this.templateData.state.active = true;
             this.scrollToBottom = true; // scroll to bottom when the chat opens
             Events.emit('chat.opened');
         },
@@ -168,7 +167,7 @@ export default function (Courier, Components, Events) {
             };
             const chatMessage = new ChatMessage(message);
             // user can only send messages when it's their turn
-            if (chatMessage.outgoing && !this.refs.chat.data.state.userTurn) return null;
+            if (chatMessage.outgoing && !this.templateData.state.userTurn) return null;
             // replace variables in the message using text template
             if (chatMessage.text) {
                 chatMessage.text = textTemplate(chatMessage.text, Courier.settings.textVars);
@@ -179,7 +178,7 @@ export default function (Courier, Components, Events) {
                 });
             }
             // push message to component data
-            this.refs.chat.data.messages.push(chatMessage);
+            this.templateData.messages.push(chatMessage);
             // set whether after render the chat work area should be scrolled to the bottom
             if (settings.scrollToBottom) {
                 this.scrollToBottom = this.chatIsScrolledToTheBottom();
@@ -199,7 +198,7 @@ export default function (Courier, Components, Events) {
 
         refreshMessages() {
             // reset sent messages and message path
-            this.refs.chat.data.messages = [];
+            this.templateData.messages = [];
             const oldMessagePath = clone(this.messagePath, true);
             this.messagePath = [];
             // recreate message path
@@ -208,7 +207,7 @@ export default function (Courier, Components, Events) {
 
         clearMessages() {
             // reset sent messages and message path
-            this.refs.chat.data.messages = [];
+            this.templateData.messages = [];
             this.messagePath = [];
             clearMessagePath(Courier.settings.cookies.saveConversation.nameSuffix);
             Events.emit('chat.refreshMessages', this.messagePath);
@@ -261,144 +260,144 @@ export default function (Courier, Components, Events) {
             };
 
             if (update) {
-                data.state.active = this.refs.chat.data.state.active;
-                data.state.userTurn = this.refs.chat.data.state.userTurn;
-                data.state.typing = this.refs.chat.data.state.typing;
+                data.state.active = this.templateData.state.active;
+                data.state.userTurn = this.templateData.state.userTurn;
+                data.state.typing = this.templateData.state.typing;
             }
 
-            return data;
+            return signal(data, 'chat');
         },
 
         /**
          * Initialize the chat.
          */
         initialize() {
-            Chat.refs.chat = new Reef('#courierChat', {
-                data: this.getTemplateData(),
-                template: (props) => {
-                    if (!props.state.active) {
-                        return '';
-                    }
+            const elem = Components.App.refs.app.elem.querySelector('#courierChat');
 
-                    let messages = props.messages.map((message, index) => {
-                        // generate message html
-                        let html = '';
+            Chat.refs.chat = Reef(elem, () => {
+                if (!Chat.templateData.state.active) {
+                    return '';
+                }
 
-                        // add timestamp
-                        html += props.state.showTimestamp && message.timestamp
-                            ? `<p class="${Courier.settings.classes.chat}-timestamp ${message.outgoing ? `${Courier.settings.classes.chat}-timestamp--self` : ''} ${Courier.settings.classes.root}__appear ${Courier.settings.classes.root}__anim-timing--third"><time datetime="${message.timestamp}"><span aria-hidden="true">${shortenTodaysDateTime(message.timestamp)}</span></time></p>`
-                            : '';
+                let messages = Chat.templateData.messages.map((message, index) => {
+                    // generate message html
+                    let html = '';
 
-                        // render different html for some message types
-                        if (message.type === 'carousel') {
-                            html += `<div class="${Courier.settings.classes.chat}-message ${message.typeClassSuffix ? `${Courier.settings.classes.chat}-message${message.typeClassSuffix}` : ''}" data-template="carousel" data-courier-message-id="${index}"></div>`;
-                        } else if (message.type === 'coupon') {
-                            html += `
+                    // add timestamp
+                    html += Chat.templateData.state.showTimestamp && message.timestamp
+                        ? `<p class="${Courier.settings.classes.chat}-timestamp ${message.outgoing ? `${Courier.settings.classes.chat}-timestamp--self` : ''} ${Courier.settings.classes.root}__appear ${Courier.settings.classes.root}__anim-timing--third"><time datetime="${message.timestamp}"><span aria-hidden="true">${shortenTodaysDateTime(message.timestamp)}</span></time></p>`
+                        : '';
+
+                    // render different html for some message types
+                    if (message.type === 'carousel') {
+                        html += `<div class="${Courier.settings.classes.chat}-message ${message.typeClassSuffix ? `${Courier.settings.classes.chat}-message${message.typeClassSuffix}` : ''}" data-template="carousel" data-courier-message-id="${index}" reef-ignore key="msg_${index}"></div>`;
+                    } else if (message.type === 'coupon') {
+                        html += `
                             <div class="${Courier.settings.classes.chat}-message ${message.typeClassSuffix ? `${Courier.settings.classes.chat}-message${message.typeClassSuffix}` : ''}" data-template="coupon" data-courier-message-id="${index}">
                                 <div class="${Courier.settings.classes.chat}-discount-code">
-                                    <button class="${Courier.settings.classes.chat}-discount-code-btn" data-courier-tooltip="${props.texts.clipboardTooltip}" data-courier-discount-code="${message.text}">
+                                    <button class="${Courier.settings.classes.chat}-discount-code-btn" data-courier-tooltip="${Chat.templateData.texts.clipboardTooltip}" data-courier-discount-code="${message.text}">
                                         <span class="${Courier.settings.classes.chat}-discount-code-btn-container">
                                             <span class="${Courier.settings.classes.chat}-discount-code-value">${message.text}</span>
-                                            <span class="${Courier.settings.classes.chat}-discount-code-icon">${clipboardIcon}<span class="${Courier.settings.classes.chat}-discount-code-icon-text">${props.texts.clipboardButton}</span></span>
+                                            <span class="${Courier.settings.classes.chat}-discount-code-icon">${clipboardIcon}<span class="${Courier.settings.classes.chat}-discount-code-icon-text">${Chat.templateData.texts.clipboardButton}</span></span>
                                         </span>
                                     </button>
                                 </div>
                             </div>`;
-                        } else {
-                            html += message.text
-                                ? `<p class="${Courier.settings.classes.chat}-message ${message.outgoing ? `${Courier.settings.classes.chat}-message--self` : ''} ${message.typeClassSuffix ? `${Courier.settings.classes.chat}-message${message.typeClassSuffix}` : ''} ${Courier.settings.classes.root}__appear ${Courier.settings.classes.root}__anim-timing--third" data-courier-message-id="${index}">${message.text}</p>`
-                                : '';
-                        }
+                    } else {
+                        html += message.text
+                            ? `<p class="${Courier.settings.classes.chat}-message ${message.outgoing ? `${Courier.settings.classes.chat}-message--self` : ''} ${message.typeClassSuffix ? `${Courier.settings.classes.chat}-message${message.typeClassSuffix}` : ''} ${Courier.settings.classes.root}__appear ${Courier.settings.classes.root}__anim-timing--third" data-courier-message-id="${index}">${message.text}</p>`
+                            : '';
+                    }
 
-                        if (message.topics) {
-                            let topicsHtml;
-                            // generate topics html
-                            topicsHtml = message.topics.map((topic, topicIndex) => {
-                                let topicHtml = `
+                    if (message.topics) {
+                        let topicsHtml;
+                        // generate topics html
+                        topicsHtml = message.topics.map((topic, topicIndex) => {
+                            let topicHtml = `
                                 <button class="${Courier.settings.classes.chat}-topic ${topic.active ? `${Courier.settings.classes.chat}-topic--active` : ''} ${topic.fullWidth ? `${Courier.settings.classes.chat}-topic--full-w` : ''}" data-courier-message-id="${index}" data-courier-topic-id="${topicIndex}" ${topic.disabled ? 'disabled' : ''}>${topic.text}</button>`;
-                                if (topic.breakLine) {
-                                    topicHtml += `<div class="${Courier.settings.classes.root}__flex-break-row"></div>`;
-                                }
-                                return topicHtml;
-                            })
-                            .join('');
+                            if (topic.breakLine) {
+                                topicHtml += `<div class="${Courier.settings.classes.root}__flex-break-row"></div>`;
+                            }
+                            return topicHtml;
+                        })
+                        .join('');
 
-                            // wrap topics
-                            topicsHtml = `
+                        // wrap topics
+                        topicsHtml = `
                                 <div class="m-b">
                                     <div class="${Courier.settings.classes.chat}-topics">
                                         ${topicsHtml}
                                     </div>
                                 </div>`;
 
-                            // merge message and topics html
-                            html += topicsHtml;
-                        }
-
-                        return html;
-                    }).join('');
-
-                    if (props.state.typing) {
-                        const html = `<p class="${Courier.settings.classes.chat}-message ${Courier.settings.classes.root}__appear ${Courier.settings.classes.root}__anim-timing--third"><span class="courier__chat-dots"><span class="courier__chat-dots-dot"></span><span class="courier__chat-dots-dot"></span><span class="courier__chat-dots-dot"></span></span></p>`;
-                        messages += html;
+                        // merge message and topics html
+                        html += topicsHtml;
                     }
 
-                    const messageBox = props.state.showMessageBox
-                        ? `
+                    return html;
+                }).join('');
+
+                if (Chat.templateData.state.typing) {
+                    const html = `<p class="${Courier.settings.classes.chat}-message ${Courier.settings.classes.root}__appear ${Courier.settings.classes.root}__anim-timing--third"><span class="courier__chat-dots"><span class="courier__chat-dots-dot"></span><span class="courier__chat-dots-dot"></span><span class="courier__chat-dots-dot"></span></span></p>`;
+                    messages += html;
+                }
+
+                const messageBox = Chat.templateData.state.showMessageBox
+                    ? `
                         <form id="courierChatInteractionsForm" class="${Courier.settings.classes.chat}-interactions" autocomplete="off">
-                            <textarea class="${Courier.settings.classes.chat}-message-box" name="message" ${!props.state.messageBoxEnabled ? 'disabled' : ''} placeholder="${props.texts.messagePlaceholder}" rows="2" maxlength="${props.state.maxMessageLength}" autofocus></textarea>
-                            <button class="${Courier.settings.classes.chat}-send-msg-btn" type="submit" ${!props.state.messageBoxEnabled ? 'disabled' : ''} aria-label="${props.texts.sendMessage}">
+                            <textarea class="${Courier.settings.classes.chat}-message-box" name="message" ${!Chat.templateData.state.messageBoxEnabled ? 'disabled' : ''} placeholder="${Chat.templateData.texts.messagePlaceholder}" rows="2" maxlength="${Chat.templateData.state.maxMessageLength}" autofocus></textarea>
+                            <button class="${Courier.settings.classes.chat}-send-msg-btn" type="submit" ${!Chat.templateData.state.messageBoxEnabled ? 'disabled' : ''} aria-label="${Chat.templateData.texts.sendMessage}">
                                 ${Courier.settings.images.sendMsg}
                             </button>
                         </form>`
-                        : '';
+                    : '';
 
-                    const poweredBy = props.poweredBy.show
-                        ? `
+                const poweredBy = Chat.templateData.poweredBy.show
+                    ? `
                         <div class="${Courier.settings.classes.chat}-powered-by">
-                            <a href="${props.poweredBy.url}" target="_blank" rel="nofollow noreferrer">
-                                <p class="m-r--hf">${props.poweredBy.text}</p>
-                                <img src="${props.poweredBy.img.src}" alt="${props.poweredBy.img.alt}" />
+                            <a href="${Chat.templateData.poweredBy.url}" target="_blank" rel="nofollow noreferrer">
+                                <p class="m-r--hf">${Chat.templateData.poweredBy.text}</p>
+                                <img src="${Chat.templateData.poweredBy.img.src}" alt="${Chat.templateData.poweredBy.img.alt}" />
                             </a>
                         </div>`
-                        : '';
+                    : '';
 
-                    const identityImg = props.identity.img.svg
-                        ? `${props.identity.img.svg}`
-                        : `<img src="${props.identity.img.src}" alt="${props.identity.img.alt}" />`;
+                const identityImg = Chat.templateData.identity.img.svg
+                    ? `${Chat.templateData.identity.img.svg}`
+                    : `<img src="${Chat.templateData.identity.img.src}" alt="${Chat.templateData.identity.img.alt}" />`;
 
-                    const identity = props.identity.show
-                        ? `
+                const identity = Chat.templateData.identity.show
+                    ? `
                         <div class="${Courier.settings.classes.chat}-identity">
                             <div class="p-all--hf">
-                                <div class="${Courier.settings.classes.chat}-avatar ${props.state.online ? `${Courier.settings.classes.chat}--online` : ''}">
+                                <div class="${Courier.settings.classes.chat}-avatar ${Chat.templateData.state.online ? `${Courier.settings.classes.chat}--online` : ''}">
                                     ${identityImg}
                                 </div>
                             </div>
                             <div class="${Courier.settings.classes.chat}-name">
-                                <p>${props.identity.name}</p>
-                                <p><a href="${props.identity.website.url}" target="_blank" rel="nofollow noreferrer">${props.identity.website.name}</a></p>
+                                <p>${Chat.templateData.identity.name}</p>
+                                <p><a href="${Chat.templateData.identity.website.url}" target="_blank" rel="nofollow noreferrer">${Chat.templateData.identity.website.name}</a></p>
                             </div>
                         </div>`
-                        : '';
+                    : '';
 
-                    const optionsBtn = props.state.showOptionsButton
-                        ? `
+                const optionsBtn = Chat.templateData.state.showOptionsButton
+                    ? `
                         <div class="p-h--hf">
-                            <button id="courierChatOptionsBtn" class="${Courier.settings.classes.chat}-options-btn" type="button" aria-label="${props.texts.options}" disabled>
+                            <button id="courierChatOptionsBtn" class="${Courier.settings.classes.chat}-options-btn" type="button" aria-label="${Chat.templateData.texts.options}" disabled>
                                 ${Courier.settings.images.options}
                             </button>
                         </div>` : '';
 
-                    const headerAvatar = !props.identity.show
-                        ? `
+                const headerAvatar = !Chat.templateData.identity.show
+                    ? `
                         <div class="p-h--hf">
-                            <div class="${Courier.settings.classes.chat}-avatar ${Courier.settings.classes.chat}-avatar--sm ${props.state.online ? `${Courier.settings.classes.chat}--online` : ''}">
+                            <div class="${Courier.settings.classes.chat}-avatar ${Courier.settings.classes.chat}-avatar--sm ${Chat.templateData.state.online ? `${Courier.settings.classes.chat}--online` : ''}">
                                 ${identityImg}
                             </div>
                         </div>` : '';
 
-                    return parseSpecialTags(`
+                return parseSpecialTags(`
                     <div id="courierChatOverlay" class="${Courier.settings.classes.chat}-overlay ${Courier.settings.classes.root}__fade-in ${Courier.settings.classes.root}__anim-timing--half">
                         <div class="${Courier.settings.classes.chat}-wall ${Courier.settings.classes.root}__slide-in-bottom ${Courier.settings.classes.root}__anim-timing--half">
                             <div class="${Courier.settings.classes.chat}-header">
@@ -407,10 +406,10 @@ export default function (Courier, Components, Events) {
                                         ${optionsBtn}
                                         ${headerAvatar}
                                         <div class="p-h--hf">
-                                            <p class="tx-bold tx-bigger">${props.texts.chatTitle}</p>
+                                            <p class="tx-bold tx-bigger">${Chat.templateData.texts.chatTitle}</p>
                                         </div>
                                         <div class="p-h--hf">
-                                            <button id="courierChatCloseBtn" class="${Courier.settings.classes.chat}-close-btn" type="button" aria-label="${props.texts.close}">
+                                            <button id="courierChatCloseBtn" class="${Courier.settings.classes.chat}-close-btn" type="button" aria-label="${Chat.templateData.texts.close}">
                                                 ${Courier.settings.images.closeBtn}
                                             </button>
                                         </div>
@@ -424,10 +423,8 @@ export default function (Courier, Components, Events) {
                             ${messageBox}
                             ${poweredBy}
                         </div>
-                    </div>`, Courier.settings, props);
-                },
-                attachTo: Components.App.refs.app
-            });
+                    </div>`, Courier.settings, Chat.templateData);
+            }, { signals: ['chat'] });
 
             Events.emit('chat.initialized');
         },
@@ -439,12 +436,6 @@ export default function (Courier, Components, Events) {
             Chat.refs.chat.render();
         }
     };
-
-    Events.on('mount.after', () => {
-        Chat.initialize();
-        Chat.render();
-        Events.emit('chat.mounted');
-    });
 
     /**
      * Bind event listeners after App has been mounted and rendered for the first time
@@ -463,12 +454,29 @@ export default function (Courier, Components, Events) {
         Events.on('chat.clear', () => {
             Chat.clearMessages();
         });
+
+        Events.emit('chat.mounted');
     });
 
     /**
      * Bind event listeners after App has been rendered
      */
+    Events.on('app.rendered.app', () => {
+        Chat.initialize();
+        // Chat.render();
+    });
+
     Events.on('app.rendered', (event) => {
+        // Only run for elements with the #courierChat ID
+        if (Chat.refs.chat && event.target.isEqualNode(Chat.refs.chat.elem)) {
+            Events.emit('app.rendered.chat', event);
+        }
+        if (event.target.matches(`.${Courier.settings.classes.chat}-message`)) {
+            Events.emit('app.rendered.chatMessage', event);
+        }
+    });
+
+    Events.on('app.rendered.chat', (event) => {
         Chat.onAppRendered(event);
     });
 
@@ -500,7 +508,7 @@ export default function (Courier, Components, Events) {
     Events.on('update', () => {
         // Chat.mount();
         Chat.bind();
-        Chat.refs.chat.data = Chat.getTemplateData(true);
+        Chat.templateData = Chat.getTemplateData(true);
         Chat.refreshMessages();
     });
 

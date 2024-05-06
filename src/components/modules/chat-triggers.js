@@ -33,7 +33,7 @@ export default function (Courier, Components, Events) {
                 scrollToBottom: true,
                 ...options
             };
-            const { topics } = Components.Chat.refs.chat.data.messages[messageId];
+            const { topics } = Components.Chat.templateData.messages[messageId];
             const topic = topics[topicId];
             // check if any topic at this level was not already selected
             if (topics.filter((t) => t.active).length === 0) {
@@ -61,7 +61,7 @@ export default function (Courier, Components, Events) {
 
         triggerPath(topic) {
             // disable all previous message topics
-            const lastMessage = arrLastItem(Components.Chat.refs.chat.data.messages);
+            const lastMessage = arrLastItem(Components.Chat.templateData.messages);
             if (lastMessage) {
                 this.disableTopics(lastMessage);
             }

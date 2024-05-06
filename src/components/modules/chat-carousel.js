@@ -1,5 +1,5 @@
 /* eslint-disable import/no-unresolved */
-import Reef from '@libs/reefjs/reef.es';
+import { component as Reef, signal } from '@libs/reefjs/reef.es';
 import Glide, {
     Controls, Images, Swipe, Anchors
 } from '@libs/glidejs/glide.modular.esm';
@@ -19,7 +19,16 @@ export default function (Courier, Components, Events) {
             glides: []
         },
         template: 'carousel',
+        templateData: signal({
+            texts: {
+                clipboardButton: Courier.settings.textsParsed.clipboardButton,
+                clipboardTooltip: Courier.settings.textsParsed.clipboardTooltip,
+                clipboardCopy: Courier.settings.textsParsed.clipboardCopy,
+                clickToApplyDiscount: Courier.settings.textsParsed.clickToApplyDiscount,
+            },
+        }, 'chat-carousel'),
         scrollToBottom: false,
+        activeSlide: {},
 
         /**
          * Construct a ChatCarousel instance.
@@ -31,10 +40,10 @@ export default function (Courier, Components, Events) {
         },
 
         initGlide(rootElem) {
-            // Mount glide carousels
+            // mount glide carousels
             const glide = new Glide(rootElem.querySelector('.glide'), {
                 type: 'carousel',
-                startAt: 0,
+                startAt: this.activeSlide[rootElem.dataset.courierMessageId] ?? 0,
                 perView: 1,
                 peek: {
                     before: 0,
@@ -43,6 +52,10 @@ export default function (Courier, Components, Events) {
             });
             glide.mount({
                 Controls, Swipe, Images, Anchors
+            });
+            // save last active item index for the current message
+            glide.on('run', () => {
+                this.activeSlide[rootElem.dataset.courierMessageId] = glide.index;
             });
             this.refs.glides.push(glide);
         },
@@ -54,8 +67,8 @@ export default function (Courier, Components, Events) {
             this.refs.glides = [];
         },
 
-        generateHtml(props, elem) {
-            const message = Components.Chat.refs.chat.data.messages[elem.dataset.courierMessageId];
+        generateHtml(elem) {
+            const message = Components.Chat.templateData.messages[elem.dataset.courierMessageId];
 
             let html = '';
             let carouselItemsHtml = '';
@@ -120,7 +133,7 @@ export default function (Courier, Components, Events) {
                     if (carouselItem.discountLink) {
                         discountCodeHtml = `
                         <div class="${Courier.settings.classes.chat}-discount-code">
-                            <a class="${Courier.settings.classes.chat}-discount-code-btn" href="${carouselItem.discountLink}" data-courier-tooltip="${props.texts.clickToApplyDiscount}" data-courier-discount-code="${carouselItem.discountCode}">
+                            <a class="${Courier.settings.classes.chat}-discount-code-btn" href="${carouselItem.discountLink}" data-courier-tooltip="${this.templateData.texts.clickToApplyDiscount}" data-courier-discount-code="${carouselItem.discountCode}">
                                 <span class="${Courier.settings.classes.chat}-discount-code-btn-container">
                                     <span class="${Courier.settings.classes.chat}-discount-code-value">${carouselItem.discountCode}</span>
                                     <span class="${Courier.settings.classes.chat}-discount-code-icon ${Courier.settings.classes.chat}-discount-code-icon--link">${linkIcon}</span>
@@ -134,10 +147,10 @@ export default function (Courier, Components, Events) {
                     } else {
                         discountCodeHtml = `
                         <div class="${Courier.settings.classes.chat}-discount-code ${Courier.settings.classes.chat}-carousel-item-discount-code">
-                            <button class="${Courier.settings.classes.chat}-discount-code-btn" data-courier-tooltip="${props.texts.clipboardTooltip}" data-courier-discount-code="${carouselItem.discountCode}">
+                            <button class="${Courier.settings.classes.chat}-discount-code-btn" data-courier-tooltip="${this.templateData.texts.clipboardTooltip}" data-courier-discount-code="${carouselItem.discountCode}">
                                 <span class="${Courier.settings.classes.chat}-discount-code-btn-container">
                                     <span class="${Courier.settings.classes.chat}-discount-code-value">${carouselItem.discountCode}</span>
-                                    <span class="${Courier.settings.classes.chat}-discount-code-icon">${clipboardIcon}<span class="${Courier.settings.classes.chat}-discount-code-icon-text">${props.texts.clipboardButton}</span></span>
+                                    <span class="${Courier.settings.classes.chat}-discount-code-icon">${clipboardIcon}<span class="${Courier.settings.classes.chat}-discount-code-icon-text">${this.templateData.texts.clipboardButton}</span></span>
                                 </span>
                             </button>
                         </div>`;
@@ -175,9 +188,9 @@ export default function (Courier, Components, Events) {
             });
 
             html += `
-                <div class="glide">
+                <div class="glide" reef-ignore key="msg_${elem.dataset.courierMessageId}_glide">
                     <div class="${Courier.settings.classes.chat}-carousel glide__track" data-glide-el="track">
-                        <ul class="glide__slides">
+                        <ul class="glide__slides" reef-ignore key="msg_${elem.dataset.courierMessageId}_glide_slides">
                             ${carouselItemsHtml}
                         </ul>
                     </div>
@@ -204,20 +217,18 @@ export default function (Courier, Components, Events) {
         },
     };
 
-    Events.on('mount.after', () => {
-        ChatCarousel.initialize();
-    });
-
     /**
      * Destroy existing instances before render
+     * todo: Preserve instances on rerender
      */
     Events.on('app.beforeRender', (event) => {
-        if (event.target.matches('#courierChat') && Components.Chat.refs.chat.data.state.active) {
+        return;
+        if (event.target.matches('#courierChat') && Components.Chat.templateData.state.active) {
             // remove existing reef instances
             if (ChatCarousel.refs.carousels) {
                 ChatCarousel.destroyGlides();
                 ChatCarousel.refs.carousels.forEach((carousel, index) => {
-                    Components.Chat.refs.chat.detach(carousel); // deprecated in v11
+                    // Components.Chat.refs.chat.detach(carousel); // deprecated in v11
                     delete ChatCarousel.refs.carousels[index];
                 });
             }
@@ -228,8 +239,8 @@ export default function (Courier, Components, Events) {
     /**
      * Initialize carousels after App has been rendered
      */
-    Events.on('app.rendered', (event) => {
-        if (event.target.matches('#courierChat') && Components.Chat.refs.chat.data.state.active) {
+    Events.on('app.rendered.chat', () => {
+        if (Components.Chat.templateData.state.active) {
             // remove existing reef instances
             // if (ChatCarousel.refs.carousels) {
             //     // todo: destroy old event listeners
@@ -247,27 +258,22 @@ export default function (Courier, Components, Events) {
             carousels.forEach((carousel) => {
                 for (let i = 0; i < ChatCarousel.refs.carousels.length; i++) {
                     // skip if the carousel has been initialized as a reef instance already
-                    if (carousel.matches(ChatCarousel.refs.carousels[i].elem)) return;
-                    // if (carousel.isEqualNode(ChatCarousel.refs.carousels[i].elem)) return;
+                    if (carousel.isSameNode(ChatCarousel.refs.carousels[i].elem)) return;
                 }
                 // initialize new reef instances
-                ChatCarousel.refs.carousels.push(new Reef(`[data-template="${ChatCarousel.template}"][data-courier-message-id="${carousel.dataset.courierMessageId}"]`, {
-                    data: {
-                        texts: {
-                            clipboardButton: Courier.settings.textsParsed.clipboardButton,
-                            clipboardTooltip: Courier.settings.textsParsed.clipboardTooltip,
-                            clipboardCopy: Courier.settings.textsParsed.clipboardCopy,
-                            clickToApplyDiscount: Courier.settings.textsParsed.clickToApplyDiscount,
-                        },
-                    },
-                    template: (props, elem) => ChatCarousel.generateHtml(props, elem),
-                    attachTo: Components.Chat.refs.chat
-                }));
+                const elem = Components.App.refs.app.elem.querySelector(`[data-template="${ChatCarousel.template}"][data-courier-message-id="${carousel.dataset.courierMessageId}"]`);
+                ChatCarousel.refs.carousels.push(Reef(elem, () => ChatCarousel.generateHtml(elem)));
             });
         }
+    });
 
+    /**
+     * Initialize Glide for the current chat message
+     * todo: Preserve instances on rerender
+     */
+    Events.on('app.rendered.chatMessage', (event) => {
         if (event.target.matches(`[data-template="${ChatCarousel.template}"]`)
-            && Components.Chat.refs.chat.data.state.active) {
+            && Components.Chat.templateData.state.active) {
             ChatCarousel.initGlide(event.target);
 
             if (ChatCarousel.scrollToBottom) {

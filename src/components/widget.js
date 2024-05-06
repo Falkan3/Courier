@@ -1,6 +1,6 @@
 /* eslint-disable import/no-unresolved */
 import EventsBinder from '@core/event/events-binder';
-import Reef from '@libs/reefjs/reef.es';
+import { component as Reef, signal } from '@libs/reefjs/reef.es';
 import { elemContains } from '@utils/dom';
 import {
     isMinimalized as widgetIsMinimalized, setMinimalized as widgetSetMinimalized,
@@ -23,8 +23,10 @@ export default function (Courier, Components, Events) {
 
     const Widget = {
         refs: {},
+        templateData: null,
 
         mount() {
+            this.templateData = this.getTemplateData();
             Events.emit('widget.mount');
         },
 
@@ -42,7 +44,7 @@ export default function (Courier, Components, Events) {
             const courierWidgetHideButton = Components.App.refs.app.elem.querySelector('#courierWidgetHideButton');
             if (event.target.matches('#courierWidgetHideButton')
                 || (elemContains(courierWidgetHideButton, event.target))) {
-                if (!Widget.canBeMinimalized() || this.refs.widget.data.state.minimalized) {
+                if (!Widget.canBeMinimalized() || this.templateData.state.minimalized) {
                     this.hide();
                 } else {
                     this.minimalize();
@@ -51,17 +53,17 @@ export default function (Courier, Components, Events) {
         },
 
         close() {
-            this.refs.widget.data.state.active = false;
+            this.templateData.state.active = false;
             Events.emit('widget.closed');
         },
 
         open() {
-            this.refs.widget.data.state.active = true;
+            this.templateData.state.active = true;
             Events.emit('widget.opened');
         },
 
         minimalize(save = true) {
-            this.refs.widget.data.state.minimalized = true;
+            this.templateData.state.minimalized = true;
             if (save) {
                 widgetSetMinimalized(
                     true,
@@ -73,12 +75,12 @@ export default function (Courier, Components, Events) {
         },
 
         canBeMinimalized() {
-            return this.refs.widget.data.state.style === WidgetStyles.ADVANCED;
+            return this.templateData.state.style === WidgetStyles.ADVANCED;
         },
 
         hide(save = true) {
-            this.refs.widget.data.state.active = false;
-            this.refs.widget.data.state.hidden = true;
+            this.templateData.state.active = false;
+            this.templateData.state.hidden = true;
             if (save) {
                 widgetSetHidden(
                     true,
@@ -110,42 +112,39 @@ export default function (Courier, Components, Events) {
             };
 
             if (update) {
-                data.state.active = this.refs.widget.data.state.active;
-                data.state.minimalized = this.refs.widget.data.state.minimalized;
-                data.state.hidden = this.refs.widget.data.state.hidden;
-                data.state.online = this.refs.widget.data.state.online;
+                data.state.active = this.templateData.state.active;
+                data.state.minimalized = this.templateData.state.minimalized;
+                data.state.hidden = this.templateData.state.hidden;
+                data.state.online = this.templateData.state.online;
             }
 
-            return data;
+            return signal(data, 'widget');
         },
 
         /**
          * Initialize the widget.
          */
         initialize() {
-            Widget.refs.widget = new Reef('#courierWidget', {
-                data: this.getTemplateData(),
-                template: (props) => {
-                    if (!props.state.active) {
-                        return '';
-                    }
+            const elem = Components.App.refs.app.elem.querySelector('#courierWidget');
 
-                    const hideBtn = props.state.hideBtnActive
-                        ? `
-                        <button id="courierWidgetHideButton" class="${Courier.settings.classes.widget}-hide-btn" type="button" aria-label="${props.texts.hideWidget}">
+            Widget.refs.widget = Reef(elem, () => {
+                if (!this.templateData.state.active) {
+                    return '';
+                }
+
+                const hideBtn = this.templateData.state.hideBtnActive
+                    ? `
+                        <button id="courierWidgetHideButton" class="${Courier.settings.classes.widget}-hide-btn" type="button" aria-label="${this.templateData.texts.hideWidget}">
                             ${Courier.settings.images.closeBtn}
                         </button>`
-                        : '';
+                    : '';
 
-                    return `
-                    <div class="${Courier.settings.classes.widget}-wrapper ${Courier.settings.classes.widget}-wrapper--${props.state.style} ${Courier.settings.classes.root}__appear-bottom ${Courier.settings.classes.root}__anim-timing--half">
-                        ${this.getHtml(props.state.style, props)}
+                return `
+                    <div class="${Courier.settings.classes.widget}-wrapper ${Courier.settings.classes.widget}-wrapper--${this.templateData.state.style} ${Courier.settings.classes.root}__appear-bottom ${Courier.settings.classes.root}__anim-timing--half">
+                        ${this.getHtml(this.templateData.state.style, this.templateData)}
                         ${hideBtn}
-                    </div>
-                    `;
-                },
-                attachTo: Components.App.refs.app
-            });
+                    </div>`;
+            }, { signals: ['widget'] });
         },
 
         /**
@@ -155,24 +154,24 @@ export default function (Courier, Components, Events) {
             Widget.refs.widget.render();
         },
 
-        getHtml(style, props) {
+        getHtml(style) {
             let html = '';
 
             switch (style) {
             case WidgetStyles.SIMPLE: {
-                const widgetImg = props.widgetImg
+                const widgetImg = this.templateData.widgetImg
                     ? `
                         <span class="${Courier.settings.classes.widget}-img" aria-hidden="true">
                             ${Courier.settings.images.widget}
                         </span>`
                     : '';
 
-                const widgetText = props.texts.widgetGreeting
-                    ? `<p class="${Courier.settings.classes.widget}-greeting">${props.texts.widgetGreeting}</p>`
+                const widgetText = this.templateData.texts.widgetGreeting
+                    ? `<p class="${Courier.settings.classes.widget}-greeting">${this.templateData.texts.widgetGreeting}</p>`
                     : '';
 
                 html = `
-                    <button id="courierWidgetButton" class="${Courier.settings.classes.widget}-bubble" type="button" aria-label="${props.texts.openWidget}">
+                    <button id="courierWidgetButton" class="${Courier.settings.classes.widget}-bubble" type="button" aria-label="${this.templateData.texts.openWidget}">
                         <span class="${Courier.settings.classes.widget}-greeting-wrapper">
                             ${widgetImg}
                             ${widgetText}
@@ -182,22 +181,22 @@ export default function (Courier, Components, Events) {
                 break;
             }
             case WidgetStyles.ADVANCED: {
-                const widgetImg = props.widgetImg
+                const widgetImg = this.templateData.widgetImg
                     ? `
                         <span class="${Courier.settings.classes.widget}-img" aria-hidden="true">
                             ${Courier.settings.images.widget}
                         </span>`
                     : '';
 
-                const name = props.texts.name
-                    ? `<p class="${Courier.settings.classes.widget}-name">${props.texts.name}</p>`
+                const name = this.templateData.texts.name
+                    ? `<p class="${Courier.settings.classes.widget}-name">${this.templateData.texts.name}</p>`
                     : '';
 
                 // Return the minimalized version
 
-                if (props.state.minimalized) {
+                if (this.templateData.state.minimalized) {
                     return `
-                    <button id="courierWidgetButton" class="${Courier.settings.classes.widget}-bubble ${Courier.settings.classes.widget}--minimalized ${props.state.online ? `${Courier.settings.classes.widget}--online` : ''}" type="button" aria-label="${props.texts.openWidget}">
+                    <button id="courierWidgetButton" class="${Courier.settings.classes.widget}-bubble ${Courier.settings.classes.widget}--minimalized ${this.templateData.state.online ? `${Courier.settings.classes.widget}--online` : ''}" type="button" aria-label="${this.templateData.texts.openWidget}">
                         <span class="${Courier.settings.classes.widget}-greeting-wrapper">
                             ${widgetImg}
                         </span>
@@ -209,16 +208,16 @@ export default function (Courier, Components, Events) {
 
                 // If not minimalized - continue
 
-                const widgetTitle = props.texts.widgetGreetingTitle
-                    ? `<p class="${Courier.settings.classes.widget}-greeting-title">${props.texts.widgetGreetingTitle}</p>`
+                const widgetTitle = this.templateData.texts.widgetGreetingTitle
+                    ? `<p class="${Courier.settings.classes.widget}-greeting-title">${this.templateData.texts.widgetGreetingTitle}</p>`
                     : '';
 
-                const widgetText = props.texts.widgetGreeting
-                    ? `<p class="${Courier.settings.classes.widget}-greeting-msg">${props.texts.widgetGreeting}</p>`
+                const widgetText = this.templateData.texts.widgetGreeting
+                    ? `<p class="${Courier.settings.classes.widget}-greeting-msg">${this.templateData.texts.widgetGreeting}</p>`
                     : '';
 
                 html = `
-                    <button id="courierWidgetButton" class="${Courier.settings.classes.widget}-bubble ${props.state.online ? `${Courier.settings.classes.widget}--online` : ''}" type="button" aria-label="${props.texts.openWidget}">
+                    <button id="courierWidgetButton" class="${Courier.settings.classes.widget}-bubble ${this.templateData.state.online ? `${Courier.settings.classes.widget}--online` : ''}" type="button" aria-label="${this.templateData.texts.openWidget}">
                         <span class="${Courier.settings.classes.widget}-greeting-wrapper">
                             ${widgetImg}
                             ${widgetTitle}
@@ -226,19 +225,18 @@ export default function (Courier, Components, Events) {
 
                         ${widgetText}
                         ${name}
-                    </button>
-                    `;
+                    </button>`;
                 break;
             }
             default:
                 break;
             }
 
-            return parseSpecialTags(html, Courier.settings, props);
+            return parseSpecialTags(html, Courier.settings, this.templateData);
         }
     };
 
-    Events.on('mount.after', () => {
+    Events.on('app.rendered.app', () => {
         Widget.initialize();
         if (Widget.canBeMinimalized() && Courier.settings.cookies.minimalizeWidget.active) {
             if (widgetIsMinimalized(Courier.settings.cookies.minimalizeWidget.nameSuffix)) {
@@ -250,8 +248,13 @@ export default function (Courier, Components, Events) {
                 Widget.hide(false);
             }
         }
-        Widget.render();
-        Events.emit('widget.mounted');
+        // Widget.render();
+    });
+
+    Events.on('app.rendered', (event) => {
+        if (Widget.refs.widget && event.target.isEqualNode(Widget.refs.widget.elem)) {
+            Events.emit('app.rendered.widget', event);
+        }
     });
 
     /**
@@ -270,7 +273,7 @@ export default function (Courier, Components, Events) {
          * Open the widget when the chat or popup closes
          */
         Events.on(['chat.closed', 'popup.closed'], () => {
-            if (Widget.refs.widget.data.state.hidden) {
+            if (Widget.templateData.state.hidden) {
                 return;
             }
 
@@ -279,7 +282,7 @@ export default function (Courier, Components, Events) {
                 return;
             }
 
-            Widget.refs.widget.data.state.hideBtnActive = true;
+            Widget.templateData.state.hideBtnActive = true;
             Widget.open();
         });
 
@@ -307,6 +310,8 @@ export default function (Courier, Components, Events) {
         Events.on('widget.hide', (save) => {
             Widget.hide(save);
         });
+
+        Events.emit('widget.mounted');
     });
 
     /**
@@ -331,7 +336,7 @@ export default function (Courier, Components, Events) {
      */
     Events.on('update', () => {
         // Widget.mount();
-        Widget.refs.widget.data = Widget.getTemplateData(true);
+        Widget.templateData = Widget.getTemplateData(true);
     });
 
     /**

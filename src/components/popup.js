@@ -1,6 +1,6 @@
 /* eslint-disable import/no-unresolved */
 import EventsBinder from '@core/event/events-binder';
-import Reef from '@libs/reefjs/reef.es';
+import { component as Reef, signal } from '@libs/reefjs/reef.es';
 import { elemContains } from '@utils/dom';
 
 export default function (Courier, Components, Events) {
@@ -13,8 +13,10 @@ export default function (Courier, Components, Events) {
 
     const Popup = {
         refs: {},
+        templateData: null,
 
         mount() {
+            this.templateData = this.getTemplateData();
             Events.emit('popup.mount');
         },
 
@@ -48,12 +50,12 @@ export default function (Courier, Components, Events) {
         },
 
         close() {
-            this.refs.popup.data.state.active = false;
+            this.templateData.state.active = false;
             Events.emit('popup.closed');
         },
 
         open() {
-            this.refs.popup.data.state.active = true;
+            this.templateData.state.active = true;
             Events.emit('popup.opened');
         },
 
@@ -78,56 +80,54 @@ export default function (Courier, Components, Events) {
             };
 
             if (update) {
-                data.state.active = this.refs.popup.data.state.active;
+                data.state.active = this.templateData.state.active;
             }
 
-            return data;
+            return signal(data, 'popup');
         },
 
         refreshContent() {
-            this.refs.popup.data.texts.popupContent = Courier.settings.textsParsed.popupContent;
+            this.templateData.texts.popupContent = Courier.settings.textsParsed.popupContent;
         },
 
         /**
          * Initialize the popup.
          */
         initialize() {
-            Popup.refs.popup = new Reef('#courierPopup', {
-                data: this.getTemplateData(),
-                template: (props) => {
-                    if (!props.state.active) {
-                        return '';
-                    }
+            const elem = Components.App.refs.app.elem.querySelector('#courierPopup');
 
-                    const poweredBy = props.poweredBy.show
-                        ? `
+            Popup.refs.popup = Reef(elem, () => {
+                if (!this.templateData.state.active) {
+                    return '';
+                }
+
+                const poweredBy = this.templateData.poweredBy.show
+                    ? `
                         <div class="${Courier.settings.classes.popup}-powered-by">
-                            <a href="${props.poweredBy.url}" target="_blank" rel="nofollow noreferrer">
-                                <p class="m-r--hf">${props.poweredBy.text}</p>
-                                <img src="${props.poweredBy.img.src}" alt="${props.poweredBy.img.alt}" />
+                            <a href="${this.templateData.poweredBy.url}" target="_blank" rel="nofollow noreferrer">
+                                <p class="m-r--hf">${this.templateData.poweredBy.text}</p>
+                                <img src="${this.templateData.poweredBy.img.src}" alt="${this.templateData.poweredBy.img.alt}" />
                             </a>
                         </div>`
-                        : '';
+                    : '';
 
-                    return `
+                return `
                     <div id="courierPopupOverlay" class="${Courier.settings.classes.popup}-overlay ${Courier.settings.classes.root}__fade-in ${Courier.settings.classes.root}__anim-timing--half">
                         <div id="courierPopupWrapper" class="${Courier.settings.classes.popup}-wrapper ${Courier.settings.classes.root}__appear-bottom ${Courier.settings.classes.root}__anim-timing--half">
                             <div class="${Courier.settings.classes.popup}-wrapper-inner">
                                 <div class="${Courier.settings.classes.popup}-main">
-                                    <button id="courierPopupCloseBtn" class="${Courier.settings.classes.popup}-close-btn" type="button" aria-label="${props.texts.close}">
+                                    <button id="courierPopupCloseBtn" class="${Courier.settings.classes.popup}-close-btn" type="button" aria-label="${this.templateData.texts.close}">
                                         ${Courier.settings.images.closeBtn}
                                     </button>
                                     <div id="courierPopupWorkArea" class="${Courier.settings.classes.popup}-work-area">
-                                        ${props.texts.popupContent}
+                                        ${this.templateData.texts.popupContent}
                                     </div>
                                 </div>
                                 ${poweredBy}
                             </div>
                         </div>
                     </div>`;
-                },
-                attachTo: Components.App.refs.app
-            });
+            }, { signals: ['popup'] });
         },
 
         /**
@@ -137,12 +137,6 @@ export default function (Courier, Components, Events) {
             Popup.refs.popup.render();
         },
     };
-
-    Events.on('mount.after', () => {
-        Popup.initialize();
-        Popup.render();
-        Events.emit('popup.mounted');
-    });
 
     /**
      * Bind event listeners after App has been mounted and rendered for the first time
@@ -155,11 +149,24 @@ export default function (Courier, Components, Events) {
         Events.on('widget.clicked', () => {
             Popup.open();
         });
+
+        Events.emit('popup.mounted');
     });
 
-    /**
-     * Bind event listeners after App has been rendered
-     */
+    Events.on('app.rendered.app', () => {
+        Popup.initialize();
+        // Popup.render();
+    });
+
+    Events.on('app.rendered', (event) => {
+        if (Popup.refs.popup && event.target.isEqualNode(Popup.refs.popup.elem)) {
+            Events.emit('app.rendered.popup', event);
+        }
+        if (event.target.matches('[data-module-id]')) {
+            Events.emit('app.rendered.popupModule', event);
+        }
+    });
+
     Events.on('app.click', (event) => {
         Popup.onClick(event);
     });
@@ -187,7 +194,7 @@ export default function (Courier, Components, Events) {
     Events.on('update', () => {
         // Popup.mount();
         // Popup.refreshContent();
-        Popup.refs.popup.data = Popup.getTemplateData(true);
+        Popup.templateData = Popup.getTemplateData(true);
     });
 
     /**

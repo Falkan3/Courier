@@ -1,5 +1,5 @@
 /* eslint-disable import/no-unresolved */
-import Reef from '@libs/reefjs/reef.es';
+import { component as Reef, signal } from '@libs/reefjs/reef.es';
 import EventsBinder from '@core/event/events-binder';
 
 export default function (Courier, Components, Events) {
@@ -12,6 +12,9 @@ export default function (Courier, Components, Events) {
 
     const App = {
         refs: {},
+        templateData: signal({
+            //
+        }, 'app'),
 
         mount() {
             Events.emit('app.mount.before');
@@ -73,32 +76,35 @@ export default function (Courier, Components, Events) {
          */
         onRendered(event) {
             Events.emit('app.rendered', event);
+            if (event.target.isEqualNode(App.refs.app.elem)) {
+                Events.emit('app.rendered.app', event);
+            }
         },
 
         /**
          * Initialize the app wrapper.
          */
         initialize() {
-            const componentHtmlArr = [];
-            if (Object.prototype.hasOwnProperty.call(Components, 'Chat')) {
-                componentHtmlArr.push(`<div id="courierChat" class="${Courier.settings.classes.chat}"></div>`);
-            }
-            if (Object.prototype.hasOwnProperty.call(Components, 'Popup')) {
-                componentHtmlArr.push(`<div id="courierPopup" class="${Courier.settings.classes.popup}"></div>`);
-            }
             const rootClasses = [
                 Courier.settings.classes.root,
                 ...Courier.settings.modifierClasses.root
             ];
 
-            App.refs.app = new Reef(Courier.rootElement, {
-                data: {},
-                template: () => `
+            App.refs.app = Reef(Courier.rootElement, () => {
+                const componentHtmlArr = [];
+                if (Object.prototype.hasOwnProperty.call(Components, 'Chat')) {
+                    componentHtmlArr.push(`<div id="courierChat" class="${Courier.settings.classes.chat}"></div>`);
+                }
+                if (Object.prototype.hasOwnProperty.call(Components, 'Popup')) {
+                    componentHtmlArr.push(`<div id="courierPopup" class="${Courier.settings.classes.popup}"></div>`);
+                }
+
+                return `
                 <div id="courierRoot" class="${rootClasses.join(' ')}">
                     ${componentHtmlArr.join('')}
                     <div id="courierWidget" class="${Courier.settings.classes.widget}"></div>
-                </div>`,
-            });
+                </div>`;
+            }, { signals: ['app'] });
         },
 
         /**

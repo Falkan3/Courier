@@ -1,4 +1,8 @@
 /*! reef v13.0.2 | (c) 2023 Chris Ferdinandi | MIT License | http://github.com/cferdinandi/reef */
+'use strict';
+
+Object.defineProperty(exports, '__esModule', { value: true });
+
 /**
  * Emit a custom reefevent
  * @param  {String} type   The event type
@@ -648,5 +652,9 @@ function focus (selector) {
 	document.addEventListener('reef:render', setFocus, {once: true});
 }
 
-export { component, focus, render, signal, store };
-//# sourceMappingURL=reef.es.js.map
+exports.component = component;
+exports.focus = focus;
+exports.render = render;
+exports.signal = signal;
+exports.store = store;
+//# sourceMappingURL=reef.cjs.js.map

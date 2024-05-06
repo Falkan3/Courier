@@ -1,5 +1,5 @@
 /* eslint-disable import/no-unresolved */
-import Reef from '@libs/reefjs/reef.es';
+import { component as Reef, signal } from '@libs/reefjs/reef.es';
 import Glide, {
     Controls, Images, Swipe, Anchors
 } from '@libs/glidejs/glide.modular.esm';
@@ -19,6 +19,15 @@ export default function (Courier, Components, Events) {
             glides: []
         },
         template: 'carousel',
+        templateData: signal({
+            texts: {
+                clipboardButton: Courier.settings.textsParsed.clipboardButton,
+                clipboardTooltip: Courier.settings.textsParsed.clipboardTooltip,
+                clipboardCopy: Courier.settings.textsParsed.clipboardCopy,
+                clickToApplyDiscount: Courier.settings.textsParsed.clickToApplyDiscount,
+            },
+        }, 'popup-carousel'),
+        activeSlide: {},
 
         /**
          * Construct a PopupCarousel instance.
@@ -30,10 +39,10 @@ export default function (Courier, Components, Events) {
         },
 
         initGlide(rootElem) {
-            // Mount glide carousels
+            // mount glide carousels
             const glide = new Glide(rootElem.querySelector('.glide'), {
                 type: 'carousel',
-                startAt: 0,
+                startAt: this.activeSlide[rootElem.dataset.courierMessageId] ?? 0,
                 perView: 1,
                 peek: {
                     before: 0,
@@ -42,6 +51,10 @@ export default function (Courier, Components, Events) {
             });
             glide.mount({
                 Controls, Swipe, Images, Anchors
+            });
+            // save last active item index for the current message
+            glide.on('run', () => {
+                this.activeSlide[rootElem.dataset.courierMessageId] = glide.index;
             });
             this.refs.glides.push(glide);
         },
@@ -53,7 +66,7 @@ export default function (Courier, Components, Events) {
             this.refs.glides = [];
         },
 
-        generateHtml(props, elem) {
+        generateHtml(elem) {
             const moduleData = Courier.settings.moduleData[elem.dataset.moduleId];
 
             let html = '';
@@ -61,7 +74,6 @@ export default function (Courier, Components, Events) {
             const carouselArrows = `
             <div class="glide__arrows" data-glide-el="controls">
                 <button class="slider__arrow slider__arrow--prev glide__arrow glide__arrow--prev" data-glide-dir="<">${arrowLeftIcon}</button>
-
                 <button class="slider__arrow slider__arrow--next glide__arrow glide__arrow--next" data-glide-dir=">">${arrowRightIcon}</button>
             </div>`;
             let carouselBullets = '';
@@ -120,7 +132,7 @@ export default function (Courier, Components, Events) {
                     if (carouselItem.discountLink) {
                         discountCodeHtml = `
                         <div class="${Courier.settings.classes.popup}-discount-code">
-                            <a class="${Courier.settings.classes.popup}-discount-code-btn" href="${carouselItem.discountLink}" data-courier-tooltip="${props.texts.clickToApplyDiscount}" data-courier-discount-code="${carouselItem.discountCode}">
+                            <a class="${Courier.settings.classes.popup}-discount-code-btn" href="${carouselItem.discountLink}" data-courier-tooltip="${this.templateData.texts.clickToApplyDiscount}" data-courier-discount-code="${carouselItem.discountCode}">
                                 <span class="${Courier.settings.classes.popup}-discount-code-btn-container">
                                     <span class="${Courier.settings.classes.popup}-discount-code-value">${carouselItem.discountCode}</span>
                                     <span class="${Courier.settings.classes.popup}-discount-code-icon ${Courier.settings.classes.popup}-discount-code-icon--link">${linkIcon}</span>
@@ -133,11 +145,11 @@ export default function (Courier, Components, Events) {
                         });
                     } else {
                         discountCodeHtml = `
-                        <div class="${Courier.settings.classes.popup}-discount-code">
-                            <button class="${Courier.settings.classes.popup}-discount-code-btn" data-courier-tooltip="${props.texts.clipboardTooltip}" data-courier-discount-code="${carouselItem.discountCode}">
+                        <div class="${Courier.settings.classes.popup}-discount-code ${Courier.settings.classes.chat}-carousel-item-discount-code">
+                            <button class="${Courier.settings.classes.popup}-discount-code-btn" data-courier-tooltip="${this.templateData.texts.clipboardTooltip}" data-courier-discount-code="${carouselItem.discountCode}">
                                 <span class="${Courier.settings.classes.popup}-discount-code-btn-container">
                                     <span class="${Courier.settings.classes.popup}-discount-code-value">${carouselItem.discountCode}</span>
-                                    <span class="${Courier.settings.classes.popup}-discount-code-icon">${clipboardIcon}<span class="${Courier.settings.classes.popup}-discount-code-icon-text">${props.texts.clipboardButton}</span></span>
+                                    <span class="${Courier.settings.classes.popup}-discount-code-icon">${clipboardIcon}<span class="${Courier.settings.classes.popup}-discount-code-icon-text">${this.templateData.texts.clipboardButton}</span></span>
                                 </span>
                             </button>
                         </div>`;
@@ -175,9 +187,9 @@ export default function (Courier, Components, Events) {
             });
 
             html += `
-                <div class="glide">
+                <div class="glide" reef-ignore key="msg_${elem.dataset.moduleId}_glide">
                     <div class="${Courier.settings.classes.popup}-carousel glide__track" data-glide-el="track">
-                        <ul class="glide__slides">
+                        <ul class="glide__slides" reef-ignore key="msg_${elem.dataset.moduleId}_glide_slides">
                             ${carouselItemsHtml}
                         </ul>
                     </div>
@@ -204,15 +216,29 @@ export default function (Courier, Components, Events) {
         },
     };
 
-    Events.on('mount.after', () => {
-        PopupCarousel.initialize();
+    /**
+     * Destroy existing instances before render
+     * todo: Preserve instances on rerender
+     */
+    Events.on('app.beforeRender', (event) => {
+        if (event.target.matches('#courierChat') && Components.Popup.templateData.state.active) {
+            // remove existing reef instances
+            if (PopupCarousel.refs.carousels) {
+                PopupCarousel.destroyGlides();
+                PopupCarousel.refs.carousels.forEach((carousel, index) => {
+                    // Components.Chat.refs.chat.detach(carousel); // deprecated in v11
+                    delete PopupCarousel.refs.carousels[index];
+                });
+            }
+            PopupCarousel.refs.carousels = [];
+        }
     });
 
     /**
      * Bind event listeners after App has been rendered
      */
-    Events.on('app.rendered', (event) => {
-        if (event.target.matches('#courierPopup') && Components.Popup.refs.popup.data.state.active) {
+    Events.on('app.rendered.popup', (event) => {
+        if (Components.Popup.templateData.state.active) {
             // remove existing reef instances
             if (PopupCarousel.refs.carousels) {
                 // PopupCarousel.destroyGlides();
@@ -228,26 +254,24 @@ export default function (Courier, Components, Events) {
             carousels.forEach((carousel) => {
                 for (let i = 0; i < PopupCarousel.refs.carousels.length; i++) {
                     // skip if the carousel has been initialized as a reef instance already
-                    if (carousel.matches(PopupCarousel.refs.carousels[i].elem)) return;
-                    // if (carousel.isEqualNode(PopupCarousel.refs.carousels[i].elem)) return;
+                    if (carousel.isSameNode(PopupCarousel.refs.carousels[i].elem)) return;
                 }
                 // initialize new reef instances
-                PopupCarousel.refs.carousels.push(new Reef(`[data-template="${PopupCarousel.template}"][data-module-id="${carousel.dataset.moduleId}"]`, {
-                    data: {
-                        texts: {
-                            clipboardButton: Courier.settings.textsParsed.clipboardButton,
-                            clipboardTooltip: Courier.settings.textsParsed.clipboardTooltip,
-                            clipboardCopy: Courier.settings.textsParsed.clipboardCopy,
-                        },
-                    },
-                    template: (props, elem) => PopupCarousel.generateHtml(props, elem),
-                    attachTo: Components.Popup.refs.popup
-                }));
+                const elem = Components.App.refs.app.elem.querySelector(`[data-template="${PopupCarousel.template}"][data-module-id="${carousel.dataset.moduleId}"]`);
+                PopupCarousel.refs.carousels.push(
+                    Reef(elem, () => PopupCarousel.generateHtml(elem))
+                );
             });
         }
+    });
 
+    /**
+     * Initialize Glide for the current popup module
+     * todo: Preserve instances on rerender
+     */
+    Events.on('app.rendered.popupModule', (event) => {
         if (event.target.matches(`[data-template="${PopupCarousel.template}"]`)
-            && Components.Popup.refs.popup.data.state.active) {
+            && Components.Popup.templateData.state.active) {
             PopupCarousel.initGlide(event.target);
         }
     });
