@@ -138,7 +138,7 @@ export default function (Courier, Components, Events) {
      * - on updating to reflect potential changes in settings
      */
     Events.on('update', () => {
-        App.mount();
+        App.bind();
     });
 
     /**
