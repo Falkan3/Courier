@@ -17,7 +17,7 @@ export default function (Courier, Components, Events) {
 
         mount() {
             this.templateData = this.getTemplateData();
-            Events.emit('popup.mount');
+            Events.emit('popup.mounted');
         },
 
         /**
@@ -76,7 +76,7 @@ export default function (Courier, Components, Events) {
                 },
                 state: {
                     active: false,
-                },
+                }
             };
 
             if (update) {
@@ -149,8 +149,6 @@ export default function (Courier, Components, Events) {
         Events.on('widget.clicked', () => {
             Popup.open();
         });
-
-        Events.emit('popup.mounted');
     });
 
     Events.on('app.rendered.app', () => {

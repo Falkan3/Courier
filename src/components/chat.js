@@ -24,7 +24,7 @@ export default function (Courier, Components, Events) {
 
         mount() {
             this.templateData = this.getTemplateData();
-            Events.emit('chat.mount');
+            Events.emit('chat.mounted');
         },
 
         /**
@@ -454,8 +454,6 @@ export default function (Courier, Components, Events) {
         Events.on('chat.clear', () => {
             Chat.clearMessages();
         });
-
-        Events.emit('chat.mounted');
     });
 
     /**

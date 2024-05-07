@@ -27,7 +27,7 @@ export default function (Courier, Components, Events) {
 
         mount() {
             this.templateData = this.getTemplateData();
-            Events.emit('widget.mount');
+            Events.emit('widget.mounted');
         },
 
         /**

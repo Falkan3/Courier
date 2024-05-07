@@ -221,38 +221,24 @@ export default function (Courier, Components, Events) {
      * Destroy existing instances before render
      * todo: Preserve instances on rerender
      */
-    Events.on('app.beforeRender', (event) => {
-        return;
-        if (event.target.matches('#courierChat') && Components.Chat.templateData.state.active) {
-            // remove existing reef instances
-            if (ChatCarousel.refs.carousels) {
-                ChatCarousel.destroyGlides();
-                ChatCarousel.refs.carousels.forEach((carousel, index) => {
-                    // Components.Chat.refs.chat.detach(carousel); // deprecated in v11
-                    delete ChatCarousel.refs.carousels[index];
-                });
-            }
-            ChatCarousel.refs.carousels = [];
-        }
-    });
+    // Events.on('app.beforeRender', (event) => {
+    //     if (event.target.matches('#courierChat') && Components.Chat.templateData.state.active) {
+    //         // remove existing reef instances
+    //         if (ChatCarousel.refs.carousels) {
+    //             ChatCarousel.destroyGlides();
+    //             ChatCarousel.refs.carousels.forEach((carousel, index) => {
+    //                 delete ChatCarousel.refs.carousels[index];
+    //             });
+    //         }
+    //         ChatCarousel.refs.carousels = [];
+    //     }
+    // });
 
     /**
      * Initialize carousels after App has been rendered
      */
     Events.on('app.rendered.chat', () => {
         if (Components.Chat.templateData.state.active) {
-            // remove existing reef instances
-            // if (ChatCarousel.refs.carousels) {
-            //     // todo: destroy old event listeners
-            //     // todo: figure out how to destroy glide instances before the DOM has updated
-            //     // ChatCarousel.destroyGlides();
-            //     ChatCarousel.refs.carousels.forEach((carousel, index) => {
-            //         // Components.Chat.refs.chat.detach(carousel); // deprecated in v11
-            //         delete ChatCarousel.refs.carousels[index];
-            //     });
-            // }
-            // ChatCarousel.refs.carousels = [];
-
             // find all templates
             const carousels = Components.App.refs.app.elem.querySelectorAll(`[data-template="${ChatCarousel.template}"]`);
             carousels.forEach((carousel) => {
@@ -269,7 +255,6 @@ export default function (Courier, Components, Events) {
 
     /**
      * Initialize Glide for the current chat message
-     * todo: Preserve instances on rerender
      */
     Events.on('app.rendered.chatMessage', (event) => {
         if (event.target.matches(`[data-template="${ChatCarousel.template}"]`)
