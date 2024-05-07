@@ -264,6 +264,59 @@ cookies: {
 }
 ```
 
+## Updating settings during runtime
+
+To update settings, call the `update` function.
+```js
+courierInstance.update({
+    texts: {
+        widgetGreeting: 'Hello there!'
+    },
+});
+```
+
+# Component data
+You can get and set component data like so:
+```js
+courierInstance._components.Chat.templateData.state.online = true;
+``` 
+The data is reactive and any changes will cause the component to rerender.
+Changing template data is recommended only for state properties not loaded through settings, which can be updated using the `update` method.
+
+# Widget
+```js
+state: {
+    active: Courier.settings.state.widgetActiveAtStart,
+    minimalized: false,
+    hidden: !Courier.settings.state.widgetActiveAtStart,
+    style: Courier.settings.state.widgetStyle,
+    hideBtnActive: Courier.settings.state.hideBtnActiveAtStart,
+    online: Courier.settings.state.online
+}
+```
+
+## Chat
+```js
+state: {
+    active: false,
+    online: Courier.settings.state.online,
+    userTurn: true,
+    showOptionsButton: Courier.settings.state.showOptionsButton,
+    showMessageBox: Courier.settings.state.showMessageBox,
+    messageBoxEnabled: Courier.settings.state.messageBoxEnabled,
+    showTimestamp: Courier.settings.state.showTimestamp,
+    typing: false,
+    maxMessageLength: Courier.settings.state.maxMessageLength
+}
+```
+
+## Popup
+```js
+state: {
+    active: false,
+}
+```
+
 # Events
 To emit events, use:
 ```js 
@@ -276,37 +329,38 @@ courierInstance._eventsBus.on('eventName', (context) => {
 });
 ```  
 A list of available events, emitted and listened to:
-- `mount.before` - Called before components have been mounted
-- `mount.after` - Called after all components have been mounted. Also used as a callback to render components
-- `update` - Called after the update function has been called, modifying the settings
+- `mount.before` - Called before components have been mounted.
+- `mount.after` - Called after all components have been mounted. Also used as a callback to render components.
+- `update` - Called after the update function has been called, modifying the settings.
 - `destroy`
 - `destroy.after`
-- `root.keydown` - Keydown event delegation callback
-- `app.mount.before` - Called before the app is initialized, that is the template HTML and event bindings
-- `app.mount.after` - Called after the app HTML template is parsed and events are bound
-- `app.mounted` - App has been mounted and App.render() has been called
-- `app.rendered` - App render callback
-- `app.click` - Click event delegation callback
-- `widget.mount`
-- `widget.mounted` - Widget has been mounted and Widget.render() has been called
+- `root.keydown` - Keydown event delegation callback.
+- `app.mount.before` - Called before the app is initialized, that is the template HTML and event bindings.
+- `app.mount.after` - Called after the app HTML template is parsed and events are bound.
+- `app.mounted` - App has been mounted and App.render() has been called.
+- `app.rendered` - General render callback.
+- `app.rendered.app` - App component render callback.
+- `app.rendered.widget` - Widget component render callback.
+- `app.rendered.chat` - Chat component render callback.
+- `app.rendered.popup` - Popup render callback.
+- `app.click` - Click event delegation callback.
+- `widget.mounted` - Widget has been mounted.
 - `widget.clicked`
-- `widget.close` - Close the widget
+- `widget.close` - Close the widget.
 - `widget.closed`
 - `widget.opened`
-- `widget.hide` - Hide the widget, pass an argument to save hidden state to cookie (true by default)
-- `widget.hidden` - Called after the hide widget logic
-- `chat.mount`
-- `chat.mounted` - Chat has been mounted and Chat.render() has been called
-- `chat.close` - Close the chat
+- `widget.hide` - Hide the widget, pass an argument to save hidden state to cookie (true by default).
+- `widget.hidden` - Called after the hide widget logic.
+- `chat.mounted` - Chat has been mounted.
+- `chat.close` - Close the chat.
 - `chat.closed`
 - `chat.opened`
-- `chat.sendMessage`
+- `chat.sendMessage` - Called after sending a chat message. Can be used in a custom chat solution.
 - `chat.typing` - upcoming
 - `chat.stoppedTyping` - upcoming
-- `chat.clear` - Clear all chat messages and reinitialize the message scenario
-- `popup.mount`
-- `popup.mounted` - Popup has been mounted and Popup.render() has been called
-- `popup.close`
+- `chat.clear` - Clear all chat messages and reinitialize the message scenario.
+- `popup.mounted` - Popup has been mounted.
+- `popup.close` - Close the popup.
 - `popup.closed`
 - `popup.opened`
 
