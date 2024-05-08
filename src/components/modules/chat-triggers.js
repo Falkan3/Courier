@@ -29,6 +29,7 @@ export default function (Courier, Components, Events) {
         triggerTopic(messageId, topicId, options = {}) {
             const settings = {
                 topicTriggersEnabled: true,
+                save: true,
                 timestamp: new Date(),
                 scrollToBottom: true,
                 ...options
@@ -51,11 +52,11 @@ export default function (Courier, Components, Events) {
                 });
                 // emit the topic's trigger, if it's set, and topic triggers option is enabled
                 if (settings.topicTriggersEnabled && topic.trigger) {
-                    this.topicTrigger(topic.trigger);
+                    this.topicTrigger(topic.trigger, topic);
                 }
                 this.triggerPath(topic);
                 // push message path
-                this.pushMessagePath(messageId, topicId, settings.timestamp);
+                this.pushMessagePath(messageId, topicId, settings.timestamp, settings.save);
             }
         },
 
@@ -89,17 +90,17 @@ export default function (Courier, Components, Events) {
             return false;
         },
 
-        topicTrigger(trigger) {
-            Events.emit(trigger);
+        topicTrigger(trigger, topic) {
+            Events.emit(trigger, topic);
         },
 
-        pushMessagePath(messageId, topicId, timestamp) {
+        pushMessagePath(messageId, topicId, timestamp, save = true) {
             Components.Chat.messagePath.push({
                 messageId,
                 topicId,
                 timestamp
             });
-            if (Courier.settings.cookies.saveConversation.active) {
+            if (save && Courier.settings.cookies.saveConversation.active) {
                 saveMessagePath(
                     Components.Chat.messagePath,
                     Courier.settings.cookies.saveConversation.duration,
@@ -115,8 +116,11 @@ export default function (Courier, Components, Events) {
             if (messagePath && isArray(messagePath)) {
                 messagePath.forEach((item) => {
                     this.triggerTopic(item.messageId, item.topicId, {
+                        // don't trigger topics or save conversation when restoring messages
+                        topicTriggersEnabled: false,
+                        save: false,
                         timestamp: item.timestamp,
-                        scrollToBottom: true
+                        scrollToBottom: true,
                     });
                 });
             }
@@ -124,6 +128,7 @@ export default function (Courier, Components, Events) {
     };
 
     Events.on('chat.initialized', () => {
+        Events.emit('chat.resetMessages');
         ChatTriggers.startMessage();
         if (Courier.settings.cookies.saveConversation.active) {
             ChatTriggers.restoreMessages();

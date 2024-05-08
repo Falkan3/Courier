@@ -196,19 +196,21 @@ export default function (Courier, Components, Events) {
             }
         },
 
-        refreshMessages() {
+        resetMessages() {
             // reset sent messages and message path
             this.templateData.messages = [];
-            const oldMessagePath = clone(this.messagePath, true);
             this.messagePath = [];
+        },
+
+        refreshMessages() {
+            const oldMessagePath = clone(this.messagePath, true);
+            this.resetMessages();
             // recreate message path
             Events.emit('chat.refreshMessages', oldMessagePath);
         },
 
         clearMessages() {
-            // reset sent messages and message path
-            this.templateData.messages = [];
-            this.messagePath = [];
+            this.resetMessages();
             clearMessagePath(Courier.settings.cookies.saveConversation.nameSuffix);
             Events.emit('chat.refreshMessages', this.messagePath);
         },
@@ -436,6 +438,10 @@ export default function (Courier, Components, Events) {
             Chat.refs.chat.render();
         }
     };
+
+    Events.on('chat.resetMessages', () => {
+        Chat.resetMessages();
+    });
 
     /**
      * Bind event listeners after App has been mounted and rendered for the first time
