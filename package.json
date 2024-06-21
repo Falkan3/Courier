@@ -113,7 +113,8 @@
         "stylelint-config-standard": "^36.0.0",
         "stylelint-scss": "^6.1.0",
         "terser": "^5.28.1",
-        "throttle-debounce": "^5.0.0"
+        "throttle-debounce": "^5.0.0",
+        "vue": "^3.4.26"
     },
     "abandonedDependencies": {
         "xstream": "^11.12.0",

@@ -22,6 +22,7 @@ module.exports = {
                 alias: {
                     '@src': './src',
                     '@libs': './src/libs',
+                    '@vue': './src/vue',
                     '@components': './src/components',
                     '@core': './src/core',
                     '@utils': './src/utils',
