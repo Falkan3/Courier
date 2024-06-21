@@ -307,7 +307,7 @@ export default function (Courier, Components, Events) {
                             </div>`;
                     } else {
                         html += message.text
-                            ? `<p class="${Courier.settings.classes.chat}-message ${message.outgoing ? `${Courier.settings.classes.chat}-message--self` : ''} ${message.typeClassSuffix ? `${Courier.settings.classes.chat}-message${message.typeClassSuffix}` : ''} ${Courier.settings.classes.root}__appear ${Courier.settings.classes.root}__anim-timing--third" data-courier-message-id="${index}">${message.text}</p>`
+                            ? `<div class="${Courier.settings.classes.chat}-message ${message.outgoing ? `${Courier.settings.classes.chat}-message--self` : ''} ${message.typeClassSuffix ? `${Courier.settings.classes.chat}-message${message.typeClassSuffix}` : ''} ${Courier.settings.classes.root}__appear ${Courier.settings.classes.root}__anim-timing--third" data-courier-message-id="${index}">${message.text}</div>`
                             : '';
                     }
 
