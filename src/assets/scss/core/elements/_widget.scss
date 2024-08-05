@@ -2,6 +2,7 @@
 @use "../../utils/mixins/palette";
 @use "../../utils/mixins/selectors";
 @use "../../utils/mixins/order";
+@use "../../utils/mixins/media-query/media-query-width";
 @use "sass:color";
 
 // bubble
@@ -231,6 +232,12 @@ $btnColorActive: palette.get-palette-hue("accent-1", 100);
 		border: solid 1px $bubbleBorder;
 		border-radius: 50%;
 		background: #fff;
+
+		@include media-query-width.m-small-devices {
+			width: 3em;
+			height: 3em;
+			padding: 0.8em;
+		}
 
 		& > img,
 		& > svg {
