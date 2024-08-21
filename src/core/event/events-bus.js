@@ -1,5 +1,5 @@
 /* eslint-disable import/no-unresolved */
-import { isArray } from '@utils/types';
+import { isArray, isUndefined } from '@utils/types';
 
 export default class EventsBus {
     /**
@@ -89,7 +89,7 @@ export default class EventsBus {
 
         // Cycle through events queue, fire!
         this.events[event].forEach((item) => {
-            item(context || {});
+            item(!isUndefined(context) ? context : null);
         });
     }
 
