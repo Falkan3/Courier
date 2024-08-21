@@ -21,6 +21,8 @@ export default function (Courier, Components, Events) {
         templateData: null,
         scrollToBottom: false,
         messagePath: [],
+        lastReceivedMessageIndex: null,
+        lastSentMessageIndex: null,
 
         mount() {
             this.templateData = this.getTemplateData();
@@ -145,12 +147,18 @@ export default function (Courier, Components, Events) {
         },
 
         sendMessage(message) {
+            const timestamp = new Date();
             if (Courier.settings.state.customSendMessage) {
-                Events.emit('chat.sendMessage', message);
+                Events.emit('chat.sendMessage', {
+                    text: message,
+                    timestamp
+                });
                 return;
             }
             if (message.length) {
-                this.pushMessage({ text: message, outgoing: true, timestamp: new Date() });
+                this.pushMessage(
+                    { text: message, outgoing: true, timestamp }
+                );
             }
         },
 
