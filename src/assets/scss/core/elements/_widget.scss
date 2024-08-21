@@ -278,4 +278,28 @@ $btnColorActive: palette.get-palette-hue("accent-1", 100);
 			}
 		}
 	}
+
+	&-notification {
+		position: absolute;
+		top: -0.7em;
+		left: -0.7em;
+		width: 1.5em;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		height: 1.5em;
+		padding: 0.3em;
+		border: solid 1px $btnColor;
+		border-radius: 50%;
+		background-color: $btnColor;
+		line-height: 1;
+		color: #fff;
+
+		@at-root {
+			#{variables.$classPrefix}--widget-round #{variables.$classPrefix}__widget-hide-btn {
+				left: -0.3em;
+				top: -0.3em;
+			}
+		}
+	}
 }

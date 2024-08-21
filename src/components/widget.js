@@ -3,8 +3,10 @@ import EventsBinder from '@core/event/events-binder';
 import { component as Reef, signal } from '@libs/reefjs/reef.es';
 import { elemContains } from '@utils/dom';
 import {
-    isMinimalized as widgetIsMinimalized, setMinimalized as widgetSetMinimalized,
-    isHidden as widgetIsHidden, setHidden as widgetSetHidden
+    isHidden as widgetIsHidden,
+    isMinimalized as widgetIsMinimalized,
+    setHidden as widgetSetHidden,
+    setMinimalized as widgetSetMinimalized
 } from '@utils/widget';
 import { parseSpecialTags } from '@utils/object.js';
 
@@ -99,15 +101,18 @@ export default function (Courier, Components, Events) {
                     widgetGreeting: Courier.settings.textsParsed.widgetGreeting,
                     name: Courier.settings.textsParsed.widgetName,
                     openWidget: Courier.settings.textsParsed.openWidget,
-                    hideWidget: Courier.settings.textsParsed.hideWidget
+                    hideWidget: Courier.settings.textsParsed.hideWidget,
+                    unreadMessages: Courier.settings.textsParsed.unreadMessages,
                 },
                 state: {
                     active: Courier.settings.state.widgetActiveAtStart,
-                    minimalized: false,
+                    minimalized: Courier.settings.state.widgetMinimalizedAtStart,
                     hidden: !Courier.settings.state.widgetActiveAtStart,
                     style: Courier.settings.state.widgetStyle,
                     hideBtnActive: Courier.settings.state.hideBtnActiveAtStart,
-                    online: Courier.settings.state.online
+                    online: Courier.settings.state.online,
+                    showWidgetUnreadMessages: Courier.settings.state.showWidgetUnreadMessages,
+                    unreadMessages: 0
                 }
             };
 
@@ -116,6 +121,7 @@ export default function (Courier, Components, Events) {
                 data.state.minimalized = this.templateData.state.minimalized;
                 data.state.hidden = this.templateData.state.hidden;
                 data.state.online = this.templateData.state.online;
+                data.state.unreadMessages = this.templateData.state.unreadMessages;
             }
 
             return signal(data, 'widget');
@@ -139,10 +145,19 @@ export default function (Courier, Components, Events) {
                         </button>`
                     : '';
 
+                const notification = this.templateData.state.showWidgetUnreadMessages
+                && this.templateData.state.unreadMessages !== 0
+                    ? `
+                        <div id="courierNotification" class="${Courier.settings.classes.widget}-notification" aria-label="${this.templateData.texts.unreadMessages}">
+                            ${this.templateData.state.unreadMessages}
+                        </div>`
+                    : '';
+
                 return `
                     <div class="${Courier.settings.classes.widget}-wrapper ${Courier.settings.classes.widget}-wrapper--${this.templateData.state.style} ${Courier.settings.classes.root}__appear-bottom ${Courier.settings.classes.root}__anim-timing--half">
                         ${this.getHtml(this.templateData.state.style, this.templateData)}
                         ${hideBtn}
+                        ${notification}
                     </div>`;
             }, { signals: ['widget'] });
         },
@@ -269,6 +284,15 @@ export default function (Courier, Components, Events) {
             Widget.minimalize();
         });
 
+        if (Widget.templateData.state.showWidgetUnreadMessages) {
+            /**
+             * Clear unread messages when the chat opens
+             */
+            Events.on('chat.opened', () => {
+                Widget.templateData.state.unreadMessages = 0;
+            });
+        }
+
         /**
          * Open the widget when the chat or popup closes
          */
@@ -312,6 +336,14 @@ export default function (Courier, Components, Events) {
         });
 
         Events.emit('widget.mounted');
+
+        if (Widget.templateData.state.showWidgetUnreadMessages) {
+            Events.on('chat.messageReceived', () => {
+                if (Widget.templateData.state.active) {
+                    Widget.templateData.state.unreadMessages += 1;
+                }
+            });
+        }
     });
 
     /**

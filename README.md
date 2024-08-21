@@ -126,6 +126,7 @@ texts: {
   widgetGreeting: 'Hello {{name}}!',
   openWidget: 'Open widget', 
   hideWidget: 'Hide widget',
+  unreadMessages: 'Unread messages',
   // widget - advanced
   widgetGreetingTitle: 'AI helper',
   widgetName: '',
@@ -229,7 +230,10 @@ Settings that are responsible for the state of elements.
 state: {
   widgetActiveAtStart: true, // Show the widget immediately after mounting
   hideBtnActiveAtStart: false, // Show the hide widget button from the get-go
+  widgetMinimalizedAtStart: false, // Show the minimalized widget version from the get-go
+  showWidgetUnreadMessages: true, // Show unread messages counter when receiving chat messages when the widget is not active
   online: true, // Change the avatar dot color to indicate the online state
+  unreadMessages: true, // The counter of messages received while the chat is minimalized
   showOptionsButton: false, // Show the options button in chat header
   showMessageBox: false, // Show the "type message" box
   messageBoxEnabled: true, // Enable the "type message" box
@@ -355,7 +359,9 @@ A list of available events, emitted and listened to:
 - `chat.close` - Close the chat.
 - `chat.closed`
 - `chat.opened`
-- `chat.sendMessage` - Called after sending a chat message. Can be used in a custom chat solution.
+- `chat.sendMessage` - Called after sending a chat message, before adding to the message stack. Can be used in a custom chat solution.
+- `chat.messageReceived` - Called after a message has been received and added to the message stack.
+- `chat.messageSent` - Called after a message has been sent and added to the message stack
 - `chat.typing` - upcoming
 - `chat.stoppedTyping` - upcoming
 - `chat.clear` - Clear all chat messages and reinitialize the message scenario.

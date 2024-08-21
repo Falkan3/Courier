@@ -47,6 +47,7 @@ export default {
         widgetName: '',
         openWidget: 'Open widget',
         hideWidget: 'Hide widget',
+        unreadMessages: 'Unread messages',
         // chat
         close: 'Close',
         options: 'Options',
@@ -140,6 +141,8 @@ export default {
     state: {
         widgetActiveAtStart: true,
         hideBtnActiveAtStart: false,
+        widgetMinimalizedAtStart: false,
+        showWidgetUnreadMessages: true,
         online: true,
         showOptionsButton: false,
         showMessageBox: false,
