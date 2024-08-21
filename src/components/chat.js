@@ -178,7 +178,22 @@ export default function (Courier, Components, Events) {
                 });
             }
             // push message to component data
-            this.templateData.messages.push(chatMessage);
+            const index = this.templateData.messages.push(chatMessage);
+            if (chatMessage.outgoing === true) {
+                this.lastSentMessageIndex = index;
+                Events.emit('chat.messageSent', {
+                    text: chatMessage.text,
+                    topics: chatMessage.topics,
+                    index
+                });
+            } else {
+                this.lastReceivedMessageIndex = index;
+                Events.emit('chat.messageReceived', {
+                    text: chatMessage.text,
+                    topics: chatMessage.topics,
+                    index
+                });
+            }
             // set whether after render the chat work area should be scrolled to the bottom
             if (settings.scrollToBottom) {
                 this.scrollToBottom = this.chatIsScrolledToTheBottom();
