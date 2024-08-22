@@ -19,10 +19,10 @@ export default function (Courier, Components, Events) {
             // send the start message after initialization
             if (isArray(startMessage)) {
                 startMessage.forEach((message) => {
-                    Components.Chat.pushMessage(message, { scrollToBottom: false });
+                    Components.Chat.pushMessage(message, { scrollToBottom: false, passive: true });
                 });
             } else {
-                Components.Chat.pushMessage(startMessage, { scrollToBottom: false });
+                Components.Chat.pushMessage(startMessage, { scrollToBottom: false, passive: true });
             }
         },
 

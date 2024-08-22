@@ -264,6 +264,11 @@ cookies: {
     nameSuffix: '',
     active: true,
     duration: 24
+  },
+  unreadMessages: {
+    nameSuffix: '',
+    active: true,
+    duration: 24
   }
 }
 ```

@@ -1,3 +1,5 @@
+/* eslint-disable import/no-unresolved */
+import { toInt } from '@utils/types.js';
 import { getCookie, setCookie } from './cookies';
 
 /**
@@ -44,3 +46,18 @@ export function isHidden(nameSuffix = '') {
     return getCookie(`courier_widget_hidden${nameSuffix}`) === 'true'; // compare to string because the boolean has been stringified when saved in cookie
 }
 
+export function setUnreadMessagesCount(count, duration, nameSuffix = '') {
+    setCookie(`courier_widget_unread_messages${nameSuffix}`, count.toString(), duration);
+}
+
+/**
+ * Check if the widget should be hidden
+ *
+ * @param {string} nameSuffix  Cookie name suffix
+ *
+ * @returns Object|null
+ */
+export function getUnreadMessagesCount(nameSuffix = '') {
+    const val = getCookie(`courier_widget_unread_messages${nameSuffix}`);
+    return val !== null ? toInt(val) : 0;
+}

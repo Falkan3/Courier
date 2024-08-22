@@ -171,6 +171,7 @@ export default function (Courier, Components, Events) {
         pushMessage(message, options = {}) {
             const settings = {
                 scrollToBottom: true,
+                passive: false,
                 ...options
             };
             const chatMessage = new ChatMessage(message);
@@ -187,20 +188,23 @@ export default function (Courier, Components, Events) {
             }
             // push message to component data
             const index = this.templateData.messages.push(chatMessage);
-            if (chatMessage.outgoing === true) {
-                this.lastSentMessageIndex = index;
-                Events.emit('chat.messageSent', {
-                    text: chatMessage.text,
-                    topics: chatMessage.topics,
-                    index
-                });
-            } else {
-                this.lastReceivedMessageIndex = index;
-                Events.emit('chat.messageReceived', {
-                    text: chatMessage.text,
-                    topics: chatMessage.topics,
-                    index
-                });
+            if (settings.passive === false) {
+                if (chatMessage.outgoing === true) {
+                    this.lastSentMessageIndex = index;
+                    Events.emit('chat.messageSent', {
+                        text: chatMessage.text,
+                        type: chatMessage.type,
+                        index
+                    });
+                } else {
+                    this.lastReceivedMessageIndex = index;
+                    Events.emit('chat.messageReceived', {
+                        text: chatMessage.text,
+                        topics: chatMessage.topics,
+                        type: chatMessage.type,
+                        index
+                    });
+                }
             }
             // set whether after render the chat work area should be scrolled to the bottom
             if (settings.scrollToBottom) {

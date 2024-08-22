@@ -3,10 +3,11 @@ import EventsBinder from '@core/event/events-binder';
 import { component as Reef, signal } from '@libs/reefjs/reef.es';
 import { elemContains } from '@utils/dom';
 import {
+    getUnreadMessagesCount,
     isHidden as widgetIsHidden,
     isMinimalized as widgetIsMinimalized,
     setHidden as widgetSetHidden,
-    setMinimalized as widgetSetMinimalized
+    setMinimalized as widgetSetMinimalized, setUnreadMessagesCount
 } from '@utils/widget';
 import { parseSpecialTags } from '@utils/object.js';
 
@@ -263,6 +264,11 @@ export default function (Courier, Components, Events) {
                 Widget.hide(false);
             }
         }
+        if (Courier.settings.cookies.unreadMessages.active) {
+            Widget.templateData.state.unreadMessages = getUnreadMessagesCount(
+                Courier.settings.cookies.unreadMessages.nameSuffix
+            );
+        }
         // Widget.render();
     });
 
@@ -290,6 +296,10 @@ export default function (Courier, Components, Events) {
              */
             Events.on('chat.opened', () => {
                 Widget.templateData.state.unreadMessages = 0;
+                setUnreadMessagesCount(
+                    Widget.templateData.state.unreadMessages,
+                    Courier.settings.cookies.unreadMessages.nameSuffix
+                );
             });
         }
 
@@ -341,6 +351,10 @@ export default function (Courier, Components, Events) {
             Events.on('chat.messageReceived', () => {
                 if (Widget.templateData.state.active) {
                     Widget.templateData.state.unreadMessages += 1;
+                    setUnreadMessagesCount(
+                        Widget.templateData.state.unreadMessages,
+                        Courier.settings.cookies.unreadMessages.nameSuffix
+                    );
                 }
             });
         }
