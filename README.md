@@ -28,17 +28,17 @@ Courier is a flexible, easy to use and configurable chat foundation. It can be u
 
 # Commands
 ### Build
-- `npm run build` - Build `src` files into `dist` folder.
-- `npm run build:js` - Build `src` files into `dist` folder.
-- `npm run build:css` - Build `src` files into `dist` folder.
+- `npm run build` - Build `src` files into `dist` folder. This includes both JS and CSS.
+- `npm run build:js` - Build only JS files.
+- `npm run build:css` - Build only CSS files.
 ### Development
-- `npm run clean` - Remove `dist/` directory
+- `npm run clean` - Remove `dist` directory.
 - `npm test` - Run tests with linting and coverage results.
 - `npm run lint` - Run ESlint with airbnb-config.
 - `npm run lint:fix` - Run ESlint with airbnb-config and apply fixes.
 - `npm run stylelint` - Run Stylelint.
 - `npm run stylelint:fix` - Run Stylelint and apply fixes.
-- `npm i -g npm-check-updates` `ncu -u && npm i` - Update all npm packages to their latest versions
+- `npm i -g npm-check-updates` `ncu -u && npm i` - Update all npm packages to their latest versions.
 
 # Installation
 Install from the command line:
@@ -220,7 +220,7 @@ messages: {
 },
 ```
 
-Collection of used to supply data to optional module instances. Example usage can be found in demo files.
+Collection used to supply data to optional module instances. Example usage can be found in demo files.
 ```js
 moduleData: {},
 ```
