@@ -44,4 +44,3 @@ export function isHidden(nameSuffix = '') {
     return getCookie(`courier_widget_hidden${nameSuffix}`) === 'true'; // compare to string because the boolean has been stringified when saved in cookie
 }
 
-export default isHidden;

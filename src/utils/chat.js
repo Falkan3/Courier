@@ -87,5 +87,3 @@ export function copyCouponCodeToClipboard(component, parentEl, discountCode, opt
         copyMessageEl.addEventListener('animationend', () => copyMessageEl.remove());
     })();
 }
-
-export default replyFromScenario;
