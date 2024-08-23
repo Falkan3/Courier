@@ -93,6 +93,24 @@ export default class EventsBus {
         });
     }
 
+    async emitAsync(event, context) {
+        if (isArray(event)) {
+            event.map(async (item) => {
+                await this.emitAsync(item, context);
+            });
+        }
+
+        // If the event doesn't exist, or there's no handlers in queue, just leave
+        if (!this.hop.call(this.events, event)) {
+            return;
+        }
+
+        // Cycle through events queue, fire!
+        await Promise.all(this.events[event].map(async (item) => {
+            await item(!isUndefined(context) ? context : null);
+        }));
+    }
+
     destroy() {
         this.events = {};
     }
