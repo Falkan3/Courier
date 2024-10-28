@@ -36,14 +36,14 @@
  * ----------------------------------- */
 
 // todo: host the font on own servers
-@import url("https://fonts.googleapis.com/css?family=Asap:400,500&display=swap&subset=latin-ext");
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500&display=swap");
 
 /* -----------------------------------
  *  Root
  * ----------------------------------- */
 
 #{variables.$classPrefix} {
-	font-family: "Asap", sans-serif;
+	font-family: "Noto Sans", sans-serif;
 	font-size: #{font-size.get-font-size-core("px")};
 	color: #{palette.get-palette-hue("foreground", 1000)};
 	z-index: order.get-order("main");
