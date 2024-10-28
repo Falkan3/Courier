@@ -34,23 +34,27 @@ export default function (Courier, Components, Events) {
          * Adds events.
          */
         bind() {
-            Binder.on(
-                inputEvents,
-                Components.Chat.refs.messageBox,
-                throttle(this.settings.throttle.input, (event) => {
-                    this.onInput(event);
-                }),
-                { capture: true, passive: true }
-            );
+            if (Components.Chat.refs.messageBox) {
+                Binder.on(
+                    inputEvents,
+                    Components.Chat.refs.messageBox,
+                    throttle(this.settings.throttle.input, (event) => {
+                        this.onInput(event);
+                    }),
+                    { capture: true, passive: true }
+                );
+            }
         },
 
         /**
          * Removes events.
          */
         unbind() {
-            Binder.off(inputEvents, Components.App.refs.messageBox, {
-                capture: true, passive: true
-            });
+            if (Components.App.refs.messageBox) {
+                Binder.off(inputEvents, Components.App.refs.messageBox, {
+                    capture: true, passive: true
+                });
+            }
         },
 
         /**
