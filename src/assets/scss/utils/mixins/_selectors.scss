@@ -1,6 +1,8 @@
+@use "sass:list";
+
 @mixin parent {
 	@each $selector in & {
-		$l: length($selector);
+		$l: list.length($selector);
 
 		@if ($l == 1) {
 			// @debug "Used parent mixin on a top-level selector";
@@ -8,9 +10,9 @@
 				@content;
 			}
 		} @else {
-			$parent: nth($selector, 1);
+			$parent: list.nth($selector, 1);
 			@for $i from 2 to $l {
-				$parent: append($parent, nth($selector, $i));
+				$parent: append($parent, list.nth($selector, $i));
 			}
 
 			@at-root #{$parent} {
@@ -23,7 +25,7 @@
 
 @function parent-fn($inputSelector, $returnSelector: true) {
 	@each $selector in $inputSelector {
-		$l: length($selector);
+		$l: list.length($selector);
 
 		@if ($l == 1) {
 			// @debug "Used parent mixin on a top-level selector";
@@ -33,9 +35,9 @@
 				@return null;
 			}
 		} @else {
-			$parent: nth($selector, 1);
+			$parent: list.nth($selector, 1);
 			@for $i from 2 to $l {
-				$parent: append($parent, nth($selector, $i));
+				$parent: append($parent, list.nth($selector, $i));
 			}
 
 			@return $parent;
@@ -44,13 +46,13 @@
 }
 
 @mixin bottom-most {
-	// @debug 'Whole selector length: ' + length(&);
+	// @debug 'Whole selector length: ' + list.length(&);
 	@each $selector in & {
 		// @debug 'Selector: ' + $selector;
-		$l: length($selector);
+		$l: list.length($selector);
 		@if ($l != 1) {
-			// @debug 'Bottom most selector: ' + nth($selector, $l);
-			@at-root #{nth($selector, $l)} {
+			// @debug 'Bottom most selector: ' + list.nth($selector, $l);
+			@at-root #{list.nth($selector, $l)} {
 				@content;
 			}
 		} @else {
@@ -64,9 +66,9 @@
 
 @function bottom-most-fn($inputSelector) {
 	@each $selector in $inputSelector {
-		$l: length($selector);
+		$l: list.length($selector);
 		@if ($l != 1) {
-			@return nth($selector, $l);
+			@return list.nth($selector, $l);
 		} @else {
 			@return $selector;
 		}
