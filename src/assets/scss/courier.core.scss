@@ -49,11 +49,11 @@
 	z-index: order.get-order("main");
 
 	@include media-query-width.medium-devices {
-		font-size: #{decimal-round.decimal-floor(font-size.get-font-size-core-raw("px") * 0.9) + "px"};
+		font-size: 15px; // #{decimal-round.decimal-floor(font-size.get-font-size-core-raw("px") * 0.9) + "px"};
 	}
 
 	@include media-query-width.m-small-devices {
-		font-size: #{decimal-round.decimal-floor(font-size.get-font-size-core-raw("px") * 0.8) + "px"};
+		font-size: 16px; // #{decimal-round.decimal-floor(font-size.get-font-size-core-raw("px") * 0.8) + "px"};
 	}
 
 	*,
