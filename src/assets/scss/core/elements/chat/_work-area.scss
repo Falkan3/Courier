@@ -11,7 +11,8 @@
 &-work-area {
 	display: flex;
 	flex-direction: column;
-	height: 100%;
+	flex: 1 1 auto;
+	// height: 100%;
 	padding: 1em;
 	background-color: $workAreaBgColor;
 	line-height: 1.4;
