@@ -57,21 +57,25 @@
 		@at-root {
 			#{$message} {
 				&--text {
+					// align-self: flex-start;
+					margin-right: auto;
+
 					#{$messageContent} {
-						// align-self: flex-start;
-						margin-right: auto;
 						padding: 0.5em 1em;
 						border-radius: 12px 12px 12px 0;
 						background-color: $messageBgColorIncoming;
 					}
 
 					// outgoing messages (self modifier) styles
-					#{selector-unify(&, #{$message}--self)} #{$messageContent} {
+					@at-root #{selector-unify(selectors.bottom-most-fn(&), #{selectors.bottom-most-fn(#{$message}--self)})} {
 						align-self: flex-end;
 						margin-left: auto;
 						margin-right: unset;
-						background-color: $messageBgColorOutgoing;
-						border-radius: 12px 12px 0;
+
+						#{$messageContent} {
+							background-color: $messageBgColorOutgoing;
+							border-radius: 12px 12px 0;
+						}
 					}
 				}
 
