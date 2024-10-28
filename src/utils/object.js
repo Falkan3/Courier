@@ -219,6 +219,9 @@ export function mergeOptions(defaults, settings) {
     // this will replace text variable keys with values
     options.textsParsed = {};
     objectForEach(options.texts, (value, key) => {
+        if (value === null) {
+            return;
+        }
         options.textsParsed[key] = textTemplate(value, options.textVars);
     });
 
