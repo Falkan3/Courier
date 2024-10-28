@@ -377,8 +377,10 @@ export default function (Courier, Components, Events) {
                 const messageBox = Chat.templateData.state.showMessageBox
                     ? `
                         <form id="courierChatInteractionsForm" class="${Courier.settings.classes.chat}-interactions" autocomplete="off">
-                            <div class="${Courier.settings.classes.chat}-message-box-wrapper">
-                                <textarea class="${Courier.settings.classes.chat}-message-box" name="message" ${!Chat.templateData.state.messageBoxEnabled ? 'disabled' : ''} placeholder="${Chat.templateData.texts.messagePlaceholder}" rows="1" maxlength="${Chat.templateData.state.maxMessageLength}" autofocus></textarea>
+                            <div class="${Courier.settings.classes.chat}-message-box-container">
+                                <div class="${Courier.settings.classes.chat}-message-box-wrapper">
+                                    <textarea class="${Courier.settings.classes.chat}-message-box" name="message" ${!Chat.templateData.state.messageBoxEnabled ? 'disabled' : ''} placeholder="${Chat.templateData.texts.messagePlaceholder}" rows="1" maxlength="${Chat.templateData.state.maxMessageLength}" autofocus></textarea>
+                                </div>
                                 <button class="${Courier.settings.classes.chat}-send-msg-btn" type="submit" ${!Chat.templateData.state.messageBoxEnabled ? 'disabled' : ''} aria-label="${Chat.templateData.texts.sendMessage}">
                                     ${Courier.settings.images.sendMsg}
                                 </button>

@@ -1,5 +1,6 @@
 @use "sass:color";
 @use "../../../utils/mixins/palette";
+@use "../../../utils/mixins/selectors";
 
 $root: &;
 
@@ -14,13 +15,27 @@ $root: &;
 }
 
 /*
- * Message box wrapper
+ * Message box container
  */
-&-message-box-wrapper {
+&-message-box-container {
 	position: relative;
 	flex: 1 0 100%;
 	width: 100%;
 	font-size: 16px; // set font size to 16px to avoid Safari zoom on focus
+}
+
+/*
+ * Message box wrapper
+ */
+&-message-box-wrapper {
+	padding: 1em 3.5em 1em 1em;
+	border-radius: 34px;
+	background-color: $sendMessageBoxBgColor;
+	transition: background-color ease-out 0.3s;
+
+	@at-root #{$root}-message-box-container.disabled #{selectors.bottom-most-fn(&)} {
+		background-color: $sendMessageBoxBgColorDisabled;
+	}
 }
 
 /*
@@ -29,11 +44,7 @@ $root: &;
 &-message-box {
 	display: block;
 	width: 100%;
-	padding: 1em 3.5em 1em 1em;
-	border-radius: 34px;
-	background-color: $sendMessageBoxBgColor;
-	line-height: 1;
-	transition: background-color ease-out 0.3s;
+	line-height: 1.2;
 	resize: none;
 
 	&::placeholder {
@@ -41,8 +52,7 @@ $root: &;
 		color: palette.get-palette-hue("foreground", 500);
 	}
 
-	&:disabled {
-		background-color: $sendMessageBoxBgColorDisabled;
+	@at-root #{$root}-message-box-container.disabled, #{selectors.bottom-most-fn(&)}:disabled {
 		cursor: not-allowed;
 	}
 }
