@@ -89,23 +89,25 @@ $root: &;
 	}
 
 	@at-root {
-		#{$root}-message-box:disabled &, &:disabled {
+		// show disabled style
+		&:disabled, #{$root}-message-box-container.disabled #{selectors.bottom-most-fn(&)} {
 			cursor: not-allowed;
 
 			background-color: $btnColorInactive;
 		}
-	}
 
-	&:enabled {
-		&:hover,
-		&:active,
-		&:focus-visible {
-			background-color: color.scale($btnColor, $lightness: 5%);
-			color: color.scale($sendMessageBoxBgColor, $lightness: 5%);
+		// show hover style
+		#{$root}-message-box-container:not(.disabled) #{selectors.bottom-most-fn(&)}:enabled {
+			&:hover,
+			&:active,
+			&:focus-visible {
+				background-color: color.scale($btnColor, $lightness: 5%);
+				color: color.scale($sendMessageBoxBgColor, $lightness: 5%);
 
-			& > img,
-			& > svg {
-				transform: rotate(90deg) scale(1.1, 1.1);
+				& > img,
+				& > svg {
+					transform: rotate(90deg) scale(1.1, 1.1);
+				}
 			}
 		}
 	}
