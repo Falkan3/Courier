@@ -14,27 +14,27 @@
 			$wrapper: &;
 
 			#{selectors.bottom-most-fn($widget)}-bubble {
-				background: #fff;
-				color: #212121;
+				background: #09a850;
+				color: #fff;
 
 				&:hover,
 				&:focus {
-					background-color: #ffde51;
+					background-color: #0dbd5d;
 				}
 
 				@at-root {
 					#{variables.$classPrefix}:not(.courier--widget-round) #{selectors.bottom-most-fn($wrapper)} #{selectors.bottom-most-fn(&)},
 					#{variables.$classPrefix}--widget-tailed #{selectors.bottom-most-fn(&)} {
 						&::after {
-							border-top-color: #fff;
-							border-right-color: #fff;
+							border-top-color: #0dbd5d;
+							border-right-color: #0dbd5d;
 						}
 
 						&:hover,
 						&:focus {
 							&::after {
-								border-top-color: #ffde51;
-								border-right-color: #ffde51;
+								border-top-color: #0dbd5d;
+								border-right-color: #0dbd5d;
 							}
 						}
 					}
