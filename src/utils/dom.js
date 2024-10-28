@@ -32,7 +32,7 @@ export function elemContains(el, target) {
  * @param  {Element|Node} el  The DOM element to check if it's scrolled to the bottom.
  */
 export function isScrolledToTheBottom(el) {
-    return el && el.scrollHeight - el.offsetHeight <= el.scrollTop;
+    return el && el.scrollHeight - el.offsetHeight - el.scrollTop <= 1;
 }
 
 function fallbackCopyTextToClipboard(text) {
