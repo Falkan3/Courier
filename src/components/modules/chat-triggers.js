@@ -48,7 +48,8 @@ export default function (Courier, Components, Events) {
                     text: topic.text,
                     outgoing: true,
                     timestamp: settings.timestamp,
-                    scrollToBottom: settings.scrollToBottom
+                    scrollToBottom: settings.scrollToBottom,
+                    passive: true
                 });
                 // emit the topic's trigger, if it's set, and topic triggers option is enabled
                 if (settings.topicTriggersEnabled && topic.trigger) {
