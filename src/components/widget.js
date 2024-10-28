@@ -145,7 +145,9 @@ export default function (Courier, Components, Events) {
                 && this.templateData.state.hideBtnActive
                     ? `
                         <button id="courierWidgetHideButton" class="${Courier.settings.classes.widget}-hide-btn" type="button" aria-label="${this.templateData.texts.hideWidget}">
-                            ${Courier.settings.images.closeBtn}
+                            <span class="${Courier.settings.classes.widget}-hide-btn-content">
+                                ${Courier.settings.images.closeBtn}
+                            </span>
                         </button>`
                     : '';
 

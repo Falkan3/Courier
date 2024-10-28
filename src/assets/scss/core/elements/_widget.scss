@@ -9,7 +9,7 @@
 $bubbleBgColor: #fff;
 $bubbleColor: #212121;
 $bubbleBorder: #f1f1f1;
-$bubbleIconBg: #d0edff;
+$bubbleIconBg: #0094d9;
 // buttons
 $btnColor: palette.get-palette-hue("accent-1", 500);
 $btnColorInactive: #a9c1d3;
@@ -69,6 +69,10 @@ $btnColorActive: palette.get-palette-hue("accent-1", 100);
 				&#{variables.$classPrefix}__widget--minimalized {
 					padding: 0.8em 1em;
 				}
+			}
+
+			#{selectors.parent-fn(&)} #{selectors.bottom-most-fn($widget)}-wrapper--simple #{selectors.bottom-most-fn(&)} {
+				background-color: color.scale($bubbleIconBg, $lightness: 5%);
 			}
 		}
 
@@ -139,7 +143,7 @@ $btnColorActive: palette.get-palette-hue("accent-1", 100);
 
 			#{selectors.parent-fn(&)} #{selectors.bottom-most-fn($widget)}-wrapper--advanced #{selectors.bottom-most-fn(&)} {
 				position: relative;
-				padding: 6px;
+				padding: 12px;
 				border-radius: 50%;
 				background-color: $bubbleIconBg;
 
@@ -223,33 +227,60 @@ $btnColorActive: palette.get-palette-hue("accent-1", 100);
 	// End style: Advanced
 
 	&-hide-btn {
+		$hideBtn: &;
+
 		position: absolute;
-		top: -0.7em;
-		right: -0.7em;
-		width: 1.5em;
-		height: 1.5em;
-		padding: 0.3em;
-		border: solid 1px $bubbleBorder;
-		border-radius: 50%;
-		background: #fff;
+		top: 0.5em;
+		right: 0.5em;
+		transform: translate(50%, -50%);
 
-		@include media-query-width.m-small-devices {
-			width: 3em;
-			height: 3em;
-			padding: 0.8em;
-		}
+		&-content {
+			$hideBtnContent: &;
 
-		& > img,
-		& > svg {
 			display: block;
-			width: 100%;
-			height: 100%;
-			// transition: transform cubic-bezier(0.1, 1, 0.6, 1) 0.3s;
-		}
+			width: 1.5em;
+			height: 1.5em;
+			padding: 0.3em;
+			border: solid 1px $bubbleBorder;
+			border-radius: 50%;
+			background: #fff;
 
-		& > svg {
-			& > g {
-				fill: $btnColorInactive;
+			& > img,
+			& > svg {
+				display: block;
+				width: 100%;
+				height: 100%;
+				// transition: transform cubic-bezier(0.1, 1, 0.6, 1) 0.3s;
+			}
+
+			& > svg {
+				& > g {
+					fill: $btnColorInactive;
+				}
+			}
+
+			@at-root #{$hideBtn} {
+				&:hover,
+				&:focus {
+					#{selectors.bottom-most-fn($hideBtnContent)} {
+						& > img,
+						& > svg {
+							// transform: rotate(90deg);
+						}
+
+						& > svg {
+							& > g {
+								fill: $btnColorActive;
+							}
+						}
+					}
+				}
+			}
+
+			@include media-query-width.m-small-devices {
+				width: 2em;
+				height: 2em;
+				padding: 0.6em;
 			}
 		}
 
@@ -257,32 +288,19 @@ $btnColorActive: palette.get-palette-hue("accent-1", 100);
 			cursor: pointer;
 		}
 
-		&:hover,
-		&:focus {
-			& > img,
-			& > svg {
-				// transform: rotate(90deg);
-			}
-
-			& > svg {
-				& > g {
-					fill: $btnColorActive;
-				}
-			}
-		}
-
-		@at-root {
-			#{variables.$classPrefix}--widget-round #{variables.$classPrefix}__widget-hide-btn {
-				right: -0.3em;
-				top: -0.3em;
-			}
-		}
+		//@at-root {
+		//	#{variables.$classPrefix}--widget-round #{selectors.bottom-most-fn($hideBtn)} {
+		//		right: -0.3em;
+		//		top: -0.3em;
+		//	}
+		//}
 	}
 
 	&-notification {
 		position: absolute;
-		top: -0.7em;
-		left: -0.7em;
+		top: 0.5em;
+		left: 0.5em;
+		transform: translate(-50%, -50%);
 		width: 1.5em;
 		display: flex;
 		justify-content: center;
@@ -295,11 +313,11 @@ $btnColorActive: palette.get-palette-hue("accent-1", 100);
 		line-height: 1;
 		color: #fff;
 
-		@at-root {
-			#{variables.$classPrefix}--widget-round #{variables.$classPrefix}__widget-hide-btn {
-				left: -0.3em;
-				top: -0.3em;
-			}
-		}
+		//@at-root {
+		//	#{variables.$classPrefix}--widget-round #{selectors.bottom-most-fn(&)} {
+		//		left: -0.3em;
+		//		top: -0.3em;
+		//	}
+		//}
 	}
 }

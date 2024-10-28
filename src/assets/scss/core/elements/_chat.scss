@@ -11,10 +11,12 @@
 // $optionsBtnColor: #64b5f6; // #000;
 // buttons
 $btnColor: palette.get-palette-hue("accent-1", 500);
-$btnColorInactive: #b5d4ec;
+$btnColorInactive: #d2d2d2;
 $btnColorActive: palette.get-palette-hue("accent-1", 100);
 // work area
 $linkColor: palette.get-palette-hue("accent-1", 500);
+$wallBgColor: #fff;
+$wallBorderRadius: 16px;
 $workAreaBgColor: #fbfbfb;
 $workAreaScrollbarTrackColor: #e6e6e6;
 $workAreaScrollbarHandleColor: #b3b3b3;
@@ -25,7 +27,7 @@ $messageTopicPrimaryColor: #fff;
 $messageTopicSecondaryColor: palette.get-palette-hue("accent-1", 100);
 $messageCarouselPrimaryColor: #fff;
 // interactions
-$sendMessageBoxBgColor: #f7fbff;
+$sendMessageBoxBgColor: #f2f3f8;
 $sendMessageBoxBgColorDisabled: #f1f1f1;
 
 #{variables.$classPrefix}__chat {
@@ -45,6 +47,7 @@ $sendMessageBoxBgColorDisabled: #f1f1f1;
 	//@include meta.load-css('chat/header');
 	//@include meta.load-css('chat/work-area');
 	//@include meta.load-css('chat/interactions');
+	//@include meta.load-css('chat/footer');
 	//@include meta.load-css('chat/powered-by');
 
 	@import "chat/overlay"; // the main chat container
@@ -52,6 +55,7 @@ $sendMessageBoxBgColorDisabled: #f1f1f1;
 	@import "chat/header"; // the header section including the avatar, name, website, title, options and close buttons
 	@import "chat/work-area"; // the work area where the messages are shown
 	@import "chat/interactions"; // the footer area including message box and message send button
+	@import "chat/footer"; // the footer section
 	@import "chat/powered-by"; // the powered by section
 
 	/* optional modules */

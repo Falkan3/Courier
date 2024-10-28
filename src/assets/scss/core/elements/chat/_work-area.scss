@@ -47,32 +47,45 @@
 &-message {
 	$message: &;
 
+	max-width: 90%;
 	margin-bottom: 1em;
 
-	&--text {
-		// align-self: flex-start;
-		margin-right: auto;
-		padding: 0.5em 1em;
-		border-radius: 4px 4px 4px 0;
-		background-color: $messageBgColorIncoming;
+	&-content {
+		$messageContent: #{selectors.bottom-most-fn(&)};
 
-		// outgoing messages (self modifier) styles
-		@at-root #{selector-unify(&, #{$message}--self)} {
-			align-self: flex-end;
-			margin-left: auto;
-			margin-right: unset;
-			background-color: $messageBgColorOutgoing;
-			border-radius: 4px 4px 0;
+		@at-root {
+			#{$message} {
+				&--text {
+					#{$messageContent} {
+						// align-self: flex-start;
+						margin-right: auto;
+						padding: 0.5em 1em;
+						border-radius: 12px 12px 12px 0;
+						background-color: $messageBgColorIncoming;
+					}
+
+					// outgoing messages (self modifier) styles
+					#{selector-unify(&, #{$message}--self)} #{$messageContent} {
+						align-self: flex-end;
+						margin-left: auto;
+						margin-right: unset;
+						background-color: $messageBgColorOutgoing;
+						border-radius: 12px 12px 0;
+					}
+				}
+
+				&--system {
+					#{$messageContent} {
+						// align-self: center;
+						margin-right: auto;
+						margin-left: auto;
+						background-color: transparent;
+						text-align: center;
+						font-style: italic;
+					}
+				}
+			}
 		}
-	}
-
-	&--system {
-		// align-self: center;
-		margin-right: auto;
-		margin-left: auto;
-		background-color: transparent;
-		text-align: center;
-		font-style: italic;
 	}
 
 	&:last-child {

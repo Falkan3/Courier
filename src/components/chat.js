@@ -334,7 +334,10 @@ export default function (Courier, Components, Events) {
                             </div>`;
                     } else {
                         html += message.text
-                            ? `<div class="${Courier.settings.classes.chat}-message ${message.outgoing ? `${Courier.settings.classes.chat}-message--self` : ''} ${message.typeClassSuffix ? `${Courier.settings.classes.chat}-message${message.typeClassSuffix}` : ''} ${Courier.settings.classes.root}__appear ${Courier.settings.classes.root}__anim-timing--third" data-courier-message-id="${index}">${message.text}</div>`
+                            ? `
+                                <div class="${Courier.settings.classes.chat}-message ${message.outgoing ? `${Courier.settings.classes.chat}-message--self` : ''} ${message.typeClassSuffix ? `${Courier.settings.classes.chat}-message${message.typeClassSuffix}` : ''} ${Courier.settings.classes.root}__appear ${Courier.settings.classes.root}__anim-timing--third" data-courier-message-id="${index}">
+                                    <div class="${Courier.settings.classes.chat}-message-content">${message.text}</div>
+                                </div>`
                             : '';
                     }
 
@@ -353,11 +356,11 @@ export default function (Courier, Components, Events) {
 
                         // wrap topics
                         topicsHtml = `
-                                <div class="m-b">
-                                    <div class="${Courier.settings.classes.chat}-topics">
-                                        ${topicsHtml}
-                                    </div>
-                                </div>`;
+                            <div class="m-b">
+                                <div class="${Courier.settings.classes.chat}-topics">
+                                    ${topicsHtml}
+                                </div>
+                            </div>`;
 
                         // merge message and topics html
                         html += topicsHtml;
@@ -374,10 +377,12 @@ export default function (Courier, Components, Events) {
                 const messageBox = Chat.templateData.state.showMessageBox
                     ? `
                         <form id="courierChatInteractionsForm" class="${Courier.settings.classes.chat}-interactions" autocomplete="off">
-                            <textarea class="${Courier.settings.classes.chat}-message-box" name="message" ${!Chat.templateData.state.messageBoxEnabled ? 'disabled' : ''} placeholder="${Chat.templateData.texts.messagePlaceholder}" rows="2" maxlength="${Chat.templateData.state.maxMessageLength}" autofocus></textarea>
-                            <button class="${Courier.settings.classes.chat}-send-msg-btn" type="submit" ${!Chat.templateData.state.messageBoxEnabled ? 'disabled' : ''} aria-label="${Chat.templateData.texts.sendMessage}">
-                                ${Courier.settings.images.sendMsg}
-                            </button>
+                            <div class="${Courier.settings.classes.chat}-message-box-wrapper">
+                                <textarea class="${Courier.settings.classes.chat}-message-box" name="message" ${!Chat.templateData.state.messageBoxEnabled ? 'disabled' : ''} placeholder="${Chat.templateData.texts.messagePlaceholder}" rows="1" maxlength="${Chat.templateData.state.maxMessageLength}" autofocus></textarea>
+                                <button class="${Courier.settings.classes.chat}-send-msg-btn" type="submit" ${!Chat.templateData.state.messageBoxEnabled ? 'disabled' : ''} aria-label="${Chat.templateData.texts.sendMessage}">
+                                    ${Courier.settings.images.sendMsg}
+                                </button>
+                            </div>
                         </form>`
                     : '';
 
@@ -390,6 +395,11 @@ export default function (Courier, Components, Events) {
                             </a>
                         </div>`
                     : '';
+
+                const footer = `
+                    <div class="${Courier.settings.classes.chat}-footer">
+                        ${poweredBy}
+                    </div>`;
 
                 const identityImg = Chat.templateData.identity.img.svg
                     ? `${Chat.templateData.identity.img.svg}`
@@ -435,7 +445,7 @@ export default function (Courier, Components, Events) {
                                         ${optionsBtn}
                                         ${headerAvatar}
                                         <div class="p-h--hf">
-                                            <p class="tx-bold tx-bigger">${Chat.templateData.texts.chatTitle}</p>
+                                            <p class="tx-bold">${Chat.templateData.texts.chatTitle}</p>
                                         </div>
                                         <div class="p-h--hf">
                                             <button id="courierChatCloseBtn" class="${Courier.settings.classes.chat}-close-btn" type="button" aria-label="${Chat.templateData.texts.close}">
@@ -450,7 +460,7 @@ export default function (Courier, Components, Events) {
                                 ${messages}
                             </div>
                             ${messageBox}
-                            ${poweredBy}
+                            ${footer}
                         </div>
                     </div>`, Courier.settings, Chat.templateData);
             }, { signals: ['chat'] });

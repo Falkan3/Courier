@@ -1,0 +1,13 @@
+@use "../../../utils/variables";
+@use "../../../utils/mixins/selectors";
+@use "sass:color";
+
+/*
+ * Footer
+ */
+&-footer {
+	padding: 1em;
+	border-bottom-left-radius: $wallBorderRadius;
+	border-bottom-right-radius: $wallBorderRadius;
+	background-color: $wallBgColor;
+}
