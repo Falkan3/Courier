@@ -221,6 +221,10 @@ $btnColorActive: palette.get-palette-hue("accent-1", 100);
 			#{selectors.parent-fn(&)} #{selectors.bottom-most-fn($widget)}-bubble:hover #{selectors.bottom-most-fn(&)} {
 				color: #e2e6f7;
 			}
+
+			#{selectors.parent-fn(&)} #{selector-unify(#{selectors.bottom-most-fn($widget)}-bubble, #{selectors.bottom-most-fn($widget)}--minimalized)} #{selectors.bottom-most-fn(&)} {
+				text-align: center;
+			}
 		}
 	}
 
