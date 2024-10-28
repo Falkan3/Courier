@@ -4,13 +4,64 @@ import {
 } from '@utils/chat';
 import { isArray } from '@utils/types';
 import { arrLastItem } from '@utils/object';
+import EventsBinder from '@core/event/events-binder.js';
+import { throttle } from '@libs/throttle-debounce/index.js';
 
 export default function (Courier, Components, Events) {
+    /**
+     * Instance of the binder for DOM Events.
+     *
+     * @type {EventsBinder}
+     */
+    const Binder = new EventsBinder();
+
+    const inputEvents = ['input', 'blur', 'change'];
+
     const ChatTriggers = {
+        settings: {
+            throttle: {
+                input: 10
+            }
+        },
+
         /**
          * Construct a ChatTriggers instance.
          */
         mount() {
+        },
+
+        /**
+         * Adds events.
+         */
+        bind() {
+            Binder.on(
+                inputEvents,
+                Components.Chat.refs.messageBox,
+                throttle(this.settings.throttle.input, (event) => {
+                    this.onInput(event);
+                }),
+                { capture: true, passive: true }
+            );
+        },
+
+        /**
+         * Removes events.
+         */
+        unbind() {
+            Binder.off(inputEvents, Components.App.refs.messageBox, {
+                capture: true, passive: true
+            });
+        },
+
+        /**
+         * Handles input events.
+         *
+         * @param  {Object} event
+         */
+        onInput(event) {
+            event.target.setAttribute('rows', 1);
+            const targetRows = Math.ceil(event.target.scrollHeight / event.target.offsetHeight);
+            event.target.setAttribute('rows', targetRows);
         },
 
         startMessage() {
@@ -105,14 +156,14 @@ export default function (Courier, Components, Events) {
                 saveMessagePath(
                     Components.Chat.messagePath,
                     Courier.settings.cookies.saveConversation.duration,
-                    Courier.settings.cookies.saveConversation.nameSuffix,
+                    Courier.settings.cookies.saveConversation.nameSuffix
                 );
             }
         },
 
         restoreMessages() {
             const messagePath = loadMessagePath(
-                Courier.settings.cookies.saveConversation.nameSuffix,
+                Courier.settings.cookies.saveConversation.nameSuffix
             );
             if (messagePath && isArray(messagePath)) {
                 messagePath.forEach((item) => {
@@ -121,12 +172,30 @@ export default function (Courier, Components, Events) {
                         topicTriggersEnabled: false,
                         save: false,
                         timestamp: item.timestamp,
-                        scrollToBottom: true,
+                        scrollToBottom: true
                     });
                 });
             }
-        },
+        }
     };
+
+    /**
+     * Bind event listeners after App has been mounted and rendered for the first time
+     */
+    Events.on('app.rendered.chat', () => {
+        if (Components.Chat.templateData.state.active) {
+            ChatTriggers.bind();
+        }
+    });
+
+    /**
+     * Remove bindings from input:
+     * - on destroying to remove added events
+     * - on updating to remove events before remounting
+     */
+    Events.on(['destroy', 'update'], () => {
+        ChatTriggers.unbind();
+    });
 
     Events.on('chat.initialized', () => {
         Events.emit('chat.resetMessages');
@@ -151,9 +220,17 @@ export default function (Courier, Components, Events) {
         if (event.target.matches('[data-courier-topic-id]')) {
             ChatTriggers.triggerTopic(
                 event.target.dataset.courierMessageId,
-                event.target.dataset.courierTopicId,
+                event.target.dataset.courierTopicId
             );
         }
+    });
+
+    /**
+     * Destroy binder:
+     * - on destroying to remove listeners
+     */
+    Events.on(['destroy'], () => {
+        Binder.destroy();
     });
 
     return ChatTriggers;

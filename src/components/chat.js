@@ -111,9 +111,7 @@ export default function (Courier, Components, Events) {
             if (event.target.matches('#courierChatInteractionsForm')
                 || (elemContains(this.refs.form, event.target))) {
                 event.preventDefault();
-                const message = this.refs.messageBox.value.trim();
-                this.sendMessage(message);
-                this.refs.messageBox.value = '';
+                this.messageBoxSend();
             }
 
             return event;
@@ -128,9 +126,7 @@ export default function (Courier, Components, Events) {
             if (event.target === this.refs.messageBox) {
                 if (event.key === 'Enter' && !event.shiftKey) {
                     event.preventDefault();
-                    const message = this.refs.messageBox.value.trim();
-                    this.sendMessage(message);
-                    this.refs.messageBox.value = '';
+                    this.messageBoxSend();
                 }
             }
         },
@@ -144,6 +140,13 @@ export default function (Courier, Components, Events) {
             this.templateData.state.active = true;
             this.scrollToBottom = true; // scroll to bottom when the chat opens
             Events.emit('chat.opened');
+        },
+
+        messageBoxSend() {
+            const message = this.refs.messageBox.value.trim();
+            this.sendMessage(message);
+            this.refs.messageBox.value = '';
+            this.refs.messageBox.dispatchEvent(new Event('change'));
         },
 
         sendMessage(message) {
