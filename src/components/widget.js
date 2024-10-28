@@ -7,7 +7,8 @@ import {
     isHidden as widgetIsHidden,
     isMinimalized as widgetIsMinimalized,
     setHidden as widgetSetHidden,
-    setMinimalized as widgetSetMinimalized, setUnreadMessagesCount
+    setMinimalized as widgetSetMinimalized,
+    setUnreadMessagesCount
 } from '@utils/widget';
 import { parseSpecialTags } from '@utils/object.js';
 
@@ -103,13 +104,14 @@ export default function (Courier, Components, Events) {
                     name: Courier.settings.textsParsed.widgetName,
                     openWidget: Courier.settings.textsParsed.openWidget,
                     hideWidget: Courier.settings.textsParsed.hideWidget,
-                    unreadMessages: Courier.settings.textsParsed.unreadMessages,
+                    unreadMessages: Courier.settings.textsParsed.unreadMessages
                 },
                 state: {
                     active: Courier.settings.state.widgetActiveAtStart,
                     minimalized: Courier.settings.state.widgetMinimalizedAtStart,
                     hidden: !Courier.settings.state.widgetActiveAtStart,
                     style: Courier.settings.state.widgetStyle,
+                    showHideBtn: Courier.settings.state.showHideBtn,
                     hideBtnActive: Courier.settings.state.hideBtnActiveAtStart,
                     online: Courier.settings.state.online,
                     showWidgetUnreadMessages: Courier.settings.state.showWidgetUnreadMessages,
@@ -139,7 +141,8 @@ export default function (Courier, Components, Events) {
                     return '';
                 }
 
-                const hideBtn = this.templateData.state.hideBtnActive
+                const hideBtn = this.templateData.state.showHideBtn
+                && this.templateData.state.hideBtnActive
                     ? `
                         <button id="courierWidgetHideButton" class="${Courier.settings.classes.widget}-hide-btn" type="button" aria-label="${this.templateData.texts.hideWidget}">
                             ${Courier.settings.images.closeBtn}

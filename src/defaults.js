@@ -140,6 +140,7 @@ export default {
      */
     state: {
         widgetActiveAtStart: true,
+        showHideBtn: true,
         hideBtnActiveAtStart: false,
         widgetMinimalizedAtStart: false,
         showWidgetUnreadMessages: true,

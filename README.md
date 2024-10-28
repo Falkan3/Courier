@@ -229,6 +229,7 @@ Settings that are responsible for the state of elements.
 ```js
 state: {
   widgetActiveAtStart: true, // Show the widget immediately after mounting
+  showHideBtn: false, // Enable the hide widget button
   hideBtnActiveAtStart: false, // Show the hide widget button from the get-go
   widgetMinimalizedAtStart: false, // Show the minimalized widget version from the get-go
   showWidgetUnreadMessages: true, // Show unread messages counter when receiving chat messages when the widget is not active
