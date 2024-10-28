@@ -21,9 +21,12 @@
 <body>
 <script>
 	const courier = new Courier(document.body, {
+        modifierClasses: {
+            root: ['courier--left', 'courier--widget-round']
+        },
 		texts: {
 			widgetGreetingTitle: 'AI assistant',
-			widgetGreeting: 'We have a special discount just for you.',
+            widgetGreeting: null,
 			chatTitle: 'AI companion %%tooltip%(This is an AI helper that will assist you in our store.)%%info%%%%',
 			goToProduct: 'Go to product',
 			clipboardButton: 'Copy',
@@ -185,8 +188,7 @@
 			},
 		},
 		state: {
-			hideBtnActiveAtStart: true,
-			widgetStyle: 'advanced'
+			hideBtnActiveAtStart: true
 		},
 		cookies: {
 			saveConversation: {
