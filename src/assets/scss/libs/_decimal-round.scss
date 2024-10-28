@@ -1,3 +1,4 @@
+@use "sass:meta";
 @use "sass:math";
 
 // _decimal.scss | MIT License | gist.github.com/terkel/4373420
@@ -19,13 +20,13 @@
 @function decimal-round ($number, $digits: 0, $mode: round) {
 	$n: 1;
 	// $number must be a number
-	@if type-of($number) != number {
+	@if meta.type-of($number) != number {
 		@warn "#{ $number } is not a number.";
 
 		@return $number;
 	}
 	// $digits must be a unitless number
-	@if type-of($digits) != number {
+	@if meta.type-of($digits) != number {
 		@warn "#{ $digits } is not a number.";
 
 		@return $number;

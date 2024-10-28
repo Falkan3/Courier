@@ -12,7 +12,7 @@
 		} @else {
 			$parent: list.nth($selector, 1);
 			@for $i from 2 to $l {
-				$parent: append($parent, list.nth($selector, $i));
+				$parent: list.append($parent, list.nth($selector, $i));
 			}
 
 			@at-root #{$parent} {
@@ -37,7 +37,7 @@
 		} @else {
 			$parent: list.nth($selector, 1);
 			@for $i from 2 to $l {
-				$parent: append($parent, list.nth($selector, $i));
+				$parent: list.append($parent, list.nth($selector, $i));
 			}
 
 			@return $parent;
