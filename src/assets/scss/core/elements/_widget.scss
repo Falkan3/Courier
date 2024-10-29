@@ -222,7 +222,8 @@ $btnColorActive: #fff;
 	}
 
 	&-greeting-msg {
-		max-width: 15rem;
+		width: max-content;
+		max-width: 15em;
 		padding: 1em 1.5em;
 		border-radius: 14px 14px 0;
 		background-color: #fefefe;
