@@ -5,8 +5,8 @@
  */
 
 @keyframes fadeOut {
-	from,
-	to {
+	0%,
+	100% {
 		animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
 	}
 
@@ -14,7 +14,7 @@
 		opacity: 1;
 	}
 
-	to {
+	100% {
 		opacity: 0;
 	}
 }

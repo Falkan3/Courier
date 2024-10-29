@@ -11,6 +11,7 @@
 			}
 		} @else {
 			$parent: list.nth($selector, 1);
+
 			@for $i from 2 to $l {
 				$parent: list.append($parent, list.nth($selector, $i));
 			}
@@ -36,6 +37,7 @@
 			}
 		} @else {
 			$parent: list.nth($selector, 1);
+
 			@for $i from 2 to $l {
 				$parent: list.append($parent, list.nth($selector, $i));
 			}
@@ -50,6 +52,7 @@
 	@each $selector in & {
 		// @debug 'Selector: ' + $selector;
 		$l: list.length($selector);
+
 		@if ($l != 1) {
 			// @debug 'Bottom most selector: ' + list.nth($selector, $l);
 			@at-root #{list.nth($selector, $l)} {
@@ -67,6 +70,7 @@
 @function bottom-most-fn($inputSelector) {
 	@each $selector in $inputSelector {
 		$l: list.length($selector);
+
 		@if ($l != 1) {
 			@return list.nth($selector, $l);
 		} @else {

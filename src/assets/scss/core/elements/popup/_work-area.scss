@@ -227,7 +227,7 @@
 					top: 50%;
 					display: block;
 					width: 100%;
-					border-top: solid 1px currentColor;
+					border-top: solid 1px currentcolor;
 				}
 			}
 
@@ -268,6 +268,7 @@
 &-discount {
 	&-code {
 		$discountCode: &;
+
 		position: relative;
 		padding: 0 1em 0.5em;
 		text-align: center;
@@ -304,6 +305,7 @@
 
 		&-icon {
 			$icon: &;
+
 			display: flex;
 			flex: 1 0 auto;
 			justify-content: center;

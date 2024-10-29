@@ -13,6 +13,7 @@
 $btnColor: palette.get-palette-hue("accent-1", 500);
 $btnColorInactive: #d2d2d2;
 $btnColorActive: palette.get-palette-hue("accent-1", 100);
+
 // work area
 $linkColor: palette.get-palette-hue("accent-1", 500);
 $wallBgColor: #fff;
@@ -20,12 +21,14 @@ $wallBorderRadius: 16px;
 $workAreaBgColor: #fbfbfb;
 $workAreaScrollbarTrackColor: #e6e6e6;
 $workAreaScrollbarHandleColor: #b3b3b3;
+
 // messages
 $messageBgColorIncoming: #e6e6e6;
 $messageBgColorOutgoing: #ddf0ff;
 $messageTopicPrimaryColor: #fff;
 $messageTopicSecondaryColor: palette.get-palette-hue("accent-1", 100);
 $messageCarouselPrimaryColor: #fff;
+
 // interactions
 $sendMessageBoxBgColor: #f2f3f8;
 $sendMessageBoxBgColorDisabled: #f1f1f1;

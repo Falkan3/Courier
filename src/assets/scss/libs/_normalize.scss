@@ -14,7 +14,7 @@
 
 html {
 	line-height: 1.15; /* 1 */
-	-webkit-text-size-adjust: 100%; /* 2 */
+	text-size-adjust: 100%; /* 2 */
 }
 
 /* Sections
@@ -205,8 +205,16 @@ textarea {
  */
 
 button,
-input { /* 1 */
-	overflow: visible;
+input {
+	overflow: visible; /* 1 */
+}
+
+/**
+ * 1. Reset min-height to fit content.
+ */
+
+input, textarea {
+	min-height: fit-content; /* 1 */
 }
 
 /**
@@ -215,8 +223,8 @@ input { /* 1 */
  */
 
 button,
-select { /* 1 */
-	text-transform: none;
+select {
+	text-transform: none; /* 1 */
 }
 
 /**
@@ -227,7 +235,7 @@ button,
 [type="button"],
 [type="reset"],
 [type="submit"] {
-	-webkit-appearance: button;
+	appearance: button;
 }
 
 /**
@@ -320,7 +328,7 @@ textarea {
 
 [type="search"] {
 	outline-offset: -2px; /* 2 */
-	-webkit-appearance: textfield; /* 1 */
+	appearance: textfield; /* 1 */
 }
 
 /**
@@ -328,7 +336,7 @@ textarea {
  */
 
 [type="search"]::-webkit-search-decoration {
-	-webkit-appearance: none;
+	appearance: none;
 }
 
 /**
@@ -338,7 +346,7 @@ textarea {
 
 ::-webkit-file-upload-button {
 	font: inherit; /* 2 */
-	-webkit-appearance: button; /* 1 */
+	appearance: button; /* 1 */
 }
 
 /* Interactive
