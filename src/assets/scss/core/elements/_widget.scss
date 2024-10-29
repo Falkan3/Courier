@@ -9,11 +9,11 @@
 $bubbleBgColor: #fff;
 $bubbleColor: #212121;
 $bubbleBorder: #f1f1f1;
-$bubbleIconBg: #0094d9;
+$bubbleIconBg: #2f75f7;
 // buttons
 $btnColor: palette.get-palette-hue("accent-1", 500);
-$btnColorInactive: #a9c1d3;
-$btnColorActive: palette.get-palette-hue("accent-1", 100);
+$btnColorInactive: #92a6b4;
+$btnColorActive: #fff;
 
 #{variables.$classPrefix}__widget {
 	$widget: &;
@@ -25,31 +25,32 @@ $btnColorActive: palette.get-palette-hue("accent-1", 100);
 		margin-left: 1em;
 		z-index: order.get-order("widget");
 
-		@at-root #{variables.$classPrefix}--left #{variables.$classPrefix}__widget-wrapper {
+		@at-root #{selector-unify(#{&}--advanced, #{selectors.bottom-most-fn(&)})} {
+			display: flex;
+			flex-direction: column;
+			align-items: flex-end;
+		}
+
+		@at-root #{variables.$classPrefix}--left #{selectors.bottom-most-fn(&)} {
 			right: auto;
 			left: 1em;
 			margin-left: 0;
 			margin-right: 1em;
 		}
 
-		//@at-root #{variables.$classPrefix}--widget-round #{variables.$classPrefix}__widget-wrapper {
+		//@at-root #{variables.$classPrefix}--widget-round #{selectors.bottom-most-fn(&)} {
 		//	bottom: 1em;
 		//}
 
-		@at-root #{variables.$classPrefix}--widget-tailed #{variables.$classPrefix}__widget-wrapper {
+		@at-root #{variables.$classPrefix}--widget-tailed #{selectors.bottom-most-fn(&)} {
 			bottom: 2em;
 		}
 	}
 
 	&-bubble {
-		padding: 0.5em 1em;
-		border: solid 1px $bubbleBorder;
-		border-radius: 4px;
-		background-color: $bubbleBgColor;
-		text-align: left;
+		padding: 0;
 		color: $bubbleColor;
 		// box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
-		transition: background-color cubic-bezier(0.1, 1, 0.6, 1) 0.3s, color cubic-bezier(0.1, 1, 0.6, 1) 0.3s, border-color cubic-bezier(0.1, 1, 0.6, 1) 0.3s;
 		filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.12));
 
 		@at-root {
@@ -58,22 +59,23 @@ $btnColorActive: palette.get-palette-hue("accent-1", 100);
 			//}
 			#{selectors.parent-fn(&)} #{selectors.bottom-most-fn($widget)}-wrapper--advanced #{selectors.bottom-most-fn(&)} {
 				position: relative;
-				padding: 0.8em 1.5em;
+				margin-left: auto;
+				// padding: 0.8em 1.5em;
 
-				&:hover, &:focus {
-					background-color: palette.get-palette-hue("accent-1", 500);
-					border-color: palette.get-palette-hue("accent-1", 500);
-					color: #fff;
-				}
+				//&:hover, &:focus {
+				//	background-color: palette.get-palette-hue("accent-1", 500);
+				//	border-color: palette.get-palette-hue("accent-1", 500);
+				//	color: #fff;
+				//}
 
-				&#{variables.$classPrefix}__widget--minimalized {
-					padding: 0.8em 1em;
-				}
+				//&#{variables.$classPrefix}__widget--minimalized {
+				//	padding: 0.8em 1em;
+				//}
 			}
 
-			#{selectors.parent-fn(&)} #{selectors.bottom-most-fn($widget)}-wrapper--simple #{selectors.bottom-most-fn(&)} {
-				background-color: color.scale($bubbleIconBg, $lightness: 5%);
-			}
+			//#{selectors.parent-fn(&)} #{selectors.bottom-most-fn($widget)}-wrapper--simple #{selectors.bottom-most-fn(&)} {
+			//	background-color: color.scale($bubbleIconBg, $lightness: 5%);
+			//}
 		}
 
 		// Bubble arrow
@@ -101,26 +103,29 @@ $btnColorActive: palette.get-palette-hue("accent-1", 100);
 			}
 		}
 
-		&:hover, &:focus {
-			background-color: palette.get-palette-hue("accent-1", 500); // color.scale($bubbleBgColor, $lightness: 5%);
-			color: #fff;
-		}
-
 		&:hover {
 			cursor: pointer;
 		}
 
-		@at-root {
-			#{variables.$classPrefix}--widget-round #{variables.$classPrefix}__widget-bubble {
-				padding: 1em;
-				border-radius: 50%;
-			}
-		}
+		//@at-root {
+		//	#{variables.$classPrefix}--widget-round #{variables.$classPrefix}__widget-bubble {
+		//		padding: 1em;
+		//		border-radius: 50%;
+		//	}
+		//}
 	}
 
 	&-img {
+		$img: &;
+
 		display: block;
 		flex: 0 0 auto;
+		padding: 1em;
+		// border: solid 1px $bubbleBorder;
+		border-radius: 50%;
+		background-color: $bubbleIconBg;
+		color: $bubbleColor;
+		transition: background-color cubic-bezier(0.1, 1, 0.6, 1) 0.3s, color cubic-bezier(0.1, 1, 0.6, 1) 0.3s, border-color cubic-bezier(0.1, 1, 0.6, 1) 0.3s, transform cubic-bezier(0.1, 1, 0.6, 1) 0.3s;
 
 		& > img,
 		& > svg {
@@ -130,8 +135,6 @@ $btnColorActive: palette.get-palette-hue("accent-1", 100);
 		}
 
 		@at-root {
-			$root: #{selectors.parent-fn(&)};
-
 			&#{selectors.bottom-most-fn(&)}--big {
 				& > img,
 				& > svg {
@@ -141,28 +144,41 @@ $btnColorActive: palette.get-palette-hue("accent-1", 100);
 				}
 			}
 
-			#{selectors.parent-fn(&)} #{selectors.bottom-most-fn($widget)}-wrapper--advanced #{selectors.bottom-most-fn(&)} {
-				position: relative;
-				padding: 12px;
-				border-radius: 50%;
-				background-color: $bubbleIconBg;
-
-				&::before {
-					content: "";
-					position: absolute;
-					right: -3px;
-					top: -3px;
-					width: 17px;
-					height: 17px;
-					border: 2px solid #fff;
-					border-radius: 50%;
-					background-color: #bbb;
+			#{selectors.parent-fn(&)}__widget-bubble {
+				&:hover,
+				&:focus-visible {
+					#{selectors.bottom-most-fn($img)} {
+						background-color: color.scale($bubbleIconBg, $lightness: 10%);
+						transform: scale(1.1);
+					}
 				}
-			}
 
-			#{selectors.parent-fn(&)} #{selectors.bottom-most-fn($widget)}-wrapper--advanced #{variables.$classPrefix}__widget--online #{selectors.bottom-most-fn(&)} {
-				&::before {
-					background-color: #35d03d;
+				#{selectors.bottom-most-fn($widget)}-wrapper--advanced {
+					#{selectors.bottom-most-fn($img)} {
+						position: relative;
+						//padding: 12px;
+						//border-radius: 50%;
+						//background-color: $bubbleIconBg;
+
+						// online status
+						&::before {
+							content: "";
+							position: absolute;
+							right: -3px;
+							top: -3px;
+							width: 17px;
+							height: 17px;
+							border: 2px solid #fff;
+							border-radius: 50%;
+							background-color: #bbb;
+						}
+					}
+
+					#{variables.$classPrefix}__widget--online #{selectors.bottom-most-fn($img)} {
+						&::before {
+							background-color: #35d03d;
+						}
+					}
 				}
 			}
 		}
@@ -183,10 +199,18 @@ $btnColorActive: palette.get-palette-hue("accent-1", 100);
 		align-items: center;
 
 		@at-root {
-			#{selectors.parent-fn(&)} #{selectors.bottom-most-fn($widget)}-wrapper--advanced #{variables.$classPrefix}__widget--minimalized #{selectors.bottom-most-fn(&)} {
+			#{selectors.parent-fn(&)} #{selector-unify(#{selectors.bottom-most-fn($widget)}-wrapper--advanced, #{variables.$classPrefix}__widget--minimalized)} #{selectors.bottom-most-fn(&)} {
 				justify-content: center;
 			}
 		}
+	}
+
+	&-greeting-msg-wrapper {
+		display: flex;
+		flex-direction: column;
+		align-items: flex-end;
+		position: relative;
+		margin-top: 0.8em;
 	}
 
 	&-greeting-title {
@@ -198,10 +222,11 @@ $btnColorActive: palette.get-palette-hue("accent-1", 100);
 	}
 
 	&-greeting-msg {
-		max-width: 20rem;
-		margin-top: 0.8em;
+		max-width: 15rem;
+		padding: 1em 1.5em;
+		border-radius: 14px 14px 0;
+		background-color: #fefefe;
 		line-height: 1.4;
-		// color: #525b76;
 		transition: color cubic-bezier(0.1, 1, 0.6, 1) 0.3s;
 
 		@at-root {
@@ -218,9 +243,9 @@ $btnColorActive: palette.get-palette-hue("accent-1", 100);
 		transition: color cubic-bezier(0.1, 1, 0.6, 1) 0.3s;
 
 		@at-root {
-			#{selectors.parent-fn(&)} #{selectors.bottom-most-fn($widget)}-bubble:hover #{selectors.bottom-most-fn(&)} {
-				color: #e2e6f7;
-			}
+			//#{selectors.parent-fn(&)} #{selectors.bottom-most-fn($widget)}-bubble:hover #{selectors.bottom-most-fn(&)} {
+			//	color: #e2e6f7;
+			//}
 
 			#{selectors.parent-fn(&)} #{selector-unify(#{selectors.bottom-most-fn($widget)}-bubble, #{selectors.bottom-most-fn($widget)}--minimalized)} #{selectors.bottom-most-fn(&)} {
 				text-align: center;
@@ -234,48 +259,57 @@ $btnColorActive: palette.get-palette-hue("accent-1", 100);
 		$hideBtn: &;
 
 		position: absolute;
-		top: 0.5em;
-		right: 0.5em;
+		top: 0;
+		right: 0;
+		padding: 0.5em;
 		transform: translate(50%, -50%);
+
+		&:hover {
+			cursor: pointer;
+		}
+
+		//@at-root {
+		//	#{variables.$classPrefix}--widget-round,
+		//	#{selectors.parent-fn(&)} #{selectors.bottom-most-fn($widget)}--minimalized {
+		//		#{selectors.bottom-most-fn($hideBtn)} {
+		//			top: 0.5em;
+		//			right: 0.5em;
+		//		}
+		//	}
+		//}
 
 		&-content {
 			$hideBtnContent: &;
 
 			display: block;
-			width: 1.5em;
-			height: 1.5em;
+			width: 2em;
+			height: 2em;
 			padding: 0.3em;
-			border: solid 1px $bubbleBorder;
+			// border: solid 1px $bubbleBorder;
 			border-radius: 50%;
 			background: #fff;
+			transition: background-color cubic-bezier(0.1, 1, 0.6, 1) 0.3s;
 
 			& > img,
 			& > svg {
 				display: block;
 				width: 100%;
 				height: 100%;
-				// transition: transform cubic-bezier(0.1, 1, 0.6, 1) 0.3s;
 			}
 
 			& > svg {
-				& > g {
-					fill: $btnColorInactive;
-				}
+				stroke: $btnColorInactive;
+				transition: stroke cubic-bezier(0.1, 1, 0.6, 1) 0.3s;
 			}
 
 			@at-root #{$hideBtn} {
 				&:hover,
-				&:focus {
+				&:focus-visible {
 					#{selectors.bottom-most-fn($hideBtnContent)} {
-						& > img,
-						& > svg {
-							// transform: rotate(90deg);
-						}
+						background-color: #f44336;
 
 						& > svg {
-							& > g {
-								fill: $btnColorActive;
-							}
+							stroke: $btnColorActive;
 						}
 					}
 				}
@@ -287,17 +321,6 @@ $btnColorActive: palette.get-palette-hue("accent-1", 100);
 				padding: 0.6em;
 			}
 		}
-
-		&:hover {
-			cursor: pointer;
-		}
-
-		//@at-root {
-		//	#{variables.$classPrefix}--widget-round #{selectors.bottom-most-fn($hideBtn)} {
-		//		right: -0.3em;
-		//		top: -0.3em;
-		//	}
-		//}
 	}
 
 	&-notification {

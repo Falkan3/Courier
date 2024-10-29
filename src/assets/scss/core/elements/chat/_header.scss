@@ -107,21 +107,18 @@
 
 %header-btn {
 	display: block;
-	padding: 1em;
+	padding: 0.5em;
 
 	& > img,
 	& > svg {
 		display: block;
-		width: 1em;
-		height: 1em;
-		// transition: transform cubic-bezier(0.1, 1, 0.6, 1) 0.3s;
+		width: 1.5em;
+		height: 1.5em;
 	}
 
 	& > svg {
-		& > g {
-			fill: $btnColorInactive;
-			transition: fill cubic-bezier(0.1, 1, 0.6, 1) 0.3s;
-		}
+		stroke: $btnColorInactive;
+		transition: stroke cubic-bezier(0.1, 1, 0.6, 1) 0.3s;
 	}
 
 	&:hover {
@@ -131,24 +128,15 @@
 	&:hover,
 	&:active {
 		&:enabled {
-			& > img,
 			& > svg {
-				// transform: rotate(90deg);
-			}
-
-			& > svg {
-				& > g {
-					fill: $btnColorActive;
-				}
+				stroke: $btnColorActive;
 			}
 		}
 	}
 
 	&:disabled {
 		& > svg {
-			& > g {
-				fill: #ddd;
-			}
+			stroke: #ddd;
 		}
 	}
 }

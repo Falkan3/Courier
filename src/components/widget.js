@@ -141,16 +141,6 @@ export default function Construct(Courier, Components, Events) {
                     return '';
                 }
 
-                const hideBtn = this.templateData.state.showHideBtn
-                && this.templateData.state.hideBtnActive
-                    ? `
-                        <button id="courierWidgetHideButton" class="${Courier.settings.classes.widget}-hide-btn" type="button" aria-label="${this.templateData.texts.hideWidget}">
-                            <span class="${Courier.settings.classes.widget}-hide-btn-content">
-                                ${Courier.settings.images.closeBtn}
-                            </span>
-                        </button>`
-                    : '';
-
                 const notification = this.templateData.state.showWidgetUnreadMessages
                 && this.templateData.state.unreadMessages !== 0
                     ? `
@@ -160,9 +150,8 @@ export default function Construct(Courier, Components, Events) {
                     : '';
 
                 return `
-                    <div class="${Courier.settings.classes.widget}-wrapper ${Courier.settings.classes.widget}-wrapper--${this.templateData.state.style} ${Courier.settings.classes.root}__appear-bottom ${Courier.settings.classes.root}__anim-timing--half">
+                    <div class="${Courier.settings.classes.widget}-wrapper ${Courier.settings.classes.widget}-wrapper--${this.templateData.state.style} ${this.templateData.state.minimalized ? `${Courier.settings.classes.widget}--minimalized` : ''} ${Courier.settings.classes.root}__appear-bottom ${Courier.settings.classes.root}__anim-timing--half">
                         ${this.getHtml(this.templateData.state.style, this.templateData)}
-                        ${hideBtn}
                         ${notification}
                     </div>`;
             }, { signals: ['widget'] });
@@ -177,6 +166,16 @@ export default function Construct(Courier, Components, Events) {
 
         getHtml(style) {
             let html = '';
+
+            const hideBtn = this.templateData.state.showHideBtn
+            && this.templateData.state.hideBtnActive
+                ? `
+                    <button id="courierWidgetHideButton" class="${Courier.settings.classes.widget}-hide-btn" type="button" aria-label="${this.templateData.texts.hideWidget}">
+                        <span class="${Courier.settings.classes.widget}-hide-btn-content">
+                            ${Courier.settings.images.closeBtn}
+                        </span>
+                    </button>`
+                : '';
 
             switch (style) {
             case WidgetStyles.SIMPLE: {
@@ -198,6 +197,8 @@ export default function Construct(Courier, Components, Events) {
                             ${widgetText}
                         </span>
                     </button>
+
+                    ${hideBtn}
                     `;
                 break;
             }
@@ -217,21 +218,17 @@ export default function Construct(Courier, Components, Events) {
 
                 if (this.templateData.state.minimalized) {
                     return `
-                    <button id="courierWidgetButton" class="${Courier.settings.classes.widget}-bubble ${Courier.settings.classes.widget}--minimalized ${this.templateData.state.online ? `${Courier.settings.classes.widget}--online` : ''}" type="button" aria-label="${this.templateData.texts.openWidget}">
+                    <button id="courierWidgetButton" class="${Courier.settings.classes.widget}-bubble ${this.templateData.state.online ? `${Courier.settings.classes.widget}--online` : ''}" type="button" aria-label="${this.templateData.texts.openWidget}">
                         <span class="${Courier.settings.classes.widget}-greeting-wrapper">
                             ${widgetImg}
                         </span>
-
-                        ${name}
                     </button>
+
+                    ${hideBtn}
                     `;
                 }
 
                 // If not minimalized - continue
-
-                const widgetTitle = this.templateData.texts.widgetGreetingTitle
-                    ? `<p class="${Courier.settings.classes.widget}-greeting-title">${this.templateData.texts.widgetGreetingTitle}</p>`
-                    : '';
 
                 const widgetText = this.templateData.texts.widgetGreeting
                     ? `<p class="${Courier.settings.classes.widget}-greeting-msg">${this.templateData.texts.widgetGreeting}</p>`
@@ -241,12 +238,15 @@ export default function Construct(Courier, Components, Events) {
                     <button id="courierWidgetButton" class="${Courier.settings.classes.widget}-bubble ${this.templateData.state.online ? `${Courier.settings.classes.widget}--online` : ''}" type="button" aria-label="${this.templateData.texts.openWidget}">
                         <span class="${Courier.settings.classes.widget}-greeting-wrapper">
                             ${widgetImg}
-                            ${widgetTitle}
                         </span>
+                    </button>
 
-                        ${widgetText}
-                        ${name}
-                    </button>`;
+                    <div class="${Courier.settings.classes.widget}-greeting-msg-wrapper">
+                         ${widgetText}
+                         ${name}
+                         ${hideBtn}
+                    </div>
+                    `;
                 break;
             }
             default:

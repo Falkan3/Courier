@@ -1,5 +1,6 @@
 @use "utils/variables";
 @use "utils/mixins/selectors";
+@use "sass:color";
 
 /* -----------------------------------
  *  Components
@@ -13,28 +14,41 @@
 		&-wrapper--simple {
 			$wrapper: &;
 
-			#{selectors.bottom-most-fn($widget)}-bubble {
-				background: #09a850;
+			#{selectors.bottom-most-fn($widget)}-img {
+				background-color: #09a850;
 				color: #fff;
-
-				&:hover,
-				&:focus {
-					background-color: #0dbd5d;
-				}
 
 				@at-root {
 					#{variables.$classPrefix}:not(.courier--widget-round) #{selectors.bottom-most-fn($wrapper)} #{selectors.bottom-most-fn(&)},
 					#{variables.$classPrefix}--widget-tailed #{selectors.bottom-most-fn(&)} {
 						&::after {
-							border-top-color: #0dbd5d;
-							border-right-color: #0dbd5d;
+							border-top-color: #09a850;
+							border-right-color: #09a850;
 						}
+					}
 
-						&:hover,
-						&:focus {
-							&::after {
-								border-top-color: #0dbd5d;
-								border-right-color: #0dbd5d;
+					#{selectors.bottom-most-fn($wrapper)} {
+						#{selectors.bottom-most-fn($widget)}-bubble {
+							&:hover,
+							&:focus-visible {
+								#{selectors.bottom-most-fn($widget)}-img  {
+									background-color: color.scale(#09a850, $lightness: 5%);
+								}
+							}
+						}
+					}
+
+					#{variables.$classPrefix}:not(.courier--widget-round) #{selectors.bottom-most-fn($wrapper)},
+					#{variables.$classPrefix}--widget-tailed {
+						#{selectors.bottom-most-fn($widget)}-bubble {
+							&:hover,
+							&:focus-visible {
+								#{selectors.bottom-most-fn($widget)}-img  {
+									&::after {
+										border-top-color: color.scale(#09a850, $lightness: 5%);
+										border-right-color: color.scale(#09a850, $lightness: 5%);
+									}
+								}
 							}
 						}
 					}
