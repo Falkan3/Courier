@@ -21,12 +21,10 @@
 <body>
 <script>
 	const courier = new Courier(document.body, {
-        modifierClasses: {
-            root: ['courier--left', 'courier--widget-round']
-        },
 		texts: {
 			widgetGreetingTitle: 'AI assistant',
-            widgetGreeting: null,
+            widgetGreeting: 'Hi, we have a speacial discount for you 🙂',
+            widgetName: 'AI companion',
 			chatTitle: 'AI companion',
 			goToProduct: 'Go to product',
 			clipboardButton: 'Copy',
@@ -188,6 +186,7 @@
 			},
 		},
 		state: {
+            widgetStyle: 'advanced',
 			hideBtnActiveAtStart: true,
             showMessageBox: true
 		},
