@@ -9,7 +9,7 @@ import { clipboard as clipboardIcon } from '@utils/images';
 import { clearMessagePath, copyCouponCodeToClipboard } from '@utils/chat.js';
 import { throttle } from '@libs/throttle-debounce/index.js';
 
-export default function (Courier, Components, Events) {
+export default function Construct(Courier, Components, Events) {
     /**
      * Instance of the binder for DOM Events.
      *

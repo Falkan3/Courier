@@ -1,7 +1,7 @@
 /* eslint-disable import/no-unresolved */
 import { debounce, throttle } from '@libs/throttle-debounce/index.js';
 
-export default function (Courier, Components, Events) {
+export default function Construct(Courier, Components, Events) {
     const ChatTyping = {
         mount() {
         },

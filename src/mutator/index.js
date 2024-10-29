@@ -12,7 +12,7 @@ import Test from './transformers/test';
  * @param Events
  * @return {Object}
  */
-export default function (Courier, Components, Events) {
+export default function Construct(Courier, Components, Events) {
     /**
      * Merge instance transformers with collection of default transformers.
      *

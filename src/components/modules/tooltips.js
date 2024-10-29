@@ -2,7 +2,7 @@
 import EventsBinder from '@core/event/events-binder.js';
 import throttle from '@libs/throttle-debounce/throttle.js';
 
-export default function (Courier, Components, Events) {
+export default function Construct(Courier, Components, Events) {
     /**
      * Instance of the binder for DOM Events.
      *

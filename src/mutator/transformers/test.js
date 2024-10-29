@@ -5,7 +5,7 @@
  * @param  {Object} Components
  * @return {Object}
  */
-export default function (Courier, Components) {
+export default function Construct(Courier, Components) {
     return {
         /**
          * Test

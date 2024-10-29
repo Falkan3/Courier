@@ -2,7 +2,7 @@
 import { component as Reef, signal } from '@libs/reefjs/reef.es';
 import EventsBinder from '@core/event/events-binder';
 
-export default function (Courier, Components, Events) {
+export default function Construct(Courier, Components, Events) {
     /**
      * Instance of the binder for DOM Events.
      *

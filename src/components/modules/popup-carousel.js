@@ -12,7 +12,7 @@ import {
 } from '@utils/images';
 import { copyCouponCodeToClipboard } from '@utils/popup.js';
 
-export default function (Courier, Components, Events) {
+export default function Construct(Courier, Components, Events) {
     const PopupCarousel = {
         refs: {
             carousels: [],

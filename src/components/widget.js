@@ -17,7 +17,7 @@ export const WidgetStyles = Object.freeze({
     ADVANCED: 'advanced'
 });
 
-export default function (Courier, Components, Events) {
+export default function Construct(Courier, Components, Events) {
     /**
      * Instance of the binder for DOM Events.
      *

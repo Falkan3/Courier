@@ -9,7 +9,7 @@
 export function extract([beg, end]) {
     const matcher = new RegExp(`${beg}(.*?)${end}`, 'gm');
     const normalise = (str) => str.slice(beg.length, end.length * -1);
-    return function (str) {
+    return function matchFn(str) {
         return str.match(matcher).map(normalise);
     };
 }
