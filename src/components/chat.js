@@ -7,6 +7,7 @@ import { elemContains, isScrolledToTheBottom } from '@utils/dom';
 import { shortenTodaysDateTime } from '@utils/time';
 import { clipboard as clipboardIcon } from '@utils/images';
 import { clearMessagePath, copyCouponCodeToClipboard } from '@utils/chat.js';
+import { throttle } from '@libs/throttle-debounce/index.js';
 
 export default function (Courier, Components, Events) {
     /**
@@ -19,10 +20,16 @@ export default function (Courier, Components, Events) {
     const Chat = {
         refs: {},
         templateData: null,
+        isScrolledToBottom: false,
         scrollToBottom: false,
         messagePath: [],
         lastReceivedMessageIndex: null,
         lastSentMessageIndex: null,
+        settings: {
+            throttle: {
+                scroll: 5
+            }
+        },
 
         mount() {
             this.templateData = this.getTemplateData();
@@ -35,6 +42,13 @@ export default function (Courier, Components, Events) {
         bind() {
             Binder.on('submit', Components.App.refs.app.elem, (event) => this.onSubmit(event));
             Binder.on('keypress', Components.App.refs.app.elem, (event) => this.onKeypress(event));
+            Binder.on('scroll', Components.App.refs.app.elem, throttle(this.settings.throttle.scroll, () => {
+                const wasScrolledToBottom = this.isScrolledToBottom;
+                this.isScrolledToBottom = this.chatIsScrolledToTheBottom();
+                if (wasScrolledToBottom !== this.isScrolledToBottom) {
+                    Events.emit('chat.scrolledToBottom', this.isScrolledToBottom);
+                }
+            }), { capture: true, passive: true });
         },
 
         /**
@@ -43,6 +57,7 @@ export default function (Courier, Components, Events) {
         unbind() {
             Binder.off('submit', Components.App.refs.app.elem);
             Binder.off('keypress', Components.App.refs.app.elem);
+            Binder.off('scroll', Components.App.refs.app.elem);
         },
 
         /**
