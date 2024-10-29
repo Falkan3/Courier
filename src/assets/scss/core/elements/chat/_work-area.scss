@@ -165,12 +165,18 @@
 &-topic {
 	flex: 0 0 auto;
 	margin: 4px;
-	padding: 0.5em 1em;
+	padding: 0.8em 1em;
 	border: solid 2px $messageTopicSecondaryColor;
-	border-radius: 34px;
+	border-radius: 7px;
 	background-color: $messageTopicPrimaryColor;
-	color: inherit; // $messageTopicSecondaryColor;
+	color: $messageTopicFontColor;
 	transition: background-color cubic-bezier(0.1, 1, 0.6, 1) 0.3s, color cubic-bezier(0.1, 1, 0.6, 1) 0.2s;
+
+	&:not(#{selectors.bottom-most-fn(&)}--active):disabled {
+		border-color: $messageTopicDisabledBgColor;
+		background-color: $messageTopicDisabledBgColor;
+		color: $messageTopicDisabledFontColor;
+	}
 
 	&:hover:enabled {
 		cursor: pointer;
@@ -179,8 +185,9 @@
 	&:hover:enabled,
 	&:focus:enabled,
 	&--active {
+		border-color: $messageTopicSecondaryColor;
 		background-color: $messageTopicSecondaryColor;
-		color: $messageTopicPrimaryColor;
+		color: $messageTopicActiveFontColor;
 	}
 
 	&--full-w {

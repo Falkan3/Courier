@@ -2,6 +2,7 @@
 @use "../../utils/mixins/palette";
 @use "../../utils/mixins/order";
 @use "sass:meta";
+@use "sass:color";
 
 // todo: move the colors to the palette file
 
@@ -25,8 +26,12 @@ $workAreaScrollbarHandleColor: #b3b3b3;
 // messages
 $messageBgColorIncoming: #e6e6e6;
 $messageBgColorOutgoing: #ddf0ff;
-$messageTopicPrimaryColor: #fff;
+$messageTopicPrimaryColor: $messageBgColorOutgoing;
 $messageTopicSecondaryColor: palette.get-palette-hue("accent-1", 100);
+$messageTopicDisabledBgColor: palette.get-palette-hue("interface", 200);
+$messageTopicDisabledFontColor: palette.get-palette-hue("interface", 500);
+$messageTopicFontColor: color.mix(palette.get-palette-hue("foreground", 1000), palette.get-palette-hue("accent-1", 100), 80%);
+$messageTopicActiveFontColor: #fff;
 $messageCarouselPrimaryColor: #fff;
 
 // interactions
