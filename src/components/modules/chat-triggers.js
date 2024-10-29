@@ -63,9 +63,15 @@ export default function Construct(Courier, Components, Events) {
          * @param  {Object} event
          */
         onInput(event) {
+            const chatScrolledToBottom = Components.Chat.chatIsScrolledToTheBottom();
+
             event.target.setAttribute('rows', 1);
             const targetRows = Math.ceil(event.target.scrollHeight / event.target.offsetHeight);
             event.target.setAttribute('rows', targetRows);
+
+            if (chatScrolledToBottom) {
+                Components.Chat.scrollLastMessageIntoView();
+            }
         },
 
         startMessage() {
