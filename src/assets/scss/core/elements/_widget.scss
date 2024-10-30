@@ -50,10 +50,19 @@ $btnColorActive: #fff;
 		filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.12));
 
 		@at-root {
-			//#{selectors.parent-fn(&)} #{selectors.bottom-most-fn($widget)}-wrapper--simple #{selectors.bottom-most-fn(&)} {
+			$bubble: selectors.bottom-most-fn(&);
+
+			//#{selectors.parent-fn(&)} #{selectors.bottom-most-fn($widget)}-wrapper--simple #{$bubble} {
 			//	padding: 0.5em 1em;
 			//}
-			#{selectors.parent-fn(&)} #{selectors.bottom-most-fn($widget)}-wrapper--advanced #{selectors.bottom-most-fn(&)} {
+
+			// widget left modifier
+			#{selector-unify(#{variables.$classPrefix}, #{variables.$classPrefix}--left)} #{selectors.bottom-most-fn($widget)}-wrapper--advanced #{$bubble} {
+				margin-left: 0;
+				margin-right: auto;
+			}
+
+			#{selectors.parent-fn(&)} #{selectors.bottom-most-fn($widget)}-wrapper--advanced #{$bubble} {
 				position: relative;
 				margin-left: auto;
 				// padding: 0.8em 1.5em;
@@ -69,7 +78,7 @@ $btnColorActive: #fff;
 				//}
 			}
 
-			//#{selectors.parent-fn(&)} #{selectors.bottom-most-fn($widget)}-wrapper--simple #{selectors.bottom-most-fn(&)} {
+			//#{selectors.parent-fn(&)} #{selectors.bottom-most-fn($widget)}-wrapper--simple #{$bubble} {
 			//	background-color: color.scale($bubbleIconBg, $lightness: 5%);
 			//}
 		}
@@ -116,8 +125,10 @@ $btnColorActive: #fff;
 						transform: scale(1.1);
 					}
 				}
+			}
 
-				#{selectors.bottom-most-fn($widget)}-wrapper--advanced {
+			#{selectors.bottom-most-fn($widget)}-wrapper--advanced {
+				#{selectors.bottom-most-fn($widget)}-bubble {
 					#{selectors.bottom-most-fn($img)} {
 						position: relative;
 						//padding: 12px;
@@ -137,11 +148,11 @@ $btnColorActive: #fff;
 							background-color: #bbb;
 						}
 					}
+				}
 
-					#{variables.$classPrefix}__widget--online #{selectors.bottom-most-fn($img)} {
-						&::before {
-							background-color: #35d03d;
-						}
+				#{selector-unify(#{selectors.bottom-most-fn($widget)}-bubble, #{selectors.bottom-most-fn($widget)}--online)} #{selectors.bottom-most-fn($img)} {
+					&::before {
+						background-color: #35d03d;
 					}
 				}
 			}
@@ -175,6 +186,12 @@ $btnColorActive: #fff;
 		align-items: flex-end;
 		position: relative;
 		margin-top: 0.8em;
+
+		@at-root {
+			#{selector-unify(#{variables.$classPrefix}, #{variables.$classPrefix}--left)} #{selectors.bottom-most-fn(&)} {
+				align-items: flex-start;
+			}
+		}
 	}
 
 	&-greeting-title {
@@ -189,12 +206,17 @@ $btnColorActive: #fff;
 		width: max-content;
 		max-width: 15em;
 		padding: 1em 1.5em;
-		border-radius: 14px 14px 0;
+		border-radius: 14px 0 14px 14px;
 		background-color: #fefefe;
 		line-height: 1.4;
+		filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.12));
 		transition: color cubic-bezier(0.1, 1, 0.6, 1) 0.3s;
 
 		@at-root {
+			#{selector-unify(#{variables.$classPrefix}, #{variables.$classPrefix}--left)} #{selectors.bottom-most-fn(&)} {
+				border-radius: 0 14px 14px 14px;
+			}
+
 			#{selectors.parent-fn(&)} #{selectors.bottom-most-fn($widget)}-bubble:hover #{selectors.bottom-most-fn(&)} {
 				color: #e2e6f7;
 			}
@@ -211,7 +233,6 @@ $btnColorActive: #fff;
 			//#{selectors.parent-fn(&)} #{selectors.bottom-most-fn($widget)}-bubble:hover #{selectors.bottom-most-fn(&)} {
 			//	color: #e2e6f7;
 			//}
-
 			#{selectors.parent-fn(&)} #{selector-unify(#{selectors.bottom-most-fn($widget)}-bubble, #{selectors.bottom-most-fn($widget)}--minimalized)} #{selectors.bottom-most-fn(&)} {
 				text-align: center;
 			}
@@ -224,24 +245,23 @@ $btnColorActive: #fff;
 		$hideBtn: &;
 
 		position: absolute;
-		top: 0;
-		right: 0;
+		top: -0.5em;
+		right: -0.5em;
 		padding: 0.5em;
-		transform: translate(50%, -50%);
 
 		&:hover {
 			cursor: pointer;
 		}
 
-		//@at-root {
-		//	#{variables.$classPrefix}--widget-round,
-		//	#{selectors.parent-fn(&)} #{selectors.bottom-most-fn($widget)}--minimalized {
-		//		#{selectors.bottom-most-fn($hideBtn)} {
-		//			top: 0.5em;
-		//			right: 0.5em;
-		//		}
-		//	}
-		//}
+		@at-root {
+			#{selectors.parent-fn(&)} #{selectors.bottom-most-fn($widget)}--minimalized {
+				#{selectors.bottom-most-fn($hideBtn)} {
+					top: 0;
+					right: 0;
+					transform: translate(50%, -50%);
+				}
+			}
+		}
 
 		&-content {
 			$hideBtnContent: &;
