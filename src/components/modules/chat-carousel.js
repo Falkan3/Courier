@@ -3,7 +3,9 @@ import { component as Reef, signal } from '@libs/reefjs/reef.es';
 import Glide, {
     Controls, Images, Swipe, Anchors
 } from '@libs/glidejs/glide.modular.esm';
-import { addAffix, formatPercentage, roundNumber } from '@utils/string';
+import {
+    addAffix, formatNumber, formatPercentage, roundNumber
+} from '@utils/string';
 import { textTemplate } from '@utils/object';
 import { elemContains } from '@utils/dom';
 import {
@@ -82,10 +84,24 @@ export default function (Courier, Components, Events) {
                 let priceCurrentHtml = '';
                 let priceOldHtml = '';
                 let discountPercentage = '';
+                const price = addAffix(
+                    formatNumber(carouselItem.price.value),
+                    carouselItem.price.affix[0],
+                    carouselItem.price.affix[1]
+                );
                 if (carouselItem.price.discount && carouselItem.price.value) {
+                    const priceDiscounted = addAffix(
+                        formatNumber(
+                            roundNumber(
+                                carouselItem.price.value * (1 - carouselItem.price.discount)
+                            )
+                        ),
+                        carouselItem.price.affix[0],
+                        carouselItem.price.affix[1]
+                    );
                     priceCurrentHtml = `
                     <div class="${Courier.settings.classes.chat}-carousel-item-price-wrapper">
-                        <p class="${Courier.settings.classes.chat}-carousel-item-price-tag tx-wb">${addAffix(roundNumber(carouselItem.price.value * (1 - carouselItem.price.discount)), carouselItem.price.affix[0], carouselItem.price.affix[1])}</p>
+                        <p class="${Courier.settings.classes.chat}-carousel-item-price-tag tx-wb">${priceDiscounted}</p>
                     </div>`;
                     if (Courier.settings.state.showDiscountPercentage) {
                         discountPercentage = `
@@ -95,12 +111,12 @@ export default function (Courier, Components, Events) {
                     priceOldHtml = `
                     <div class="${Courier.settings.classes.chat}-carousel-item-price-wrapper">
                         ${discountPercentage}
-                        <p class="${Courier.settings.classes.chat}-carousel-item-price-old tx-wb">${addAffix(carouselItem.price.value, carouselItem.price.affix[0], carouselItem.price.affix[1])}</p>
+                        <p class="${Courier.settings.classes.chat}-carousel-item-price-old tx-wb">${price}</p>
                     </div>`;
                 } else if (carouselItem.price.value) {
                     priceCurrentHtml = `
                     <div class="${Courier.settings.classes.chat}-carousel-item-price-wrapper">
-                        <p class="${Courier.settings.classes.chat}-carousel-item-price-tag tx-wb">${addAffix(carouselItem.price.value, carouselItem.price.affix[0], carouselItem.price.affix[1])}</p>
+                        <p class="${Courier.settings.classes.chat}-carousel-item-price-tag tx-wb">${price}</p>
                     </div>`;
                 }
 
