@@ -8,7 +8,7 @@ export default function Construct(Courier, Components, Events) {
 
         typingAction: throttle(300, () => {
             Components.Chat.templateData.state.typing = true;
-            Components.Chat.scrollToBottom = Components.Chat.chatIsScrolledToTheBottom();
+            // Components.Chat.scrollToBottom = Components.Chat.chatIsScrolledToTheBottom();
             Events.emit('chat.typing');
             Components.Chat.stoppedTypingAction();
         }),
