@@ -19,7 +19,7 @@
 				color: #fff;
 
 				@at-root {
-					#{variables.$classPrefix}:not(.courier--widget-round) #{selectors.bottom-most-fn($wrapper)} #{selectors.bottom-most-fn(&)},
+					#{variables.$classPrefix} #{selectors.bottom-most-fn($wrapper)} #{selectors.bottom-most-fn(&)},
 					#{variables.$classPrefix}--widget-tailed #{selectors.bottom-most-fn(&)} {
 						&::after {
 							border-top-color: #09a850;
@@ -38,7 +38,7 @@
 						}
 					}
 
-					#{variables.$classPrefix}:not(.courier--widget-round) #{selectors.bottom-most-fn($wrapper)},
+					#{variables.$classPrefix} #{selectors.bottom-most-fn($wrapper)},
 					#{variables.$classPrefix}--widget-tailed {
 						#{selectors.bottom-most-fn($widget)}-bubble {
 							&:hover,
