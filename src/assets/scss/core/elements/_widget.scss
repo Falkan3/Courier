@@ -294,7 +294,7 @@ $btnColorActive: #fff;
 				&:hover,
 				&:focus-visible {
 					#{selectors.bottom-most-fn($hideBtnContent)} {
-						background-color: #f44336;
+						background-color: $btnColorInactive;
 
 						& > svg {
 							stroke: $btnColorActive;
