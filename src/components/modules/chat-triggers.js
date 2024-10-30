@@ -18,6 +18,7 @@ export default function Construct(Courier, Components, Events) {
     const inputEvents = ['input', 'blur', 'change'];
 
     const ChatTriggers = {
+        shouldBindEvents: true,
         settings: {
             throttle: {
                 input: 10
@@ -70,7 +71,7 @@ export default function Construct(Courier, Components, Events) {
             event.target.setAttribute('rows', targetRows);
 
             if (chatScrolledToBottom) {
-                Components.Chat.scrollLastMessageIntoView();
+                Components.Chat.scrollChatToBottom();
             }
         },
 
@@ -193,8 +194,13 @@ export default function Construct(Courier, Components, Events) {
      * Bind event listeners after App has been mounted and rendered for the first time
      */
     Events.on('app.rendered.chat', () => {
-        if (Components.Chat.templateData.state.active) {
+        if (!Components.Chat.refs.messageBox) {
+            this.shouldBindEvents = true;
+        }
+
+        if (Components.Chat.templateData.state.active && this.shouldBindEvents) {
             ChatTriggers.bind();
+            this.shouldBindEvents = false;
         }
     });
 
