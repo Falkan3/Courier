@@ -468,18 +468,23 @@ export default function Construct(Courier, Components, Events) {
 
                 const identity = this.templateData.identity.show
                     ? `
-                        <div class="${Courier.settings.classes.chat}-identity">
-                            <div class="p-all--hf">
-                                <div class="${Courier.settings.classes.chat}-avatar ${this.templateData.state.online ? `${Courier.settings.classes.chat}--online` : ''}">
-                                    ${identityImg}
+                        <div class="p-h--hf">
+                            <div class="${Courier.settings.classes.chat}-identity">
+                                <div class="p-all--hf">
+                                    <div class="${Courier.settings.classes.chat}-avatar ${this.templateData.state.online ? `${Courier.settings.classes.chat}--online` : ''}">
+                                        ${identityImg}
+                                    </div>
+                                </div>
+                                <div class="${Courier.settings.classes.chat}-name">
+                                    <p>${this.templateData.identity.name}</p>
+                                    <p><a href="${this.templateData.identity.website.url}" target="_blank" rel="nofollow noreferrer">${this.templateData.identity.website.name}</a></p>
                                 </div>
                             </div>
-                            <div class="${Courier.settings.classes.chat}-name">
-                                <p>${this.templateData.identity.name}</p>
-                                <p><a href="${this.templateData.identity.website.url}" target="_blank" rel="nofollow noreferrer">${this.templateData.identity.website.name}</a></p>
-                            </div>
                         </div>`
-                    : '';
+                    : `
+                        <div class="p-h--hf">
+                            <p class="tx-bold">${this.templateData.texts.chatTitle}</p>
+                        </div>`;
 
                 const optionsBtn = this.templateData.state.showOptionsButton
                     ? `
@@ -489,25 +494,14 @@ export default function Construct(Courier, Components, Events) {
                             </button>
                         </div>` : '';
 
-                const headerAvatar = !this.templateData.identity.show
-                    ? `
-                        <div class="p-h--hf">
-                            <div class="${Courier.settings.classes.chat}-avatar ${Courier.settings.classes.chat}-avatar--sm ${this.templateData.state.online ? `${Courier.settings.classes.chat}--online` : ''}">
-                                ${identityImg}
-                            </div>
-                        </div>` : '';
-
                 return parseSpecialTags(`
                     <div id="courierChatOverlay" class="${Courier.settings.classes.chat}-overlay ${Courier.settings.classes.root}__fade-in ${Courier.settings.classes.root}__anim-timing--half">
                         <div class="${Courier.settings.classes.chat}-wall ${Courier.settings.classes.root}__slide-in-bottom ${Courier.settings.classes.root}__anim-timing--half">
                             <div class="${Courier.settings.classes.chat}-header">
                                 <div class="${Courier.settings.classes.chat}-menu">
                                     <div class="${Courier.settings.classes.chat}-menu-row">
+                                        ${identity}
                                         ${optionsBtn}
-                                        ${headerAvatar}
-                                        <div class="p-h--hf">
-                                            <p class="tx-bold">${this.templateData.texts.chatTitle}</p>
-                                        </div>
                                         <div class="p-h--hf">
                                             <button id="courierChatCloseBtn" class="${Courier.settings.classes.chat}-close-btn" type="button" aria-label="${this.templateData.texts.close}">
                                                 ${Courier.settings.images.closeBtn}
@@ -515,7 +509,6 @@ export default function Construct(Courier, Components, Events) {
                                         </div>
                                     </div>
                                 </div>
-                                ${identity}
                             </div>
                             <div class="${Courier.settings.classes.chat}-work-area-wrapper">
                                  <div id="courierChatWorkArea" class="${Courier.settings.classes.chat}-work-area">
