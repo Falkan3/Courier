@@ -25,6 +25,7 @@ export default function Construct(Courier, Components, Events) {
         messagePath: [],
         lastReceivedMessageIndex: null,
         lastSentMessageIndex: null,
+        messageBoxRows: 1,
         settings: {
             throttle: {
                 scroll: 5,
@@ -321,7 +322,8 @@ export default function Construct(Courier, Components, Events) {
                     messageBoxEnabled: Courier.settings.state.messageBoxEnabled,
                     showTimestamp: Courier.settings.state.showTimestamp,
                     typing: false,
-                    maxMessageLength: Courier.settings.state.maxMessageLength
+                    maxMessageLength: Courier.settings.state.maxMessageLength,
+                    messageBoxRows: Components.Chat.messageBoxRows,
                 }
             };
 
@@ -329,6 +331,7 @@ export default function Construct(Courier, Components, Events) {
                 data.state.active = this.templateData.state.active;
                 data.state.userTurn = this.templateData.state.userTurn;
                 data.state.typing = this.templateData.state.typing;
+                data.state.messageBoxRows = this.templateData.state.messageBoxRows;
             }
 
             return signal(data, 'chat');
@@ -416,7 +419,7 @@ export default function Construct(Courier, Components, Events) {
                         <form id="courierChatInteractionsForm" class="${Courier.settings.classes.chat}-interactions" autocomplete="off">
                             <div class="${Courier.settings.classes.chat}-message-box-container">
                                 <div class="${Courier.settings.classes.chat}-message-box-wrapper">
-                                    <textarea class="${Courier.settings.classes.chat}-message-box" name="message" ${!Chat.templateData.state.messageBoxEnabled ? 'disabled' : ''} placeholder="${Chat.templateData.texts.messagePlaceholder}" rows="1" maxlength="${Chat.templateData.state.maxMessageLength}" autofocus></textarea>
+                                    <textarea class="${Courier.settings.classes.chat}-message-box" name="message" ${!Chat.templateData.state.messageBoxEnabled ? 'disabled' : ''} placeholder="${Chat.templateData.texts.messagePlaceholder}" rows="${Chat.templateData.state.messageBoxRows}" maxlength="${Chat.templateData.state.maxMessageLength}" autofocus></textarea>
                                 </div>
                                 <button class="${Courier.settings.classes.chat}-send-msg-btn" type="submit" ${!Chat.templateData.state.messageBoxEnabled ? 'disabled' : ''} aria-label="${Chat.templateData.texts.sendMessage}">
                                     ${Courier.settings.images.sendMsg}
@@ -517,6 +520,10 @@ export default function Construct(Courier, Components, Events) {
 
     Events.on('chat.resetMessages', () => {
         Chat.resetMessages();
+    });
+
+    Events.on('chatTriggers.setMessageBoxRows', (targetRows) => {
+        Chat.templateData.state.messageBoxRows = targetRows;
     });
 
     /**

@@ -69,6 +69,7 @@ export default function Construct(Courier, Components, Events) {
             event.target.setAttribute('rows', 1);
             const targetRows = Math.ceil(event.target.scrollHeight / event.target.offsetHeight);
             event.target.setAttribute('rows', targetRows);
+            Events.emit('chatTriggers.setMessageBoxRows', targetRows);
 
             if (chatScrolledToBottom) {
                 Components.Chat.scrollChatToBottom();
