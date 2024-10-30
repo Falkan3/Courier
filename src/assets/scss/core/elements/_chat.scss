@@ -6,18 +6,20 @@
 
 // todo: move the colors to the palette file
 
+$fontColor: palette.get-palette-hue("foreground", 1000);
+$linkColor: palette.get-palette-hue("accent-1", 500);
+
 // $sendMsgBtnColor1: #2196f3;
 // $sendMsgBtnColor2: #64b5f6;
 // $closeBtnColor: #64b5f6; // #f44336;
 // $optionsBtnColor: #64b5f6; // #000;
+
 // buttons
 $btnColor: palette.get-palette-hue("accent-1", 500);
 $btnColorInactive: #d2d2d2;
 $btnColorActive: palette.get-palette-hue("accent-1", 100);
 
 // work area
-$fontColor: palette.get-palette-hue("foreground", 1000);
-$linkColor: palette.get-palette-hue("accent-1", 500);
 $wallBgColor: #fff;
 $wallBorderRadius: 16px;
 $workAreaBgColor: #fbfbfb;
