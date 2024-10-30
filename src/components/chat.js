@@ -27,12 +27,19 @@ export default function Construct(Courier, Components, Events) {
         lastSentMessageIndex: null,
         settings: {
             throttle: {
-                scroll: 5
+                scroll: 5,
+                scrollChat: 100
             }
         },
 
         mount() {
             this.templateData = this.getTemplateData();
+            this.scrollChatToBottomThrottled = throttle(
+                this.settings.throttle.scrollChat,
+                () => {
+                    this.scrollChatToBottom();
+                }
+            );
             Events.emit('chat.mounted');
         },
 
@@ -46,6 +53,7 @@ export default function Construct(Courier, Components, Events) {
                 const wasScrolledToBottom = this.isScrolledToBottom;
                 this.isScrolledToBottom = this.chatIsScrolledToTheBottom();
                 if (wasScrolledToBottom !== this.isScrolledToBottom) {
+                    this.scrollToBottom = this.isScrolledToBottom;
                     Events.emit('chat.scrolledToBottom', this.isScrolledToBottom);
                 }
             }), { capture: true, passive: true });
@@ -112,8 +120,8 @@ export default function Construct(Courier, Components, Events) {
             Events.emit('chat.scrollToBottom', this.scrollToBottom);
 
             if (this.scrollToBottom) {
-                this.scrollLastMessageIntoView();
-                this.scrollToBottom = false;
+                this.scrollChatToBottom();
+                // this.scrollToBottom = false;
             }
         },
 
@@ -237,8 +245,19 @@ export default function Construct(Courier, Components, Events) {
 
         scrollLastMessageIntoView() {
             if (this.refs.messages.length) {
-                this.refs.messages[this.refs.messages.length - 1].scrollIntoView();
+                this.refs.messages[this.refs.messages.length - 1].scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'end'
+                });
             }
+        },
+
+        scrollChatToBottom() {
+            if (!this.refs.workArea) return;
+            this.refs.workArea.scrollTo({
+                top: this.refs.workArea.scrollHeight,
+                behavior: 'instant'
+            });
         },
 
         resetMessages() {
