@@ -255,11 +255,11 @@ export default function Construct(Courier, Components, Events) {
             }
         },
 
-        scrollChatToBottom() {
+        scrollChatToBottom(smooth = false) {
             if (!this.refs.workArea) return;
             this.refs.workArea.scrollTo({
                 top: this.refs.workArea.scrollHeight,
-                behavior: 'instant'
+                behavior: smooth ? 'smooth' : 'instant'
             });
         },
 
