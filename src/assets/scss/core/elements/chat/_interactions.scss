@@ -71,7 +71,7 @@ $root: &;
 	position: absolute;
 	top: 50%;
 	right: 6px;
-	padding: 0.5em;
+	padding: 1em;
 	border-radius: 50%;
 	background: $btnColor;
 	color: $sendMessageBoxBgColor;
@@ -82,8 +82,8 @@ $root: &;
 	& > img,
 	& > svg {
 		display: block;
-		width: 1.5em;
-		height: 1.5em;
+		width: 1em;
+		height: 1em;
 		// transition: transform cubic-bezier(0.1, 1, 0.6, 1) 0.3s;
 	}
 
@@ -104,7 +104,6 @@ $root: &;
 		// show hover style
 		#{$root}-message-box-container:not(.disabled) #{selectors.bottom-most-fn(&)}:enabled {
 			&:hover,
-			&:active,
 			&:focus-visible {
 				background-color: color.scale($btnColor, $lightness: 5%);
 				color: color.scale($sendMessageBoxBgColor, $lightness: 5%);
