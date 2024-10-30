@@ -192,15 +192,10 @@ export default function Construct(Courier, Components, Events) {
                         </span>`
                     : '';
 
-                const widgetText = this.templateData.texts.widgetGreeting
-                    ? `<p class="${Courier.settings.classes.widget}-greeting">${this.templateData.texts.widgetGreeting}</p>`
-                    : '';
-
                 html = `
                     <button id="courierWidgetButton" class="${Courier.settings.classes.widget}-bubble" type="button" aria-label="${this.templateData.texts.openWidget}">
                         <span class="${Courier.settings.classes.widget}-greeting-wrapper">
                             ${widgetImg}
-                            ${widgetText}
                             ${notification}
                         </span>
                     </button>
