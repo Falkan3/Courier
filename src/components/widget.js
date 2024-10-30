@@ -44,6 +44,7 @@ export default function Construct(Courier, Components, Events) {
             if (event.target.matches('#courierWidgetButton')
                 || (elemContains(courierWidgetButton, event.target))) {
                 Events.emit('widget.clicked');
+                return;
             }
             const courierWidgetHideButton = Components.App.refs.app.elem.querySelector('#courierWidgetHideButton');
             if (event.target.matches('#courierWidgetHideButton')
@@ -53,6 +54,12 @@ export default function Construct(Courier, Components, Events) {
                 } else {
                     this.minimalize();
                 }
+                return;
+            }
+            const courierGreetingMsgWrapper = Components.App.refs.app.elem.querySelector('#courierGreetingMsg');
+            if (event.target.matches('#courierGreetingMsg')
+                || (elemContains(courierGreetingMsgWrapper, event.target))) {
+                Events.emit('widget.clicked');
             }
         },
 
@@ -228,7 +235,7 @@ export default function Construct(Courier, Components, Events) {
                 // If not minimalized - continue
 
                 const widgetText = this.templateData.texts.widgetGreeting
-                    ? `<p class="${Courier.settings.classes.widget}-greeting-msg">${this.templateData.texts.widgetGreeting}</p>`
+                    ? `<button id="courierGreetingMsg" class="${Courier.settings.classes.widget}-greeting-msg" type="button">${this.templateData.texts.widgetGreeting}</button>`
                     : '';
 
                 html = `

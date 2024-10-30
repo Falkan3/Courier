@@ -181,10 +181,10 @@ $btnColorActive: #fff;
 	}
 
 	&-greeting-msg-wrapper {
+		position: relative;
 		display: flex;
 		flex-direction: column;
 		align-items: flex-end;
-		position: relative;
 		margin-top: 0.8em;
 
 		@at-root {
@@ -209,6 +209,8 @@ $btnColorActive: #fff;
 		border-radius: 14px 0 14px 14px;
 		background-color: #fefefe;
 		line-height: 1.4;
+		text-align: left;
+		cursor: pointer;
 		filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.12));
 		transition: color cubic-bezier(0.1, 1, 0.6, 1) 0.3s;
 
