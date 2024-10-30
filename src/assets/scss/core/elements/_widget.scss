@@ -256,6 +256,7 @@ $btnColorActive: #fff;
 		}
 
 		@at-root {
+			#{selectors.parent-fn(&)} #{selectors.bottom-most-fn($widget)}-wrapper--simple,
 			#{selectors.parent-fn(&)} #{selectors.bottom-most-fn($widget)}--minimalized {
 				#{selectors.bottom-most-fn($hideBtn)} {
 					top: 0;
