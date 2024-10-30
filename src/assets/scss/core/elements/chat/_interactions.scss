@@ -50,8 +50,13 @@ $root: &;
 	resize: none;
 
 	&::placeholder {
-		font-size: 0.8em;
+		font-size: 1em; // 0.8em;
 		color: palette.get-palette-hue("foreground", 500);
+	}
+
+	&:focus,
+	&:focus-visible {
+		outline: none;
 	}
 
 	@at-root #{$root}-message-box-container.disabled, #{selectors.bottom-most-fn(&)}:disabled {
@@ -79,7 +84,7 @@ $root: &;
 		display: block;
 		width: 1.5em;
 		height: 1.5em;
-		transition: transform cubic-bezier(0.1, 1, 0.6, 1) 0.3s;
+		// transition: transform cubic-bezier(0.1, 1, 0.6, 1) 0.3s;
 	}
 
 	& > svg {
@@ -92,9 +97,8 @@ $root: &;
 	@at-root {
 		// show disabled style
 		&:disabled, #{$root}-message-box-container.disabled #{selectors.bottom-most-fn(&)} {
-			cursor: not-allowed;
-
 			background-color: $btnColorInactive;
+			cursor: not-allowed;
 		}
 
 		// show hover style
@@ -105,10 +109,10 @@ $root: &;
 				background-color: color.scale($btnColor, $lightness: 5%);
 				color: color.scale($sendMessageBoxBgColor, $lightness: 5%);
 
-				& > img,
-				& > svg {
-					transform: rotate(90deg) scale(1.1, 1.1);
-				}
+				//& > img,
+				//& > svg {
+				//	transform: rotate(90deg) scale(1.1, 1.1);
+				//}
 			}
 		}
 	}
