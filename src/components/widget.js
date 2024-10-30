@@ -141,18 +141,9 @@ export default function Construct(Courier, Components, Events) {
                     return '';
                 }
 
-                const notification = this.templateData.state.showWidgetUnreadMessages
-                && this.templateData.state.unreadMessages !== 0
-                    ? `
-                        <div id="courierNotification" class="${Courier.settings.classes.widget}-notification" aria-label="${this.templateData.texts.unreadMessages}">
-                            ${this.templateData.state.unreadMessages}
-                        </div>`
-                    : '';
-
                 return `
                     <div class="${Courier.settings.classes.widget}-wrapper ${Courier.settings.classes.widget}-wrapper--${this.templateData.state.style} ${this.templateData.state.minimalized ? `${Courier.settings.classes.widget}--minimalized` : ''} ${Courier.settings.classes.root}__appear-bottom ${Courier.settings.classes.root}__anim-timing--half">
                         ${this.getHtml(this.templateData.state.style, this.templateData)}
-                        ${notification}
                     </div>`;
             }, { signals: ['widget'] });
         },
@@ -177,6 +168,14 @@ export default function Construct(Courier, Components, Events) {
                     </button>`
                 : '';
 
+            const notification = this.templateData.state.showWidgetUnreadMessages
+            && this.templateData.state.unreadMessages !== 0
+                ? `
+                        <div id="courierNotification" class="${Courier.settings.classes.widget}-notification" aria-label="${this.templateData.texts.unreadMessages}">
+                            ${this.templateData.state.unreadMessages}
+                        </div>`
+                : '';
+
             switch (style) {
             case WidgetStyles.SIMPLE: {
                 const widgetImg = this.templateData.widgetImg
@@ -195,6 +194,7 @@ export default function Construct(Courier, Components, Events) {
                         <span class="${Courier.settings.classes.widget}-greeting-wrapper">
                             ${widgetImg}
                             ${widgetText}
+                            ${notification}
                         </span>
                     </button>
 
@@ -221,6 +221,7 @@ export default function Construct(Courier, Components, Events) {
                     <button id="courierWidgetButton" class="${Courier.settings.classes.widget}-bubble ${this.templateData.state.online ? `${Courier.settings.classes.widget}--online` : ''}" type="button" aria-label="${this.templateData.texts.openWidget}">
                         <span class="${Courier.settings.classes.widget}-greeting-wrapper">
                             ${widgetImg}
+                            ${notification}
                         </span>
                     </button>
 
@@ -238,6 +239,7 @@ export default function Construct(Courier, Components, Events) {
                     <button id="courierWidgetButton" class="${Courier.settings.classes.widget}-bubble ${this.templateData.state.online ? `${Courier.settings.classes.widget}--online` : ''}" type="button" aria-label="${this.templateData.texts.openWidget}">
                         <span class="${Courier.settings.classes.widget}-greeting-wrapper">
                             ${widgetImg}
+                            ${notification}
                         </span>
                     </button>
 
