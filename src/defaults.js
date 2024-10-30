@@ -98,9 +98,9 @@ export default {
      */
     poweredBy: {
         show: true,
-        text: 'Powered by',
+        text: 'Powered by TrafficWatchdog',
         img: {
-            src: 'https://panel.trafficwatchdog.pl/svg/logo.svg',
+            src: null, // https://panel.trafficwatchdog.pl/svg/logo.svg',
             alt: 'TrafficWatchdog'
         },
         url: 'https://trafficwatchdog.pl/'

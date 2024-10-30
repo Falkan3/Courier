@@ -101,12 +101,17 @@ export default function Construct(Courier, Components, Events) {
                     return '';
                 }
 
+                const poweredByContent = this.templateData.poweredBy.img.src !== null
+                    ? `
+                        <p class="m-r--hf">${this.templateData.poweredBy.text}</p>
+                        <img src="${this.templateData.poweredBy.img.src}" alt="${this.templateData.poweredBy.img.alt}" />`
+                    : `<p>${this.templateData.poweredBy.text}</p>`;
+
                 const poweredBy = this.templateData.poweredBy.show
                     ? `
                         <div class="${Courier.settings.classes.popup}-powered-by">
                             <a href="${this.templateData.poweredBy.url}" target="_blank" rel="nofollow noreferrer">
-                                <p class="m-r--hf">${this.templateData.poweredBy.text}</p>
-                                <img src="${this.templateData.poweredBy.img.src}" alt="${this.templateData.poweredBy.img.alt}" />
+                                ${poweredByContent}
                             </a>
                         </div>`
                     : '';
