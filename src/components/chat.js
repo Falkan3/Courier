@@ -5,7 +5,7 @@ import ChatMessage from '@components/classes/chat-message';
 import { component as Reef, signal } from '@libs/reefjs/reef.es';
 import { elemContains, isScrolledToTheBottom } from '@utils/dom';
 import { shortenTodaysDateTime } from '@utils/time';
-import { clipboard as clipboardIcon } from '@utils/images';
+import { clipboard as clipboardIcon, arrowDown as arrowDownIcon } from '@utils/images';
 import { clearMessagePath, copyCouponCodeToClipboard } from '@utils/chat.js';
 import { throttle } from '@libs/throttle-debounce/index.js';
 
@@ -35,12 +35,12 @@ export default function Construct(Courier, Components, Events) {
 
         mount() {
             this.templateData = this.getTemplateData();
-            this.scrollChatToBottomThrottled = throttle(
-                this.settings.throttle.scrollChat,
-                () => {
-                    this.scrollChatToBottom();
-                }
-            );
+            // this.scrollChatToBottomThrottled = throttle(
+            //     this.settings.throttle.scrollChat,
+            //     () => {
+            //         this.scrollChatToBottom();
+            //     }
+            // );
             Events.emit('chat.mounted');
         },
 
@@ -56,6 +56,12 @@ export default function Construct(Courier, Components, Events) {
                 if (wasScrolledToBottom !== this.isScrolledToBottom) {
                     this.scrollToBottom = this.isScrolledToBottom;
                     Events.emit('chat.scrolledToBottom', this.isScrolledToBottom);
+
+                    if (this.isScrolledToBottom) {
+                        this.refs.scrollDownBtn.classList.remove('active');
+                    } else {
+                        this.refs.scrollDownBtn.classList.add('active');
+                    }
                 }
             }), { capture: true, passive: true });
         },
@@ -82,6 +88,11 @@ export default function Construct(Courier, Components, Events) {
                 || (elemContains(this.refs.closeBtn, event.target))
                 || (event.target.matches('#courierChatOverlay'))) {
                 this.close();
+            }
+
+            if (event.target.isEqualNode(this.refs.scrollDownBtn)
+                || (elemContains(this.refs.scrollDownBtn, event.target))) {
+                this.scrollChatToBottom(true);
             }
 
             const message = event.target.closest(`.${Courier.settings.classes.chat}-message`);
@@ -118,6 +129,7 @@ export default function Construct(Courier, Components, Events) {
                 this.refs.messageBox = Components.App.refs.app.elem.querySelector(`.${Courier.settings.classes.chat}-message-box`);
             }
             this.refs.closeBtn = Components.App.refs.app.elem.querySelector('#courierChatCloseBtn');
+            this.refs.scrollDownBtn = Components.App.refs.app.elem.querySelector('#courierScrollDownBtn');
             this.refs.messages = Components.App.refs.app.elem.querySelectorAll(`.${Courier.settings.classes.chat}-message`);
 
             Events.emit('chat.scrollToBottom', this.scrollToBottom);
@@ -505,8 +517,14 @@ export default function Construct(Courier, Components, Events) {
                                 </div>
                                 ${identity}
                             </div>
-                            <div id="courierChatWorkArea" class="${Courier.settings.classes.chat}-work-area">
-                                ${messages}
+                            <div class="${Courier.settings.classes.chat}-work-area-wrapper">
+                                 <div id="courierChatWorkArea" class="${Courier.settings.classes.chat}-work-area">
+                                    ${messages}
+                                </div>
+
+                                <div class="${Courier.settings.classes.chat}-work-area-interactions">
+                                    <button id="courierScrollDownBtn" class="${Courier.settings.classes.chat}-scroll-down-btn ${Courier.settings.classes.root}__appear-bottom ${Courier.settings.classes.root}__anim-timing--half" type="button">${arrowDownIcon}</button>
+                                </div>
                             </div>
                             ${messageBox}
                             ${footer}
