@@ -76,9 +76,10 @@ export default function Construct(Courier, Components, Events) {
          */
         onClick(event) {
             // const overlay = Components.App.refs.app.elem.querySelector('#courierChatOverlay');
-            const closeBtn = Components.App.refs.app.elem.querySelector('#courierChatCloseBtn');
-            if (event.target.matches('#courierChatCloseBtn')
-                || (elemContains(closeBtn, event.target))
+            // const closeBtn = Components.App.refs.app.elem.querySelector('#courierChatCloseBtn');
+            // event.target.matches('#courierChatCloseBtn'
+            if (event.target.isEqualNode(this.refs.closeBtn)
+                || (elemContains(this.refs.closeBtn, event.target))
                 || (event.target.matches('#courierChatOverlay'))) {
                 this.close();
             }
@@ -116,6 +117,7 @@ export default function Construct(Courier, Components, Events) {
             if (this.templateData.state.showMessageBox) {
                 this.refs.messageBox = Components.App.refs.app.elem.querySelector(`.${Courier.settings.classes.chat}-message-box`);
             }
+            this.refs.closeBtn = Components.App.refs.app.elem.querySelector('#courierChatCloseBtn');
             this.refs.messages = Components.App.refs.app.elem.querySelectorAll(`.${Courier.settings.classes.chat}-message`);
 
             Events.emit('chat.scrollToBottom', this.scrollToBottom);
