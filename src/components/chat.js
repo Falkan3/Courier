@@ -5,7 +5,7 @@ import ChatMessage from '@components/classes/chat-message';
 import { component as Reef, signal } from '@libs/reefjs/reef.es';
 import { elemContains, isScrolledToTheBottom } from '@utils/dom';
 import { shortenTodaysDateTime } from '@utils/time';
-import { clipboard as clipboardIcon, arrowDown as arrowDownIcon } from '@utils/images';
+import { arrowDown as arrowDownIcon, clipboard as clipboardIcon } from '@utils/images';
 import { clearMessagePath, copyCouponCodeToClipboard } from '@utils/chat.js';
 import { throttle } from '@libs/throttle-debounce/index.js';
 
@@ -337,7 +337,7 @@ export default function Construct(Courier, Components, Events) {
                     showTimestamp: Courier.settings.state.showTimestamp,
                     typing: false,
                     maxMessageLength: Courier.settings.state.maxMessageLength,
-                    messageBoxRows: Components.Chat.messageBoxRows,
+                    messageBoxRows: Components.Chat.messageBoxRows
                 }
             };
 
