@@ -6,6 +6,7 @@
 
 // todo: move the colors to the palette file
 
+$fontColor: palette.get-palette-hue("foreground", 1000);
 // $sendMsgBtnColor1: #2196f3;
 // $sendMsgBtnColor2: #64b5f6;
 // $closeBtnColor: #64b5f6; // #f44336;
