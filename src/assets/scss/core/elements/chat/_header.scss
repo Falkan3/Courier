@@ -105,6 +105,10 @@
 %header-btn {
 	display: block;
 	padding: 0.5em;
+	border-radius: 50%;
+	background-color: transparent;
+	cursor: pointer;
+	transition: background-color cubic-bezier(0.1, 1, 0.6, 1) 0.3s;
 
 	& > img,
 	& > svg {
@@ -118,15 +122,13 @@
 		transition: stroke cubic-bezier(0.1, 1, 0.6, 1) 0.3s;
 	}
 
-	&:hover {
-		cursor: pointer;
-	}
-
 	&:hover,
-	&:active {
+	&:focus-visible {
 		&:enabled {
+			background-color: $messageTopicPrimaryColor;
+
 			& > svg {
-				stroke: $btnColorActive;
+				stroke: $fontColor;
 			}
 		}
 	}
