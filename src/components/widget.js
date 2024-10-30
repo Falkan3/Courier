@@ -198,8 +198,7 @@ export default function Construct(Courier, Components, Events) {
                         </span>
                     </button>
 
-                    ${hideBtn}
-                    `;
+                    ${hideBtn}`;
                 break;
             }
             case WidgetStyles.ADVANCED: {
@@ -223,10 +222,7 @@ export default function Construct(Courier, Components, Events) {
                             ${widgetImg}
                             ${notification}
                         </span>
-                    </button>
-
-                    ${hideBtn}
-                    `;
+                    </button>`;
                 }
 
                 // If not minimalized - continue
@@ -247,8 +243,7 @@ export default function Construct(Courier, Components, Events) {
                          ${widgetText}
                          ${name}
                          ${hideBtn}
-                    </div>
-                    `;
+                    </div>`;
                 break;
             }
             default:
