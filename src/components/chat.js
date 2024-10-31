@@ -466,6 +466,10 @@ export default function Construct(Courier, Components, Events) {
                     ? `${this.templateData.identity.img.svg}`
                     : `<img src="${this.templateData.identity.img.src}" alt="${this.templateData.identity.img.alt}" />`;
 
+                const identityWebsite = this.templateData.identity.website.url
+                    ? `<p><a href="${this.templateData.identity.website.url}" target="_blank" rel="nofollow noreferrer">${this.templateData.identity.website.name}</a></p>`
+                    : '';
+
                 const identity = this.templateData.identity.show
                     ? `
                         <div class="p-h--hf">
@@ -477,7 +481,7 @@ export default function Construct(Courier, Components, Events) {
                                 </div>
                                 <div class="${Courier.settings.classes.chat}-name">
                                     <p>${this.templateData.identity.name}</p>
-                                    <p><a href="${this.templateData.identity.website.url}" target="_blank" rel="nofollow noreferrer">${this.templateData.identity.website.name}</a></p>
+                                    ${identityWebsite}
                                 </div>
                             </div>
                         </div>`
@@ -492,7 +496,8 @@ export default function Construct(Courier, Components, Events) {
                             <button id="courierChatOptionsBtn" class="${Courier.settings.classes.chat}-options-btn" type="button" aria-label="${this.templateData.texts.options}" disabled>
                                 ${Courier.settings.images.options}
                             </button>
-                        </div>` : '';
+                        </div>`
+                    : '';
 
                 return parseSpecialTags(`
                     <div id="courierChatOverlay" class="${Courier.settings.classes.chat}-overlay ${Courier.settings.classes.root}__fade-in ${Courier.settings.classes.root}__anim-timing--half">

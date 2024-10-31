@@ -82,7 +82,7 @@ export default {
         name: 'Company',
         website: {
             name: 'company.com',
-            url: 'https://company.com',
+            url: null // 'https://company.com'
         },
         logo: {
             src: null,
