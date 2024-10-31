@@ -1,6 +1,7 @@
 @use "../../../utils/mixins/order";
 @use "../../../utils/mixins/palette";
 @use "../../../utils/mixins/selectors";
+@use "../../../utils/mixins/media-query/media-query-width";
 @use "sass:color";
 
 // todo: use palette colors instead of implicit import
@@ -46,6 +47,12 @@
 	justify-content: center;
 	width: 100%;
 	padding-bottom: 0.5em;
+	// opacity: 0.5;
+	transition: opacity cubic-bezier(0.1, 1, 0.6, 1) 0.3s;
+
+	//&:hover {
+	//	opacity: 1;
+	//}
 }
 
 /*
@@ -555,16 +562,23 @@
 
 &-scroll-down-btn {
 	display: block;
-	padding: 1em;
+	padding: 0.6em;
+	border: solid 2px $btnColor;
 	border-radius: 50%;
-	background-color: $btnColor;
-	color: #fff;
+	background-color: #fff;
+	color: $btnColor;
 	cursor: pointer;
-	transition: background-color cubic-bezier(0.1, 1, 0.6, 1) 0.3s;
+	box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.2);;
+	transition: background-color cubic-bezier(0.1, 1, 0.6, 1) 0.3s, color cubic-bezier(0.1, 1, 0.6, 1) 0.3s;
+
+	@include media-query-width.m-small-devices {
+		padding: 0.8em;
+	}
 
 	&:hover,
 	&:focus-visible {
 		background-color: color.scale($btnColor, $lightness: 5%);
+		color: #fff;
 	}
 
 	&:not(.active) {
