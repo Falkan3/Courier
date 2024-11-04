@@ -78,7 +78,9 @@ export default function Construct(Courier, Components, Events) {
 
         startMessage() {
             const startMessage = getStartMessage(Courier.settings.messages);
-            if (!startMessage) return;
+            if (!startMessage) {
+                return;
+            }
             // send the start message after initialization
             if (isArray(startMessage)) {
                 startMessage.forEach((message) => {

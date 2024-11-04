@@ -260,7 +260,9 @@ export default function (Courier, Components, Events) {
             carousels.forEach((carousel) => {
                 for (let i = 0; i < ChatCarousel.refs.carousels.length; i++) {
                     // skip if the carousel has been initialized as a reef instance already
-                    if (carousel.isSameNode(ChatCarousel.refs.carousels[i].elem)) return;
+                    if (carousel.isSameNode(ChatCarousel.refs.carousels[i].elem)) {
+                        return;
+                    }
                 }
                 // initialize new reef instances
                 const elem = Components.App.refs.app.elem.querySelector(`[data-template="${ChatCarousel.template}"][data-courier-message-id="${carousel.dataset.courierMessageId}"]`);
@@ -289,7 +291,9 @@ export default function (Courier, Components, Events) {
 
     Events.on('app.click', (event) => {
         const carouselItem = event.target.closest(`.${Courier.settings.classes.chat}-carousel-item`);
-        if (!carouselItem) return;
+        if (!carouselItem) {
+            return;
+        }
         const discountCodeBtn = carouselItem.querySelector(`button.${Courier.settings.classes.chat}-discount-code-btn`);
         if (event.target.isEqualNode(discountCodeBtn)
             || (elemContains(discountCodeBtn, event.target))) {

@@ -270,7 +270,9 @@ export default function Construct(Courier, Components, Events) {
             carousels.forEach((carousel) => {
                 for (let i = 0; i < PopupCarousel.refs.carousels.length; i++) {
                     // skip if the carousel has been initialized as a reef instance already
-                    if (carousel.isSameNode(PopupCarousel.refs.carousels[i].elem)) return;
+                    if (carousel.isSameNode(PopupCarousel.refs.carousels[i].elem)) {
+                        return;
+                    }
                 }
                 // initialize new reef instances
                 const elem = Components.App.refs.app.elem.querySelector(`[data-template="${PopupCarousel.template}"][data-module-id="${carousel.dataset.moduleId}"]`);
@@ -294,7 +296,9 @@ export default function Construct(Courier, Components, Events) {
 
     Events.on('app.click', (event) => {
         const carouselItem = event.target.closest(`.${Courier.settings.classes.popup}-carousel-item`);
-        if (!carouselItem) return;
+        if (!carouselItem) {
+            return;
+        }
         const discountCodeBtn = carouselItem.querySelector(`button.${Courier.settings.classes.popup}-discount-code-btn`);
         if (event.target.isEqualNode(discountCodeBtn)
             || (elemContains(discountCodeBtn, event.target))) {

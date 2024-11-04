@@ -44,6 +44,24 @@ export default function Construct(Courier, Components, Events) {
             Events.emit('chat.mounted');
         },
 
+        onAppRendered() {
+            this.refs.form = Components.App.refs.app.elem.querySelector('#courierChatInteractionsForm');
+            this.refs.workArea = Components.App.refs.app.elem.querySelector('#courierChatWorkArea');
+            if (this.templateData.state.showMessageBox) {
+                this.refs.messageBox = Components.App.refs.app.elem.querySelector(`.${Courier.settings.classes.chat}-message-box`);
+            }
+            this.refs.closeBtn = Components.App.refs.app.elem.querySelector('#courierChatCloseBtn');
+            this.refs.scrollDownBtn = Components.App.refs.app.elem.querySelector('#courierScrollDownBtn');
+            this.refs.messages = Components.App.refs.app.elem.querySelectorAll(`.${Courier.settings.classes.chat}-message`);
+
+            Events.emit('chat.scrollToBottom', this.scrollToBottom);
+
+            if (this.scrollToBottom) {
+                this.scrollChatToBottom();
+                // this.scrollToBottom = false;
+            }
+        },
+
         /**
          * Adds events.
          */
@@ -119,24 +137,6 @@ export default function Construct(Courier, Components, Events) {
         onKeydown(event) {
             if (event.key === 'Escape') {
                 this.close();
-            }
-        },
-
-        onAppRendered() {
-            this.refs.form = Components.App.refs.app.elem.querySelector('#courierChatInteractionsForm');
-            this.refs.workArea = Components.App.refs.app.elem.querySelector('#courierChatWorkArea');
-            if (this.templateData.state.showMessageBox) {
-                this.refs.messageBox = Components.App.refs.app.elem.querySelector(`.${Courier.settings.classes.chat}-message-box`);
-            }
-            this.refs.closeBtn = Components.App.refs.app.elem.querySelector('#courierChatCloseBtn');
-            this.refs.scrollDownBtn = Components.App.refs.app.elem.querySelector('#courierScrollDownBtn');
-            this.refs.messages = Components.App.refs.app.elem.querySelectorAll(`.${Courier.settings.classes.chat}-message`);
-
-            Events.emit('chat.scrollToBottom', this.scrollToBottom);
-
-            if (this.scrollToBottom) {
-                this.scrollChatToBottom();
-                // this.scrollToBottom = false;
             }
         },
 
@@ -268,7 +268,9 @@ export default function Construct(Courier, Components, Events) {
         },
 
         scrollChatToBottom(smooth = false) {
-            if (!this.refs.workArea) return;
+            if (!this.refs.workArea) {
+                return;
+            }
             this.refs.workArea.scrollTo({
                 top: this.refs.workArea.scrollHeight,
                 behavior: smooth ? 'smooth' : 'instant'
