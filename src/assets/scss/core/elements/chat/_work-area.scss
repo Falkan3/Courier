@@ -76,6 +76,8 @@
 &-message {
 	$message: &;
 
+	display: flex;
+	gap: 1em;
 	max-width: 90%;
 	margin-bottom: 1em;
 
@@ -118,6 +120,14 @@
 					}
 				}
 			}
+		}
+	}
+
+	&-img {
+		& > img, & > svg {
+			display: block;
+			width: 2em;
+			height: 2em;
 		}
 	}
 
