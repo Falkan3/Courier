@@ -85,7 +85,7 @@ export default function (Courier, Components, Events) {
                 let priceOldHtml = '';
                 let discountPercentage = '';
                 const price = addAffix(
-                    formatNumber(carouselItem.price.value),
+                    formatNumber(carouselItem.price.value, { decimalPlaces: 2 }),
                     carouselItem.price.affix[0],
                     carouselItem.price.affix[1]
                 );
@@ -93,8 +93,10 @@ export default function (Courier, Components, Events) {
                     const priceDiscounted = addAffix(
                         formatNumber(
                             roundNumber(
-                                carouselItem.price.value * (1 - carouselItem.price.discount)
-                            )
+                                carouselItem.price.value * (1 - carouselItem.price.discount),
+                                2
+                            ),
+                            { decimalPlaces: 2 }
                         ),
                         carouselItem.price.affix[0],
                         carouselItem.price.affix[1]
