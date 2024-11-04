@@ -34,21 +34,29 @@ export default function Construct(Courier, Components, Events) {
             Events.emit('widget.mounted');
         },
 
+        onWidgetRendered() {
+            // skip if current state is not active
+            if (this.templateData.state.active === false) {
+                return;
+            }
+            this.refs.btn = Components.App.refs.app.elem.querySelector('#courierWidgetButton');
+            this.refs.hideBtn = Components.App.refs.app.elem.querySelector('#courierWidgetHideButton');
+            this.refs.greetingMsg = Components.App.refs.app.elem.querySelector('#courierGreetingMsg');
+        },
+
         /**
          * Handles click events.
          *
          * @param  {Object} event
          */
         onClick(event) {
-            const courierWidgetButton = Components.App.refs.app.elem.querySelector('#courierWidgetButton');
             if (event.target.matches('#courierWidgetButton')
-                || (elemContains(courierWidgetButton, event.target))) {
+                || (elemContains(this.refs.btn, event.target))) {
                 Events.emit('widget.clicked');
                 return;
             }
-            const courierWidgetHideButton = Components.App.refs.app.elem.querySelector('#courierWidgetHideButton');
             if (event.target.matches('#courierWidgetHideButton')
-                || (elemContains(courierWidgetHideButton, event.target))) {
+                || (elemContains(this.refs.hideBtn, event.target))) {
                 if (!Widget.canBeMinimalized() || this.templateData.state.minimalized) {
                     this.hide();
                 } else {
@@ -56,9 +64,8 @@ export default function Construct(Courier, Components, Events) {
                 }
                 return;
             }
-            const courierGreetingMsgWrapper = Components.App.refs.app.elem.querySelector('#courierGreetingMsg');
             if (event.target.matches('#courierGreetingMsg')
-                || (elemContains(courierGreetingMsgWrapper, event.target))) {
+                || (elemContains(this.refs.greetingMsg, event.target))) {
                 Events.emit('widget.clicked');
             }
         },
@@ -280,6 +287,10 @@ export default function Construct(Courier, Components, Events) {
         if (Widget.refs.widget && event.target.isEqualNode(Widget.refs.widget.elem)) {
             Events.emit('app.rendered.widget', event);
         }
+    });
+
+    Events.on('app.rendered.widget', (event) => {
+        Widget.onWidgetRendered(event);
     });
 
     /**
