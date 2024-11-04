@@ -47,12 +47,12 @@
 	justify-content: center;
 	width: 100%;
 	padding-bottom: 0.5em;
-	// opacity: 0.5;
+	opacity: 0.5;
 	transition: opacity cubic-bezier(0.1, 1, 0.6, 1) 0.3s;
 
-	//&:hover {
-	//	opacity: 1;
-	//}
+	&:hover {
+		opacity: 1;
+	}
 }
 
 /*
@@ -563,10 +563,10 @@
 &-scroll-down-btn {
 	display: block;
 	padding: 0.6em;
-	border: solid 2px $btnColor;
+	// border: solid 2px $btnColor;
 	border-radius: 50%;
-	background-color: #fff;
-	color: $btnColor;
+	background-color: $btnColor; // #fff
+	color: #fff; // $btnColor
 	cursor: pointer;
 	box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.2);;
 	transition: background-color cubic-bezier(0.1, 1, 0.6, 1) 0.3s, color cubic-bezier(0.1, 1, 0.6, 1) 0.3s;
@@ -578,7 +578,7 @@
 	&:hover,
 	&:focus-visible {
 		background-color: color.scale($btnColor, $lightness: 5%);
-		color: #fff;
+		// color: #fff;
 	}
 
 	&:not(.active) {
