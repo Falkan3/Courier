@@ -94,7 +94,8 @@
 				text-decoration: none;
 				transition: color cubic-bezier(0.1, 1, 0.6, 1) 0.3s;
 
-				&:hover {
+				&:hover,
+				&:focus-visible {
 					color: color.scale($linkColor, $lightness: 10%);
 				}
 			}
@@ -119,7 +120,8 @@
 
 	& > svg {
 		stroke: $btnColorInactive;
-		transition: stroke cubic-bezier(0.1, 1, 0.6, 1) 0.3s;
+		fill: $btnColorInactive;
+		transition: stroke cubic-bezier(0.1, 1, 0.6, 1) 0.3s, fill cubic-bezier(0.1, 1, 0.6, 1) 0.3s;
 	}
 
 	&:hover,
@@ -129,6 +131,7 @@
 
 			& > svg {
 				stroke: $fontColor;
+				fill: $fontColor;
 			}
 		}
 	}
@@ -136,6 +139,7 @@
 	&:disabled {
 		& > svg {
 			stroke: #ddd;
+			fill: #ddd;
 		}
 	}
 }

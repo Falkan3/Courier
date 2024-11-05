@@ -8,6 +8,7 @@
 
 $fontColor: palette.get-palette-hue("foreground", 1000);
 $linkColor: palette.get-palette-hue("accent-1", 500);
+$btnAltBgColor: #ddf0ff;
 
 // $sendMsgBtnColor1: #2196f3;
 // $sendMsgBtnColor2: #64b5f6;
@@ -25,12 +26,13 @@ $wallBorderRadius: 16px;
 $workAreaBgColor: #fbfbfb;
 $workAreaScrollbarTrackColor: #e6e6e6;
 $workAreaScrollbarHandleColor: #b3b3b3;
+$workAreaDrawerHandleColor: $btnAltBgColor;
 
 // messages
 $messageBgColorIncoming: #e6e6e6;
-$messageBgColorOutgoing: #ddf0ff;
-$messageTopicPrimaryColor: $messageBgColorOutgoing;
-$messageTopicSecondaryColor: palette.get-palette-hue("accent-1", 100);
+$messageBgColorOutgoing: $btnAltBgColor;
+$messageTopicPrimaryColor: $btnAltBgColor;
+$messageTopicSecondaryColor: $btnColorActive;
 $messageTopicDisabledBgColor: palette.get-palette-hue("interface", 200);
 $messageTopicDisabledFontColor: palette.get-palette-hue("interface", 500);
 $messageTopicFontColor: color.mix(palette.get-palette-hue("foreground", 1000), palette.get-palette-hue("accent-1", 100), 80%);
