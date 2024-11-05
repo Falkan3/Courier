@@ -50,6 +50,7 @@ export default function Construct(Courier, Components, Events) {
             if (this.templateData.state.showMessageBox) {
                 this.refs.messageBox = Components.App.refs.app.elem.querySelector(`.${Courier.settings.classes.chat}-message-box`);
             }
+            this.refs.optionsBtn = Components.App.refs.app.elem.querySelector('#courierChatOptionsBtn');
             this.refs.closeBtn = Components.App.refs.app.elem.querySelector('#courierChatCloseBtn');
             this.refs.scrollDownBtn = Components.App.refs.app.elem.querySelector('#courierScrollDownBtn');
             this.refs.messages = Components.App.refs.app.elem.querySelectorAll(`.${Courier.settings.classes.chat}-message`);
@@ -102,6 +103,11 @@ export default function Construct(Courier, Components, Events) {
             // const overlay = Components.App.refs.app.elem.querySelector('#courierChatOverlay');
             // const closeBtn = Components.App.refs.app.elem.querySelector('#courierChatCloseBtn');
             // event.target.matches('#courierChatCloseBtn'
+            if (event.target.isEqualNode(this.refs.optionsBtn)
+                || (elemContains(this.refs.optionsBtn, event.target))) {
+                this.toggleDrawer();
+            }
+
             if (event.target.isEqualNode(this.refs.closeBtn)
                 || (elemContains(this.refs.closeBtn, event.target))
                 || (event.target.matches('#courierChatOverlay'))) {
@@ -111,6 +117,10 @@ export default function Construct(Courier, Components, Events) {
             if (event.target.isEqualNode(this.refs.scrollDownBtn)
                 || (elemContains(this.refs.scrollDownBtn, event.target))) {
                 this.scrollChatToBottom(true);
+            }
+
+            if (event.target.closest('#courierChatDrawerCloseBtn')) {
+                this.toggleDrawer();
             }
 
             const message = event.target.closest(`.${Courier.settings.classes.chat}-message`);
@@ -296,6 +306,10 @@ export default function Construct(Courier, Components, Events) {
             Events.emit('chat.refreshMessages', this.messagePath);
         },
 
+        toggleDrawer() {
+            this.templateData.state.showDrawer = !this.templateData.state.showDrawer;
+        },
+
         getTemplateData(update = false) {
             const data = {
                 identity: {
@@ -317,7 +331,12 @@ export default function Construct(Courier, Components, Events) {
                     sendMessage: Courier.settings.textsParsed.sendMessage,
                     clipboardButton: Courier.settings.textsParsed.clipboardButton,
                     clipboardTooltip: Courier.settings.textsParsed.clipboardTooltip,
-                    clipboardCopy: Courier.settings.textsParsed.clipboardCopy
+                    clipboardCopy: Courier.settings.textsParsed.clipboardCopy,
+                    drawerInfo: Courier.settings.textsParsed.drawerInfo,
+                    privacy: {
+                        text: Courier.settings.textsParsed.privacy.text,
+                        url: Courier.settings.textsParsed.privacy.url
+                    }
                 },
                 poweredBy: {
                     show: Courier.settings.poweredBy.show,
@@ -339,7 +358,8 @@ export default function Construct(Courier, Components, Events) {
                     showTimestamp: Courier.settings.state.showTimestamp,
                     typing: false,
                     maxMessageLength: Courier.settings.state.maxMessageLength,
-                    messageBoxRows: Components.Chat.messageBoxRows
+                    messageBoxRows: this.messageBoxRows,
+                    showDrawer: false
                 }
             };
 
@@ -348,6 +368,7 @@ export default function Construct(Courier, Components, Events) {
                 data.state.userTurn = this.templateData.state.userTurn;
                 data.state.typing = this.templateData.state.typing;
                 data.state.messageBoxRows = this.templateData.state.messageBoxRows;
+                data.state.showDrawer = this.templateData.state.showDrawer;
             }
 
             return signal(data, 'chat');
@@ -394,8 +415,8 @@ export default function Construct(Courier, Components, Events) {
 
                 const optionsBtn = this.templateData.state.showOptionsButton
                     ? `
-                        <div class="p-h--hf">
-                            <button id="courierChatOptionsBtn" class="${Courier.settings.classes.chat}-options-btn" type="button" aria-label="${this.templateData.texts.options}" disabled>
+                        <div class="p-h--hf m-l--auto">
+                            <button id="courierChatOptionsBtn" class="${Courier.settings.classes.chat}-options-btn" type="button" aria-label="${this.templateData.texts.options}">
                                 ${Courier.settings.images.options}
                             </button>
                         </div>`
@@ -436,7 +457,7 @@ export default function Construct(Courier, Components, Events) {
                         html += message.text
                             ? `
                                 <div class="${Courier.settings.classes.chat}-message ${message.outgoing ? `${Courier.settings.classes.chat}-message--self` : ''} ${message.typeClassSuffix ? `${Courier.settings.classes.chat}-message${message.typeClassSuffix}` : ''} ${Courier.settings.classes.root}__appear ${Courier.settings.classes.root}__anim-timing--third" data-courier-message-id="${index}">
-                                    ${messageImgHtml}
+                                    ${messageImg}
                                     <div class="${Courier.settings.classes.chat}-message-content">${message.text}</div>
                                 </div>`
                             : '';
@@ -489,6 +510,29 @@ export default function Construct(Courier, Components, Events) {
                         </form>`
                     : '';
 
+                const privacyLink = this.templateData.texts.privacy.url
+                    ? `
+                        <p class="m-t tx-center">
+                            <a class="${Courier.settings.classes.chat}-drawer-link" href="${this.templateData.texts.privacy.url}" target="_blank" rel="nofollow noreferrer">${this.templateData.texts.privacy.text}</a>
+                        </p>` : '';
+
+                const drawer = this.templateData.state.showDrawer
+                    ? `
+                        <div class="${Courier.settings.classes.chat}-drawer ${Courier.settings.classes.root}__slide-in-bottom ${Courier.settings.classes.root}__anim-timing--third">
+                            <div class="${Courier.settings.classes.chat}-menu-row">
+                                <div class="p-h--hf m-l--auto">
+                                    <button id="courierChatDrawerCloseBtn" class="${Courier.settings.classes.chat}-close-btn" type="button" aria-label="${this.templateData.texts.close}">
+                                        ${Courier.settings.images.closeBtn}
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="${Courier.settings.classes.chat}-drawer-content">
+                                <p>${this.templateData.texts.drawerInfo}</p>
+                                ${privacyLink}
+                            </div>
+                        </div>` : '';
+
                 const poweredByContent = this.templateData.poweredBy.img.src !== null
                     ? `
                         <p class="m-r--hf">${this.templateData.poweredBy.text}</p>
@@ -525,7 +569,8 @@ export default function Construct(Courier, Components, Events) {
                                     </div>
                                 </div>
                             </div>
-                            <div class="${Courier.settings.classes.chat}-work-area-wrapper">
+
+                            <div class="${Courier.settings.classes.chat}-work-area-wrapper ${this.templateData.state.showDrawer ? 'dimmed' : ''}">
                                  <div id="courierChatWorkArea" class="${Courier.settings.classes.chat}-work-area">
                                     ${messages}
                                 </div>
@@ -534,8 +579,12 @@ export default function Construct(Courier, Components, Events) {
                                     <button id="courierScrollDownBtn" class="${Courier.settings.classes.chat}-scroll-down-btn ${Courier.settings.classes.root}__appear-bottom ${Courier.settings.classes.root}__anim-timing--half" type="button">${arrowDownIcon}</button>
                                 </div>
                             </div>
+
                             ${messageBox}
+
                             ${footer}
+
+                            ${drawer}
                         </div>
                     </div>`, Courier.settings, this.templateData);
             }, { signals: ['chat'] });

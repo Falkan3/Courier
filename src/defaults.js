@@ -56,6 +56,11 @@ export default {
         typing: 'User is typing...',
         sendMessage: 'Send message',
         goToProduct: 'Go to product',
+        drawerInfo: 'This is an AI helper that will assist you in our store.',
+        privacy: {
+            text: 'GDPR and privacy',
+            url: null
+        },
         // popup
         popupContent: '',
         // carousel
