@@ -107,6 +107,18 @@ $highlightColor2: #6e33c7;
 		}
 	}
 
+	&-l {
+		margin-left: #{font-size.get-font-size()};
+
+		&--hf {
+			margin-left: #{font-size.get-font-size(0.5)};
+		}
+
+		&--auto {
+			margin-left: auto;
+		}
+	}
+
 	&-r {
 		margin-right: #{font-size.get-font-size()};
 
