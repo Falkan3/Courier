@@ -51,7 +51,8 @@
 		cursor: pointer;
 		z-index: 1;
 
-		&:focus {
+		&:focus,
+		&:focus-visible {
 			outline: none;
 		}
 

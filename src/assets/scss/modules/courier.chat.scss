@@ -24,8 +24,9 @@
 	textarea,
 	button,
 	a {
-		&:focus {
-			outline: solid 2px #64b5f6;
+		&:focus,
+		&:focus-visible {
+			outline: none; // solid 2px #64b5f6;
 		}
 	}
 }
