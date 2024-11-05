@@ -127,12 +127,25 @@ export function mergeDeep(target, source) {
  * @return {String}
  */
 export function textTemplate(text, template) {
+    if (text === null) {
+        return text;
+    }
     let output = text;
     objectForEach(template, (value, key) => {
         const regex = new RegExp(`{{${key}}}`, 'g');
         output = output.replaceAll(regex, value);
     });
     return output;
+}
+
+export function objTextTemplate(input, template) {
+    if (!isObject(input)) {
+        return textTemplate(input, template);
+    }
+    objectForEach(input, (value, key) => {
+        input[key] = objTextTemplate(value, template);
+    });
+    return input;
 }
 
 /**
@@ -219,10 +232,7 @@ export function mergeOptions(defaults, settings) {
     // this will replace text variable keys with values
     options.textsParsed = {};
     objectForEach(options.texts, (value, key) => {
-        if (value === null) {
-            return;
-        }
-        options.textsParsed[key] = textTemplate(value, options.textVars);
+        options.textsParsed[key] = objTextTemplate(value, options.textVars);
     });
 
     return options;
