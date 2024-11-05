@@ -426,7 +426,7 @@ export default function Construct(Courier, Components, Events) {
                                 </div>
                             </div>`;
                     } else {
-                        const messageImgHtml = message.outgoing !== true
+                        const messageImg = message.outgoing !== true
                             ? `
                                 <div class="${Courier.settings.classes.chat}-message-img">
                                     ${identityImg}
