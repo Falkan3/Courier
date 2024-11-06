@@ -377,6 +377,11 @@ export default function Construct(Courier, Components, Events) {
                         src: Courier.settings.identity.logo.src,
                         alt: Courier.settings.identity.logo.alt,
                         svg: Courier.settings.identity.logo.svg
+                    },
+                    imgMini: {
+                        src: Courier.settings.identity.logoMini.src,
+                        alt: Courier.settings.identity.logoMini.alt,
+                        svg: Courier.settings.identity.logoMini.svg
                     }
                 },
                 texts: {
@@ -473,6 +478,16 @@ export default function Construct(Courier, Components, Events) {
                             <p class="tx-bigger tx-bold">${this.templateData.texts.chatTitle}</p>
                         </div>`;
 
+                let identityLogoMini = '';
+                if (this.templateData.identity.imgMini.svg !== null
+                    || this.templateData.identity.imgMini.src !== null) {
+                    identityLogoMini = this.templateData.identity.imgMini.svg
+                        ? `${this.templateData.identity.imgMini.svg}`
+                        : `<img src="${this.templateData.identity.imgMini.src}" alt="${this.templateData.identity.imgMini.alt}" />`;
+                } else {
+                    identityLogoMini = identityImg;
+                }
+
                 const optionsBtn = this.templateData.state.showOptionsButton
                     ? `
                         <div class="p-h--hf m-l--auto">
@@ -510,7 +525,7 @@ export default function Construct(Courier, Components, Events) {
                         const messageImg = message.outgoing !== true
                             ? `
                                 <div class="${Courier.settings.classes.chat}-message-img">
-                                    ${identityImg}
+                                    ${identityLogoMini}
                                 </div>`
                             : '';
 
