@@ -56,7 +56,8 @@ export default {
         typing: 'User is typing...',
         sendMessage: 'Send message',
         goToProduct: 'Go to product',
-        drawerInfo: 'This is an AI helper that will assist you in our store.',
+        drawerInfo: '<p>This is an AI helper that will assist you in our store.</p>',
+        drawerTabContent: {},
         privacy: {
             text: 'GDPR and privacy',
             url: null

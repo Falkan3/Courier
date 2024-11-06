@@ -119,8 +119,15 @@ export default function Construct(Courier, Components, Events) {
                 this.scrollChatToBottom(true);
             }
 
-            if (event.target.closest('#courierChatDrawerCloseBtn')) {
-                this.toggleDrawer();
+            if (this.templateData.state.showDrawer) {
+                if (event.target.closest('#courierChatDrawerCloseBtn')) {
+                    this.toggleDrawer();
+                }
+
+                const drawerTab = event.target.closest('[data-tab]');
+                if (drawerTab) {
+                    this.activateDrawerTab(drawerTab.dataset.tab);
+                }
             }
 
             const message = event.target.closest(`.${Courier.settings.classes.chat}-message`);
@@ -307,7 +314,53 @@ export default function Construct(Courier, Components, Events) {
         },
 
         toggleDrawer() {
+            // close drawer active tab if not null
+            if (this.templateData.state.drawerActiveTab !== null) {
+                this.templateData.state.drawerActiveTab = null;
+                return;
+            }
+            // otherwise toggle the drawer
             this.templateData.state.showDrawer = !this.templateData.state.showDrawer;
+        },
+
+        activateDrawerTab(tabName) {
+            // check if the tab with the given name exists
+            if (!Object.prototype.hasOwnProperty.call(
+                this.templateData.texts.drawerTabContent,
+                tabName
+            )) {
+                return;
+            }
+            // set the active tab
+            this.templateData.state.drawerActiveTab = tabName;
+        },
+
+        getDrawerTabContent(tabName) {
+            if (tabName === null) {
+                const tabs = Object.keys(
+                    this.templateData.texts.drawerTabContent
+                );
+                const tabBtns = tabs.length !== 0
+                    ? `
+                        <div class="${Courier.settings.classes.chat}-drawer-tab-btns">
+                            ${tabs.map((name) => `<button type="button" data-tab="${name}">${this.templateData.texts.drawerTabContent[name].heading}</button>`)}
+                        </div>` : '';
+
+                return `
+                    <p class="tx-bigger tx-bold">${this.templateData.texts.drawerInfo.heading}</p>
+                    <div class="${Courier.settings.classes.chat}-drawer-tab-content">
+                        ${this.templateData.texts.drawerInfo.content}
+                    </div>
+                    ${tabBtns}
+                `;
+            }
+
+            return `
+                <p class="tx-bigger tx-bold">${this.templateData.texts.drawerTabContent[tabName].heading}</p>
+                <div class="${Courier.settings.classes.chat}-drawer-tab-content">
+                    ${this.templateData.texts.drawerTabContent[tabName].content}
+                </div>
+            `;
         },
 
         getTemplateData(update = false) {
@@ -333,6 +386,7 @@ export default function Construct(Courier, Components, Events) {
                     clipboardTooltip: Courier.settings.textsParsed.clipboardTooltip,
                     clipboardCopy: Courier.settings.textsParsed.clipboardCopy,
                     drawerInfo: Courier.settings.textsParsed.drawerInfo,
+                    drawerTabContent: Courier.settings.textsParsed.drawerTabContent,
                     privacy: {
                         text: Courier.settings.textsParsed.privacy.text,
                         url: Courier.settings.textsParsed.privacy.url
@@ -359,7 +413,8 @@ export default function Construct(Courier, Components, Events) {
                     typing: false,
                     maxMessageLength: Courier.settings.state.maxMessageLength,
                     messageBoxRows: this.messageBoxRows,
-                    showDrawer: false
+                    showDrawer: false,
+                    drawerActiveTab: null
                 }
             };
 
@@ -369,6 +424,7 @@ export default function Construct(Courier, Components, Events) {
                 data.state.typing = this.templateData.state.typing;
                 data.state.messageBoxRows = this.templateData.state.messageBoxRows;
                 data.state.showDrawer = this.templateData.state.showDrawer;
+                data.state.drawerActiveTab = this.templateData.state.drawerActiveTab;
             }
 
             return signal(data, 'chat');
@@ -510,11 +566,9 @@ export default function Construct(Courier, Components, Events) {
                         </form>`
                     : '';
 
-                const privacyLink = this.templateData.texts.privacy.url
-                    ? `
-                        <p class="m-t tx-center">
-                            <a class="${Courier.settings.classes.chat}-drawer-link" href="${this.templateData.texts.privacy.url}" target="_blank" rel="nofollow noreferrer">${this.templateData.texts.privacy.text}</a>
-                        </p>` : '';
+                const drawerContent = this.getDrawerTabContent(
+                    this.templateData.state.drawerActiveTab
+                );
 
                 const drawer = this.templateData.state.showDrawer
                     ? `
@@ -528,8 +582,7 @@ export default function Construct(Courier, Components, Events) {
                             </div>
 
                             <div class="${Courier.settings.classes.chat}-drawer-content">
-                                <p>${this.templateData.texts.drawerInfo}</p>
-                                ${privacyLink}
+                                ${drawerContent}
                             </div>
                         </div>` : '';
 

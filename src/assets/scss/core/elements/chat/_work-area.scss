@@ -2,6 +2,8 @@
 @use "../../../utils/mixins/palette";
 @use "../../../utils/mixins/selectors";
 @use "../../../utils/mixins/media-query/media-query-width";
+@use "../../../utils/mixins/scrollbar";
+@use "../../../utils/mixins/shadows";
 @use "sass:color";
 
 // todo: use palette colors instead of implicit import
@@ -12,6 +14,8 @@
 &-work-area-wrapper {
 	position: relative;
 	flex: 1 1 auto;
+	display: flex;
+	flex-direction: column;
 	// height: 100%;
 	min-height: 0;
 	background-color: $workAreaBgColor;
@@ -19,26 +23,6 @@
 
 	&.dimmed {
 		opacity: 0.5;
-	}
-
-	/* width */
-	&::-webkit-scrollbar {
-		width: 10px;
-	}
-
-	/* track */
-	&::-webkit-scrollbar-track {
-		background-color: $workAreaScrollbarTrackColor;
-	}
-
-	/* handle */
-	&::-webkit-scrollbar-thumb {
-		background-color: $workAreaScrollbarHandleColor;
-
-		/* handle on hover */
-		&:hover {
-			background-color: color.scale($workAreaScrollbarHandleColor, $lightness: -10%);
-		}
 	}
 }
 
@@ -64,6 +48,7 @@
  * Work area
  */
 &-work-area {
+	flex: 1 1 auto;
 	display: flex;
 	flex-direction: column;
 	max-height: 100%;
@@ -72,13 +57,18 @@
 	word-break: break-word;
 	overflow: auto;
 	overscroll-behavior: contain;
-	box-shadow: inset 0 7px 9px -7px rgba(0, 0, 0, 0.2);
+
+	@include shadows.shadow-bottom;
+	@include scrollbar.scrollbar($workAreaScrollbarTrackColor, $workAreaScrollbarHandleColor);
 }
 
 &-drawer {
 	position: absolute;
 	bottom: 0;
+	display: flex;
+	flex-direction: column;
 	width: 100%;
+	max-height: 100%;
 	padding: 1em 2em 2em;
 	border-radius: 16px;
 	background-color: $wallBgColor;
@@ -89,17 +79,56 @@
 	}
 
 	&-content {
+		display: flex;
+		flex-direction: column;
+		min-height: 0;
 		margin-top: 1em;
 	}
 
-	&-link {
-		color: $linkColor;
-		text-decoration: none;
-		transition: color cubic-bezier(0.1, 1, 0.6, 1) 0.3s;
+	&-tab-content {
+		padding: 1em 1.5em 1em 0;
+		line-height: 1.6;
+		overflow: auto;
+		overscroll-behavior: contain;
 
-		&:hover,
-		&:focus-visible {
-			color: color.scale($linkColor, $lightness: 10%);
+		@include shadows.scroll-shadows;
+		@include scrollbar.scrollbar($workAreaScrollbarTrackColor, $workAreaScrollbarHandleColor);
+
+		a, button {
+			color: $linkColor;
+			text-decoration: none;
+			cursor: pointer;
+			transition: color cubic-bezier(0.1, 1, 0.6, 1) 0.3s;
+
+			&:hover,
+			&:focus-visible {
+				color: color.scale($linkColor, $lightness: 10%);
+			}
+		}
+
+		p:not(:first-child) {
+			margin-top: 1em;
+		}
+	}
+
+	&-tab-btns {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 1em;
+		margin-top: 1em;
+
+		button {
+			padding: 0.5em 1em;
+			border-radius: 34px;
+			background-color: $btnColor;
+			color: $messageTopicActiveFontColor;
+			cursor: pointer;
+			transition: background-color cubic-bezier(0.1, 1, 0.6, 1) 0.3s;
+
+			&:hover,
+			&:focus-visible {
+				background-color: $btnColorActive;
+			}
 		}
 	}
 }
