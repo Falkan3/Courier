@@ -56,7 +56,12 @@ export default {
         typing: 'User is typing...',
         sendMessage: 'Send message',
         goToProduct: 'Go to product',
-        drawerInfo: '<p>This is an AI helper that will assist you in our store.</p>',
+        drawerInfo: {
+            heading: 'AI chat bot legal note',
+            content: `
+                <p>Please note that any offers or promotions provided by this chatbot are subject to change and may not be available in all stores. It is recommended to verify the specific terms and conditions of any offer with a store associate. Offers provided by this chatbot are not legally binding.</p>
+            `
+        },
         drawerTabContent: {},
         privacy: {
             text: 'GDPR and privacy',
