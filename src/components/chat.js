@@ -479,7 +479,7 @@ export default function Construct(Courier, Components, Events) {
                         // wrap topics
                         topicsHtml = `
                             <div class="m-b">
-                                <div class="${Courier.settings.classes.chat}-topics">
+                                <div class="${Courier.settings.classes.chat}-topics courier__appear courier__anim-timing--third">
                                     ${topicsHtml}
                                 </div>
                             </div>`;
