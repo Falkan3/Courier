@@ -346,21 +346,25 @@ export default function Construct(Courier, Components, Events) {
                             ${tabs.map((name) => `<button type="button" data-tab="${name}">${this.templateData.texts.drawerTabContent[name].heading}</button>`)}
                         </div>` : '';
 
-                return `
-                    <p class="tx-bigger tx-bold">${this.templateData.texts.drawerInfo.heading}</p>
-                    <div class="${Courier.settings.classes.chat}-drawer-tab-content">
-                        ${this.templateData.texts.drawerInfo.content}
-                    </div>
-                    ${tabBtns}
-                `;
+                return {
+                    heading: `<p class="tx-bigger tx-bold">${this.templateData.texts.drawerInfo.heading}</p>`,
+                    content: `
+                        <div class="${Courier.settings.classes.chat}-drawer-tab-content">
+                            ${this.templateData.texts.drawerInfo.content}
+                        </div>
+                        ${tabBtns}
+                    `
+                };
             }
 
-            return `
-                <p class="tx-bigger tx-bold">${this.templateData.texts.drawerTabContent[tabName].heading}</p>
-                <div class="${Courier.settings.classes.chat}-drawer-tab-content">
-                    ${this.templateData.texts.drawerTabContent[tabName].content}
-                </div>
-            `;
+            return {
+                heading: `<p class="tx-bigger tx-bold">${this.templateData.texts.drawerTabContent[tabName].heading}</p>`,
+                content: `
+                    <div class="${Courier.settings.classes.chat}-drawer-tab-content">
+                        ${this.templateData.texts.drawerTabContent[tabName].content}
+                    </div>
+                `
+            };
         },
 
         getTemplateData(update = false) {
@@ -574,6 +578,10 @@ export default function Construct(Courier, Components, Events) {
                     ? `
                         <div class="${Courier.settings.classes.chat}-drawer ${Courier.settings.classes.root}__slide-in-bottom ${Courier.settings.classes.root}__anim-timing--third">
                             <div class="${Courier.settings.classes.chat}-menu-row">
+                                 <div class="p-h--hf">
+                                    ${drawerContent.heading}
+                                 </div>
+
                                 <div class="p-h--hf m-l--auto">
                                     <button id="courierChatDrawerCloseBtn" class="${Courier.settings.classes.chat}-close-btn" type="button" aria-label="${this.templateData.texts.close}">
                                         ${Courier.settings.images.closeBtn}
@@ -582,7 +590,7 @@ export default function Construct(Courier, Components, Events) {
                             </div>
 
                             <div class="${Courier.settings.classes.chat}-drawer-content">
-                                ${drawerContent}
+                                ${drawerContent.content}
                             </div>
                         </div>` : '';
 
