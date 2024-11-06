@@ -459,14 +459,14 @@ export default function Construct(Courier, Components, Events) {
                                     </div>
                                 </div>
                                 <div class="${Courier.settings.classes.chat}-name">
-                                    <p>${this.templateData.identity.name}</p>
+                                    <p class="tx-bigger tx-bold">${this.templateData.identity.name}</p>
                                     ${identityWebsite}
                                 </div>
                             </div>
                         </div>`
                     : `
                         <div class="p-h--hf">
-                            <p class="tx-bold">${this.templateData.texts.chatTitle}</p>
+                            <p class="tx-bigger tx-bold">${this.templateData.texts.chatTitle}</p>
                         </div>`;
 
                 const optionsBtn = this.templateData.state.showOptionsButton
