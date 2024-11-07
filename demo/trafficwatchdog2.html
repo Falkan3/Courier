@@ -26,7 +26,7 @@
 	<script>
         const courier = new Courier(document.body, {
             modifierClasses: {
-                root: ['courier--left', 'courier--widget-round']
+                root: ['courier--left']
             },
             texts: {
                 widgetGreeting: 'Mamy dla Ciebie Rabat <span>{{couponPercent}}%!</span> 🙂',
@@ -73,6 +73,59 @@
                 start: [
                     {
                         text: 'Cześć, ostatnim razem nie przekonaliśmy Cię do zakupów u nas, dlatego tym razem mamy dla Ciebie extra zniżkę <span class="tx-bold">10%</span> na zakupy!',
+                    },
+                    {
+                        text: 'Przygotowaliśmy również proponowane produkty specjalnie dla Ciebie.',
+                    },
+                    {
+                        type: 'carousel',
+                        carousel: {
+                            items: [
+                                {
+                                    title: 'Nike Sneakersy Campus 00s AQ6704 Red / Czerwone Fall New Collection Special Edition',
+                                    price: {
+                                        value: 1999.99,
+                                        discount: 0.35,
+                                        affix: ['$', true]
+                                    },
+                                    img: {
+                                        src: 'https://cdn.cnn.com/cnnnext/dam/assets/200814092431-01b-michael-jordan-sneakers-auction-super-169.jpg',
+                                        alt: 'A pair of red sneakers'
+                                    },
+                                    link: '#',
+                                    discountCode: 'promo_code_2022',
+                                    footerText: 'Your individual discount: {{discountValue}}'
+                                },
+                                {
+                                    title: 'Boots',
+                                    price: {
+                                        value: 2495.99,
+                                        discount: 0.2,
+                                        affix: ['$', true]
+                                    },
+                                    img: {
+                                        src: 'https://www.elitabut.pl/eng_pl_Shoes-Womens-boots-Spring-Fall-natural-leather-155-L-ElitaBut-3382_4.png',
+                                        alt: 'A pair of brown leather boots'
+                                    },
+                                    link: '#',
+                                    discountCode: 'urawsum',
+                                },
+                                {
+                                    title: 'Trainers',
+                                    price: {
+                                        value: 1490.99,
+                                        affix: ['$', true]
+                                    },
+                                    img: {
+                                        src: 'https://pngimg.com/uploads/running_shoes/running_shoes_PNG5798.png',
+                                        alt: 'A pair of red sneakers'
+                                    },
+                                    link: '#',
+                                    discountCode: 'urawsum',
+                                    discountLink: '#'
+                                }
+                            ]
+                        }
                     },
                     {
                         text: 'Zainteresowany 🙂?',
