@@ -481,10 +481,11 @@
 				position: absolute;
 				top: 0;
 				left: 50%;
-				width: 100%;
+				// width: 100%;
 				font-size: 0.9em;
 				color: #dd3d47;
 				font-weight: 500;
+				white-space: nowrap;
 				transform: translate(-50%, -50%);
 			}
 		}
