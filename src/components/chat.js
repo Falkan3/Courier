@@ -523,6 +523,7 @@ export default function Construct(Courier, Components, Events) {
                             </div>`;
                     } else {
                         const messageImg = message.outgoing !== true
+                        && message.isTypeSystem === false
                             ? `
                                 <div class="${Courier.settings.classes.chat}-message-img">
                                     ${identityLogoMini}
