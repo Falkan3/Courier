@@ -104,8 +104,8 @@ $btnColorActive: #fff;
 		& > img,
 		& > svg {
 			display: block;
-			width: 2em;
-			height: 2em;
+			width: 32px; //2em
+			height: 32px; //2em
 		}
 
 		@at-root {
@@ -113,8 +113,8 @@ $btnColorActive: #fff;
 				& > img,
 				& > svg {
 					display: block;
-					width: 2.5em;
-					height: 2.5em;
+					//width: 2.5em;
+					//height: 2.5em;
 				}
 			}
 
