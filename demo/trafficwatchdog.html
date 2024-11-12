@@ -20,6 +20,16 @@
 		.courier .courier__chat-avatar > img {
 			object-fit: contain;
 		}
+
+        .courier .courier__widget-img {
+            background-color: #2f75f7;
+            color: #fff;
+        }
+
+        .courier__widget-bubble:hover .courier__widget-img,
+        .courier__widget-bubble:focus-visible .courier__widget-img {
+            background-color: #4f8fff;
+        }
 	</style>
 </head>
 <body>
@@ -106,6 +116,10 @@
 					{
 						text: 'Twój kod promocyjny to: <span class="tx-bold">{{coupon}}</span>'
 					},
+                    {
+                        text: '{{coupon}}',
+                        type: 'coupon'
+                    },
 					{
 						text: 'Podaj ten kod podczas składania zamówienia, aby skorzystać z dodatkowej zniżki na zakupy!',
 						topics: [
