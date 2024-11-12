@@ -120,13 +120,13 @@ export default function Construct(Courier, Components, Events) {
                 if (settings.topicTriggersEnabled && topic.trigger) {
                     this.topicTrigger(topic.trigger, topic);
                 }
-                this.triggerPath(topic);
+                this.triggerPath(topic, settings.save);
                 // push message path
                 this.pushMessagePath(messageId, topicId, settings.timestamp, settings.save);
             }
         },
 
-        triggerPath(topic) {
+        triggerPath(topic, save = true) {
             // disable all previous message topics
             const lastMessage = arrLastItem(Components.Chat.templateData.messages);
             if (lastMessage) {
@@ -135,12 +135,14 @@ export default function Construct(Courier, Components, Events) {
             // find a reply based on selected path
             const reply = replyFromScenario(Courier.settings.messages, topic.text, topic.path);
             if (reply) {
+                // set passive flag when restoring messages
+                const options = { passive: save === false };
                 if (isArray(reply)) {
                     reply.forEach((message) => {
-                        Components.Chat.pushMessage(message);
+                        Components.Chat.pushMessage(message, options);
                     });
                 } else {
-                    Components.Chat.pushMessage(reply);
+                    Components.Chat.pushMessage(reply, options);
                 }
             }
         },
