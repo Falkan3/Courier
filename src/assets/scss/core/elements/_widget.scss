@@ -10,7 +10,7 @@ $bubbleBgColor: #fff;
 $bubbleBgColorColorActive: #ddf0ff;
 $bubbleColor: #212121;
 $bubbleBorder: #f1f1f1;
-$bubbleIconBg: #2f75f7;
+$bubbleIconBg: #f9d147;
 // buttons
 $btnColor: palette.get-palette-hue("accent-1", 500);
 $btnColorInactive: #92a6b4;
@@ -95,7 +95,7 @@ $btnColorActive: #fff;
 		display: block;
 		flex: 0 0 auto;
 		padding: 1em;
-		// border: solid 1px $bubbleBorder;
+		//border: solid 1px $bubbleBorder;
 		border-radius: 50%;
 		background-color: $bubbleIconBg;
 		color: $bubbleColor;
@@ -107,6 +107,12 @@ $btnColorActive: #fff;
 			width: 32px; //2em
 			height: 32px; //2em
 		}
+
+		//& > svg {
+		//	path {
+		//		fill: currentcolor;
+		//	}
+		//}
 
 		@at-root {
 			&#{selectors.bottom-most-fn(&)}--big {

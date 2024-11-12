@@ -128,7 +128,7 @@ export default {
      * @type {Object}
      */
     images: {
-        widget: '<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="800" height="800" fill="#fff" stroke="#fff" viewBox="0 0 512 512"><path d="M480.001 0h-352c-17.674 0-32 14.326-32 32v32h288c35.346 0 64 28.654 64 64v192h32c17.674 0 32-14.326 32-32V32c0-17.674-14.326-32-32-32z"/><path d="M384.001 96h-352c-17.674 0-32 14.326-32 32v256.002c0 17.672 14.326 32 32 32h16v73.438c0 12.461 10.101 22.563 22.56 22.563h.097c5.982 0 11.722-2.379 15.952-6.609L176 416.003h208.002c17.674 0 32-14.328 32-32V128c-.001-17.674-14.327-32-32.001-32Z"/></svg>',
+        widget: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><path d="M9.8203 0C4.4257 0 0 4.4277 0 9.8223l1.7e-7 31.511c3e-8 5.3946 4.4258 9.8203 9.8203 9.8203h22.207l-.17969-10.353-21.848.020371v-30.822h44l.000001 30.822h-12.02l-9.9531 10.332-.027344 12.846 11.93-12.846h10.25c5.3946 0 9.8203-4.4258 9.8203-9.8203v-31.511c0-5.3946-4.4258-9.8223-9.8203-9.8223z"/></svg>',
         closeBtn: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.32258" d="M22.83871 1.16129 1.16129 22.83871m.0000155-21.67742L22.83871 22.83871"/></svg>',
         options: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g><circle cx="12" cy="2.0000005" r="2"/><circle cx="12" cy="22" r="2"/><circle cx="12" cy="12" r="2"/></g></svg>',
         sendMsg: '<svg xmlns="http://www.w3.org/2000/svg" width="240" height="240" viewBox="0 0 12 12"><path stroke="#212121" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 11V1m0 0 4 4M6 1 2 5"/></svg>',
