@@ -105,6 +105,10 @@
 			}
 		}
 
+		a {
+			word-break: break-word;
+		}
+
 		p:not(:first-child) {
 			margin-top: 1em;
 		}
