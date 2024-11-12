@@ -144,8 +144,11 @@
 
 	display: flex;
 	gap: 1em;
-	max-width: 90%;
 	margin-bottom: 1em;
+
+	@at-root #{selector-unify(&, #{selectors.bottom-most-fn(&)}--text)} {
+		max-width: 90%;
+	}
 
 	&-content {
 		$messageContent: #{selectors.bottom-most-fn(&)};
