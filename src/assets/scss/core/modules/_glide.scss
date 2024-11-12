@@ -6,6 +6,17 @@
 @import "../../../../libs/glidejs/css/glide.core.min"; // glide for carousel
 
 .glide {
+	// IOS disappearing scrollable element fix
+	@supports (-webkit-overflow-scrolling: touch) {
+		&.glide--carousel, &__track {
+			transform: translate3d(0, 0, 0);
+		}
+
+		&__track, &__slides {
+			-webkit-overflow-scrolling: touch;
+		}
+	}
+
 	&__slides {
 		margin-top: 0;
 		margin-bottom: 0;

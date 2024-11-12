@@ -60,6 +60,11 @@
 
 	@include shadows.shadow-bottom;
 	@include scrollbar.scrollbar($workAreaScrollbarTrackColor, $workAreaScrollbarHandleColor);
+
+	// IOS disappearing scrollable element fix
+	@supports (-webkit-overflow-scrolling: touch) {
+		-webkit-overflow-scrolling: touch;
+	}
 }
 
 &-drawer {
