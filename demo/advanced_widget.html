@@ -9,7 +9,8 @@
     <title>Test</title>
 
     <!-- Assets -->
-	<link rel="stylesheet" href="../dist/css/modules/courier.chat.css">
+    <!-- CSS added in shadow DOM -->
+	<!--<link rel="stylesheet" href="../dist/css/modules/courier.chat.css">-->
 	<script src="../dist/js/chat/courier.js"></script>
 	<style>
 		body {
@@ -21,6 +22,7 @@
 <body>
     <script>
 		const courier = new Courier(document.body, {
+            useShadowRoot: true,
 			texts: {
 				widgetGreetingTitle: 'Twój kod rabatowy',
 				widgetGreeting: 'Cześć, mam dla Ciebie specjalny kod rabatowy na zakupy 🙂',
@@ -102,7 +104,12 @@
 							{
 								text: 'No, thank you.',
 								path: 'notInterested'
-							}
+							},
+                            {
+                                text: 'Close',
+                                path: 'start',
+                                trigger: 'trigger.chatClose'
+                            }
 						]
 					}
 				],
@@ -178,7 +185,7 @@
 							path: 'sendCarouselAgain',
 						},
 					]
-				},
+				}
 			},
 			state: {
 				hideBtnActiveAtStart: true,
@@ -191,7 +198,19 @@
 			},
 		});
 		courier.mount();
+        courier._eventsBus.on('trigger.chatClose', () => {
+            courier._components.Chat.close();
+        });
 		// courier._components.ComponentName.function();
+
+        courier._eventsBus.on('app.rendered.app', () => {
+            if (courier.shadowRoot) {
+                const link = document.createElement('link');
+                link.setAttribute('rel', 'stylesheet');
+                link.setAttribute('href', '../dist/css/modules/courier.chat.css');
+                courier.rootElement.appendChild(link);
+            }
+        });
     </script>
 </body>
 </html>

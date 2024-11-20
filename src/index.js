@@ -5,6 +5,7 @@ import { isArray, isObject } from '@utils/types';
 import EventsBus from '@core/event/events-bus';
 import { mount } from '@core/index.js';
 // import { injectGlobalStyles } from '@core/inject-global-styles.js';
+import { isElement } from '@utils/dom.js';
 import defaults from './defaults';
 
 export default class Courier {
@@ -23,14 +24,6 @@ export default class Courier {
 
         this.disabled = false;
         this.settings = mergeOptions(defaults, options);
-        // let root = element || document.body;
-        // shadow root enabled
-        // if ((document.head.createShadowRoot || document.head.attachShadow)) {
-        //     const dummyRoot = document.createElement('div');
-        //     dummyRoot.setAttribute('id', this.settings.ids.dummyRoot);
-        //     root = dummyRoot.attachShadow({ mode: 'open' });
-        //     document.body.appendChild(dummyRoot);
-        // }
         this.rootElement = element || document.body;
     }
 
@@ -75,21 +68,65 @@ export default class Courier {
     /**
      * Initializes courier.
      *
-     * @param {Object} components Collection of components to initialize.
+     * @param {Object} components Collection of components to mount.
      * @return {Courier}
      */
     mount(components = {}) {
         this._eventsBus.emit('mount.before');
 
+        if (this.settings.useShadowRoot) {
+            this.mountShadowRoot();
+        }
+
+        this.mountComponents(components);
+
+        this._eventsBus.emit('mount.after');
+
+        return this;
+    }
+
+    mountShadowRoot() {
+        // check if shadow DOM is supported
+        if (!(document.head.createShadowRoot || document.head.attachShadow)) {
+            return;
+        }
+
+        // the shadow DOM reference
+        if (isElement(this.rootElement)) {
+            // element that hosts the shadow DOM
+            const dummyRootContainer = document.createElement('div');
+            dummyRootContainer.setAttribute('id', this.settings.ids.dummyRootContainer);
+            this.dummyRootContainer = dummyRootContainer;
+            this.shadowRoot = dummyRootContainer.attachShadow({ mode: 'open' });
+        } else {
+            this.shadowRoot = this.rootElement;
+        }
+
+        this._eventsBus.emit('mount.shadowRootAppended');
+
+        // root element for component HTML
+        const dummyRoot = document.createElement('div');
+        dummyRoot.setAttribute('id', this.settings.ids.dummyRoot);
+        this.rootElement = dummyRoot;
+
+        // append the nodes
+        this.shadowRoot.appendChild(dummyRoot);
+
+        if (this.dummyRootContainer) {
+            document.body.appendChild(this.dummyRootContainer);
+        }
+    }
+
+    /**
+     * Mounts components.
+     * @param {Object} components Collection of components to mount.
+     */
+    mountComponents(components = {}) {
         if (isObject(components)) {
             this._components = mount(this, components, this._eventsBus);
         } else {
             warn('You need to provide an object on `mount()`');
         }
-
-        this._eventsBus.emit('mount.after');
-
-        return this;
     }
 
     /**
@@ -134,6 +171,9 @@ export default class Courier {
         this._eventsBus.destroy();
         // remove root element
         this.rootElement.querySelector(`.${this.settings.classes.root}`).remove();
+        if (this.dummyRootContainer) {
+            this.dummyRootContainer.remove();
+        }
 
         return this;
     }

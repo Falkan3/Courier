@@ -64,6 +64,10 @@ export default function Construct(Courier, Components, Events) {
          * @param  {Object} event
          */
         onInput(event) {
+            if (!event.target) {
+                return;
+            }
+
             const chatScrolledToBottom = Components.Chat.chatIsScrolledToTheBottom();
 
             event.target.setAttribute('rows', 1);
@@ -118,13 +122,13 @@ export default function Construct(Courier, Components, Events) {
                     scrollToBottom: settings.scrollToBottom,
                     passive: true
                 });
+                this.triggerPath(topic, settings.save);
+                // push message path
+                this.pushMessagePath(messageId, topicId, settings.timestamp, settings.save);
                 // emit the topic's trigger, if it's set, and topic triggers option is enabled
                 if (settings.topicTriggersEnabled && topic.trigger) {
                     this.topicTrigger(topic.trigger, topic);
                 }
-                this.triggerPath(topic, settings.save);
-                // push message path
-                this.pushMessagePath(messageId, topicId, settings.timestamp, settings.save);
             }
         },
 
@@ -240,6 +244,10 @@ export default function Construct(Courier, Components, Events) {
     });
 
     Events.on('app.click', (event) => {
+        if (!event.target || !event.target.matches) {
+            return;
+        }
+
         if (event.target.matches('[data-courier-topic-id]')) {
             ChatTriggers.triggerTopic(
                 event.target.dataset.courierMessageId,

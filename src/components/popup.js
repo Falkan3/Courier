@@ -26,6 +26,10 @@ export default function Construct(Courier, Components, Events) {
          * @param  {Object} event
          */
         onClick(event) {
+            if (!event.target || !event.target.matches) {
+                return;
+            }
+
             // const overlay = Components.App.refs.app.elem.querySelector('#courierPopupOverlay');
             const closeBtn = Components.App.refs.app.elem.querySelector('#courierPopupCloseBtn');
             if (event.target.matches('#courierPopupCloseBtn')
@@ -34,8 +38,6 @@ export default function Construct(Courier, Components, Events) {
                 || (event.target.matches('#courierPopupWrapper'))) {
                 this.close();
             }
-
-            return event;
         },
 
         /**
@@ -162,6 +164,10 @@ export default function Construct(Courier, Components, Events) {
     });
 
     Events.on('app.rendered', (event) => {
+        if (!event.target || !event.target.matches) {
+            return;
+        }
+
         if (Popup.refs.popup && event.target.isEqualNode(Popup.refs.popup.elem)) {
             Events.emit('app.rendered.popup', event);
         }

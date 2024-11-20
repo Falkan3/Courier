@@ -9,218 +9,301 @@
 	<title>Test</title>
 
 	<!-- Assets -->
-	<link rel="stylesheet" href="../dist/css/modules/courier.chat.css">
-	<link rel="stylesheet" href="../dist/css/courier.theme.css">
+    <!-- CSS added in shadow DOM -->
+    <!--<link rel="stylesheet" href="../dist/css/modules/courier.chat.css">-->
+	<!--<link rel="stylesheet" href="../dist/css/courier.theme.css">-->
 	<script src="../dist/js/chat/courier.js"></script>
-	<style>
-		body {
-			background-color: #ddd;
-		}
 
-		.courier .courier__chat-avatar > img {
-			object-fit: contain;
-		}
-
-        .courier .courier__widget-img {
-            background-color: #2f75f7;
-            color: #fff;
+    <style>
+        body {
+            background-color: #ddd;
         }
+    </style>
 
-        .courier__widget-bubble:hover .courier__widget-img,
-        .courier__widget-bubble:focus-visible .courier__widget-img {
-            background-color: #4f8fff;
-        }
-	</style>
+    <template id="courierCustomStyle">
+        <style>
+            .courier .courier__chat-avatar > img {
+                object-fit: contain;
+            }
+
+            .courier .courier__widget-img {
+                background-color: #2f75f7;
+                color: #fff;
+            }
+
+            .courier__widget-bubble:hover .courier__widget-img,
+            .courier__widget-bubble:focus-visible .courier__widget-img {
+                background-color: #4f8fff;
+            }
+        </style>
+    </template>
 </head>
 <body>
 	<script>
-        const courier = new Courier(document.body, {
-            modifierClasses: {
-                root: ['courier--left']
-            },
-            texts: {
-                widgetGreeting: 'Mamy dla Ciebie Rabat <span>{{couponPercent}}%!</span> 🙂',
-                messagePlaceholder: 'Napisz coś...',
-                goToProduct: 'Przejdź do produktu',
-                clipboardButton: 'Kopiuj',
-                clipboardTooltip: 'Kliknij, by skopiować',
-                clipboardCopy: 'Kod rabatowy skopiowany',
-                drawerInfo: {
-                    heading: 'Informacja dotycząca AI',
-                    content: `
+        // check if shadow DOM is supported
+        if (!(document.head.createShadowRoot || document.head.attachShadow)) {
+            console.error('Shadow DOM is not supported.')
+        }
+
+        const dummyRootContainer = document.createElement('div');
+        dummyRootContainer.setAttribute('id', 'dummyRootContainer');
+        const shadowRoot = dummyRootContainer.attachShadow({ mode: 'open' });
+
+        // root element for component HTML
+        const dummyRoot = document.createElement('div');
+        dummyRoot.setAttribute('id', 'dummyRoot');
+
+        // append the nodes
+        shadowRoot.appendChild(dummyRoot);
+        document.body.appendChild(dummyRootContainer);
+
+        // load all CSS before injecting into shadow root
+        const links              = [
+            { name: 'main CSS', href: '../dist/css/modules/courier.chat.css' },
+            { name: 'theme CSS', href: '../dist/css/courier.theme.css' }
+        ];
+        const styleSheetPromises = [];
+        const linkEls            = [];
+        links.forEach((obj) => {
+            styleSheetPromises.push(new Promise((resolve, reject) => {
+                const link = document.createElement('link');
+                link.setAttribute('rel', obj.rel ?? 'stylesheet');
+                link.setAttribute('href', obj.href);
+                // resolve the promise when the stylesheet is loaded
+                link.addEventListener('load', resolve);
+                linkEls.push(link);
+            }));
+        });
+        // load inline CSS templates
+        const templates = [];
+        templates.push(document.getElementById('courierCustomStyle'));
+
+        // Append link elements and templates content
+        linkEls.forEach((linkEl) => {
+            shadowRoot.appendChild(linkEl);
+        });
+        templates.forEach((template) => {
+            shadowRoot.appendChild(template.content);
+        });
+
+        // initialize Courier
+        const courier = initCourier(dummyRoot);
+
+        // Mount Courier after all CSS has been loaded to prevent Flash Of Unstyled Content
+        Promise.all(styleSheetPromises).then((values) => {
+            console.log('All CSS loaded.');
+            courier.mount();
+        });
+
+        // courier._eventsBus.on('mount.shadowRootAppended', () => {
+        //     if (courier.shadowRoot) {
+        //         const mainCss = document.createElement('link');
+        //         mainCss.setAttribute('rel', 'stylesheet');
+        //         mainCss.setAttribute('href', '../dist/css/modules/courier.chat.css');
+        //         mainCss.onload = () => console.log('Main CSS loaded');
+        //         courier.shadowRoot.appendChild(mainCss);
+        //
+        //         const themeCss = document.createElement('link');
+        //         themeCss.setAttribute('rel', 'stylesheet');
+        //         themeCss.setAttribute('href', '../dist/css/courier.theme.css');
+        //         themeCss.onload = () => console.log('Theme CSS loaded');
+        //         courier.shadowRoot.appendChild(themeCss);
+        //
+        //         const template = document.getElementById('courierCustomStyle');
+        //         courier.shadowRoot.appendChild(template.content);
+        //     }
+        // });
+
+        function initCourier(rootElement) {
+            const courier = new Courier(rootElement, {
+                // useShadowRoot: true,
+                modifierClasses: {
+                    root: ['courier--left']
+                },
+                texts: {
+                    widgetGreeting: 'Mamy dla Ciebie Rabat <span>{{couponPercent}}%!</span> 🙂',
+                    messagePlaceholder: 'Napisz coś...',
+                    goToProduct: 'Przejdź do produktu',
+                    clipboardButton: 'Kopiuj',
+                    clipboardTooltip: 'Kliknij, by skopiować',
+                    clipboardCopy: 'Kod rabatowy skopiowany',
+                    drawerInfo: {
+                        heading: 'Informacja dotycząca AI',
+                        content: `
                         <p>Asystent AI to system sztucznej inteligencji. Informacje udzielane przez asystenta mogą być skorygowane przez obsługę sklepu i nie stanowią oferty w rozumieniu prawa handlowego.</p>
                     `
-                },
-                drawerTabContent: {
-                    gdpr: {
-                        heading: 'RODO i prywatność',
-                        content: `
+                    },
+                    drawerTabContent: {
+                        gdpr: {
+                            heading: 'RODO i prywatność',
+                            content: `
                             <p>Dane osobowe są przetwarzane przez Spark DigitUP Sp. z o.o., Plac Wolnica 13/10, 31-060 Kraków (dalej "TrafficWatchdog") jako podmiot przetwarzający, który działa w imieniu właściciela serwisu, będącego administratorem danych.</p>
                             <p>TrafficWatchdog działa zgodnie z rozporządzeniem RODO. Informacje na temat polityki prywatności i przetwarzania danych przez TrafficWatchdog znajdują się na stronie <a href="https://trafficwatchdog.pl/pl/docs/privacy-policy" target="_blank" rel="nofollow noreferrer">https://trafficwatchdog.pl/pl/docs/privacy-policy</a>.</p>
                             <p>Przetwarzanie Twoich danych osobowych jest konieczne, aby zapewnić Ci obsługę i wsparcie klienta.</p>
                             <p>Zaawansowane funkcje zostaną włączone tylko wtedy, gdy wyrazisz na nie zgodę. Jeśli masz pytania dotyczące przetwarzania danych osobowych lub chcesz mieć do nich wgląd, lub usunąć swoje dane osobowe, skontaktuj się z właścicielem serwisu.</p>
                         `
-                    },
-                }
-            },
-            textVars: {
-                couponPercent: '10',
-                coupon: 'RABAT10'
-            },
-            identity: {
-                name: 'Asystent AI',
-                logo: {
-                    svg: '<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="800" height="800" fill="#fff" stroke="#fff" viewBox="0 0 512 512"><circle cx="256" cy="256" r="256" fill="#0085fe" stroke="none" paint-order="stroke markers fill"/><path stroke-width=".499025" d="M367.78167 128.24876H192.12475c-8.81977 0-15.96881 7.14904-15.96881 15.96881v15.96881h143.7193c17.63855 0 31.93762 14.29907 31.93762 31.93762v95.81287h15.96881c8.81978 0 15.96881-7.14904 15.96881-15.96881V144.21757c0-8.81977-7.14903-15.96881-15.96881-15.96881z"/><path stroke-width=".499025" d="M319.87524 176.15519H144.21832c-8.81977 0-15.96881 7.14904-15.96881 15.96881v127.75149c0 8.81877 7.14904 15.96881 15.96881 15.96881h7.98441v36.64742c0 6.21836 5.04065 11.25951 11.25801 11.25951h.0484c2.98517 0 5.84958-1.18718 7.96045-3.29806l44.60788-44.60837h103.79827c8.81977 0 15.96881-7.15004 15.96881-15.96881V192.124c-.0005-8.81977-7.14954-15.96881-15.96931-15.96881z"/><path fill="#212121" stroke-width="2.62584" d="M183.07451 295.429c3.86524-.063 7.74887.12604 11.60097-.0998 1.9615-1.0372 2.23197-3.56064 3.29806-5.35671 1.01621-2.51293 2.44466-5.58517 5.66657-5.4355 10.4246.0315 20.8492-.0709 31.27378.0499 3.75759.52517 4.39041 4.65299 5.90553 7.43902.64857 1.73567 1.68053 3.86786 3.92563 3.40308 3.5265-.0657 7.07665.12868 10.59003-.0998 1.03194-1.31292-.74837-2.95144-1.11075-4.37728l-33.68955-73.44481c-1.6569-2.4998-3.76545.30198-4.21185 2.15845l-34.13595 74.4295a.87440552.87440552 0 0 0 .89016 1.33392zm24.4571-26.23217c3.50024-7.45213 6.86658-14.9673 10.45085-22.37217 1.75931-2.13744 2.7125 1.65428 3.41359 2.93831 3.03285 6.6959 6.21012 13.3314 9.14844 20.0667.64071 2.79651-2.85428 2.21358-4.59523 2.25559-5.72696-.0341-11.45917.0657-17.1835-.0525-1.4626-.0892-1.89586-1.71467-1.23415-2.83591zm61.13748-50.13783v74.92317c.12868 2.01663 2.45518 1.32079 3.81536 1.4442 2.88843-.0604 5.80311.13129 8.68103-.0998 1.37332-.84026.66697-2.67574.8429-4.02804V219.0616c-.12605-2.01401-2.45254-1.32079-3.81272-1.4442-2.89105.0603-5.80311-.1313-8.68104.0998-.55669.1838-.87178.78775-.84553 1.34442z"/></svg>'
+                        },
+                    }
                 },
-                logoMini: {
-                    svg: '<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="800" height="800" fill="#fff" stroke="#fff" viewBox="0 0 512 512"><path d="M480.001 0h-352c-17.674 0-32 14.326-32 32v32h288c35.346 0 64 28.654 64 64v192h32c17.674 0 32-14.326 32-32V32c0-17.674-14.326-32-32-32z" fill="#ddd"></path><path d="M384.001 96h-352c-17.674 0-32 14.326-32 32v256.002c0 17.672 14.326 32 32 32h16v73.438c0 12.461 10.101 22.563 22.56 22.563h.097c5.982 0 11.722-2.379 15.952-6.609L176 416.003h208.002c17.674 0 32-14.328 32-32V128c-.001-17.674-14.327-32-32.001-32Z" fill="#ddd"></path><path fill="#212121" stroke-width="5.26194" d="M109.86517 335.01353c7.74558-.12617 15.528.25257 23.24725-.19993 3.93067-2.07845 4.47266-7.13518 6.60901-10.73435 2.03638-5.03567 4.89886-11.19215 11.35527-10.89222 20.88991.0631 41.77983-.14204 62.66972.10007 7.52985 1.05239 8.79797 9.32416 11.83412 14.9071 1.29969 3.47812 3.36764 7.75083 7.8666 6.81945 7.06678-.13161 14.18095.25786 21.22143-.19991 2.06792-2.63096-1.49967-5.91441-2.22583-8.77166l-67.51071-147.17651c-3.32028-5.00936-7.54561.60514-8.44015 4.32532l-68.40524 149.14975a1.7522267 1.7522267 0 0 0 1.7838 2.67305zm49.00972-52.56681c7.01417-14.93338 13.75999-29.99307 20.94254-44.83174 3.52549-4.28322 5.43558 3.31502 6.84051 5.8881 6.07755 13.41796 12.4445 26.71488 18.33261 40.21179 1.28392 5.60394-5.71971 4.43581-9.2084 4.51999-11.47629-.0683-22.96311.13161-34.43413-.10529-2.93091-.17881-3.79913-3.43603-2.47313-5.68289zM281.38868 181.9752v150.13901c.25785 4.04115 4.91994 2.64674 7.64562 2.89405 5.78814-.12095 11.62889.2631 17.39597-.19992 2.752-1.68379 1.33655-5.36192 1.68909-8.07181V181.9805c-.25258-4.03589-4.91466-2.64674-7.64033-2.89405-5.7934.12095-11.62889-.26311-17.39599.19991-1.11555.36833-1.74696 1.57858-1.69436 2.69409z"></path></svg>'
-                }
-            },
-            images: {
-                widget: '<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="800" height="800" fill="#fff" stroke="#fff" viewBox="0 0 512 512"><path d="M480.001 0h-352c-17.674 0-32 14.326-32 32v32h288c35.346 0 64 28.654 64 64v192h32c17.674 0 32-14.326 32-32V32c0-17.674-14.326-32-32-32z"/><path d="M384.001 96h-352c-17.674 0-32 14.326-32 32v256.002c0 17.672 14.326 32 32 32h16v73.438c0 12.461 10.101 22.563 22.56 22.563h.097c5.982 0 11.722-2.379 15.952-6.609L176 416.003h208.002c17.674 0 32-14.328 32-32V128c-.001-17.674-14.327-32-32.001-32Z"/><path fill="#212121" stroke-width="5.26194" d="M109.86517 335.01353c7.74558-.12617 15.528.25257 23.24725-.19993 3.93067-2.07845 4.47266-7.13518 6.60901-10.73435 2.03638-5.03567 4.89886-11.19215 11.35527-10.89222 20.88991.0631 41.77983-.14204 62.66972.10007 7.52985 1.05239 8.79797 9.32416 11.83412 14.9071 1.29969 3.47812 3.36764 7.75083 7.8666 6.81945 7.06678-.13161 14.18095.25786 21.22143-.19991 2.06792-2.63096-1.49967-5.91441-2.22583-8.77166l-67.51071-147.17651c-3.32028-5.00936-7.54561.60514-8.44015 4.32532l-68.40524 149.14975a1.7522267 1.7522267 0 0 0 1.7838 2.67305zm49.00972-52.56681c7.01417-14.93338 13.75999-29.99307 20.94254-44.83174 3.52549-4.28322 5.43558 3.31502 6.84051 5.8881 6.07755 13.41796 12.4445 26.71488 18.33261 40.21179 1.28392 5.60394-5.71971 4.43581-9.2084 4.51999-11.47629-.0683-22.96311.13161-34.43413-.10529-2.93091-.17881-3.79913-3.43603-2.47313-5.68289zM281.38868 181.9752v150.13901c.25785 4.04115 4.91994 2.64674 7.64562 2.89405 5.78814-.12095 11.62889.2631 17.39597-.19992 2.752-1.68379 1.33655-5.36192 1.68909-8.07181V181.9805c-.25258-4.03589-4.91466-2.64674-7.64033-2.89405-5.7934.12095-11.62889-.26311-17.39599.19991-1.11555.36833-1.74696 1.57858-1.69436 2.69409z"/></svg>'
-            },
-            messages: {
-                start: [
-                    {
-                        text: 'Cześć, ostatnim razem nie przekonaliśmy Cię do zakupów u nas, dlatego tym razem mamy dla Ciebie extra zniżkę <span class="tx-bold">10%</span> na zakupy!',
+                textVars: {
+                    couponPercent: '10',
+                    coupon: 'RABAT10'
+                },
+                identity: {
+                    name: 'Asystent AI',
+                    logo: {
+                        svg: '<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="800" height="800" fill="#fff" stroke="#fff" viewBox="0 0 512 512"><circle cx="256" cy="256" r="256" fill="#0085fe" stroke="none" paint-order="stroke markers fill"/><path stroke-width=".499025" d="M367.78167 128.24876H192.12475c-8.81977 0-15.96881 7.14904-15.96881 15.96881v15.96881h143.7193c17.63855 0 31.93762 14.29907 31.93762 31.93762v95.81287h15.96881c8.81978 0 15.96881-7.14904 15.96881-15.96881V144.21757c0-8.81977-7.14903-15.96881-15.96881-15.96881z"/><path stroke-width=".499025" d="M319.87524 176.15519H144.21832c-8.81977 0-15.96881 7.14904-15.96881 15.96881v127.75149c0 8.81877 7.14904 15.96881 15.96881 15.96881h7.98441v36.64742c0 6.21836 5.04065 11.25951 11.25801 11.25951h.0484c2.98517 0 5.84958-1.18718 7.96045-3.29806l44.60788-44.60837h103.79827c8.81977 0 15.96881-7.15004 15.96881-15.96881V192.124c-.0005-8.81977-7.14954-15.96881-15.96931-15.96881z"/><path fill="#212121" stroke-width="2.62584" d="M183.07451 295.429c3.86524-.063 7.74887.12604 11.60097-.0998 1.9615-1.0372 2.23197-3.56064 3.29806-5.35671 1.01621-2.51293 2.44466-5.58517 5.66657-5.4355 10.4246.0315 20.8492-.0709 31.27378.0499 3.75759.52517 4.39041 4.65299 5.90553 7.43902.64857 1.73567 1.68053 3.86786 3.92563 3.40308 3.5265-.0657 7.07665.12868 10.59003-.0998 1.03194-1.31292-.74837-2.95144-1.11075-4.37728l-33.68955-73.44481c-1.6569-2.4998-3.76545.30198-4.21185 2.15845l-34.13595 74.4295a.87440552.87440552 0 0 0 .89016 1.33392zm24.4571-26.23217c3.50024-7.45213 6.86658-14.9673 10.45085-22.37217 1.75931-2.13744 2.7125 1.65428 3.41359 2.93831 3.03285 6.6959 6.21012 13.3314 9.14844 20.0667.64071 2.79651-2.85428 2.21358-4.59523 2.25559-5.72696-.0341-11.45917.0657-17.1835-.0525-1.4626-.0892-1.89586-1.71467-1.23415-2.83591zm61.13748-50.13783v74.92317c.12868 2.01663 2.45518 1.32079 3.81536 1.4442 2.88843-.0604 5.80311.13129 8.68103-.0998 1.37332-.84026.66697-2.67574.8429-4.02804V219.0616c-.12605-2.01401-2.45254-1.32079-3.81272-1.4442-2.89105.0603-5.80311-.1313-8.68104.0998-.55669.1838-.87178.78775-.84553 1.34442z"/></svg>'
                     },
-                    {
-                        text: 'Przygotowaliśmy również proponowane produkty specjalnie dla Ciebie.',
-                    },
-                    {
-                        type: 'carousel',
-                        carousel: {
-                            items: [
+                    logoMini: {
+                        svg: '<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="800" height="800" fill="#fff" stroke="#fff" viewBox="0 0 512 512"><path d="M480.001 0h-352c-17.674 0-32 14.326-32 32v32h288c35.346 0 64 28.654 64 64v192h32c17.674 0 32-14.326 32-32V32c0-17.674-14.326-32-32-32z" fill="#ddd"></path><path d="M384.001 96h-352c-17.674 0-32 14.326-32 32v256.002c0 17.672 14.326 32 32 32h16v73.438c0 12.461 10.101 22.563 22.56 22.563h.097c5.982 0 11.722-2.379 15.952-6.609L176 416.003h208.002c17.674 0 32-14.328 32-32V128c-.001-17.674-14.327-32-32.001-32Z" fill="#ddd"></path><path fill="#212121" stroke-width="5.26194" d="M109.86517 335.01353c7.74558-.12617 15.528.25257 23.24725-.19993 3.93067-2.07845 4.47266-7.13518 6.60901-10.73435 2.03638-5.03567 4.89886-11.19215 11.35527-10.89222 20.88991.0631 41.77983-.14204 62.66972.10007 7.52985 1.05239 8.79797 9.32416 11.83412 14.9071 1.29969 3.47812 3.36764 7.75083 7.8666 6.81945 7.06678-.13161 14.18095.25786 21.22143-.19991 2.06792-2.63096-1.49967-5.91441-2.22583-8.77166l-67.51071-147.17651c-3.32028-5.00936-7.54561.60514-8.44015 4.32532l-68.40524 149.14975a1.7522267 1.7522267 0 0 0 1.7838 2.67305zm49.00972-52.56681c7.01417-14.93338 13.75999-29.99307 20.94254-44.83174 3.52549-4.28322 5.43558 3.31502 6.84051 5.8881 6.07755 13.41796 12.4445 26.71488 18.33261 40.21179 1.28392 5.60394-5.71971 4.43581-9.2084 4.51999-11.47629-.0683-22.96311.13161-34.43413-.10529-2.93091-.17881-3.79913-3.43603-2.47313-5.68289zM281.38868 181.9752v150.13901c.25785 4.04115 4.91994 2.64674 7.64562 2.89405 5.78814-.12095 11.62889.2631 17.39597-.19992 2.752-1.68379 1.33655-5.36192 1.68909-8.07181V181.9805c-.25258-4.03589-4.91466-2.64674-7.64033-2.89405-5.7934.12095-11.62889-.26311-17.39599.19991-1.11555.36833-1.74696 1.57858-1.69436 2.69409z"></path></svg>'
+                    }
+                },
+                images: {
+                    widget: '<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="800" height="800" fill="#fff" stroke="#fff" viewBox="0 0 512 512"><path d="M480.001 0h-352c-17.674 0-32 14.326-32 32v32h288c35.346 0 64 28.654 64 64v192h32c17.674 0 32-14.326 32-32V32c0-17.674-14.326-32-32-32z"/><path d="M384.001 96h-352c-17.674 0-32 14.326-32 32v256.002c0 17.672 14.326 32 32 32h16v73.438c0 12.461 10.101 22.563 22.56 22.563h.097c5.982 0 11.722-2.379 15.952-6.609L176 416.003h208.002c17.674 0 32-14.328 32-32V128c-.001-17.674-14.327-32-32.001-32Z"/><path fill="#212121" stroke-width="5.26194" d="M109.86517 335.01353c7.74558-.12617 15.528.25257 23.24725-.19993 3.93067-2.07845 4.47266-7.13518 6.60901-10.73435 2.03638-5.03567 4.89886-11.19215 11.35527-10.89222 20.88991.0631 41.77983-.14204 62.66972.10007 7.52985 1.05239 8.79797 9.32416 11.83412 14.9071 1.29969 3.47812 3.36764 7.75083 7.8666 6.81945 7.06678-.13161 14.18095.25786 21.22143-.19991 2.06792-2.63096-1.49967-5.91441-2.22583-8.77166l-67.51071-147.17651c-3.32028-5.00936-7.54561.60514-8.44015 4.32532l-68.40524 149.14975a1.7522267 1.7522267 0 0 0 1.7838 2.67305zm49.00972-52.56681c7.01417-14.93338 13.75999-29.99307 20.94254-44.83174 3.52549-4.28322 5.43558 3.31502 6.84051 5.8881 6.07755 13.41796 12.4445 26.71488 18.33261 40.21179 1.28392 5.60394-5.71971 4.43581-9.2084 4.51999-11.47629-.0683-22.96311.13161-34.43413-.10529-2.93091-.17881-3.79913-3.43603-2.47313-5.68289zM281.38868 181.9752v150.13901c.25785 4.04115 4.91994 2.64674 7.64562 2.89405 5.78814-.12095 11.62889.2631 17.39597-.19992 2.752-1.68379 1.33655-5.36192 1.68909-8.07181V181.9805c-.25258-4.03589-4.91466-2.64674-7.64033-2.89405-5.7934.12095-11.62889-.26311-17.39599.19991-1.11555.36833-1.74696 1.57858-1.69436 2.69409z"/></svg>'
+                },
+                messages: {
+                    start: [
+                        {
+                            text: 'Cześć, ostatnim razem nie przekonaliśmy Cię do zakupów u nas, dlatego tym razem mamy dla Ciebie extra zniżkę <span class="tx-bold">10%</span> na zakupy!',
+                        },
+                        {
+                            text: 'Przygotowaliśmy również proponowane produkty specjalnie dla Ciebie.',
+                        },
+                        {
+                            type: 'carousel',
+                            carousel: {
+                                items: [
+                                    {
+                                        title: 'Nike Sneakersy Campus 00s AQ6704 Red / Czerwone Fall New Collection Special Edition',
+                                        price: {
+                                            value: 1999.99,
+                                            discount: 0.35,
+                                            affix: ['$', true]
+                                        },
+                                        img: {
+                                            src: 'https://cdn.cnn.com/cnnnext/dam/assets/200814092431-01b-michael-jordan-sneakers-auction-super-169.jpg',
+                                            alt: 'A pair of red sneakers'
+                                        },
+                                        link: '#',
+                                        discountCode: 'promo_code_2022',
+                                        footerText: 'Your individual discount: {{discountValue}}'
+                                    },
+                                    {
+                                        title: 'Boots',
+                                        price: {
+                                            value: 2495.99,
+                                            discount: 0.2,
+                                            affix: ['$', true]
+                                        },
+                                        img: {
+                                            src: 'https://www.elitabut.pl/eng_pl_Shoes-Womens-boots-Spring-Fall-natural-leather-155-L-ElitaBut-3382_4.png',
+                                            alt: 'A pair of brown leather boots'
+                                        },
+                                        link: '#',
+                                        discountCode: 'urawsum',
+                                    },
+                                    {
+                                        title: 'Trainers',
+                                        price: {
+                                            value: 1490.99,
+                                            affix: ['$', true]
+                                        },
+                                        img: {
+                                            src: 'https://pngimg.com/uploads/running_shoes/running_shoes_PNG5798.png',
+                                            alt: 'A pair of red sneakers'
+                                        },
+                                        link: '#',
+                                        discountCode: 'urawsum',
+                                        discountLink: '#'
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            text: 'Zainteresowany 🙂?',
+                            topics: [
                                 {
-                                    title: 'Nike Sneakersy Campus 00s AQ6704 Red / Czerwone Fall New Collection Special Edition',
-                                    price: {
-                                        value: 1999.99,
-                                        discount: 0.35,
-                                        affix: ['$', true]
-                                    },
-                                    img: {
-                                        src: 'https://cdn.cnn.com/cnnnext/dam/assets/200814092431-01b-michael-jordan-sneakers-auction-super-169.jpg',
-                                        alt: 'A pair of red sneakers'
-                                    },
-                                    link: '#',
-                                    discountCode: 'promo_code_2022',
-                                    footerText: 'Your individual discount: {{discountValue}}'
+                                    text: 'Tak',
+                                    path: 'interested',
                                 },
                                 {
-                                    title: 'Boots',
-                                    price: {
-                                        value: 2495.99,
-                                        discount: 0.2,
-                                        affix: ['$', true]
-                                    },
-                                    img: {
-                                        src: 'https://www.elitabut.pl/eng_pl_Shoes-Womens-boots-Spring-Fall-natural-leather-155-L-ElitaBut-3382_4.png',
-                                        alt: 'A pair of brown leather boots'
-                                    },
-                                    link: '#',
-                                    discountCode: 'urawsum',
+                                    text: 'Nie',
+                                    path: 'notInterested'
                                 },
+                            ],
+                        }
+                    ],
+                    interested: {
+                        text: 'No to działamy! Aby skorzystać ze zniżki, pobierz swój kod promocyjny:)',
+                        topics: [
+                            {
+                                text: 'Pobierz kod promocyjny',
+                                path: 'generateCoupon',
+                            }
+                        ],
+                    },
+                    notInterested: {
+                        text: 'Dziękujemy w takim razie i do usłyszenia następnym razem:)',
+                        topics: [
+                            {
+                                text: 'Ok, wracam na stronę',
+                                path: 'notInterestedChangedMind',
+                                trigger: 'chat.close'
+                            },
+                            {
+                                text: 'Chciałbym jednak rabat',
+                                path: 'interested',
+                            },
+                        ],
+                    },
+                    notInterestedChangedMind: {
+                        topics: [
+                            {
+                                text: 'Zmieniłem zdanie, chcę wygenerować kod rabatowy',
+                                path: 'interested',
+                            }
+                        ],
+                    },
+                    generateCoupon: [
+                        {
+                            text: 'Gotowe:)'
+                        },
+                        {
+                            text: 'Twój kod promocyjny to: <span class="tx-bold">{{coupon}}</span>'
+                        },
+                        {
+                            text: 'Podaj ten kod podczas składania zamówienia, aby skorzystać z dodatkowej zniżki na zakupy!',
+                            topics: [
                                 {
-                                    title: 'Trainers',
-                                    price: {
-                                        value: 1490.99,
-                                        affix: ['$', true]
-                                    },
-                                    img: {
-                                        src: 'https://pngimg.com/uploads/running_shoes/running_shoes_PNG5798.png',
-                                        alt: 'A pair of red sneakers'
-                                    },
-                                    link: '#',
-                                    discountCode: 'urawsum',
-                                    discountLink: '#'
+                                    text: 'Ok, wracam do zakupów!',
+                                    trigger: 'chat.close'
                                 }
                             ]
                         }
+                    ]
+                },
+                state: {
+                    widgetStyle: 'advanced',
+                    hideBtnActiveAtStart: true,
+                    showOptionsButton: true,
+                    showMessageBox: true,
+                    showTimestamp: false
+                },
+                cookies: {
+                    saveConversation: {
+                        active: false
                     },
-                    {
-                        text: 'Zainteresowany 🙂?',
-                        topics: [
-                            {
-                                text: 'Tak',
-                                path: 'interested',
-                            },
-                            {
-                                text: 'Nie',
-                                path: 'notInterested'
-                            },
-                        ],
+                    minimalizeWidget: {
+                        active: false
+                    },
+                    hideWidget: {
+                        active: false
                     }
-                ],
-                interested: {
-                    text: 'No to działamy! Aby skorzystać ze zniżki, pobierz swój kod promocyjny:)',
-                    topics: [
-                        {
-                            text: 'Pobierz kod promocyjny',
-                            path: 'generateCoupon',
-                        }
-                    ],
                 },
-                notInterested: {
-                    text: 'Dziękujemy w takim razie i do usłyszenia następnym razem:)',
-                    topics: [
-                        {
-                            text: 'Ok, wracam na stronę',
-                            path: 'notInterestedChangedMind',
-                            trigger: 'chat.close'
-                        },
-                        {
-                            text: 'Chciałbym jednak rabat',
-                            path: 'interested',
-                        },
-                    ],
-                },
-                notInterestedChangedMind: {
-                    topics: [
-                        {
-                            text: 'Zmieniłem zdanie, chcę wygenerować kod rabatowy',
-                            path: 'interested',
-                        }
-                    ],
-                },
-                generateCoupon: [
-                    {
-                        text: 'Gotowe:)'
-                    },
-                    {
-                        text: 'Twój kod promocyjny to: <span class="tx-bold">{{coupon}}</span>'
-                    },
-                    {
-                        text: 'Podaj ten kod podczas składania zamówienia, aby skorzystać z dodatkowej zniżki na zakupy!',
-                        topics: [
-                            {
-                                text: 'Ok, wracam do zakupów!',
-                                trigger: 'chat.close'
-                            }
-                        ]
-                    }
-                ]
-            },
-            state: {
-                widgetStyle: 'advanced',
-                hideBtnActiveAtStart: true,
-                showOptionsButton: true,
-                showMessageBox: true,
-                showTimestamp: false
-            },
-            cookies: {
-                saveConversation: {
-                    active: false
-                },
-                minimalizeWidget: {
-                    active: false
-                },
-                hideWidget: {
-                    active: false
-                }
-            },
-        });
-		courier.mount();
-		// courier._components.ComponentName.function();
+            });
+
+            return courier;
+        }
 	</script>
 </body>
 </html>

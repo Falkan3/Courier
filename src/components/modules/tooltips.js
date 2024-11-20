@@ -308,6 +308,10 @@ export default function Construct(Courier, Components, Events) {
         // },
 
         onMouseEnter(event) {
+            if (!event.target) {
+                return;
+            }
+
             const el = event.target.closest('[data-courier-tooltip]');
             if (!el) {
                 return;

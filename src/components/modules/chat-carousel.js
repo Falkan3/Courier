@@ -277,6 +277,10 @@ export default function (Courier, Components, Events) {
      * Initialize Glide for the current chat message
      */
     Events.on('app.rendered.chatMessage', (event) => {
+        if (!event.target || !event.target.matches) {
+            return;
+        }
+
         if (event.target.matches(`[data-template="${ChatCarousel.template}"]`)
             && Components.Chat.templateData.state.active) {
             ChatCarousel.initGlide(event.target);

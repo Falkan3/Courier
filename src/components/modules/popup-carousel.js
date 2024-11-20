@@ -239,6 +239,10 @@ export default function Construct(Courier, Components, Events) {
      * todo: Preserve instances on rerender
      */
     Events.on('app.beforeRender', (event) => {
+        if (!event.target || !event.target.matches) {
+            return;
+        }
+
         if (event.target.matches('#courierPopup') && Components.Popup.templateData.state.active) {
             // remove existing reef instances
             if (PopupCarousel.refs.carousels) {
@@ -290,6 +294,10 @@ export default function Construct(Courier, Components, Events) {
      * todo: Preserve instances on rerender
      */
     Events.on('app.rendered.popupModule', (event) => {
+        if (!event.target || !event.target.matches) {
+            return;
+        }
+
         if (event.target.matches(`[data-template="${PopupCarousel.template}"]`)
             && Components.Popup.templateData.state.active) {
             PopupCarousel.initGlide(event.target);

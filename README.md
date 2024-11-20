@@ -48,7 +48,7 @@ npm install @falkan3/courier
 
 Install via package.json:
 ```json
-"@falkan3/courier": "^1.6.1"
+"@falkan3/courier": "^1.7.0"
 ```
 
 # Usage
@@ -91,7 +91,8 @@ These are the available settings:
 Collection of internally used HTML ids.
 ```js
 ids: {
-  dummyRoot: 'courierDummyRoot'
+  dummyRootContainer: 'courierDummyRootContainer',
+  dummyRoot: 'courierDummyRoot',
 }
 ```
 
@@ -117,6 +118,112 @@ For example:
 {
   root: ['your-modifier-class']
 }
+```
+
+Create a shadow DOM to separate website CSS from package CSS.
+Requires custom CSS injection to style shadow root nested elements.
+```js
+useShadowRoot: false
+```
+
+Own shadow DOM root element (prevents Flash Of Unstyled Content)
+```js
+const dummyRootContainer = document.createElement('div');
+dummyRootContainer.setAttribute('id', 'dummyRootContainer');
+const shadowRoot = dummyRootContainer.attachShadow({ mode: 'open' });
+
+// root element for component HTML
+const dummyRoot = document.createElement('div');
+dummyRoot.setAttribute('id', 'dummyRoot');
+
+// append the nodes
+shadowRoot.appendChild(dummyRoot);
+document.body.appendChild(dummyRootContainer);
+
+// load all CSS before injecting into shadow root
+const links              = [
+    { name: 'main CSS', href: '../dist/css/modules/courier.chat.css' },
+    { name: 'theme CSS', href: '../dist/css/courier.theme.css' }
+];
+const styleSheetPromises = [];
+const linkEls            = [];
+links.forEach((obj) => {
+    styleSheetPromises.push(new Promise((resolve, reject) => {
+        const link = document.createElement('link');
+        link.setAttribute('rel', obj.rel ?? 'stylesheet');
+        link.setAttribute('href', obj.href);
+        // resolve the promise when the stylesheet is loaded
+        link.addEventListener('load', resolve);
+        linkEls.push(link);
+    }));
+});
+// load inline CSS templates
+const templates = [];
+templates.push(document.getElementById('courierCustomStyle'));
+
+// Append link elements and templates content
+linkEls.forEach((linkEl) => {
+    shadowRoot.appendChild(linkEl);
+});
+templates.forEach((template) => {
+    shadowRoot.appendChild(template.content);
+});
+
+// initialize Courier
+const courier = new Courier(dummyRoot, {...});
+
+// Mount Courier after all CSS has been loaded to prevent Flash Of Unstyled Content
+Promise.all(styleSheetPromises).then((values) => {
+    console.log('All CSS loaded.');
+    courier.mount();
+});
+```
+When `useShadowRoot` is set to `true`, a dummy root will be created inside a shadow DOM, or the passed root element will be used, if it is a shadow DOM type element.
+
+Built-it shadow DOM CSS injection example:
+```js
+<template id="courierCustomStyle">
+    <style>
+        .courier .courier__chat-avatar > img {
+            object-fit: contain;
+        }
+    
+        .courier .courier__widget-img {
+            background-color: #2f75f7;
+            color: #fff;
+        }
+    
+        .courier__widget-bubble:hover .courier__widget-img,
+        .courier__widget-bubble:focus-visible .courier__widget-img {
+            background-color: #4f8fff;
+        }
+    </style>
+</template>
+
+courier._eventsBus.on('mount.shadowRootAppended', () => {
+    // make sure shadow DOM is supported
+    if (courier.shadowRoot) {
+        // append main module CSS
+        const mainCss = document.createElement('link');
+        mainCss.setAttribute('rel', 'stylesheet');
+        mainCss.setAttribute('href', '../dist/css/modules/courier.chat.css');
+        mainCss.onload = () => console.log('Main CSS loaded');
+        courier.shadowRoot.appendChild(mainCss);
+    
+        // append theme CSS
+        const themeCss = document.createElement('link');
+        themeCss.setAttribute('rel', 'stylesheet');
+        themeCss.setAttribute('href', '../dist/css/courier.theme.css');
+        themeCss.onload = () => console.log('Theme CSS loaded');
+        courier.shadowRoot.appendChild(themeCss);
+    
+        // append inline style using a template
+        const template = document.getElementById('courierCustomStyle');
+        courier.shadowRoot.appendChild(template.content);
+    }
+});
+
+courier.mount();
 ```
 
 Collection of text used in components.

@@ -4,7 +4,7 @@
  * Animation mixins
  */
 
-:root {
+:root, :host {
 	--#{variables.$variablePrefix}-animate-duration: 1s;
 	--#{variables.$variablePrefix}-animate-delay: 1s;
 	--#{variables.$variablePrefix}-animate-repeat: 1;

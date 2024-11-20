@@ -10,6 +10,7 @@ export default {
      * @type {Object}
      */
     ids: {
+        dummyRootContainer: 'courierDummyRootContainer',
         dummyRoot: 'courierDummyRoot'
     },
 
@@ -35,6 +36,14 @@ export default {
     modifierClasses: {
         root: []
     },
+
+    /**
+     * Create a shadow DOM to separate website CSS from package CSS.
+     * Requires custom CSS injection to style shadow root nested elements.
+     *
+     * @type {boolean}
+     */
+    useShadowRoot: false,
 
     /**
      * Collection of text used in components.

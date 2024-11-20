@@ -65,3 +65,29 @@ export function copyTextToClipboard(text) {
     }
     return navigator.clipboard.writeText(text).then(() => true, () => false);
 }
+
+/**
+ * Returns true if it is a node
+ *
+ * @param o
+ * @returns {boolean}
+ */
+export function isNode(o) {
+    return (
+        typeof Node === 'object' ? o instanceof Node
+            : o && typeof o === 'object' && typeof o.nodeType === 'number' && typeof o.nodeName === 'string'
+    );
+}
+
+/**
+ * Returns true if it is a DOM element
+ *
+ * @param o
+ * @returns {boolean}
+ */
+export function isElement(o) {
+    return (
+        typeof HTMLElement === 'object' ? o instanceof HTMLElement
+            : o && typeof o === 'object' && o.nodeType === 1 && typeof o.nodeName === 'string'
+    );
+}

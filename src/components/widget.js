@@ -50,6 +50,10 @@ export default function Construct(Courier, Components, Events) {
          * @param  {Object} event
          */
         onClick(event) {
+            if (!event.target || !event.target.matches) {
+                return;
+            }
+
             if (event.target.matches('#courierWidgetButton')
                 || (elemContains(this.refs.btn, event.target))) {
                 Events.emit('widget.clicked');

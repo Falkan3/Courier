@@ -100,6 +100,10 @@ export default function Construct(Courier, Components, Events) {
          * @param  {Object} event
          */
         onClick(event) {
+            if (!event.target || !event.target.matches) {
+                return event;
+            }
+
             // const overlay = Components.App.refs.app.elem.querySelector('#courierChatOverlay');
             // const closeBtn = Components.App.refs.app.elem.querySelector('#courierChatCloseBtn');
             // event.target.matches('#courierChatCloseBtn'
@@ -163,13 +167,15 @@ export default function Construct(Courier, Components, Events) {
          * @param  {Object} event
          */
         onSubmit(event) {
+            if (!event.target.matches) {
+                return;
+            }
+
             if (event.target.matches('#courierChatInteractionsForm')
                 || (elemContains(this.refs.form, event.target))) {
                 event.preventDefault();
                 this.messageBoxSend();
             }
-
-            return event;
         },
 
         /**
@@ -717,7 +723,7 @@ export default function Construct(Courier, Components, Events) {
         if (Chat.refs.chat && event.target.isEqualNode(Chat.refs.chat.elem)) {
             Events.emit('app.rendered.chat', event);
         }
-        if (event.target.matches(`.${Courier.settings.classes.chat}-message`)) {
+        if (event.target.matches && event.target.matches(`.${Courier.settings.classes.chat}-message`)) {
             Events.emit('app.rendered.chatMessage', event);
         }
     });
