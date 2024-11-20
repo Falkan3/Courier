@@ -79,7 +79,7 @@ export default function Construct(Courier, Components, Events) {
             //     },
             //     { capture: true, passive: false }
             // );
-            Binder.on(moveEvents, document.body, (event) => {
+            Binder.on(moveEvents, Courier.rootElement, (event) => {
                 this.setCursorPosition(event);
                 this.onMouseMove(event);
             }, true);
@@ -110,7 +110,7 @@ export default function Construct(Courier, Components, Events) {
                 capture: true,
                 passive: false
             });
-            Binder.off(moveEvents, document.body, true);
+            Binder.off(moveEvents, Courier.rootElement, true);
             Binder.off('scroll', window);
         },
 
@@ -163,7 +163,7 @@ export default function Construct(Courier, Components, Events) {
             tooltip.id = attId;
             tooltip.dataset.tpId = id;
             // append the tooltip element
-            document.body.append(tooltip);
+            Courier.rootElement.append(tooltip);
 
             const obj = {
                 // id,
@@ -244,10 +244,12 @@ export default function Construct(Courier, Components, Events) {
                 posX = this.state.scroll.x + tooltipRect.width / 2;
                 // posX += -tooltipRect.x;
             }
-            if ((tooltipRect.x + tooltipRect.width / 2) > document.body.clientWidth) {
+            if ((tooltipRect.x + tooltipRect.width / 2) > Courier.rootElement.clientWidth) {
                 // Out on the right
-                posX = this.state.scroll.x + document.body.clientWidth - (tooltipRect.width / 2);
-                // posX -= (tooltipRect.x + tooltipRect.width) - document.body.clientWidth;
+                posX = this.state.scroll.x
+                    + Courier.rootElement.clientWidth
+                    - (tooltipRect.width / 2);
+                // posX -= (tooltipRect.x + tooltipRect.width) - Courier.rootElement.clientWidth;
             }
             if ((tooltipRect.y - tooltipRect.height / 2) < 0) {
                 // Out on the top
