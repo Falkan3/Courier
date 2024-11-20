@@ -1,7 +1,7 @@
 /* eslint-disable import/no-unresolved */
 import { clone, parseSpecialTags, textTemplate } from '@utils/object';
 import EventsBinder from '@core/event/events-binder';
-import ChatMessage from '@components/classes/chat-message';
+import ChatMessage, { ChatMessageTypes } from '@components/classes/chat-message';
 import { component as Reef, signal } from '@libs/reefjs/reef.es';
 import { elemContains, isScrolledToTheBottom } from '@utils/dom';
 import { shortenTodaysDateTime } from '@utils/time';
@@ -529,7 +529,7 @@ export default function Construct(Courier, Components, Events) {
                             </div>`;
                     } else {
                         const messageImg = message.outgoing !== true
-                        && message.isTypeSystem === false
+                        && message.type !== ChatMessageTypes.SYSTEM
                             ? `
                                 <div class="${Courier.settings.classes.chat}-message-img">
                                     ${identityLogoMini}

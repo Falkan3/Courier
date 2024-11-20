@@ -1,14 +1,14 @@
 /* eslint-disable import/no-unresolved */
 import { isUndefined } from '@utils/types';
 
-export default class ChatMessage {
-    ChatMessageTypes = Object.freeze({
-        SYSTEM: 'system',
-        TEXT: 'text',
-        CAROUSEL: 'carousel',
-        COUPON: 'coupon'
-    });
+export const ChatMessageTypes = Object.freeze({
+    SYSTEM: 'system',
+    TEXT: 'text',
+    CAROUSEL: 'carousel',
+    COUPON: 'coupon'
+});
 
+export default class ChatMessage {
     /**
      * Construct a ChatMessage instance.
      *
@@ -20,7 +20,7 @@ export default class ChatMessage {
             topics: undefined,
             trigger: undefined,
             outgoing: undefined,
-            type: this.ChatMessageTypes.TEXT,
+            type: ChatMessageTypes.TEXT,
             timestamp: undefined,
         };
         const settings = { ...defaults, ...options };
@@ -39,9 +39,9 @@ export default class ChatMessage {
         this.topics = settings.topics;
         this.trigger = settings.trigger;
         this.outgoing = settings.outgoing;
-        this.type = Object.values(this.ChatMessageTypes).includes(settings.type)
+        this.type = Object.values(ChatMessageTypes).includes(settings.type)
             ? settings.type
-            : this.ChatMessageTypes.TEXT;
+            : ChatMessageTypes.TEXT;
         this.timestamp = settings.timestamp;
         if (settings.carousel) {
             this.carousel = settings.carousel;
@@ -51,19 +51,18 @@ export default class ChatMessage {
 
     computeProperties() {
         this.typeClassSuffix = this.getTypeClassSuffix();
-        this.isTypeSystem = this.type === this.ChatMessageTypes.SYSTEM;
     }
 
     getTypeClassSuffix() {
         if (isUndefined(this.type)) return '';
         switch (this.type) {
-        case this.ChatMessageTypes.SYSTEM:
+        case ChatMessageTypes.SYSTEM:
             return '--system';
-        case this.ChatMessageTypes.TEXT:
+        case ChatMessageTypes.TEXT:
             return '--text';
-        case this.ChatMessageTypes.CAROUSEL:
+        case ChatMessageTypes.CAROUSEL:
             return '--carousel';
-        case this.ChatMessageTypes.COUPON:
+        case ChatMessageTypes.COUPON:
             return '--coupon';
         default:
             return '';
