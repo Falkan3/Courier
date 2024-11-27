@@ -46,6 +46,7 @@
 #{variables.$classPrefix} {
 	font-family: "Noto Sans", sans-serif;
 	font-size: #{font-size.get-font-size-core("px")};
+	font-weight: normal;
 	color: #{palette.get-palette-hue("foreground", 1000)};
 	z-index: order.get-order("main");
 
