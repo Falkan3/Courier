@@ -81,7 +81,8 @@
 	// @include meta.load-css("core/elements/popup");
 
 	/* optional modules - root elements */
-	@import "core/modules/tooltip";
+	// @import "core/modules/tooltip";
+	@import "core/modules/icon";
 
 	/* antialias font */
 	-webkit-font-smoothing: antialiased;
