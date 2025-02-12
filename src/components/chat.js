@@ -136,9 +136,9 @@ export default function Construct(Courier, Components, Events) {
 
             const message = event.target.closest(`.${Courier.settings.classes.chat}-message`);
             if (!message) return event;
-            const discountCodeBtn = message.querySelector(`button.${Courier.settings.classes.chat}-discount-code-btn`);
-            if (event.target.isEqualNode(discountCodeBtn)
-                || (elemContains(discountCodeBtn, event.target))) {
+
+            const discountCodeBtn = event.target.closest(`button.${Courier.settings.classes.chat}-discount-code-btn`);
+            if (discountCodeBtn) {
                 const parentEl = message.querySelector(`.${Courier.settings.classes.chat}-discount-code`);
                 copyCouponCodeToClipboard(
                     Courier,
