@@ -1,6 +1,7 @@
 @use "../../../utils/variables";
 @use "../../../utils/mixins/media-query/media-query-width";
 @use "../../../utils/mixins/media-query/media-query-height";
+@use "colors";
 
 /*
  * Wall container
@@ -16,9 +17,9 @@
 	max-width: 100vw;
 	height: 800px;
 	max-height: 95%; // 95vh
-	border-top-right-radius: $wallBorderRadius;
-	border-top-left-radius: $wallBorderRadius;
-	background-color: $wallBgColor;
+	border-top-right-radius: colors.$wallBorderRadius;
+	border-top-left-radius: colors.$wallBorderRadius;
+	background-color: colors.$wallBgColor;
 	box-shadow: 0 3px 6px rgba(0, 0, 0, 0.12), 0 0 6px rgba(0, 0, 0, 0.18);
 	// overflow: auto;
 
@@ -31,8 +32,8 @@
 		bottom: 1em;
 		right: 1em;
 		max-height:  calc(100% - 2em); // 100vh
-		border-bottom-right-radius: $wallBorderRadius;
-		border-bottom-left-radius: $wallBorderRadius;
+		border-bottom-right-radius: colors.$wallBorderRadius;
+		border-bottom-left-radius: colors.$wallBorderRadius;
 
 		@include media-query-height.media-query-up(1000) {
 			max-height: 80%; // 80vh

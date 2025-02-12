@@ -1,7 +1,9 @@
+@use "sass:color";
 @use "../../../utils/mixins/order";
 @use "../../../utils/mixins/palette";
 @use "../../../utils/mixins/selectors";
-@use "sass:color";
+@use "../../../utils/mixins/display";
+@use "../popup/colors";
 
 // todo: use palette colors instead of implicit import
 
@@ -19,16 +21,16 @@
 
 	/* track */
 	&::-webkit-scrollbar-track {
-		background-color: $workAreaScrollbarTrackColor;
+		background-color: colors.$workAreaScrollbarTrackColor;
 	}
 
 	/* handle */
 	&::-webkit-scrollbar-thumb {
-		background-color: $workAreaScrollbarHandleColor;
+		background-color: colors.$workAreaScrollbarHandleColor;
 
 		/* handle on hover */
 		&:hover {
-			background-color: color.scale($workAreaScrollbarHandleColor, $lightness: -10%);
+			background-color: color.scale(colors.$workAreaScrollbarHandleColor, $lightness: -10%);
 		}
 	}
 
@@ -39,12 +41,12 @@
 	}
 
 	a {
-		color: $linkColor;
+		color: colors.$linkColor;
 		text-decoration: none;
 		transition: color cubic-bezier(0.1, 1, 0.6, 1) 0.3s;
 
 		&:hover {
-			color: color.scale($linkColor, $lightness: 30%);
+			color: color.scale(colors.$linkColor, $lightness: 30%);
 		}
 	}
 }
@@ -60,16 +62,16 @@
 
 	/* track */
 	&::-webkit-scrollbar-track {
-		background-color: $workAreaScrollbarTrackColor;
+		background-color: colors.$workAreaScrollbarTrackColor;
 	}
 
 	/* handle */
 	&::-webkit-scrollbar-thumb {
-		background-color: $workAreaScrollbarHandleColor;
+		background-color: colors.$workAreaScrollbarHandleColor;
 
 		/* handle on hover */
 		&:hover {
-			background-color: color.scale($workAreaScrollbarHandleColor, $lightness: -10%);
+			background-color: color.scale(colors.$workAreaScrollbarHandleColor, $lightness: -10%);
 		}
 	}
 
@@ -112,7 +114,7 @@
 			flex-direction: column;
 			height: 100%;
 			border-radius: 4px;
-			background-color: $contentCarouselPrimaryColor;
+			background-color: colors.$contentCarouselPrimaryColor;
 			box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.2);
 			overflow: hidden;
 		}
@@ -155,19 +157,15 @@
 
 			&-link {
 				display: block;
-				display: -webkit-box;
-				-webkit-line-clamp: 2;
-				-webkit-box-orient: vertical;
-				overflow: hidden;
-				text-overflow: ellipsis;
+				@include display.text-truncate(2);
 
 				@at-root {
 					#{selectors.parent-fn(&)} a#{selectors.bottom-most-fn(&)} {
-						color: inherit; // $linkColor;
+						color: inherit; // colors.$linkColor;
 						transition: color cubic-bezier(0.1, 1, 0.6, 1) 0.3s;
 
 						&:hover {
-							color: color.scale($linkColor, $lightness: 5%);
+							color: color.scale(colors.$linkColor, $lightness: 5%);
 						}
 					}
 				}
@@ -254,7 +252,7 @@
 
 		&-footer {
 			padding: 0.5em;
-			border-top: solid 1px color.scale($contentCarouselPrimaryColor, $lightness: -10%);
+			border-top: solid 1px color.scale(colors.$contentCarouselPrimaryColor, $lightness: -10%);
 			font-size: 0.9em;
 			text-align: center;
 		}
@@ -312,7 +310,7 @@
 			// border-right: none;
 			border-top-left-radius: 4px;
 			border-bottom-left-radius: 4px;
-			background-color: $discountCodeBtnBgColor;
+			background-color: colors.$discountCodeBtnBgColor;
 		}
 
 		&-icon {
@@ -326,15 +324,15 @@
 			border-left: none;
 			border-top-right-radius: 4px;
 			border-bottom-right-radius: 4px;
-			background-color: $btnBgColor;
-			color: color.mix($fontColor, $btnBgColor, 90%);
+			background-color: colors.$btnBgColor;
+			color: color.mix(colors.$fontColor, colors.$btnBgColor, 90%);
 			transition: background-color cubic-bezier(0.1, 1, 0.6, 1) 0.3s, color cubic-bezier(0.1, 1, 0.6, 1) 0.3s;
 
 			//&#{selectors.bottom-most-fn(&)}--link {
-			//	background-color: $btnColor;
+			//	background-color: colors.$btnColor;
 			//
 			//	& > svg {
-			//		fill: color.mix($btnColor, #fefefe, 5%);
+			//		fill: color.mix(colors.$btnColor, #fefefe, 5%);
 			//	}
 			//}
 
@@ -342,11 +340,11 @@
 				#{$discountCode}-btn {
 					&:hover, &:focus-visible {
 						#{selectors.bottom-most-fn($icon)} {
-							background-color: $btnColor;
+							background-color: colors.$btnColor;
 							color: #fff;
 
 							//&#{selectors.bottom-most-fn($icon)}#{selectors.bottom-most-fn($icon)}--link {
-							//	background-color: color.scale($btnColor, $lightness: 10%);
+							//	background-color: color.scale(colors.$btnColor, $lightness: 10%);
 							//}
 						}
 					}
@@ -373,7 +371,7 @@
 			& > svg {
 				width: 1em;
 				height: 1em;
-				fill: currentcolor; // color.mix($btnColor, #fefefe, 5%);
+				fill: currentcolor; // color.mix(colors.$btnColor, #fefefe, 5%);
 			}
 		}
 
@@ -383,9 +381,9 @@
 			left: 50%;
 			padding: 4px 0.5em;
 			border-radius: 4px;
-			background-color: $btnColor;
+			background-color: colors.$btnColor;
 			font-size: 0.9em;
-			color: color.mix($btnColor, #fefefe, 5%);
+			color: color.mix(colors.$btnColor, #fefefe, 5%);
 			white-space: nowrap;
 			box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.2);
 			transform: translateX(-50%);

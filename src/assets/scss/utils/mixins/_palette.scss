@@ -1,5 +1,5 @@
-@use "../variables";
 @use "sass:map";
+@use "../variables";
 
 @function get-palette-hue-indexes($category) {
 	$selectedCategory: map.get(variables.$palette, $category);

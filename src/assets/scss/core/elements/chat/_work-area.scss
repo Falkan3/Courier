@@ -1,10 +1,15 @@
+@use "sass:color";
+@use "sass:selector";
 @use "../../../utils/mixins/order";
 @use "../../../utils/mixins/palette";
 @use "../../../utils/mixins/selectors";
 @use "../../../utils/mixins/media-query/media-query-width";
 @use "../../../utils/mixins/scrollbar";
 @use "../../../utils/mixins/shadows";
-@use "sass:color";
+@use "../../../utils/mixins/display";
+@use "colors";
+@use "components/scroll-down-btn";
+@use "components/discount-code";
 
 // todo: use palette colors instead of implicit import
 
@@ -18,7 +23,7 @@
 	flex-direction: column;
 	// height: 100%;
 	min-height: 0;
-	background-color: $workAreaBgColor;
+	background-color: colors.$workAreaBgColor;
 	transition: opacity cubic-bezier(0.1, 1, 0.6, 1) 0.3s;
 
 	&.dimmed {
@@ -59,7 +64,7 @@
 	overscroll-behavior: contain;
 
 	@include shadows.shadow-bottom;
-	@include scrollbar.scrollbar($workAreaScrollbarTrackColor, $workAreaScrollbarHandleColor);
+	@include scrollbar.scrollbar(colors.$workAreaScrollbarTrackColor, colors.$workAreaScrollbarHandleColor);
 
 	// IOS disappearing scrollable element fix
 	@supports (-webkit-overflow-scrolling: touch) {
@@ -76,7 +81,7 @@
 	max-height: 100%;
 	padding: 1em 2em 0 2em;
 	border-radius: 16px;
-	background-color: $wallBgColor;
+	background-color: colors.$wallBgColor;
 	box-shadow: 0 0 16px 4px rgba(0, 0, 0, 0.2);
 
 	@include media-query-width.m-small-devices {
@@ -96,17 +101,17 @@
 		overscroll-behavior: contain;
 
 		@include shadows.scroll-shadows;
-		@include scrollbar.scrollbar($workAreaScrollbarTrackColor, $workAreaScrollbarHandleColor);
+		@include scrollbar.scrollbar(colors.$workAreaScrollbarTrackColor, colors.$workAreaScrollbarHandleColor);
 
 		a, button {
-			color: $linkColor;
+			color: colors.$linkColor;
 			text-decoration: none;
 			cursor: pointer;
 			transition: color cubic-bezier(0.1, 1, 0.6, 1) 0.3s;
 
 			&:hover,
 			&:focus-visible {
-				color: color.scale($linkColor, $lightness: 10%);
+				color: color.scale(colors.$linkColor, $lightness: 10%);
 			}
 		}
 
@@ -128,14 +133,14 @@
 		button {
 			padding: 0.5em 1em;
 			border-radius: 34px;
-			background-color: $btnColor;
-			color: $messageTopicActiveFontColor;
+			background-color: colors.$btnColor;
+			color: colors.$messageTopicActiveFontColor;
 			cursor: pointer;
 			transition: background-color cubic-bezier(0.1, 1, 0.6, 1) 0.3s;
 
 			&:hover,
 			&:focus-visible {
-				background-color: $btnColorActive;
+				background-color: colors.$btnColorActive;
 			}
 		}
 	}
@@ -151,12 +156,14 @@
 	gap: 1em;
 	margin-bottom: 1em;
 
-	@at-root #{selector-unify(&, #{selectors.bottom-most-fn(&)}--text)} {
+	@at-root #{selector.unify(&, #{selectors.bottom-most-fn(&)}--text)} {
 		max-width: 90%;
 	}
 
 	&-content {
 		$messageContent: #{selectors.bottom-most-fn(&)};
+
+		flex: 1 0 0;
 
 		@at-root {
 			#{$message} {
@@ -167,17 +174,17 @@
 					#{$messageContent} {
 						padding: 0.5em 1em;
 						border-radius: 0 12px 12px 12px;
-						background-color: $messageBgColorIncoming;
+						background-color: colors.$messageBgColorIncoming;
 					}
 
 					// outgoing messages (self modifier) styles
-					@at-root #{selector-unify(selectors.bottom-most-fn(&), #{selectors.bottom-most-fn(#{$message}--self)})} {
+					@at-root #{selector.unify(selectors.bottom-most-fn(&), #{selectors.bottom-most-fn(#{$message}--self)})} {
 						align-self: flex-end;
 						margin-left: auto;
 						margin-right: unset;
 
 						#{$messageContent} {
-							background-color: $messageBgColorOutgoing;
+							background-color: colors.$messageBgColorOutgoing;
 							border-radius: 12px 12px 0;
 						}
 					}
@@ -198,6 +205,8 @@
 	}
 
 	&-img {
+		flex: 0 0 auto;
+
 		& > img, & > svg {
 			display: block;
 			width: 1.5em;
@@ -210,12 +219,12 @@
 	}
 
 	a {
-		color: $linkColor;
+		color: colors.$linkColor;
 		text-decoration: none;
 		transition: color cubic-bezier(0.1, 1, 0.6, 1) 0.3s;
 
 		&:hover {
-			color: color.scale($linkColor, $lightness: 30%);
+			color: color.scale(colors.$linkColor, $lightness: 30%);
 		}
 	}
 }
@@ -278,16 +287,16 @@
 	flex: 0 0 auto;
 	margin: 4px;
 	padding: 0.8em 1em;
-	border: solid 2px $messageTopicSecondaryColor;
+	border: solid 2px colors.$messageTopicSecondaryColor;
 	border-radius: 7px;
-	background-color: $messageTopicPrimaryColor;
-	color: $messageTopicFontColor;
+	background-color: colors.$messageTopicPrimaryColor;
+	color: colors.$messageTopicFontColor;
 	transition: background-color cubic-bezier(0.1, 1, 0.6, 1) 0.3s, color cubic-bezier(0.1, 1, 0.6, 1) 0.2s;
 
 	&:not(#{selectors.bottom-most-fn(&)}--active):disabled {
-		border-color: $messageTopicDisabledBgColor;
-		background-color: $messageTopicDisabledBgColor;
-		color: $messageTopicDisabledFontColor;
+		border-color: colors.$messageTopicDisabledBgColor;
+		background-color: colors.$messageTopicDisabledBgColor;
+		color: colors.$messageTopicDisabledFontColor;
 	}
 
 	&:hover:enabled {
@@ -297,9 +306,9 @@
 	&:hover:enabled,
 	&:focus:enabled,
 	&--active {
-		border-color: $messageTopicSecondaryColor;
-		background-color: $messageTopicSecondaryColor;
-		color: $messageTopicActiveFontColor;
+		border-color: colors.$messageTopicSecondaryColor;
+		background-color: colors.$messageTopicSecondaryColor;
+		color: colors.$messageTopicActiveFontColor;
 	}
 
 	&--full-w {
@@ -318,16 +327,16 @@
 
 	/* track */
 	&::-webkit-scrollbar-track {
-		background-color: $workAreaScrollbarTrackColor;
+		background-color: colors.$workAreaScrollbarTrackColor;
 	}
 
 	/* handle */
 	&::-webkit-scrollbar-thumb {
-		background-color: $workAreaScrollbarHandleColor;
+		background-color: colors.$workAreaScrollbarHandleColor;
 
 		/* handle on hover */
 		&:hover {
-			background-color: color.scale($workAreaScrollbarHandleColor, $lightness: -10%);
+			background-color: color.scale(colors.$workAreaScrollbarHandleColor, $lightness: -10%);
 		}
 	}
 
@@ -370,7 +379,7 @@
 			flex-direction: column;
 			height: 100%;
 			border-radius: 4px;
-			background-color: $messageCarouselPrimaryColor;
+			background-color: colors.$messageCarouselPrimaryColor;
 			box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.2);
 			overflow: hidden;
 		}
@@ -413,19 +422,15 @@
 
 			&-link {
 				display: block;
-				display: -webkit-box;
-				-webkit-line-clamp: 2;
-				-webkit-box-orient: vertical;
-				overflow: hidden;
-				text-overflow: ellipsis;
+				@include display.text-truncate(2);
 
 				@at-root {
 					#{selectors.parent-fn(&)} a#{selectors.bottom-most-fn(&)} {
-						color: inherit; // $linkColor;
+						color: inherit; // colors.$linkColor;
 						transition: color cubic-bezier(0.1, 1, 0.6, 1) 0.3s;
 
 						&:hover {
-							color: color.scale($linkColor, $lightness: 5%);
+							color: color.scale(colors.$linkColor, $lightness: 5%);
 						}
 					}
 				}
@@ -512,7 +517,7 @@
 
 		&-footer {
 			padding: 0.5em;
-			border-top: solid 1px color.scale($messageCarouselPrimaryColor, $lightness: -10%);
+			border-top: solid 1px color.scale(colors.$messageCarouselPrimaryColor, $lightness: -10%);
 			font-size: 0.9em;
 			text-align: center;
 		}
@@ -533,162 +538,11 @@
 }
 
 &-discount {
-	&-code {
-		$discountCode: &;
+	@include discount-code.discount-code;
+}
 
-		flex: 1 0 auto;
-		position: relative;
-		padding: 0 1em 0.5em;
-		text-align: center;
-
-		&--inline {
-			display: inline-block;
-			padding: 4px;
-
-			@at-root & #{selectors.bottom-most-fn($discountCode)}-value {
-				border: none;
-				background-color: #fefefe;
-			}
-		}
-
-		&-btn {
-			display: inline-block;
-			padding: 0;
-			color: inherit;
-			cursor: pointer;
-
-			&-container {
-				display: flex;
-				flex-wrap: wrap;
-			}
-		}
-
-		&-value {
-			flex: 1 0 auto;
-			display: block;
-			padding: 0.5em;
-			// border: solid 2px #f2f2f2;
-			// border-right: none;
-			border-top-left-radius: 4px;
-			border-bottom-left-radius: 4px;
-			background-color: $discountCodeBtnBgColor;
-		}
-
-		&-icon {
-			$icon: &;
-
-			display: flex;
-			flex: 1 0 auto;
-			justify-content: center;
-			align-items: center;
-			padding: 4px 0.5em;
-			border-left: none;
-			border-top-right-radius: 4px;
-			border-bottom-right-radius: 4px;
-			background-color: $messageBgColorOutgoing;
-			color: color.mix($fontColor, $messageBgColorOutgoing, 90%);
-			transition: background-color cubic-bezier(0.1, 1, 0.6, 1) 0.3s, color cubic-bezier(0.1, 1, 0.6, 1) 0.3s;
-
-			//&#{selectors.bottom-most-fn(&)}--link {
-			//	background-color: $btnColor;
-			//
-			//	& > svg {
-			//		fill: color.mix($btnColor, #fefefe, 5%);
-			//	}
-			//}
-
-			@at-root {
-				#{$discountCode}-btn {
-					&:hover, &:focus-visible {
-						#{selectors.bottom-most-fn($icon)} {
-							background-color: $btnColor;
-							color: #fff;
-
-							//&#{selectors.bottom-most-fn($icon)}#{selectors.bottom-most-fn($icon)}--link {
-							//	background-color: color.scale($btnColor, $lightness: 10%);
-							//}
-						}
-					}
-				}
-			}
-
-			&-text {
-				margin-left: 0.5em;
-				font-size: 0.8em;
-				color: currentcolor;
-
-				@at-root {
-					#{$discountCode}-btn {
-						&:hover, &:focus-visible {
-							#{selectors.bottom-most-fn(&)} {
-								border: none;
-								background-color: #fefefe;
-							}
-						}
-					}
-				}
-			}
-
-			& > svg {
-				width: 1em;
-				height: 1em;
-				fill: currentcolor; // color.mix($btnColor, #fefefe, 5%);
-			}
-		}
-
-		&-copy-msg {
-			position: absolute;
-			bottom: calc(100% + 0.5em);
-			left: 50%;
-			padding: 4px 0.5em;
-			border-radius: 4px;
-			background-color: $btnColor;
-			font-size: 0.9em;
-			color: color.mix($btnColor, #fefefe, 5%);
-			white-space: nowrap;
-			box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.2);
-			transform: translateX(-50%);
-			z-index: order.get-order("front");
-
-			&:not(.active) {
-				display: none;
-			}
-		}
-	}
 }
 
 &-scroll-down-btn {
-	display: block;
-	padding: 0.6em;
-	// border: solid 2px $btnColor;
-	border-radius: 50%;
-	background-color: $btnColor; // #fff
-	color: #fff; // $btnColor
-	cursor: pointer;
-	box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.2);;
-	transition: background-color cubic-bezier(0.1, 1, 0.6, 1) 0.3s, color cubic-bezier(0.1, 1, 0.6, 1) 0.3s;
-
-	@include media-query-width.m-small-devices {
-		padding: 0.8em;
-	}
-
-	&:hover,
-	&:focus-visible {
-		background-color: color.scale($btnColor, $lightness: 5%);
-		// color: #fff;
-	}
-
-	&:not(.active) {
-		display: none;
-	}
-
-	& > svg {
-		display: block;
-		width: 1em;
-		height: 1em;
-
-		& > path {
-			stroke: currentColor;
-		}
-	}
+	@include scroll-down-btn.scroll-down-btn;
 }

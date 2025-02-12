@@ -77,9 +77,11 @@
 	// @import "../core/modules/tooltip";
 
 	/* antialias font */
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
-	text-rendering: optimizelegibility;
+	& {
+		-webkit-font-smoothing: antialiased;
+		-moz-osx-font-smoothing: grayscale;
+		text-rendering: optimizelegibility;
+	}
 
 	/* modifiers */
 	// @import 'core/modifiers';

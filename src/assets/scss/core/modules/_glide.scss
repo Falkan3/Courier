@@ -2,6 +2,7 @@
 @use "../../utils/mixins/palette";
 @use "../../utils/mixins/media-query/media-query-width";
 @use "../../utils/mixins/selectors";
+@use "../elements/chat/colors";
 
 @import "../../../../libs/glidejs/css/glide.core.min"; // glide for carousel
 
@@ -77,11 +78,11 @@
 
 				@at-root {
 					#{$arrow}:hover > svg > path {
-						fill: color.mix($btnColorActive, #212121, 25%);
+						fill: color.mix(colors.$btnColorActive, #212121, 25%);
 					}
 
 					#{$arrow}:focus > svg > path {
-						fill: $btnColorActive;
+						fill: colors.$btnColorActive;
 					}
 				}
 			}
@@ -109,15 +110,15 @@
 
 		&:hover,
 		&:focus {
-			background-color: color.scale($btnColorActive, $lightness: 50%);
+			background-color: color.scale(colors.$btnColorActive, $lightness: 50%);
 		}
 
 		&--active {
-			background-color: $btnColor;
+			background-color: colors.$btnColor;
 
 			&:hover,
 			&:focus {
-				background-color: $btnColorActive;
+				background-color: colors.$btnColorActive;
 			}
 		}
 	}

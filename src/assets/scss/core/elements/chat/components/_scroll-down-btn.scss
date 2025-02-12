@@ -1,0 +1,39 @@
+@use 'sass:color';
+@use "../../../../utils/mixins/media-query/media-query-width";
+@use "../colors";
+
+@mixin scroll-down-btn() {
+	display: block;
+	padding: 0.6em;
+	// border: solid 2px $btnColor;
+	border-radius: 50%;
+	background-color: colors.$btnColor; // #fff
+	color: #fff; // $btnColor
+	cursor: pointer;
+	box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.2);
+	transition: background-color cubic-bezier(0.1, 1, 0.6, 1) 0.3s, color cubic-bezier(0.1, 1, 0.6, 1) 0.3s;
+
+	@include media-query-width.m-small-devices {
+		padding: 0.8em;
+	}
+
+	&:hover,
+	&:focus-visible {
+		background-color: color.scale(colors.$btnColor, $lightness: 5%);
+		// color: #fff;
+	}
+
+	&:not(.active) {
+		display: none;
+	}
+
+	& > svg {
+		display: block;
+		width: 1em;
+		height: 1em;
+
+		& > path {
+			stroke: currentColor;
+		}
+	}
+}

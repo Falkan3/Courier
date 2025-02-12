@@ -1,12 +1,12 @@
 @charset "utf-8";
 
+@use "sass:meta";
 @use "../utils/variables";
 @use "../utils/mixins/order";
 @use "../utils/mixins/media-query/media-query-width";
 @use "../utils/mixins/font-size";
 @use "../utils/mixins/palette";
 @use "../libs/decimal-round";
-@use "sass:meta";
 
 @import "../utils/animations";
 
@@ -80,9 +80,11 @@
 	@import "../core/modules/icon";
 
 	/* antialias font */
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
-	text-rendering: optimizelegibility;
+	& {
+		-webkit-font-smoothing: antialiased;
+		-moz-osx-font-smoothing: grayscale;
+		text-rendering: optimizelegibility;
+	}
 
 	/* modifiers */
 	// @import 'core/modifiers';

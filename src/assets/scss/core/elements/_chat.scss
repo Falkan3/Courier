@@ -1,48 +1,5 @@
 @use "../../utils/variables";
-@use "../../utils/mixins/palette";
 @use "../../utils/mixins/order";
-@use "sass:meta";
-@use "sass:color";
-
-// todo: move the colors to the palette file
-
-$fontColor: palette.get-palette-hue("foreground", 1000);
-$linkColor: palette.get-palette-hue("accent-1", 500);
-$btnAltBgColor: #ddf0ff;
-
-// $sendMsgBtnColor1: #2196f3;
-// $sendMsgBtnColor2: #64b5f6;
-// $closeBtnColor: #64b5f6; // #f44336;
-// $optionsBtnColor: #64b5f6; // #000;
-
-// buttons
-$btnColor: palette.get-palette-hue("accent-1", 500);
-$btnColorInactive: #d2d2d2;
-$btnColorActive: palette.get-palette-hue("accent-1", 100);
-
-// work area
-$wallBgColor: #fff;
-$wallBorderRadius: 16px;
-$workAreaBgColor: #fbfbfb;
-$workAreaScrollbarTrackColor: #e6e6e6;
-$workAreaScrollbarHandleColor: #b3b3b3;
-$workAreaDrawerHandleColor: $btnAltBgColor;
-
-// messages
-$messageBgColorIncoming: #e6e6e6;
-$messageBgColorOutgoing: $btnAltBgColor;
-$messageTopicPrimaryColor: $btnAltBgColor;
-$messageTopicSecondaryColor: $btnColorActive;
-$messageTopicDisabledBgColor: palette.get-palette-hue("interface", 200);
-$messageTopicDisabledFontColor: palette.get-palette-hue("interface", 500);
-$messageTopicFontColor: color.mix(palette.get-palette-hue("foreground", 1000), palette.get-palette-hue("accent-1", 100), 80%);
-$messageTopicActiveFontColor: #fff;
-$messageCarouselPrimaryColor: #fff;
-
-// interactions
-$sendMessageBoxBgColor: #f2f3f8;
-$sendMessageBoxBgColorDisabled: #f1f1f1;
-$discountCodeBtnBgColor: #f2f3f8;
 
 #{variables.$classPrefix}__chat {
 	position: fixed;
