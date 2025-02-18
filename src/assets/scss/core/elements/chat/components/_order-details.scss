@@ -1,0 +1,153 @@
+@use "../../../../utils/mixins/selectors";
+@use "../../../../utils/mixins/display";
+@use "../../chat/colors";
+
+@mixin order-details {
+	$root: &;
+	$rootB: selectors.bottom-most-fn(&);
+
+	padding: 1em;
+
+	&-title {
+		font-size: 1.2em;
+		font-weight: 500;
+	}
+
+	&-chart {
+		position: relative;
+		margin-top: 2em;
+		margin-bottom: 2em;
+
+		&::before {
+			content: "";
+			position: absolute;
+			top: 10px;
+			bottom: 10px;
+			left: 10px;
+			display: block;
+			width: 4px;
+			background-color: #bdd8f0;
+		}
+
+		&-item {
+			$chartItem: &;
+			$chartItemB: selectors.bottom-most-fn(&);
+
+			position: relative;
+
+			&:not(:last-child) {
+				padding-bottom: 2em;
+			}
+
+			// line connecting current and next item
+			&:not(:last-child) {
+				&::before {
+					content: "";
+					position: absolute;
+					top: 10px;
+					left: 10px;
+					bottom: -10px;
+					width: 4px;
+					background-color: transparent;
+					z-index: 2;
+				}
+			}
+
+			// line circle
+			&::after {
+				content: "";
+				position: absolute;
+				left: 2px;
+				top: calc((1.5em - 20px) / 2);
+				width: 20px;
+				height: 20px;
+				border: solid 2px #bdd8f0;
+				border-radius: 50%;
+				background-color: #fff;
+				z-index: 3;
+			}
+
+			&#{$chartItemB}--complete {
+				// change the background color of chart line and circle
+				&::before, &::after {
+					background-color: #0085fe;
+				}
+
+				// change the border color of line circle
+				&::after {
+					border-color: #0085fe;
+				}
+			}
+
+			&#{$chartItemB}--active {
+				// show circle center dot
+				&::before {
+					content: "";
+					position: absolute;
+					top: 11px;
+					left: 9px;
+					width: 6px;
+					height: 6px;
+					border-radius: 50%;
+					background-color: #0085fe;
+					transform: translateY(-50%);
+					z-index: 4;
+				}
+
+				// change the border color of line circle
+				&::after {
+					border-color: #0085fe;
+				}
+			}
+
+			&-title {
+				padding-left: calc(2.5em + 4px);
+				font-size: 1.1em;
+				font-weight: 500;
+				line-height: 1.5;
+			}
+		}
+	}
+
+	&-products {
+		margin-top: 2em;
+		margin-bottom: 2em;
+
+		&-item {
+			display: flex;
+			align-items: center;
+			gap: 1em;
+
+			&:not(:first-child) {
+				margin-top: 1em;
+				padding-top: 1em;
+				border-top: solid 1px #d2d2d2;
+			}
+
+			&-img {
+				display: block;
+				width: 100%;
+				height: 100%;
+				border-radius: 10px;
+				object-fit: cover;
+
+				&-wrapper {
+					flex: 0 0 auto;
+					width: 5em;
+					height: 5em;
+				}
+			}
+
+			&-title {
+				flex: 1 1 auto;
+				font-weight: 500;
+				@include display.text-truncate(2);
+			}
+
+			&-quantity {
+				flex: 0 0 auto;
+				color: #4e4e4e;
+			}
+		}
+	}
+}

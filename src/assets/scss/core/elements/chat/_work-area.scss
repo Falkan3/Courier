@@ -10,6 +10,7 @@
 @use "colors";
 @use "components/products";
 @use "components/discount-code";
+@use "components/order-details";
 @use "components/scroll-down-btn";
 
 // todo: use palette colors instead of implicit import
@@ -545,6 +546,9 @@
 &-products {
 	@include products.products;
 }
+
+&-order-details {
+	@include order-details.order-details;
 }
 
 &-scroll-down-btn {
