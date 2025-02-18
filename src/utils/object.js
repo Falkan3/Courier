@@ -168,9 +168,44 @@ export function parseSpecialTags(text, settings, props) {
                 </span>
             </button>
         </span>`],
+        [/%%productList%([\s\S]*)%%/g, `
+        <span class="${settings.classes.chat}-products">
+            <ul class="${settings.classes.chat}-products-list">
+                $1
+            </ul>
+        </span>`],
+        [/%%productListItem%([\s\S]*?)%%/g, `
+        <li class="${settings.classes.chat}-products-list-item">
+            <a class="${settings.classes.chat}-products-link" href="$var4" rel="nofollow noreferrer">
+                <span class="${settings.classes.chat}-products-img-wrapper"><img class="${settings.classes.chat}-products-img" src="$var5" width="64" height="64" alt="" /></span>
+                <span class="${settings.classes.chat}-products-content">
+                    <span class="${settings.classes.chat}-products-title">$var1</span>
+                    <span class="${settings.classes.chat}-products-description">$var2</span>
+                    <span class="${settings.classes.chat}-products-price">$var3</span>
+                </span>
+             </a>
+        </li>`, { nested: true }],
     ];
+    /* eslint-enable max-len */
     let output = text;
-    rules.forEach(([rule, template]) => {
+    rules.forEach(([rule, template, options]) => {
+        // additional variable parsing
+        if (options && (options.nested ?? false) === true) {
+            output = output.replace(rule, (match, capture) => {
+                if (options && (options.nested ?? false) === true) {
+                    let part = template;
+                    const variables = capture.split(',');
+                    for (let i = 0; i < variables.length; i++) {
+                        part = part.replace(`$var${i + 1}`, decodeURIComponent(variables[i]));
+                    }
+                    return part;
+                }
+                return template;
+            });
+
+            return;
+        }
+        // replace tag with template
         output = output.replace(rule, template);
     });
     return output;

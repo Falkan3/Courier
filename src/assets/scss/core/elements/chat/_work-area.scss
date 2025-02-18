@@ -8,8 +8,9 @@
 @use "../../../utils/mixins/shadows";
 @use "../../../utils/mixins/display";
 @use "colors";
-@use "components/scroll-down-btn";
+@use "components/products";
 @use "components/discount-code";
+@use "components/scroll-down-btn";
 
 // todo: use palette colors instead of implicit import
 
@@ -541,6 +542,9 @@
 	@include discount-code.discount-code;
 }
 
+&-products {
+	@include products.products;
+}
 }
 
 &-scroll-down-btn {
