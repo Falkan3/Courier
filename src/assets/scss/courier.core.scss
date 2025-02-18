@@ -58,12 +58,6 @@
 		font-size: 15px; // 16px // #{decimal-round.decimal-floor(font-size.get-font-size-core-raw("px") * 0.8) + "px"};
 	}
 
-	*,
-	*::after,
-	*::before {
-		box-sizing: border-box;
-	}
-
 	/* -----------------------------------
 	 *  Components
 	 * ----------------------------------- */
