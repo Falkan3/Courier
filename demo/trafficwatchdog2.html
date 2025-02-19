@@ -10,6 +10,8 @@
 
 	<!-- Assets -->
     <!-- CSS added in shadow DOM -->
+    <!-- External fonts must be loaded both in light DOM in order to work inside the shadow DOM -->
+    <link rel="stylesheet" href="//fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500&amp;display=swap" type="text/css">
     <!--<link rel="stylesheet" href="../dist/css/modules/courier.chat.css">-->
 	<!--<link rel="stylesheet" href="../dist/css/courier.theme.css">-->
 	<script src="../dist/js/chat/courier.js"></script>
@@ -60,7 +62,8 @@
         // load all CSS before injecting into shadow root
         const links              = [
             { name: 'main CSS', href: '../dist/css/modules/courier.chat.css' },
-            { name: 'theme CSS', href: '../dist/css/courier.theme.css' }
+            { name: 'theme CSS', href: '../dist/css/courier.theme.css' },
+            // { name: 'fonts', href: 'https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500&display=swap' } // external fonts can't be loaded inside shadow DOM on Chromium
         ];
         const styleSheetPromises = [];
         const linkEls            = [];
