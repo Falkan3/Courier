@@ -152,6 +152,7 @@ links.forEach((obj) => {
         const link = document.createElement('link');
         link.setAttribute('rel', obj.rel ?? 'stylesheet');
         link.setAttribute('href', obj.href);
+        link.setAttribute('type', obj.type ?? 'text/css');
         // resolve the promise when the stylesheet is loaded
         link.addEventListener('load', resolve);
         linkEls.push(link);
