@@ -6,11 +6,17 @@
 	$root: &;
 	$rootB: selectors.bottom-most-fn(&);
 
-	padding: 1em;
+	padding: 1em 1em 2em;
 
 	&-title {
 		font-size: 1.2em;
 		font-weight: 500;
+	}
+
+	&-order-status {
+		margin-top: 1em;
+		font-size: 1.1em;
+		color: #292929;
 	}
 
 	&-chart {
@@ -119,8 +125,8 @@
 			gap: 1em;
 
 			&:not(:first-child) {
-				margin-top: 1em;
-				padding-top: 1em;
+				margin-top: 0.5em;
+				padding-top: 0.5em;
 				border-top: solid 1px #d2d2d2;
 			}
 
@@ -133,8 +139,8 @@
 
 				&-wrapper {
 					flex: 0 0 auto;
-					width: 5em;
-					height: 5em;
+					width: 4em;
+					height: 4em;
 				}
 			}
 
@@ -147,6 +153,34 @@
 			&-quantity {
 				flex: 0 0 auto;
 				color: #4e4e4e;
+			}
+		}
+	}
+
+	&-total {
+		&-text {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			gap: 1em;
+			font-size: 1.1em;
+			font-weight: 600;
+		}
+	}
+
+	&-shipping-details {
+		margin-top: 1em;
+
+		&-label {
+			font-size: 1.1em;
+			font-weight: 500;
+		}
+
+		&-data {
+			margin-top: 0.5em;
+
+			&-line {
+				display: block;
 			}
 		}
 	}

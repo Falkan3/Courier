@@ -65,6 +65,15 @@ export default {
         typing: 'User is typing...',
         sendMessage: 'Send message',
         goToProduct: 'Go to product',
+        order: 'Order',
+        orderProcessing: 'Processing',
+        orderPacked: 'Packed',
+        orderInTransit: 'In transit',
+        orderDelivered: 'Delivered',
+        orderTrackingNumber: 'Tracking',
+        totalPrice: 'Total',
+        shippingDetails: 'Shipping details',
+        tracking: 'Tracking',
         drawerInfo: {
             heading: 'AI chat bot legal note',
             content: `

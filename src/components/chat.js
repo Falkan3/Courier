@@ -527,6 +527,8 @@ export default function Construct(Courier, Components, Events) {
                                     </button>
                                 </div>
                             </div>`;
+                    } else if (message.type === 'orderDetails') {
+                        html += `<div class="${Courier.settings.classes.chat}-message ${message.typeClassSuffix ? `${Courier.settings.classes.chat}-message${message.typeClassSuffix}` : ''}" data-template="orderDetails" data-courier-message-id="${index}" reef-ignore key="msg_${index}"></div>`;
                     } else {
                         const messageImg = message.outgoing !== true
                         && message.type !== ChatMessageTypes.SYSTEM

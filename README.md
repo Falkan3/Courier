@@ -658,6 +658,7 @@ import Chat from '../src/components/chat';
 /* Chat */
 import ChatTriggersModule from '../src/components/modules/chat-triggers';
 import ChatCarouselModule from '../src/components/modules/chat-carousel';
+import ChatOrderDetailsModule from '../src/components/modules/chat-order-details';
 /* Popup */
 // import PopupCarouselModule from '../src/components/modules/popup-carousel';
 

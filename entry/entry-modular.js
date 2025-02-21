@@ -9,6 +9,7 @@ import Popup from '../src/components/popup';
 import ChatTriggersModule from '../src/components/modules/chat-triggers';
 import ChatCarouselModule from '../src/components/modules/chat-carousel';
 import ChatTypingModule from '../src/components/modules/chat-typing';
+import ChatOrderDetailsModule from '../src/components/modules/chat-order-details';
 /* Popup */
 import PopupCarouselModule from '../src/components/modules/popup-carousel';
 /* General */
@@ -27,6 +28,7 @@ export {
     ChatTriggersModule,
     ChatCarouselModule,
     ChatTypingModule,
+    ChatOrderDetailsModule,
     /* Popup */
     PopupCarouselModule,
     /* General */

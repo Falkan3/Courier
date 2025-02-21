@@ -5,7 +5,8 @@ export const ChatMessageTypes = Object.freeze({
     SYSTEM: 'system',
     TEXT: 'text',
     CAROUSEL: 'carousel',
-    COUPON: 'coupon'
+    COUPON: 'coupon',
+    ORDER_DETAILS: 'orderDetails'
 });
 
 export default class ChatMessage {
@@ -43,8 +44,12 @@ export default class ChatMessage {
             ? settings.type
             : ChatMessageTypes.TEXT;
         this.timestamp = settings.timestamp;
+        // set special message properties
         if (settings.carousel) {
             this.carousel = settings.carousel;
+        }
+        if (settings.orderDetails) {
+            this.orderDetails = settings.orderDetails;
         }
         this.computeProperties();
     }
@@ -64,6 +69,8 @@ export default class ChatMessage {
             return '--carousel';
         case ChatMessageTypes.COUPON:
             return '--coupon';
+        case ChatMessageTypes.ORDER_DETAILS:
+            return '--order-details';
         default:
             return '';
         }

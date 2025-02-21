@@ -7,6 +7,7 @@ import Chat from '../src/components/chat';
 /* Modules */
 import ChatTriggersModule from '../src/components/modules/chat-triggers';
 import ChatCarouselModule from '../src/components/modules/chat-carousel';
+import ChatOrderDetailsModule from '../src/components/modules/chat-order-details';
 /* General */
 // import TooltipsModule from '../src/components/modules/tooltips';
 
@@ -17,6 +18,7 @@ const COMPONENTS = {
     /* Modules */
     ChatTriggersModule,
     ChatCarouselModule,
+    ChatOrderDetailsModule,
     // TooltipsModule,
 };
 

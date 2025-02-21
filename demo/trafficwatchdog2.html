@@ -131,6 +131,14 @@
                     clipboardButton: 'Kopiuj',
                     clipboardTooltip: 'Kliknij, by skopiować',
                     clipboardCopy: 'Kod rabatowy skopiowany',
+                    order: 'Zamówienie',
+                    orderProcessing: 'Płatność',
+                    orderPacked: 'Pakowanie',
+                    orderInTransit: 'Dostawa',
+                    orderDelivered: 'Dostarczone',
+                    orderTrackingNumber: 'Numer paczki',
+                    totalPrice: 'Cena całkowita',
+                    shippingDetails: 'Szczegóły dostawy',
                     drawerInfo: {
                         heading: 'Informacja dotycząca AI',
                         content: `
@@ -172,6 +180,61 @@
                         },
                         {
                             text: 'Sprawdź poniższe rekomendacje produktów: %%productList%%%productListItem%iPhone 16,iPhone 16 ma trwałą obudowę z aluminium klasy lotniczej oraz mocne – i piękne – barwione szkło z tyłu,1499 zł,https://google.com,https://prod-api.mediaexpert.pl/api/images/gallery_500_500/thumbnails/images/69/6960876/iPhone_16_Pro_Black_Titanium_PDP_Image_Position_1__pl-PL.jpg%%%%productListItem%iPhone 16,iPhone 16 ma trwałą obudowę z aluminium klasy lotniczej oraz mocne – i piękne – barwione szkło z tyłu,1899 zł,https://google.com,https://prod-api.mediaexpert.pl/api/images/gallery_500_500/thumbnails/images/69/6960876/iPhone_16_Pro_Black_Titanium_PDP_Image_Position_1__pl-PL.jpg%%%%',
+                        },
+                        {
+                            type: 'orderDetails',
+                            orderDetails: {
+                                orderNumber: 'BGE-123456',
+                                orderStatus: 3,
+                                deliveredAt: new Date('2025-02-15 14:33:12'),
+                                products: [
+                                    {
+                                        title: 'Nike Sneakersy Campus 00s AQ6704 Red / Czerwone Fall New Collection Special Edition',
+                                        quantity: 1,
+                                        price: {
+                                            value: 1999.99,
+                                            discount: 0.35,
+                                            affix: ['$', true]
+                                        },
+                                        img: {
+                                            src: 'https://cdn.cnn.com/cnnnext/dam/assets/200814092431-01b-michael-jordan-sneakers-auction-super-169.jpg',
+                                            alt: 'A pair of red sneakers'
+                                        },
+                                        link: '#',
+                                    },
+                                    {
+                                        title: 'Trainers',
+                                        quantity: 1,
+                                        price: {
+                                            value: 1490.99,
+                                            affix: ['$', true]
+                                        },
+                                        img: {
+                                            src: 'https://pngimg.com/uploads/running_shoes/running_shoes_PNG5798.png',
+                                            alt: 'A pair of red sneakers'
+                                        },
+                                        link: '#',
+                                    }
+                                ],
+                                total: {
+                                    value: 3490.98,
+                                    affix: ['$', true]
+                                },
+                                address: {
+                                    firstName: 'John',
+                                    lastName: 'Doe',
+                                    street: 'Street',
+                                    streetNo: '13',
+                                    aptNo: '1',
+                                    city: 'City',
+                                    postCode: '12-345'
+                                },
+                                shipping: {
+                                    companyName: 'Shipping Inc.',
+                                    trackingNo: 'PO123456789',
+                                    trackingUrl: 'https://google.com'
+                                }
+                            }
                         },
                         {
                             text: 'Przygotowaliśmy również proponowane produkty specjalnie dla Ciebie.',
