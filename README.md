@@ -48,7 +48,7 @@ npm install @falkan3/courier
 
 Install via package.json:
 ```json
-"@falkan3/courier": "^1.8.0"
+"@falkan3/courier": "^1.8.1"
 ```
 
 # Usage
@@ -460,7 +460,7 @@ Example usage:
 Syntax:
 
 ```js
-%%productList%PRODUCT_LIST_ITEMS%%
+%%productList%PRODUCT_LIST_ITEMS%productList%%
 ```
 
 Parsed result:
@@ -476,7 +476,7 @@ Parsed result:
 Example usage:
 
 ```js
-'%%productList%PRODUCT_LIST_ITEMS%%'
+'%%productList%PRODUCT_LIST_ITEMS%productList%%'
 ```
 
 ### Product list - item <small>(child)</small>
@@ -486,7 +486,7 @@ Note - arguments should have special characters encoded, as commas will be treat
 Syntax:
 
 ```js
-%%productListItem%TITLE,DESCRIPTION,PRICE,URL,IMAGE_SRC%%
+%%productListItem%TITLE,DESCRIPTION,PRICE,PRICE_OLD*,URL,IMAGE_SRC%%
 ```
 
 Parsed result:
@@ -498,7 +498,10 @@ Parsed result:
         <span class="${settings.classes.chat}-products-content">
             <span class="${settings.classes.chat}-products-title">TITLE</span>
             <span class="${settings.classes.chat}-products-description">DESCRIPTION</span>
-            <span class="${settings.classes.chat}-products-price">PRICE</span>
+            <span class="${settings.classes.chat}-products-price">
+                <span class="${settings.classes.chat}-products-price-current">PRICE</span>
+                <span class="${settings.classes.chat}-products-price-old">PRICE_OLD</span>
+            </span>
         </span>
     </a>
 </li>
