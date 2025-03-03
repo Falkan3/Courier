@@ -170,7 +170,7 @@ export function parseSpecialTags(text, settings, props) {
                 </span>
             </button>
         </span>`],
-        [/%%productList%([\s\S]*)%%/g, `
+        [/%%productList%(.*?)%productList%%/g, `
         <span class="${settings.classes.chat}-products">
             <ul class="${settings.classes.chat}-products-list">
                 $1
