@@ -1,6 +1,6 @@
 /* eslint-disable import/no-unresolved */
 import { isArray, isObject } from '@utils/types';
-import { clipboard as clipboardIcon, cubes as cubesIcon } from '@utils/images';
+import { clipboard as clipboardIcon } from '@utils/images';
 
 /**
  * Return the last item of an array.
@@ -189,7 +189,7 @@ export function parseSpecialTags(text, settings, props) {
                     </span>
                 </span>
              </a>
-        </li>`, { nested: true, var6: `data:image/svg+xml;utf8,${cubesIcon}` }],
+        </li>`, { nested: true, var6: `data:image/svg+xml;utf8,${settings.images.cubes}` }]
     ];
     /* eslint-enable max-len */
     let output = text;
