@@ -1,0 +1,21 @@
+@use "../../../utils/mixins/palette";
+
+$fontColor: palette.get-palette-hue("foreground", 1000);
+
+// buttons
+$btnColorActive: palette.get-palette-hue("accent-1", 500);
+$btnColorInactive: #b5d4ec;
+$btnColorActive: #64b5f6;
+
+// main
+$mainBgColor: #fbfbfb;
+// work area
+$btnColor: palette.get-palette-hue("accent-1", 500);
+$btnBgColor: #ddf0ff;
+$linkColor: palette.get-palette-hue("accent-1", 500);
+$workAreaScrollbarTrackColor: #e6e6e6;
+$workAreaScrollbarHandleColor: #b3b3b3;
+$discountCodeBtnBgColor: #f2f3f8;
+
+// content
+$contentCarouselPrimaryColor: #fff;

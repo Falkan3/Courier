@@ -1,4 +1,4 @@
-import data from '../package.json' assert { type: 'json' };
+import data from '../package.json' with { type: 'json' };
 
 export default `/*!
  * Courier.js v${data.version}

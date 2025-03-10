@@ -1,20 +1,11 @@
+@use "sass:color";
+@use "sass:selector";
 @use "../../utils/variables";
 @use "../../utils/mixins/palette";
 @use "../../utils/mixins/selectors";
 @use "../../utils/mixins/order";
 @use "../../utils/mixins/media-query/media-query-width";
-@use "sass:color";
-
-// bubble
-$bubbleBgColor: #fff;
-$bubbleBgColorColorActive: #ddf0ff;
-$bubbleColor: #212121;
-$bubbleBorder: #f1f1f1;
-$bubbleIconBg: #f9d147;
-// buttons
-$btnColor: palette.get-palette-hue("accent-1", 500);
-$btnColorInactive: #92a6b4;
-$btnColorActive: #fff;
+@use "widget/colors";
 
 #{variables.$classPrefix}__widget {
 	$widget: &;
@@ -26,7 +17,7 @@ $btnColorActive: #fff;
 		margin-left: 1em;
 		z-index: order.get-order("widget");
 
-		@at-root #{selector-unify(#{&}--advanced, #{selectors.bottom-most-fn(&)})} {
+		@at-root #{selector.unify(#{&}--advanced, #{selectors.bottom-most-fn(&)})} {
 			display: flex;
 			flex-direction: column;
 			align-items: flex-end;
@@ -46,7 +37,7 @@ $btnColorActive: #fff;
 
 	&-bubble {
 		padding: 0;
-		color: $bubbleColor;
+		color: colors.$bubbleColor;
 		// box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
 		filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.12));
 
@@ -58,7 +49,7 @@ $btnColorActive: #fff;
 			//}
 
 			// widget left modifier
-			#{selector-unify(#{variables.$classPrefix}, #{variables.$classPrefix}--left)} #{selectors.bottom-most-fn($widget)}-wrapper--advanced #{$bubble} {
+			#{selector.unify(#{variables.$classPrefix}, #{variables.$classPrefix}--left)} #{selectors.bottom-most-fn($widget)}-wrapper--advanced #{$bubble} {
 				margin-left: 0;
 				margin-right: auto;
 			}
@@ -97,8 +88,8 @@ $btnColorActive: #fff;
 		padding: 1em;
 		//border: solid 1px $bubbleBorder;
 		border-radius: 50%;
-		background-color: $bubbleIconBg;
-		color: $bubbleColor;
+		background-color: colors.$bubbleIconBg;
+		color: colors.$bubbleColor;
 		transition: background-color cubic-bezier(0.1, 1, 0.6, 1) 0.3s, color cubic-bezier(0.1, 1, 0.6, 1) 0.3s, border-color cubic-bezier(0.1, 1, 0.6, 1) 0.3s, transform cubic-bezier(0.1, 1, 0.6, 1) 0.3s;
 
 		& > img,
@@ -128,7 +119,7 @@ $btnColorActive: #fff;
 				&:hover,
 				&:focus-visible {
 					#{selectors.bottom-most-fn($img)} {
-						background-color: color.scale($bubbleIconBg, $lightness: 10%);
+						background-color: color.scale(colors.$bubbleIconBg, $lightness: 10%);
 						transform: scale(1.1);
 					}
 				}
@@ -157,7 +148,7 @@ $btnColorActive: #fff;
 					}
 				}
 
-				#{selector-unify(#{selectors.bottom-most-fn($widget)}-bubble, #{selectors.bottom-most-fn($widget)}--online)} #{selectors.bottom-most-fn($img)} {
+				#{selector.unify(#{selectors.bottom-most-fn($widget)}-bubble, #{selectors.bottom-most-fn($widget)}--online)} #{selectors.bottom-most-fn($img)} {
 					&::before {
 						background-color: #35d03d;
 					}
@@ -181,7 +172,7 @@ $btnColorActive: #fff;
 		align-items: center;
 
 		@at-root {
-			#{selectors.parent-fn(&)} #{selector-unify(#{selectors.bottom-most-fn($widget)}-wrapper--advanced, #{variables.$classPrefix}__widget--minimalized)} #{selectors.bottom-most-fn(&)} {
+			#{selectors.parent-fn(&)} #{selector.unify(#{selectors.bottom-most-fn($widget)}-wrapper--advanced, #{variables.$classPrefix}__widget--minimalized)} #{selectors.bottom-most-fn(&)} {
 				justify-content: center;
 			}
 		}
@@ -216,7 +207,7 @@ $btnColorActive: #fff;
 		//}
 
 		@at-root {
-			#{selector-unify(#{variables.$classPrefix}, #{variables.$classPrefix}--left)} #{selectors.bottom-most-fn(&)} {
+			#{selector.unify(#{variables.$classPrefix}, #{variables.$classPrefix}--left)} #{selectors.bottom-most-fn(&)} {
 				align-items: flex-start;
 
 				// bubble arrow
@@ -256,7 +247,7 @@ $btnColorActive: #fff;
 		//}
 
 		@at-root {
-			#{selector-unify(#{variables.$classPrefix}, #{variables.$classPrefix}--left)} #{selectors.bottom-most-fn(&)} {
+			#{selector.unify(#{variables.$classPrefix}, #{variables.$classPrefix}--left)} #{selectors.bottom-most-fn(&)} {
 				border-radius: 0 14px 14px 14px;
 			}
 
@@ -268,7 +259,7 @@ $btnColorActive: #fff;
 				&:hover,
 				&:focus-visible {
 					#{selectors.bottom-most-fn($greetingMsg)} {
-						background-color: $bubbleBgColorColorActive;
+						background-color: colors.$bubbleBgColorColorActive;
 					}
 				}
 			}
@@ -285,7 +276,7 @@ $btnColorActive: #fff;
 			//#{selectors.parent-fn(&)} #{selectors.bottom-most-fn($widget)}-bubble:hover #{selectors.bottom-most-fn(&)} {
 			//	color: #e2e6f7;
 			//}
-			#{selectors.parent-fn(&)} #{selector-unify(#{selectors.bottom-most-fn($widget)}-bubble, #{selectors.bottom-most-fn($widget)}--minimalized)} #{selectors.bottom-most-fn(&)} {
+			#{selectors.parent-fn(&)} #{selector.unify(#{selectors.bottom-most-fn($widget)}-bubble, #{selectors.bottom-most-fn($widget)}--minimalized)} #{selectors.bottom-most-fn(&)} {
 				text-align: center;
 			}
 		}
@@ -336,7 +327,7 @@ $btnColorActive: #fff;
 			}
 
 			& > svg {
-				stroke: $btnColorInactive;
+				stroke: colors.$btnColorInactive;
 				transition: stroke cubic-bezier(0.1, 1, 0.6, 1) 0.3s;
 			}
 
@@ -344,10 +335,10 @@ $btnColorActive: #fff;
 				&:hover,
 				&:focus-visible {
 					#{selectors.bottom-most-fn($hideBtnContent)} {
-						background-color: $btnColorInactive;
+						background-color: colors.$btnColorInactive;
 
 						& > svg {
-							stroke: $btnColorActive;
+							stroke: colors.$btnColorActive;
 						}
 					}
 				}
@@ -358,17 +349,17 @@ $btnColorActive: #fff;
 					&:hover,
 					&:focus-visible {
 						#{selectors.bottom-most-fn($hideBtnContent)} {
-							background-color: $bubbleBgColorColorActive;
+							background-color: colors.$bubbleBgColorColorActive;
 						}
 
 						#{selectors.bottom-most-fn($hideBtn)} {
 							&:hover,
 							&:focus-visible {
 								#{selectors.bottom-most-fn($hideBtnContent)} {
-									background-color: $btnColorInactive;
+									background-color: colors.$btnColorInactive;
 
 									& > svg {
-										stroke: $btnColorActive;
+										stroke: colors.$btnColorActive;
 									}
 								}
 							}
@@ -396,9 +387,9 @@ $btnColorActive: #fff;
 		align-items: center;
 		height: 1.5em;
 		padding: 0.3em;
-		border: solid 1px $btnColor;
+		border: solid 1px colors.$btnColor;
 		border-radius: 50%;
-		background-color: $btnColor;
+		background-color: colors.$btnColor;
 		line-height: 1;
 		color: #fff;
 

@@ -7,7 +7,7 @@ import Popup from '../src/components/popup';
 /* Modules */
 import PopupCarouselModule from '../src/components/modules/popup-carousel';
 /* General */
-import TooltipsModule from '../src/components/modules/tooltips';
+// import TooltipsModule from '../src/components/modules/tooltips';
 
 const COMPONENTS = {
     App,
@@ -16,7 +16,7 @@ const COMPONENTS = {
     /* Modules */
     PopupCarouselModule,
     /* General */
-    TooltipsModule
+    // TooltipsModule
 };
 
 export default class Courier extends Core {

@@ -1,3 +1,5 @@
+@use "../popup/colors";
+
 &-close-btn {
 	position: absolute;
 	top: 1em;
@@ -13,7 +15,7 @@
 	}
 
 	& > svg {
-		stroke: $btnColorInactive;
+		stroke: colors.$btnColorInactive;
 		transition: stroke cubic-bezier(0.1, 1, 0.6, 1) 0.3s;
 	}
 
@@ -31,7 +33,7 @@
 	&:active {
 		&:enabled {
 			& > svg {
-				stroke: $btnColorActive;
+				stroke: colors.$btnColorActive;
 			}
 		}
 	}

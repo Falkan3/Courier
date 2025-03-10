@@ -10,6 +10,8 @@
 
 	<!-- Assets -->
     <!-- CSS added in shadow DOM -->
+    <!-- External fonts must be loaded both in light DOM in order to work inside the shadow DOM -->
+    <link rel="stylesheet" href="//fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500&amp;display=swap" type="text/css">
     <!--<link rel="stylesheet" href="../dist/css/modules/courier.chat.css">-->
 	<!--<link rel="stylesheet" href="../dist/css/courier.theme.css">-->
 	<script src="../dist/js/chat/courier.js"></script>
@@ -60,7 +62,8 @@
         // load all CSS before injecting into shadow root
         const links              = [
             { name: 'main CSS', href: '../dist/css/modules/courier.chat.css' },
-            { name: 'theme CSS', href: '../dist/css/courier.theme.css' }
+            { name: 'theme CSS', href: '../dist/css/courier.theme.css' },
+            // { name: 'fonts', href: 'https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500&display=swap' } // external fonts can't be loaded inside shadow DOM on Chromium
         ];
         const styleSheetPromises = [];
         const linkEls            = [];
@@ -69,6 +72,7 @@
                 const link = document.createElement('link');
                 link.setAttribute('rel', obj.rel ?? 'stylesheet');
                 link.setAttribute('href', obj.href);
+                link.setAttribute('type', obj.type ?? 'text/css');
                 // resolve the promise when the stylesheet is loaded
                 link.addEventListener('load', resolve);
                 linkEls.push(link);
@@ -127,6 +131,14 @@
                     clipboardButton: 'Kopiuj',
                     clipboardTooltip: 'Kliknij, by skopiować',
                     clipboardCopy: 'Kod rabatowy skopiowany',
+                    order: 'Zamówienie',
+                    orderProcessing: 'Płatność',
+                    orderPacked: 'Pakowanie',
+                    orderInTransit: 'Dostawa',
+                    orderDelivered: 'Dostarczone',
+                    orderTrackingNumber: 'Numer paczki',
+                    totalPrice: 'Cena całkowita',
+                    shippingDetails: 'Szczegóły dostawy',
                     drawerInfo: {
                         heading: 'Informacja dotycząca AI',
                         content: `
@@ -165,6 +177,67 @@
                     start: [
                         {
                             text: 'Cześć, ostatnim razem nie przekonaliśmy Cię do zakupów u nas, dlatego tym razem mamy dla Ciebie extra zniżkę <span class="tx-bold">10%</span> na zakupy!',
+                        },
+                        {
+                            text: 'Sprawdź poniższe rekomendacje produktów: %%productList%%%productListItem%iPhone 16,iPhone 16 ma trwałą obudowę z aluminium klasy lotniczej oraz mocne – i piękne – barwione szkło z tyłu,1 499 zł,,https://google.com,https://prod-api.mediaexpert.pl/api/images/gallery_500_500/thumbnails/images/69/6960876/iPhone_16_Pro_Black_Titanium_PDP_Image_Position_1__pl-PL.jpg%%%%productListItem%iPhone 16,iPhone 16 ma trwałą obudowę z aluminium klasy lotniczej oraz mocne – i piękne – barwione szkło z tyłu,1 899 zł,2 399 zł, https://google.com,https://prod-api.mediaexpert.pl/api/images/gallery_500_500/thumbnails/images/69/6960876/iPhone_16_Pro_Black_Titanium_PDP_Image_Position_1__pl-PL.jpg%%%productList%% %%productList%%%productListItem%iPhone 16,iPhone 16 ma trwałą obudowę z aluminium klasy lotniczej oraz mocne – i piękne – barwione szkło z tyłu,1 499 zł,,https://google.com,https://prod-api.mediaexpert.pl/api/images/gallery_500_500/thumbnails/images/69/6960876/iPhone_16_Pro_Black_Titanium_PDP_Image_Position_1__pl-PL.jpg%%%%productListItem%iPhone 16,iPhone 16 ma trwałą obudowę z aluminium klasy lotniczej oraz mocne – i piękne – barwione szkło z tyłu,1 899 zł,,https://google.com,https://prod-api.mediaexpert.pl/api/images/gallery_500_500/thumbnails/images/69/6960876/iPhone_16_Pro_Black_Titanium_PDP_Image_Position_1__pl-PL.jpg%%%productList%%',
+                        },
+                        {
+                            text: 'Sprawdź poniższe rekomendacje produktów: %%productList%%%productListItem%iPhone 16,iPhone 16 ma trwałą obudowę z aluminium klasy lotniczej oraz mocne – i piękne – barwione szkło z tyłu,1 499 zł,,https://google.com,https://prod-api.mediaexpert.pl/api/images/gallery_500_500/thumbnails/images/69/6960876/iPhone_16_Pro_Black_Titanium_PDP_Image_Position_1__pl-PL.jpg%%%%productListItem%iPhone 16,iPhone 16 ma trwałą obudowę z aluminium klasy lotniczej oraz mocne – i piękne – barwione szkło z tyłu,1 899 zł,,https://google.com,https://prod-api.mediaexpert.pl/api/images/gallery_500_500/thumbnails/images/69/6960876/iPhone_16_Pro_Black_Titanium_PDP_Image_Position_1__pl-PL.jpg%%%productList%%',
+                        },
+                        {
+                            type: 'orderDetails',
+                            orderDetails: {
+                                orderNumber: 'BGE-123456',
+                                orderStatus: 3,
+                                deliveredAt: new Date('2025-02-15 14:33:12'),
+                                products: [
+                                    {
+                                        title: 'Nike Sneakersy Campus 00s AQ6704 Red / Czerwone Fall New Collection Special Edition',
+                                        quantity: 1,
+                                        price: {
+                                            value: 1999.99,
+                                            discount: 0.35,
+                                            affix: ['$', true]
+                                        },
+                                        img: {
+                                            src: 'https://cdn.cnn.com/cnnnext/dam/assets/200814092431-01b-michael-jordan-sneakers-auction-super-169.jpg',
+                                            alt: 'A pair of red sneakers'
+                                        },
+                                        link: '#',
+                                    },
+                                    {
+                                        title: 'Trainers',
+                                        quantity: 1,
+                                        price: {
+                                            value: 1490.99,
+                                            affix: ['$', true]
+                                        },
+                                        img: {
+                                            src: 'https://pngimg.com/uploads/running_shoes/running_shoes_PNG5798.png',
+                                            alt: 'A pair of red sneakers'
+                                        },
+                                        link: '#',
+                                    }
+                                ],
+                                total: {
+                                    value: 3490.98,
+                                    affix: ['$', true]
+                                },
+                                address: {
+                                    firstName: 'John',
+                                    lastName: 'Doe',
+                                    street: 'Street',
+                                    streetNo: '13',
+                                    aptNo: '1',
+                                    city: 'City',
+                                    postCode: '12-345'
+                                },
+                                shipping: {
+                                    companyName: 'Shipping Inc.',
+                                    trackingNo: 'PO123456789',
+                                    trackingUrl: 'https://google.com'
+                                }
+                            }
                         },
                         {
                             text: 'Przygotowaliśmy również proponowane produkty specjalnie dla Ciebie.',

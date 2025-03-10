@@ -36,7 +36,7 @@
  * ----------------------------------- */
 
 // todo: host the font on own servers
-@import url("https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500&display=swap");
+// @import url("https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500&display=swap");
 
 /* -----------------------------------
  *  Root
@@ -45,6 +45,7 @@
 #{variables.$classPrefix} {
 	font-family: "Noto Sans", sans-serif;
 	font-size: #{font-size.get-font-size-core("px")};
+	font-weight: normal;
 	color: #{palette.get-palette-hue("foreground", 1000)};
 	z-index: order.get-order("main");
 
@@ -54,10 +55,6 @@
 
 	@include media-query-width.m-small-devices {
 		font-size: 15px; // 16px // #{decimal-round.decimal-floor(font-size.get-font-size-core-raw("px") * 0.8) + "px"};
-	}
-
-	& * {
-		box-sizing: border-box;
 	}
 
 	/* -----------------------------------
@@ -73,12 +70,14 @@
 	// @include meta.load-css("core/elements/popup");
 
 	/* optional modules - root elements */
-	@import "../core/modules/tooltip";
+	// @import "../core/modules/tooltip";
 
 	/* antialias font */
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
-	text-rendering: optimizelegibility;
+	& {
+		-webkit-font-smoothing: antialiased;
+		-moz-osx-font-smoothing: grayscale;
+		text-rendering: optimizelegibility;
+	}
 
 	/* modifiers */
 	// @import 'core/modifiers';

@@ -7,8 +7,9 @@ import Chat from '../src/components/chat';
 /* Modules */
 import ChatTriggersModule from '../src/components/modules/chat-triggers';
 import ChatCarouselModule from '../src/components/modules/chat-carousel';
+import ChatOrderDetailsModule from '../src/components/modules/chat-order-details';
 /* General */
-import TooltipsModule from '../src/components/modules/tooltips';
+// import TooltipsModule from '../src/components/modules/tooltips';
 
 const COMPONENTS = {
     App,
@@ -17,7 +18,8 @@ const COMPONENTS = {
     /* Modules */
     ChatTriggersModule,
     ChatCarouselModule,
-    TooltipsModule,
+    ChatOrderDetailsModule,
+    // TooltipsModule,
 };
 
 export default class Courier extends Core {

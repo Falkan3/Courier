@@ -10,10 +10,11 @@ import Popup from '../src/components/popup';
 /* Chat */
 import ChatTriggersModule from '../src/components/modules/chat-triggers';
 import ChatCarouselModule from '../src/components/modules/chat-carousel';
+import ChatOrderDetailsModule from '../src/components/modules/chat-order-details';
 /* Popup */
 import PopupCarouselModule from '../src/components/modules/popup-carousel';
 /* General */
-import TooltipsModule from '../src/components/modules/tooltips';
+// import TooltipsModule from '../src/components/modules/tooltips';
 
 const COMPONENTS = {
     /* Required */
@@ -26,10 +27,11 @@ const COMPONENTS = {
     /* Chat */
     ChatTriggersModule,
     ChatCarouselModule,
+    ChatOrderDetailsModule,
     /* Popup */
     PopupCarouselModule,
     /* General */
-    TooltipsModule
+    // TooltipsModule
 };
 
 export default class Courier extends Core {

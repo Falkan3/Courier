@@ -1,6 +1,7 @@
+@use "sass:color";
 @use "../../../utils/variables";
 @use "../../../utils/mixins/selectors";
-@use "sass:color";
+@use "colors";
 
 /*
  * Header
@@ -90,13 +91,13 @@
 			font-size: 0.9em;
 
 			& > a {
-				color: $linkColor;
+				color: colors.$linkColor;
 				text-decoration: none;
 				transition: color cubic-bezier(0.1, 1, 0.6, 1) 0.3s;
 
 				&:hover,
 				&:focus-visible {
-					color: color.scale($linkColor, $lightness: 10%);
+					color: color.scale(colors.$linkColor, $lightness: 10%);
 				}
 			}
 		}
@@ -119,19 +120,19 @@
 	}
 
 	& > svg {
-		stroke: $btnColorInactive;
-		fill: $btnColorInactive;
+		stroke: colors.$btnColorInactive;
+		fill: colors.$btnColorInactive;
 		transition: stroke cubic-bezier(0.1, 1, 0.6, 1) 0.3s, fill cubic-bezier(0.1, 1, 0.6, 1) 0.3s;
 	}
 
 	&:hover,
 	&:focus-visible {
 		&:enabled {
-			background-color: $messageTopicPrimaryColor;
+			background-color: colors.$messageTopicPrimaryColor;
 
 			& > svg {
-				stroke: $fontColor;
-				fill: $fontColor;
+				stroke: colors.$fontColor;
+				fill: colors.$fontColor;
 			}
 		}
 	}

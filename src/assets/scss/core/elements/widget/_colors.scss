@@ -1,0 +1,12 @@
+@use "../../../utils/mixins/palette";
+
+// bubble
+$bubbleBgColor: #fff;
+$bubbleBgColorColorActive: #ddf0ff;
+$bubbleColor: #212121;
+$bubbleBorder: #f1f1f1;
+$bubbleIconBg: #f9d147;
+// buttons
+$btnColor: palette.get-palette-hue("accent-1", 500);
+$btnColorInactive: #92a6b4;
+$btnColorActive: #fff;

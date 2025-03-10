@@ -156,9 +156,11 @@ export function objTextTemplate(input, template) {
  * @return {String}
  */
 export function parseSpecialTags(text, settings, props) {
+    // todo: add caching
+    /* eslint-disable max-len */
     const rules = [
         [/%%info%%/g, `<span class="${settings.classes.root}__icon">${settings.images.info}</span>`],
-        [/%%tooltip%\((.*)\)(.*?)%%/g, `<span class="${settings.classes.root}__tooltip-wrapper" data-courier-tooltip="$1">$2</span>`],
+        // [/%%tooltip%\((.*)\)(.*?)%%/g, `<span class="${settings.classes.root}__tooltip-wrapper" data-courier-tooltip="$1">$2</span>`],
         [/%%couponCode%(.*?)%%/g, `
         <span class="${settings.classes.chat}-discount-code ${settings.classes.chat}-discount-code--inline">
             <button class="${settings.classes.chat}-discount-code-btn" data-courier-tooltip="${props.texts.clipboardTooltip}" data-courier-discount-code="$1">
@@ -168,9 +170,47 @@ export function parseSpecialTags(text, settings, props) {
                 </span>
             </button>
         </span>`],
+        [/%%productList%(.*?)%productList%%/g, `
+        <span class="${settings.classes.chat}-products">
+            <ul class="${settings.classes.chat}-products-list">
+                $1
+            </ul>
+        </span>`],
+        [/%%productListItem%([\s\S]*?)%%/g, `
+        <li class="${settings.classes.chat}-products-list-item">
+            <a class="${settings.classes.chat}-products-link" href="$var5" rel="nofollow noreferrer">
+                <span class="${settings.classes.chat}-products-img-wrapper"><img class="${settings.classes.chat}-products-img" src="$var6" width="64" height="64" alt="" /></span>
+                <span class="${settings.classes.chat}-products-content">
+                    <span class="${settings.classes.chat}-products-title">$var1</span>
+                    <span class="${settings.classes.chat}-products-description">$var2</span>
+                    <span class="${settings.classes.chat}-products-price">
+                           <span class="${settings.classes.chat}-products-price-current">$var3</span>
+                           <span class="${settings.classes.chat}-products-price-old">$var4</span>
+                    </span>
+                </span>
+             </a>
+        </li>`, { nested: true }],
     ];
+    /* eslint-enable max-len */
     let output = text;
-    rules.forEach(([rule, template]) => {
+    rules.forEach(([rule, template, options]) => {
+        // additional variable parsing
+        if (options && (options.nested ?? false) === true) {
+            output = output.replace(rule, (match, capture) => {
+                if (options && (options.nested ?? false) === true) {
+                    let part = template;
+                    const variables = capture.split(',');
+                    for (let i = 0; i < variables.length; i++) {
+                        part = part.replace(`$var${i + 1}`, decodeURIComponent(variables[i]));
+                    }
+                    return part;
+                }
+                return template;
+            });
+
+            return;
+        }
+        // replace tag with template
         output = output.replace(rule, template);
     });
     return output;

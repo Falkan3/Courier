@@ -136,9 +136,9 @@ export default function Construct(Courier, Components, Events) {
 
             const message = event.target.closest(`.${Courier.settings.classes.chat}-message`);
             if (!message) return event;
-            const discountCodeBtn = message.querySelector(`button.${Courier.settings.classes.chat}-discount-code-btn`);
-            if (event.target.isEqualNode(discountCodeBtn)
-                || (elemContains(discountCodeBtn, event.target))) {
+
+            const discountCodeBtn = event.target.closest(`button.${Courier.settings.classes.chat}-discount-code-btn`);
+            if (discountCodeBtn) {
                 const parentEl = message.querySelector(`.${Courier.settings.classes.chat}-discount-code`);
                 copyCouponCodeToClipboard(
                     Courier,
@@ -527,6 +527,8 @@ export default function Construct(Courier, Components, Events) {
                                     </button>
                                 </div>
                             </div>`;
+                    } else if (message.type === 'orderDetails') {
+                        html += `<div class="${Courier.settings.classes.chat}-message ${message.typeClassSuffix ? `${Courier.settings.classes.chat}-message${message.typeClassSuffix}` : ''}" data-template="orderDetails" data-courier-message-id="${index}" reef-ignore key="msg_${index}"></div>`;
                     } else {
                         const messageImg = message.outgoing !== true
                         && message.type !== ChatMessageTypes.SYSTEM

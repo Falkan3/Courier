@@ -14,7 +14,7 @@ module.exports = {
         'add-module-exports',
         '@babel/plugin-transform-object-assign',
         '@babel/plugin-proposal-class-properties',
-        '@babel/plugin-syntax-import-assertions',
+        '@babel/plugin-syntax-import-attributes',
         [
             'module-resolver',
             {

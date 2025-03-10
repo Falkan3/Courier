@@ -1,0 +1,17 @@
+@mixin text-truncate($lines: 2) {
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
+
+	@supports (-webkit-line-clamp: $lines) {
+		& {
+			display: -webkit-box;
+			white-space: initial;
+			-webkit-line-clamp: $lines;
+			-webkit-box-orient: vertical;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			word-break: break-all;
+		}
+	}
+}

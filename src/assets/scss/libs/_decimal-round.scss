@@ -30,7 +30,7 @@
 		@warn "#{ $digits } is not a number.";
 
 		@return $number;
-	} @else if not unitless($digits) {
+	} @else if not math.is-unitless($digits) {
 		@warn "#{ $digits } has a unit.";
 
 		@return $number;

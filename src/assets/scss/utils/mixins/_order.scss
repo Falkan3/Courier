@@ -1,5 +1,5 @@
-@use "../variables";
 @use "sass:map";
+@use "../variables";
 
 @function get-order($key) {
 	@return map.get(variables.$order, $key);

@@ -48,7 +48,7 @@ npm install @falkan3/courier
 
 Install via package.json:
 ```json
-"@falkan3/courier": "^1.7.0"
+"@falkan3/courier": "^1.8.1"
 ```
 
 # Usage
@@ -152,6 +152,7 @@ links.forEach((obj) => {
         const link = document.createElement('link');
         link.setAttribute('rel', obj.rel ?? 'stylesheet');
         link.setAttribute('href', obj.href);
+        link.setAttribute('type', obj.type ?? 'text/css');
         // resolve the promise when the stylesheet is loaded
         link.addEventListener('load', resolve);
         linkEls.push(link);
@@ -381,6 +382,143 @@ cookies: {
 }
 ```
 
+## Text variables inline components
+These are the more complex components that can be used inside text messages.
+
+Components are rendered inside the `parseSpecialTags` function when replacing variables inside text in the `textTemplate` function.
+
+Note that they can be nested.
+
+Some components should always be used inside a parent component, such as product list items need a product list parent.
+
+### Information icon
+
+Syntax:
+
+```js
+%%info%%
+```
+Parsed result:
+
+```html
+<span class="courier__icon">${settings.images.info}</span>
+```
+
+Example usage:
+```js
+'%%info%%'
+```
+
+### Tooltip
+
+Syntax:
+
+```js
+%%tooltip%(TOOLTIP_TEXT)ELEMENT_WITH_TOOLTIP%%
+```
+
+Parsed result:
+
+```html
+<span class="courier__tooltip-wrapper" data-courier-tooltip="TOOLTIP_TEXT">ELEMENT_WITH_TOOLTIP</span>
+```
+
+Example usage:
+```js
+'AI companion %%tooltip%(This is an AI helper that will assist you in our store.)%%info%%%%'
+```
+
+### Coupon code
+
+Syntax:
+
+```js
+%%couponCode%COUPON_TEXT%%
+```
+
+Parsed result:
+
+```html
+<span class="courier__chat-discount-code courier__chat-discount-code--inline">
+    <button class="courier__chat-discount-code-btn" data-courier-tooltip="${props.texts.clipboardTooltip}" data-courier-discount-code="COUPON_TEXT">
+        <span class="courier__chat-discount-code-btn-container">
+            <span class="courier__chat-discount-code-value">COUPON_TEXT</span>
+            <span class="courier__chat-discount-code-icon">${clipboardIcon}<span class="courier__chat-discount-code-icon-text">${props.texts.clipboardButton}</span></span>
+        </span>
+    </button>
+</span>
+```
+
+Example usage:
+
+```js
+'Hi! We have a 10% discount coupon code for you %%couponCode%{{couponCode}}%%'
+```
+
+### Product list - root <small>(parent)</small>
+
+Syntax:
+
+```js
+%%productList%PRODUCT_LIST_ITEMS%productList%%
+```
+
+Parsed result:
+
+```html
+<span class="courier__chat-products">
+    <ul class="courier__chat-products-list">
+        PRODUCT_LIST_ITEMS
+    </ul>
+</span>
+```
+
+Example usage:
+
+```js
+'%%productList%PRODUCT_LIST_ITEMS%productList%%'
+```
+
+### Product list - item <small>(child)</small>
+
+Note - arguments should have special characters encoded, as commas will be treated as argument list delimiters.
+
+Syntax:
+
+```js
+%%productListItem%TITLE,DESCRIPTION,PRICE,PRICE_OLD*,URL,IMAGE_SRC%%
+```
+
+Parsed result:
+
+```html
+<li class="${settings.classes.chat}-products-list-item">
+    <a class="${settings.classes.chat}-products-link" href="URL" rel="nofollow noreferrer">
+        <span class="${settings.classes.chat}-products-img-wrapper"><img class="${settings.classes.chat}-products-img" src="IMAGE_SRC" width="64" height="64" alt="" /></span>
+        <span class="${settings.classes.chat}-products-content">
+            <span class="${settings.classes.chat}-products-title">TITLE</span>
+            <span class="${settings.classes.chat}-products-description">DESCRIPTION</span>
+            <span class="${settings.classes.chat}-products-price">
+                <span class="${settings.classes.chat}-products-price-current">PRICE</span>
+                <span class="${settings.classes.chat}-products-price-old">PRICE_OLD</span>
+            </span>
+        </span>
+    </a>
+</li>
+```
+
+Example usage:
+
+```js
+`
+Check out our product recommendations:
+%%productList%%
+  %productListItem%iPhone 16 black,iPhone 16 features a durable, aircraft-grade aluminum body and a strong—and beautiful—tinted glass back.,$849,https://google.com,https://prod-api.mediaexpert.pl/api/images/gallery_500_500/thumbnails/images/69/6960876/iPhone_16_Pro_Black_Titanium_PDP_Image_Position_1__pl-PL.jpg%%
+  %%productListItem%iPhone 16 white,iPhone 16 features a durable, aircraft-grade aluminum body and a strong—and beautiful—tinted glass back.,$899,https://google.com,https://prod-api.mediaexpert.pl/api/images/gallery_500_500/thumbnails/images/69/6960876/iPhone_16_Pro_Black_Titanium_PDP_Image_Position_1__pl-PL.jpg%%
+%%
+`
+```
+
 ## Updating settings during runtime
 
 To update settings, call the `update` function.
@@ -523,6 +661,7 @@ import Chat from '../src/components/chat';
 /* Chat */
 import ChatTriggersModule from '../src/components/modules/chat-triggers';
 import ChatCarouselModule from '../src/components/modules/chat-carousel';
+import ChatOrderDetailsModule from '../src/components/modules/chat-order-details';
 /* Popup */
 // import PopupCarouselModule from '../src/components/modules/popup-carousel';
 

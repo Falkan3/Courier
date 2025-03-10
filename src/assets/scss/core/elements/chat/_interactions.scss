@@ -1,6 +1,7 @@
 @use "sass:color";
 @use "../../../utils/mixins/palette";
 @use "../../../utils/mixins/selectors";
+@use "colors";
 
 $root: &;
 
@@ -32,11 +33,11 @@ $root: &;
 &-message-box-wrapper {
 	padding: 1em 3.5em 1em 1em;
 	border-radius: 34px;
-	background-color: $sendMessageBoxBgColor;
+	background-color: colors.$sendMessageBoxBgColor;
 	transition: background-color ease-out 0.3s;
 
 	@at-root #{$root}-message-box-container.disabled #{selectors.bottom-most-fn(&)} {
-		background-color: $sendMessageBoxBgColorDisabled;
+		background-color: colors.$sendMessageBoxBgColorDisabled;
 	}
 }
 
@@ -73,8 +74,8 @@ $root: &;
 	right: 6px;
 	padding: 1em;
 	border-radius: 50%;
-	background: $btnColor;
-	color: $sendMessageBoxBgColor;
+	background: colors.$btnColor;
+	color: colors.$sendMessageBoxBgColor;
 	cursor: pointer;
 	transform: translateY(-50%);
 	transition: background-color cubic-bezier(0.1, 1, 0.6, 1) 0.3s;
@@ -97,7 +98,7 @@ $root: &;
 	@at-root {
 		// show disabled style
 		&:disabled, #{$root}-message-box-container.disabled #{selectors.bottom-most-fn(&)} {
-			background-color: $btnColorInactive;
+			background-color: colors.$btnColorInactive;
 			cursor: not-allowed;
 		}
 
@@ -105,8 +106,8 @@ $root: &;
 		#{$root}-message-box-container:not(.disabled) #{selectors.bottom-most-fn(&)}:enabled {
 			&:hover,
 			&:focus-visible {
-				background-color: color.scale($btnColor, $lightness: 5%);
-				color: color.scale($sendMessageBoxBgColor, $lightness: 5%);
+				background-color: color.scale(colors.$btnColor, $lightness: 5%);
+				color: color.scale(colors.$sendMessageBoxBgColor, $lightness: 5%);
 
 				//& > img,
 				//& > svg {

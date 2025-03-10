@@ -1,13 +1,14 @@
+@use "sass:color";
 @use "../../../utils/variables";
 @use "../../../utils/mixins/selectors";
-@use "sass:color";
+@use "colors";
 
 /*
  * Footer
  */
 &-footer {
 	padding: 0.5em 1em;
-	border-bottom-left-radius: $wallBorderRadius;
-	border-bottom-right-radius: $wallBorderRadius;
-	background-color: $wallBgColor;
+	border-bottom-left-radius: colors.$wallBorderRadius;
+	border-bottom-right-radius: colors.$wallBorderRadius;
+	background-color: colors.$wallBgColor;
 }
