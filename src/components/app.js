@@ -29,6 +29,7 @@ export default function Construct(Courier, Components, Events) {
         bind() {
             Binder.on('click', Components.App.refs.app.elem, (event) => this.onClick(event));
             Binder.on('keydown', Courier.rootElement, (event) => this.onKeydown(event));
+            Binder.on('error', Courier.rootElement, (event) => this.onError(event), true);
             Binder.on('reef:render', Components.App.refs.app.elem, (event) => this.onRendered(event));
             Binder.on('reef:before-render', Components.App.refs.app.elem, (event) => this.onBeforeRender(event));
         },
@@ -58,6 +59,18 @@ export default function Construct(Courier, Components, Events) {
          */
         onKeydown(event) {
             Events.emit('root.keydown', event);
+        },
+
+        /**
+         * Handles error events.
+         *
+         * @param  {Object} event
+         */
+        onError(event) {
+            const elm = event.target;
+            if (elm.tagName === 'IMG') {
+                elm.src = Courier.settings.images.imgPlaceholder;
+            }
         },
 
         /**
