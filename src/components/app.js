@@ -67,9 +67,10 @@ export default function Construct(Courier, Components, Events) {
          * @param  {Object} event
          */
         onError(event) {
-            const elm = event.target;
-            if (elm.tagName === 'IMG') {
-                elm.src = Courier.settings.images.imgPlaceholder;
+            const el = event.target;
+            if (el.tagName === 'IMG' && !el.dataset.ignoreError) {
+                el.src = Courier.settings.images.imgPlaceholder;
+                el.dataset.ignoreError = '1';
             }
         },
 
