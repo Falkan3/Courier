@@ -17,6 +17,7 @@ const COMPONENTS = {
     Chat,
     /* Modules */
     ChatTriggersModule,
+    // ChatTypingModule,
     ChatCarouselModule,
     ChatOrderDetailsModule,
     // TooltipsModule,
