@@ -436,6 +436,8 @@ export default function Construct(Courier, Components, Events) {
             if (update) {
                 data.state.active = this.templateData.state.active;
                 data.state.userTurn = this.templateData.state.userTurn;
+                data.state.showMessageBox = this.templateData.state.showMessageBox;
+                data.state.messageBoxEnabled = this.templateData.state.messageBoxEnabled;
                 data.state.typing = this.templateData.state.typing;
                 data.state.messageBoxRows = this.templateData.state.messageBoxRows;
                 data.state.showDrawer = this.templateData.state.showDrawer;
