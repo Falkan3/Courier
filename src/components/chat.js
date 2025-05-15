@@ -193,6 +193,7 @@ export default function Construct(Courier, Components, Events) {
         },
 
         close() {
+            Events.emit('chat.closing');
             this.templateData.state.active = false;
             Events.emit('chat.closed');
         },
