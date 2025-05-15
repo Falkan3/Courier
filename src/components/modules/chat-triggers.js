@@ -29,6 +29,12 @@ export default function Construct(Courier, Components, Events) {
          * Construct a ChatTriggers instance.
          */
         mount() {
+            Events.on('chat.focusMessageBox', this.focusMessageBox);
+            Events.on('chat.toggleMessageBox', this.toggleMessageBox);
+            // Clear saved message box text on message send
+            Events.on('chat.sendMessage', () => {
+                this.resetMessageBoxText();
+            });
         },
 
         /**
@@ -198,7 +204,20 @@ export default function Construct(Courier, Components, Events) {
                     });
                 });
             }
-        }
+        },
+
+        toggleMessageBox(state = null) {
+            Components.Chat.templateData.state.messageBoxEnabled = state === null
+                ? !Components.Chat.templateData.state.messageBoxEnabled
+                : state;
+        },
+
+        focusMessageBox() {
+            if (Components.Chat.refs.messageBox
+                && Components.Chat.templateData.state.showMessageBox) {
+                Components.Chat.refs.messageBox.focus();
+            }
+        },
     };
 
     /**
