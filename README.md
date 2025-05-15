@@ -609,7 +609,8 @@ A list of available events, emitted and listened to:
 - `widget.hidden` - Called after the hide widget logic.
 - `chat.mounted` - Chat has been mounted.
 - `chat.close` - Close the chat.
-- `chat.closed`
+- `chat.closing` - Called before the chat has been closed.
+- `chat.closed` - Called after the chat has been closed.
 - `chat.opened`
 - `chat.sendMessage` - Called after sending a chat message, before adding to the message stack. Can be used in a custom chat solution.
 - `chat.messageReceived` - Called after a message has been received and added to the message stack.
