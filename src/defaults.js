@@ -190,7 +190,8 @@ export default {
         showDiscountPercentage: true,
         clipboardCopyMsgDuration: 2500,
         maxMessageLength: 300,
-        widgetStyle: 'simple' // simple, advanced
+        widgetStyle: 'simple', // simple, advanced,
+        hideWidgetOnScrollOnMobileDelay: 500, // null,
     },
 
     /**

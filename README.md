@@ -352,7 +352,8 @@ state: {
   showDiscountPercentage: true, // Show the discount percentage above carousel item old price
   clipboardCopyMsgDuration: 2500, // The duration of the copy message shown after clicking a coupon code button
   maxMessageLength: 300, // Max length of a message typed into the message box
-  widgetStyle: 'simple' (default) | 'advanced' // Used to switch widget appearance
+  widgetStyle: 'simple' (default) | 'advanced' // Used to switch widget appearance,
+  hideWidgetOnScrollOnMobileDelay: null // The delay in miliseconds after the widget reappears after scrolling
 }
 ```
 
