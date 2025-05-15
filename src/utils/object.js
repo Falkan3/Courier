@@ -178,7 +178,7 @@ export function parseSpecialTags(text, settings, props) {
         </span>`],
         [/%%productListItem%([\s\S]*?)%%/g, `
         <li class="${settings.classes.chat}-products-list-item">
-            <a class="${settings.classes.chat}-products-link" href="$var5" rel="nofollow noreferrer">
+            <a class="${settings.classes.chat}-products-link" href="$var5" target="_blank" rel="nofollow noreferrer">
                 <span class="${settings.classes.chat}-products-img-wrapper"><img class="${settings.classes.chat}-products-img" src="$var6" width="64" height="64" alt="" /></span>
                 <span class="${settings.classes.chat}-products-content">
                     <span class="${settings.classes.chat}-products-title">$var1</span>
