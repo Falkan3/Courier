@@ -212,11 +212,11 @@ export default function Construct(Courier, Components, Events) {
 
         sendMessage(message) {
             const timestamp = new Date();
+            Events.emit('chat.sendMessage', {
+                text: message,
+                timestamp
+            });
             if (Courier.settings.state.customSendMessage) {
-                Events.emit('chat.sendMessage', {
-                    text: message,
-                    timestamp
-                });
                 return;
             }
             if (message.length) {
