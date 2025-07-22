@@ -73,7 +73,7 @@
 		margin-bottom: 0.25em;
 		font-weight: 500;
 		transition: color cubic-bezier(0.1, 1, 0.6, 1) 0.3s;
-		@include display.text-truncate(1);
+		@include display.text-truncate(2);
 
 		@at-root {
 			#{$root}-link {
@@ -90,7 +90,7 @@
 	&-description {
 		font-size: 0.9em;
 		color: #666666;
-		@include display.text-truncate(2);
+		@include display.text-truncate(3);
 	}
 
 	&-price {
