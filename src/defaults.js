@@ -175,6 +175,8 @@ export default {
     state: {
         widgetActiveAtStart: true,
         showHideBtn: true,
+        widgetEnableMinimalization: true,
+        widgetMinimalizeOnChatOpen: true,
         hideBtnActiveAtStart: false,
         widgetMinimalizedAtStart: false,
         showWidgetUnreadMessages: true,

@@ -85,6 +85,9 @@ export default function Construct(Courier, Components, Events) {
         },
 
         minimalize(save = true) {
+            if (this.canBeMinimalized() === false) {
+                return;
+            }
             this.templateData.state.minimalized = true;
             if (save) {
                 widgetSetMinimalized(
@@ -97,7 +100,8 @@ export default function Construct(Courier, Components, Events) {
         },
 
         canBeMinimalized() {
-            return this.templateData.state.style === WidgetStyles.ADVANCED;
+            return this.templateData.state.widgetEnableMinimalization
+                && this.templateData.state.style === WidgetStyles.ADVANCED;
         },
 
         hide(save = true) {
@@ -130,6 +134,8 @@ export default function Construct(Courier, Components, Events) {
                     hidden: !Courier.settings.state.widgetActiveAtStart,
                     style: Courier.settings.state.widgetStyle,
                     showHideBtn: Courier.settings.state.showHideBtn,
+                    widgetEnableMinimalization: Courier.settings.state.widgetEnableMinimalization,
+                    widgetMinimalizeOnChatOpen: Courier.settings.state.widgetMinimalizeOnChatOpen,
                     hideBtnActive: Courier.settings.state.hideBtnActiveAtStart,
                     online: Courier.settings.state.online,
                     showWidgetUnreadMessages: Courier.settings.state.showWidgetUnreadMessages,
@@ -306,7 +312,10 @@ export default function Construct(Courier, Components, Events) {
          */
         Events.on(['chat.opened', 'popup.opened'], () => {
             Widget.close();
-            Widget.minimalize();
+            if (Widget.canBeMinimalized() === true
+                && Widget.templateData.state.widgetMinimalizeOnChatOpen) {
+                Widget.minimalize();
+            }
         });
 
         if (Widget.templateData.state.showWidgetUnreadMessages) {
@@ -351,7 +360,7 @@ export default function Construct(Courier, Components, Events) {
          * Add minimalize trigger
          */
         Events.on('widget.minimalize', (save) => {
-            if (!Widget.canBeMinimalized()) {
+            if (Widget.canBeMinimalized() === false) {
                 return;
             }
             Widget.minimalize(save);

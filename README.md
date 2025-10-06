@@ -339,6 +339,8 @@ state: {
   widgetActiveAtStart: true, // Show the widget immediately after mounting
   showHideBtn: false, // Enable the hide widget button
   hideBtnActiveAtStart: false, // Show the hide widget button from the get-go
+  widgetEnableMinimalization: false, // Enable widget minimalization
+  widgetMinimalizeOnChatOpen: false, // Minimalize widget after Chat has been opened
   widgetMinimalizedAtStart: false, // Show the minimalized widget version from the get-go
   showWidgetUnreadMessages: true, // Show unread messages counter when receiving chat messages when the widget is not active
   online: true, // Change the avatar dot color to indicate the online state
