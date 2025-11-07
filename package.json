@@ -25,6 +25,14 @@
         "assistant",
         "plugin"
     ],
+    "exports": {
+        ".": {
+            "import": "./dist/js/courier.esm.js",
+            "require": "./dist/js/courier.js",
+            "default": "./dist/js/courier.esm.js"
+        },
+        "./dist/*": "./dist/*"
+    },
     "scripts": {
         "clean": "rimraf dist",
         "test": "jest \"tests/.*/.*\\.test\\.js\" --config jest.config.cjs",
