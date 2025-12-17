@@ -11,6 +11,7 @@ import {
     setUnreadMessagesCount
 } from '@utils/widget';
 import { parseSpecialTags } from '@utils/object.js';
+import { debounce } from '@libs/throttle-debounce/index.js';
 
 export const WidgetStyles = Object.freeze({
     SIMPLE: 'simple',
@@ -42,6 +43,40 @@ export default function Construct(Courier, Components, Events) {
             this.refs.btn = Components.App.refs.app.elem.querySelector('#courierWidgetButton');
             this.refs.hideBtn = Components.App.refs.app.elem.querySelector('#courierWidgetHideButton');
             this.refs.greetingMsg = Components.App.refs.app.elem.querySelector('#courierGreetingMsg');
+        },
+
+        /**
+         * Adds events.
+         */
+        bind() {
+            if (Courier.settings.state.hideWidgetOnScrollOnMobileDelay !== null) {
+                Binder.on('scroll', window, () => {
+                    if (window.innerWidth >= 768) {
+                        return;
+                    }
+                    if (!this.templateData.scrollHidden) {
+                        this.hide(false);
+                        this.templateData.scrollHidden = true;
+                    }
+                }, { capture: true, passive: true });
+
+                Binder.on('scroll', window, debounce(Courier.settings.state.hideWidgetOnScrollOnMobileDelay, () => {
+                    if (window.innerWidth >= 768) {
+                        return;
+                    }
+                    if (this.templateData.scrollHidden) {
+                        this.open();
+                        this.templateData.scrollHidden = false;
+                    }
+                }), { capture: true, passive: true });
+            }
+        },
+
+        /**
+         * Removes events.
+         */
+        unbind() {
+            Binder.off('scroll', window);
         },
 
         /**
@@ -81,6 +116,7 @@ export default function Construct(Courier, Components, Events) {
 
         open() {
             this.templateData.state.active = true;
+            this.templateData.scrollHidden = false;
             Events.emit('widget.opened');
         },
 
@@ -132,6 +168,7 @@ export default function Construct(Courier, Components, Events) {
                     active: Courier.settings.state.widgetActiveAtStart,
                     minimalized: Courier.settings.state.widgetMinimalizedAtStart,
                     hidden: !Courier.settings.state.widgetActiveAtStart,
+                    scrollHidden: false,
                     style: Courier.settings.state.widgetStyle,
                     showHideBtn: Courier.settings.state.showHideBtn,
                     widgetEnableMinimalization: Courier.settings.state.widgetEnableMinimalization,
@@ -307,6 +344,8 @@ export default function Construct(Courier, Components, Events) {
      * Bind event listeners after App has been mounted and rendered for the first time
      */
     Events.on('app.mounted', () => {
+        Widget.bind();
+
         /**
          * Close the widget when the chat or popup opens, and set state to minimalized
          */
@@ -401,7 +440,7 @@ export default function Construct(Courier, Components, Events) {
      * - on updating to remove events before remounting
      */
     Events.on(['destroy', 'update'], () => {
-
+        Widget.unbind();
     });
 
     /**
@@ -410,6 +449,7 @@ export default function Construct(Courier, Components, Events) {
      */
     Events.on('update', () => {
         // Widget.mount();
+        Widget.bind();
         Widget.templateData = Widget.getTemplateData(true);
     });
 

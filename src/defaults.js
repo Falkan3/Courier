@@ -150,7 +150,9 @@ export default {
         closeBtn: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.32258" d="M22.83871 1.16129 1.16129 22.83871m.0000155-21.67742L22.83871 22.83871"/></svg>',
         options: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g><circle cx="12" cy="2.0000005" r="2"/><circle cx="12" cy="22" r="2"/><circle cx="12" cy="12" r="2"/></g></svg>',
         sendMsg: '<svg xmlns="http://www.w3.org/2000/svg" width="240" height="240" viewBox="0 0 12 12"><path stroke="#212121" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 11V1m0 0 4 4M6 1 2 5"/></svg>',
-        info: '<svg xmlns="http://www.w3.org/2000/svg" width="800" height="800" class="icon" viewBox="0 0 1024 1024"><path fill="#2196F3" d="M64 512a448 448 0 1 0 896 0 448 448 0 1 0-896 0Z"/><path fill="#FFF" d="M469.333 469.333h85.334V704h-85.334zM458.667 352a53.333 53.333 0 1 0 106.666 0 53.333 53.333 0 1 0-106.666 0Z"/></svg>'
+        info: '<svg xmlns="http://www.w3.org/2000/svg" width="800" height="800" class="icon" viewBox="0 0 1024 1024"><path fill="#2196F3" d="M64 512a448 448 0 1 0 896 0 448 448 0 1 0-896 0Z"/><path fill="#FFF" d="M469.333 469.333h85.334V704h-85.334zM458.667 352a53.333 53.333 0 1 0 106.666 0 53.333 53.333 0 1 0-106.666 0Z"/></svg>',
+        cubes: '<svg xmlns="http://www.w3.org/2000/svg" width="800" height="800" viewBox="0 0 16 16"><path fill="#ccc" d="M12 6V2L8 0 4 2v4L0 8v5l4 2 4-2 4 2 4-2V8zM8.09 1.12 11 2.56l-2.6 1.3-2.91-1.44zM5 2.78l3 1.5v3.6l-3-1.5v-3.6zm-1 11.1-3-1.5v-3.6l3 1.5v3.6zm.28-4L1.4 8.42 4 7.12l2.88 1.44zm7.72 4-3-1.5v-3.6l3 1.5v3.6zm.28-4L9.4 8.42l2.6-1.3 2.88 1.44z"/></svg>',
+        imgPlaceholder: ''
     },
 
     /**
@@ -190,7 +192,8 @@ export default {
         showDiscountPercentage: true,
         clipboardCopyMsgDuration: 2500,
         maxMessageLength: 300,
-        widgetStyle: 'simple' // simple, advanced
+        widgetStyle: 'simple', // simple, advanced,
+        hideWidgetOnScrollOnMobileDelay: 500, // null,
     },
 
     /**

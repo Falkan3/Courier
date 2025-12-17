@@ -5,7 +5,7 @@ import {
 import { isArray } from '@utils/types';
 import { arrLastItem } from '@utils/object';
 import EventsBinder from '@core/event/events-binder.js';
-import { throttle } from '@libs/throttle-debounce/index.js';
+import { debounce, throttle } from '@libs/throttle-debounce/index.js';
 
 export default function Construct(Courier, Components, Events) {
     /**
@@ -19,9 +19,14 @@ export default function Construct(Courier, Components, Events) {
 
     const ChatTriggers = {
         shouldBindEvents: true,
+        shouldRestoreMessageBoxValue: false,
+        messageBoxText: '',
         settings: {
             throttle: {
                 input: 10
+            },
+            debounce: {
+                input: 100
             }
         },
 
@@ -29,6 +34,20 @@ export default function Construct(Courier, Components, Events) {
          * Construct a ChatTriggers instance.
          */
         mount() {
+            Events.on('chat.focusMessageBox', this.focusMessageBox);
+            Events.on('chat.toggleMessageBox', this.toggleMessageBox);
+            // Clear saved message box text on message send
+            Events.on('chat.sendMessage', () => {
+                this.resetMessageBoxText();
+            });
+            // Restore message box text after chat is opened
+            Events.on('chat.opened', () => {
+                this.setRestoreMessageBoxText(true);
+            });
+            // Save message box text just before chat is closed
+            Events.on('chat.closing', () => {
+                this.saveMessageBoxText();
+            });
         },
 
         /**
@@ -41,6 +60,14 @@ export default function Construct(Courier, Components, Events) {
                     Components.Chat.refs.messageBox,
                     throttle(this.settings.throttle.input, (event) => {
                         this.onInput(event);
+                    }),
+                    { capture: true, passive: true }
+                );
+                Binder.on(
+                    inputEvents,
+                    Components.Chat.refs.messageBox,
+                    debounce(this.settings.debounce.input, () => {
+                        this.saveMessageBoxText();
                     }),
                     { capture: true, passive: true }
                 );
@@ -80,6 +107,21 @@ export default function Construct(Courier, Components, Events) {
             if (chatScrolledToBottom) {
                 Components.Chat.scrollChatToBottom();
             }
+        },
+
+        saveMessageBoxText() {
+            if (!Components.Chat.refs.messageBox) {
+                return;
+            }
+            this.messageBoxText = Components.Chat.refs.messageBox.value;
+        },
+
+        resetMessageBoxText() {
+            this.messageBoxText = '';
+        },
+
+        setRestoreMessageBoxText(value) {
+            this.shouldRestoreMessageBoxValue = value;
         },
 
         startMessage() {
@@ -198,7 +240,27 @@ export default function Construct(Courier, Components, Events) {
                     });
                 });
             }
-        }
+        },
+
+        toggleMessageBox(state = null) {
+            Components.Chat.templateData.state.messageBoxEnabled = state === null
+                ? !Components.Chat.templateData.state.messageBoxEnabled
+                : state;
+        },
+
+        focusMessageBox() {
+            if (Components.Chat.refs.messageBox
+                && Components.Chat.templateData.state.showMessageBox) {
+                Components.Chat.refs.messageBox.focus();
+            }
+        },
+
+        restoreMessageBoxValue() {
+            if (!Components.Chat.refs.messageBox) {
+                return;
+            }
+            Components.Chat.refs.messageBox.value = this.messageBoxText;
+        },
     };
 
     /**
@@ -209,9 +271,17 @@ export default function Construct(Courier, Components, Events) {
             this.shouldBindEvents = true;
         }
 
-        if (Components.Chat.templateData.state.active && this.shouldBindEvents) {
-            ChatTriggers.bind();
-            this.shouldBindEvents = false;
+        if (Components.Chat.templateData.state.active) {
+            if (this.shouldBindEvents === true) {
+                ChatTriggers.bind();
+                this.shouldBindEvents = false;
+            }
+
+            if (Components.Chat.refs.messageBox
+                && ChatTriggers.shouldRestoreMessageBoxValue === true) {
+                ChatTriggers.setRestoreMessageBoxText(false);
+                ChatTriggers.restoreMessageBoxValue();
+            }
         }
     });
 

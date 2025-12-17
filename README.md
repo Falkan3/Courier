@@ -354,7 +354,8 @@ state: {
   showDiscountPercentage: true, // Show the discount percentage above carousel item old price
   clipboardCopyMsgDuration: 2500, // The duration of the copy message shown after clicking a coupon code button
   maxMessageLength: 300, // Max length of a message typed into the message box
-  widgetStyle: 'simple' (default) | 'advanced' // Used to switch widget appearance
+  widgetStyle: 'simple' (default) | 'advanced' // Used to switch widget appearance,
+  hideWidgetOnScrollOnMobileDelay: null // The delay in miliseconds after the widget reappears after scrolling
 }
 ```
 
@@ -610,7 +611,8 @@ A list of available events, emitted and listened to:
 - `widget.hidden` - Called after the hide widget logic.
 - `chat.mounted` - Chat has been mounted.
 - `chat.close` - Close the chat.
-- `chat.closed`
+- `chat.closing` - Called before the chat has been closed.
+- `chat.closed` - Called after the chat has been closed.
 - `chat.opened`
 - `chat.sendMessage` - Called after sending a chat message, before adding to the message stack. Can be used in a custom chat solution.
 - `chat.messageReceived` - Called after a message has been received and added to the message stack.

@@ -193,6 +193,7 @@ export default function Construct(Courier, Components, Events) {
         },
 
         close() {
+            Events.emit('chat.closing');
             this.templateData.state.active = false;
             Events.emit('chat.closed');
         },
@@ -212,11 +213,11 @@ export default function Construct(Courier, Components, Events) {
 
         sendMessage(message) {
             const timestamp = new Date();
+            Events.emit('chat.sendMessage', {
+                text: message,
+                timestamp
+            });
             if (Courier.settings.state.customSendMessage) {
-                Events.emit('chat.sendMessage', {
-                    text: message,
-                    timestamp
-                });
                 return;
             }
             if (message.length) {
@@ -436,6 +437,8 @@ export default function Construct(Courier, Components, Events) {
             if (update) {
                 data.state.active = this.templateData.state.active;
                 data.state.userTurn = this.templateData.state.userTurn;
+                data.state.showMessageBox = this.templateData.state.showMessageBox;
+                data.state.messageBoxEnabled = this.templateData.state.messageBoxEnabled;
                 data.state.typing = this.templateData.state.typing;
                 data.state.messageBoxRows = this.templateData.state.messageBoxRows;
                 data.state.showDrawer = this.templateData.state.showDrawer;

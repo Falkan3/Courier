@@ -178,7 +178,7 @@ export function parseSpecialTags(text, settings, props) {
         </span>`],
         [/%%productListItem%([\s\S]*?)%%/g, `
         <li class="${settings.classes.chat}-products-list-item">
-            <a class="${settings.classes.chat}-products-link" href="$var5" rel="nofollow noreferrer">
+            <a class="${settings.classes.chat}-products-link" href="$var5" target="_blank" rel="nofollow noreferrer">
                 <span class="${settings.classes.chat}-products-img-wrapper"><img class="${settings.classes.chat}-products-img" src="$var6" width="64" height="64" alt="" /></span>
                 <span class="${settings.classes.chat}-products-content">
                     <span class="${settings.classes.chat}-products-title">$var1</span>
@@ -189,7 +189,7 @@ export function parseSpecialTags(text, settings, props) {
                     </span>
                 </span>
              </a>
-        </li>`, { nested: true }],
+        </li>`, { nested: true, var6: `data:image/svg+xml;utf8,${settings.images.cubes}` }]
     ];
     /* eslint-enable max-len */
     let output = text;
@@ -201,7 +201,18 @@ export function parseSpecialTags(text, settings, props) {
                     let part = template;
                     const variables = capture.split(',');
                     for (let i = 0; i < variables.length; i++) {
-                        part = part.replace(`$var${i + 1}`, decodeURIComponent(variables[i]));
+                        // check if the variable has a fallback
+                        let value = variables[i];
+                        const fallbackKey = `var${i + 1}`;
+                        if (value === '' && Object.prototype.hasOwnProperty.call(options, fallbackKey)) {
+                            value = options[fallbackKey];
+                            value = value.replaceAll('#', '%23'); // escape hashes
+                            value = value.replaceAll('"', '&quot;'); // replace double quote marks
+                        } else {
+                            value = decodeURIComponent(value);
+                        }
+                        // replace template key with the decoded value
+                        part = part.replace(`$var${i + 1}`, value);
                     }
                     return part;
                 }

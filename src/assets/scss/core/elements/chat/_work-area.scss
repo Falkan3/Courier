@@ -155,12 +155,14 @@
 	$message: &;
 
 	display: flex;
-	gap: 1em;
+	flex-direction: column; // change to "row" if the sender icon should be beside the bubble
+	gap: 0.5em; // 1em;
 	margin-bottom: 1em;
 
-	@at-root #{selector.unify(&, #{selectors.bottom-most-fn(&)}--text)} {
-		max-width: 90%;
-	}
+	// limit max width to 90% to move the bubble closer to either left or right, depending on message sender
+	//@at-root #{selector.unify(&, #{selectors.bottom-most-fn(&)}--text)} {
+	//	max-width: 90%;
+	//}
 
 	&-content {
 		$messageContent: #{selectors.bottom-most-fn(&)};

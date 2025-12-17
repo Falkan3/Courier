@@ -3,7 +3,11 @@ import { debounce, throttle } from '@libs/throttle-debounce/index.js';
 
 export default function Construct(Courier, Components, Events) {
     const ChatTyping = {
+        /**
+         * Construct a ChatTyping instance.
+         */
         mount() {
+            //
         },
 
         typingAction: throttle(300, () => {
@@ -16,7 +20,7 @@ export default function Construct(Courier, Components, Events) {
         stoppedTypingAction: debounce(2000, () => {
             Components.Chat.templateData.state.typing = false;
             Events.emit('chat.stoppedTyping');
-        }),
+        })
     };
 
     Events.on('chat.sendMessage', () => {
